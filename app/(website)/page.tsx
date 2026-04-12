@@ -1,5 +1,6 @@
 import Hero from "../components/Hero";
 import Features from "../components/Features";
+import LoyaltyMechanics from "../components/LoyaltyMechanics";
 import HowItWorks from "../components/HowItWorks";
 import Testimonials from "../components/Testimonials";
 import Logos from "../components/Logos";
@@ -14,6 +15,7 @@ export default function Home() {
     <main>
       <Hero />
       <Features />
+      <LoyaltyMechanics />
       <HowItWorks />
       <Testimonials />
       <Logos />
