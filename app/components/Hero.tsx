@@ -1,5 +1,7 @@
 "use client";
 
+import PhoneMockup from "./illustrations/PhoneMockup";
+
 export default function Hero() {
   return (
     <div style={{
@@ -72,129 +74,16 @@ export default function Hero() {
             alignItems: "center",
           }}
         >
-          {/* Phone frame */}
           <div style={{
             height: "600px",
-            maxWidth: "none",
             position: "relative",
             bottom: "-36.7px",
-            width: "auto",
             display: "flex",
             justifyContent: "center",
             alignItems: "flex-end",
+            filter: "drop-shadow(0 30px 80px rgba(0,0,0,0.5))",
           }}>
-            <div style={{
-              width: "260px",
-              height: "530px",
-              backgroundColor: "#1a1a2e",
-              borderRadius: "40px",
-              border: "3px solid #2a2a3e",
-              overflow: "hidden",
-              boxShadow: "0 30px 80px rgba(0,0,0,0.5)",
-            }}>
-              <div style={{
-                width: "100%",
-                height: "100%",
-                background: "linear-gradient(160deg, #6C47FF 0%, #8B6FFF 40%, #AA89F2 100%)",
-                borderRadius: "37px",
-                display: "flex",
-                flexDirection: "column",
-                padding: "36px 18px 18px",
-              }}>
-                {/* Dynamic Island */}
-                <div style={{ width: "76px", height: "22px", backgroundColor: "#1a1a2e", borderRadius: "20px", margin: "-14px auto 20px" }} />
-
-                {/* Wallet Card */}
-                <div style={{
-                  backgroundColor: "rgba(255,255,255,0.15)",
-                  borderRadius: "18px",
-                  padding: "18px",
-                  backdropFilter: "blur(10px)",
-                  border: "1px solid rgba(255,255,255,0.2)",
-                }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-                    <div style={{
-                      width: "36px", height: "36px", borderRadius: "10px",
-                      backgroundColor: "white",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>
-                      <span className="font-display" style={{ color: "#6C47FF", fontWeight: 800, fontSize: "15px" }}>f</span>
-                    </div>
-                    <div>
-                      <p style={{ margin: 0, color: "white", fontSize: "13px", fontWeight: 600 }}>Fidely Card</p>
-                      <p style={{ margin: 0, color: "rgba(255,255,255,0.6)", fontSize: "10px" }}>Café Bloom</p>
-                    </div>
-                  </div>
-
-                  <div style={{ backgroundColor: "rgba(255,255,255,0.1)", borderRadius: "12px", padding: "14px", marginBottom: "14px" }}>
-                    <p style={{ margin: 0, color: "rgba(255,255,255,0.5)", fontSize: "9px", textTransform: "uppercase", letterSpacing: "1px" }}>Points Balance</p>
-                    <p style={{ margin: "3px 0", color: "white", fontSize: "28px", fontWeight: 700 }}>247</p>
-                    <div style={{ width: "100%", height: "5px", backgroundColor: "rgba(255,255,255,0.2)", borderRadius: "3px", overflow: "hidden" }}>
-                      <div style={{ width: "65%", height: "100%", backgroundColor: "white", borderRadius: "3px" }} />
-                    </div>
-                    <p style={{ margin: "5px 0 0", color: "rgba(255,255,255,0.5)", fontSize: "9px" }}>53 more to your reward</p>
-                  </div>
-
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "6px" }}>
-                    {[
-                      { val: "12", label: "Visits" },
-                      { val: "3", label: "Rewards" },
-                      { val: "Gold", label: "Tier" },
-                    ].map((s) => (
-                      <div key={s.label} style={{
-                        backgroundColor: "rgba(255,255,255,0.1)",
-                        borderRadius: "8px",
-                        padding: "8px",
-                        textAlign: "center",
-                      }}>
-                        <p style={{ margin: 0, color: "white", fontSize: "12px", fontWeight: 700 }}>{s.val}</p>
-                        <p style={{ margin: "1px 0 0", color: "rgba(255,255,255,0.5)", fontSize: "8px" }}>{s.label}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Notification */}
-                <div style={{
-                  backgroundColor: "rgba(255,255,255,0.1)",
-                  borderRadius: "14px",
-                  padding: "12px",
-                  marginTop: "10px",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                }}>
-                  <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
-                    <div style={{
-                      width: "28px", height: "28px", borderRadius: "7px",
-                      backgroundColor: "rgba(255,255,255,0.2)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      flexShrink: 0, fontSize: "13px",
-                    }}>🎁</div>
-                    <div>
-                      <p style={{ margin: 0, color: "white", fontSize: "10px", fontWeight: 600 }}>Café Bloom</p>
-                      <p style={{ margin: "2px 0 0", color: "rgba(255,255,255,0.7)", fontSize: "10px" }}>Your free coffee is ready!</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Apple Wallet badge */}
-                <div style={{ marginTop: "auto", paddingTop: "10px" }}>
-                  <div style={{
-                    backgroundColor: "rgba(0,0,0,0.3)",
-                    borderRadius: "8px",
-                    padding: "8px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: "6px",
-                  }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
-                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                    </svg>
-                    <span style={{ color: "white", fontSize: "10px", fontWeight: 500 }}>Add to Apple Wallet</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <PhoneMockup variant="wallet" />
           </div>
         </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useInView } from "../hooks/useInView";
+import DashboardMockup from "./illustrations/DashboardMockup";
 
 export default function DashboardPreview() {
   const { ref, isVisible } = useInView();
@@ -13,36 +14,8 @@ export default function DashboardPreview() {
           style={{ display: "grid", gridTemplateAreas: "'image content'", gridTemplateColumns: "1fr 1fr", columnGap: "48px", alignItems: "center" }}
         >
           {/* Image / Visual side */}
-          <div style={{ gridArea: "image", justifySelf: "center", opacity: isVisible ? 1 : 0, transform: isVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out" }}>
-            <div style={{ backgroundColor: "rgba(255,255,255,0.05)", borderRadius: "24px", padding: "32px", border: "1px solid rgba(255,255,255,0.08)" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-                <div>
-                  <p style={{ margin: 0, color: "rgba(255,255,255,0.5)", fontSize: "12px" }}>Overview</p>
-                  <p style={{ margin: "4px 0 0", color: "white", fontSize: "20px", fontWeight: 700 }}>Customer Dashboard</p>
-                </div>
-                <div style={{ padding: "6px 14px", backgroundColor: "rgba(108,71,255,0.2)", borderRadius: "8px" }}>
-                  <span style={{ color: "#AA89F2", fontSize: "12px", fontWeight: 600 }}>Last 30 days</span>
-                </div>
-              </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "12px", marginBottom: "24px" }}>
-                {[
-                  { label: "Customers", value: "1,247", change: "+12%", color: "#E6FFA9" },
-                  { label: "Visits", value: "3,891", change: "+23%", color: "#E6FFA9" },
-                  { label: "Retention", value: "68%", change: "+8%", color: "#E6FFA9" },
-                ].map((s) => (
-                  <div key={s.label} style={{ backgroundColor: "rgba(255,255,255,0.06)", borderRadius: "12px", padding: "16px" }}>
-                    <p style={{ margin: 0, color: "rgba(255,255,255,0.5)", fontSize: "11px" }}>{s.label}</p>
-                    <p style={{ margin: "4px 0", color: "white", fontSize: "22px", fontWeight: 700 }}>{s.value}</p>
-                    <span style={{ color: s.color, fontSize: "12px", fontWeight: 600 }}>{s.change}</span>
-                  </div>
-                ))}
-              </div>
-              <div style={{ display: "flex", alignItems: "flex-end", gap: "4px", height: "80px" }}>
-                {[35, 42, 28, 55, 48, 62, 45, 70, 58, 75, 68, 82].map((h, i) => (
-                  <div key={i} style={{ flex: 1, backgroundColor: i >= 9 ? "#6C47FF" : "rgba(108,71,255,0.3)", borderRadius: "3px 3px 0 0", height: `${h}%` }} />
-                ))}
-              </div>
-            </div>
+          <div style={{ gridArea: "image", justifySelf: "center", opacity: isVisible ? 1 : 0, transform: isVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.6s ease-out, transform 0.6s ease-out", borderRadius: "16px", overflow: "hidden", boxShadow: "0 20px 60px rgba(0,0,0,0.3)" }}>
+            <DashboardMockup />
           </div>
 
           {/* Content side */}

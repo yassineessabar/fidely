@@ -1,6 +1,7 @@
 "use client";
 
 import { useInView } from "../hooks/useInView";
+import PhoneMockup from "./illustrations/PhoneMockup";
 
 const cards = [
   {
@@ -9,15 +10,8 @@ const cards = [
     cta: "Learn more",
     gradient: "linear-gradient(135deg, #6C47FF 0%, #8B6FFF 100%)",
     visual: (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: "12px" }}>
-        <div style={{ width: "120px", height: "120px", backgroundColor: "white", borderRadius: "16px", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }}>
-          <div style={{ width: "90px", height: "90px", display: "grid", gridTemplateColumns: "repeat(7,1fr)", gridTemplateRows: "repeat(7,1fr)", gap: "2px" }}>
-            {Array.from({ length: 49 }).map((_, i) => (
-              <div key={i} style={{ backgroundColor: [0,1,2,4,5,6,7,13,14,20,21,27,28,34,35,42,43,44,46,47,48,8,10,12,16,18,22,24,26,30,32,36,38,40].includes(i) ? "#6C47FF" : "white", borderRadius: "1px" }} />
-            ))}
-          </div>
-        </div>
-        <p style={{ margin: 0, color: "white", fontSize: "12px", fontWeight: 500, opacity: 0.8 }}>Scan to join</p>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", padding: "20px 40px" }}>
+        <PhoneMockup variant="scan" />
       </div>
     ),
   },
@@ -27,22 +21,8 @@ const cards = [
     cta: "See how",
     gradient: "linear-gradient(135deg, #2C2242 0%, #44346A 100%)",
     visual: (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", padding: "0 16px" }}>
-        <div style={{ backgroundColor: "rgba(255,255,255,0.1)", borderRadius: "16px", padding: "16px", width: "100%", maxWidth: "200px", border: "1px solid rgba(255,255,255,0.15)" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
-            <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <span className="font-display" style={{ color: "#6C47FF", fontWeight: 800, fontSize: "12px" }}>f</span>
-            </div>
-            <div>
-              <p style={{ margin: 0, color: "white", fontSize: "12px", fontWeight: 600 }}>Café Bloom</p>
-              <p style={{ margin: 0, color: "rgba(255,255,255,0.5)", fontSize: "10px" }}>247 points</p>
-            </div>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <span style={{ color: "rgba(255,255,255,0.6)", fontSize: "10px" }}>Tap to view</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
-          </div>
-        </div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", padding: "20px 40px" }}>
+        <PhoneMockup variant="wallet" />
       </div>
     ),
   },
@@ -52,26 +32,8 @@ const cards = [
     cta: "Learn more",
     gradient: "linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%)",
     visual: (
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: "8px", padding: "0 12px" }}>
-        {[
-          { title: "Café Bloom", body: "Your free coffee is waiting! ☕", time: "now" },
-          { title: "Café Bloom", body: "Double points this weekend! 🎉", time: "2m" },
-        ].map((n, i) => (
-          <div key={i} style={{ backgroundColor: "rgba(255,255,255,0.12)", borderRadius: "14px", padding: "12px", width: "100%", maxWidth: "220px" }}>
-            <div style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
-              <div style={{ width: "28px", height: "28px", borderRadius: "8px", background: "linear-gradient(135deg, #6C47FF, #AA89F2)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <span style={{ color: "white", fontWeight: 700, fontSize: "10px" }}>f</span>
-              </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <p style={{ margin: 0, color: "white", fontSize: "11px", fontWeight: 600 }}>{n.title}</p>
-                  <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "9px" }}>{n.time}</span>
-                </div>
-                <p style={{ margin: "2px 0 0", color: "rgba(255,255,255,0.7)", fontSize: "10px", lineHeight: "14px" }}>{n.body}</p>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", padding: "20px 40px" }}>
+        <PhoneMockup variant="notification" />
       </div>
     ),
   },

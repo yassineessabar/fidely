@@ -1,6 +1,7 @@
 "use client";
 
 import { useInView } from "../hooks/useInView";
+import AIPanel from "../components/illustrations/AIPanel";
 
 const suggestions = [
   {
@@ -90,54 +91,7 @@ export default function FidelyAI() {
 
           {/* Right: AI panel — no emojis */}
           <div style={{ gridArea: "image", opacity: isVisible ? 1 : 0, transform: isVisible ? "translateY(0)" : "translateY(30px)", transition: "opacity 0.6s ease-out 0.15s, transform 0.6s ease-out 0.15s" }}>
-            <div style={{ backgroundColor: "rgba(255,255,255,0.04)", borderRadius: "24px", padding: "24px", border: "1px solid rgba(255,255,255,0.06)" }}>
-              {/* Panel header */}
-              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px", paddingBottom: "16px", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-                <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "linear-gradient(135deg, #6C47FF, #AA89F2)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                    <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-                <div style={{ flex: 1 }}>
-                  <p style={{ margin: 0, color: "white", fontSize: "14px", fontWeight: 600 }}>Fidely AI</p>
-                  <p style={{ margin: 0, color: "rgba(255,255,255,0.4)", fontSize: "11px" }}>4 new recommendations</p>
-                </div>
-                <div style={{ width: "8px", height: "8px", borderRadius: "50%", backgroundColor: "#E6FFA9" }} />
-              </div>
-
-              {/* Suggestion cards */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                {suggestions.map((s, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      backgroundColor: s.color,
-                      borderRadius: "14px",
-                      padding: "16px",
-                      border: `1px solid ${s.border}`,
-                      cursor: "pointer",
-                      transition: "transform 0.2s",
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
-                      <div style={{
-                        width: "32px", height: "32px", borderRadius: "8px",
-                        backgroundColor: "rgba(255,255,255,0.06)",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        flexShrink: 0,
-                      }}>
-                        {s.icon}
-                      </div>
-                      <div style={{ flex: 1 }}>
-                        <p style={{ margin: "0 0 4px", color: "white", fontSize: "13px", fontWeight: 600 }}>{s.title}</p>
-                        <p style={{ margin: "0 0 8px", color: "rgba(255,255,255,0.5)", fontSize: "12px", lineHeight: "18px" }}>{s.body}</p>
-                        <span style={{ color: "#AA89F2", fontSize: "12px", fontWeight: 600 }}>{s.action} →</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <AIPanel />
           </div>
         </div>
       </div>
