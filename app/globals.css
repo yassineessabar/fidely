@@ -216,6 +216,21 @@ html { scroll-behavior: smooth; }
   .footer-grid { grid-template-columns: 1fr !important; }
 }
 
+/* ========== DASHBOARD ========== */
+@media (max-width: 900px) {
+  .dash-sidebar-wrap { display: none !important; }
+  .dash-sidebar-mobile { display: block !important; }
+  .dash-main { margin-left: 0 !important; }
+  .dash-menu-btn { display: flex !important; }
+  .dash-search { display: none !important; }
+  .dash-kpi-grid { grid-template-columns: 1fr 1fr !important; }
+  .dash-chart-grid { grid-template-columns: 1fr !important; }
+  .dash-table-wrap { overflow-x: auto; }
+}
+@media (max-width: 500px) {
+  .dash-kpi-grid { grid-template-columns: 1fr !important; }
+}
+
 /* ========== SIGNUP PAGE ========== */
 @media (max-width: 1024px) {
   .signup-right { display: none !important; }
