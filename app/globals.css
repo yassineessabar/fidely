@@ -1,0 +1,227 @@
+@import "tailwindcss";
+
+:root {
+  --dark: rgb(11, 5, 29);
+  --white: rgb(255, 255, 255);
+  --pink: rgb(230, 255, 169);
+  --soft-pink: rgb(232, 255, 200);
+  --cream: rgb(249, 248, 245);
+  --warm-gray: rgb(228, 227, 223);
+  --purple-dark: rgb(44, 34, 66);
+  --purple-mid: rgb(170, 137, 242);
+  --green-light: rgb(230, 255, 169);
+  --footer-bg: rgb(29, 25, 42);
+  --footer-text: rgb(196, 195, 202);
+  --footer-border: rgb(55, 53, 68);
+  --muted: rgb(97, 95, 109);
+  --nav-text: rgb(55, 53, 68);
+  --card-border: rgb(226, 226, 231);
+  --border-light: rgba(0, 0, 0, 0.06);
+}
+
+@theme inline {
+  --color-background: var(--white);
+  --color-foreground: var(--dark);
+  --font-sans: var(--font-geist-sans);
+}
+
+body {
+  background: var(--white);
+  color: var(--dark);
+  font-family: var(--font-sans), Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  line-height: 20px;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricprecision;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* Display font for headings — KlarnaTitle */
+.font-display {
+  font-family: var(--font-display), var(--font-sans), Arial, sans-serif;
+}
+
+/* Body font — KlarnaText */
+.font-sans {
+  font-family: var(--font-sans), Arial, sans-serif;
+}
+
+/* ========== ANIMATIONS ========== */
+@keyframes heroHeadline {
+  0% { opacity: 0; transform: translateY(60px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes heroImage {
+  0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes heroRight {
+  0% { opacity: 0; transform: translateX(50px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes scrollUp {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+@keyframes scrollDown {
+  0% { transform: translateY(-50%); }
+  100% { transform: translateY(0); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-hero-headline { animation: heroHeadline 0.8s ease-out forwards; }
+.animate-hero-image { animation: heroImage 0.8s ease-out forwards; }
+.animate-hero-right { animation: heroRight 0.8s ease-out 0.2s forwards; opacity: 0; }
+.animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+.animate-scroll-up { animation: scrollUp 30s linear infinite; }
+.animate-scroll-down { animation: scrollDown 30s linear infinite; }
+
+/* ========== FEATURE CARD HOVER — Klarna style ========== */
+.feature-card {
+  transition: flex-basis 0.3s, flex-grow 0.3s, opacity 0.6s ease-out, transform 0.6s ease-out;
+  cursor: pointer;
+}
+
+.feature-card-desc {
+  opacity: 0;
+  max-height: 0px;
+  overflow: hidden;
+  transition: opacity 0.3s, max-height 0.3s;
+  margin: 0;
+}
+
+.feature-card:hover {
+  flex-basis: 40% !important;
+}
+
+.feature-card:hover .feature-card-desc {
+  opacity: 1;
+  max-height: 100px;
+  margin-bottom: 8px;
+}
+
+/* On mobile, always show descriptions */
+@media (max-width: 768px) {
+  .feature-card-desc {
+    opacity: 1 !important;
+    max-height: none !important;
+    margin-bottom: 8px !important;
+  }
+  .feature-card:hover {
+    flex-basis: 25% !important;
+  }
+}
+
+/* ========== CALCULATOR SLIDER ========== */
+.calc-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgb(11, 5, 29);
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  margin-top: -1px;
+}
+.calc-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgb(11, 5, 29);
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* ========== HOVER / INTERACTIVE ========== */
+.footer-link:hover { color: white !important; }
+.footer-social:hover { background-color: rgba(255,255,255,0.15) !important; }
+.testimonials-scroll::-webkit-scrollbar { display: none; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 900px) {
+  .desktop-nav { display: none !important; }
+  .mobile-nav-btn { display: flex !important; }
+  .why-grid, .hiw-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .why-card, .hiw-card { grid-template-columns: 1fr !important; height: auto !important; }
+  .why-card > div:first-child, .hiw-card > div:first-child { height: 200px; }
+  .why-title { font-size: 28px !important; line-height: 32px !important; }
+  .hiw-title { font-size: 24px !important; line-height: 28px !important; }
+  .dashboard-grid, .ai-grid, .fb-grid, .fc-grid, .faq-grid, .calc-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .faq-left { position: static !important; }
+  .dashboard-h3, .ai-h3, .fb-h2, .fc-h2 { font-size: 36px !important; line-height: 40px !important; }
+  .footer-grid { grid-template-columns: 1fr 1fr 1fr !important; gap: 32px !important; }
+  .footer-bottom { grid-template-columns: 1fr !important; gap: 16px !important; }
+  .footer-bottom > div { justify-content: flex-start !important; }
+}
+
+@media (max-width: 1280px) {
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto !important;
+    padding: 40px 24px 0 !important;
+    height: auto !important;
+    text-align: center;
+    align-items: center !important;
+    min-height: 600px;
+  }
+  .hero-grid > h1 {
+    place-self: center center !important;
+    justify-self: center !important;
+    margin: 0 !important;
+  }
+  .hero-grid > div:nth-child(2) { height: 400px !important; order: 3; margin-left: 0 !important; }
+  .hero-grid > div:nth-child(3) { place-self: center center !important; margin: 0 !important; align-items: center !important; text-align: center; }
+  .hero-h1 { font-size: 56px !important; line-height: 62px !important; }
+  .hero-h1 span { margin-left: 0 !important; }
+  .hero-subtitle { font-size: 20px !important; line-height: 30px !important; }
+}
+
+@media (max-width: 640px) {
+  .hero-h1 { font-size: 42px !important; line-height: 48px !important; }
+  .hero-subtitle { font-size: 18px !important; line-height: 28px !important; }
+}
+
+@media (max-width: 768px) {
+  .section-h2 { font-size: 36px !important; line-height: 40px !important; }
+  .features-grid { flex-direction: column !important; }
+  .testimonials-layout { grid-template-columns: 1fr !important; grid-template-areas: 'heading' 'controls' 'carousel' 'cta' !important; }
+  .brands-grid { grid-template-columns: repeat(2, 1fr) !important; height: 400px !important; }
+  .pricing-grid { grid-template-columns: 1fr !important; }
+  .brands-grid > div:nth-child(n+3) { display: none; }
+  .brands-h2 { font-size: 28px !important; line-height: 32px !important; }
+  .cta-grid { grid-template-columns: 1fr !important; text-align: center; }
+  .cta-h4 { font-size: 36px !important; line-height: 40px !important; }
+}
+
+@media (max-width: 640px) {
+  .hero-h1 { font-size: 40px !important; line-height: 46px !important; }
+  .footer-grid { grid-template-columns: 1fr 1fr !important; }
+}
+
+@media (max-width: 500px) {
+  .footer-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ========== SIGNUP PAGE ========== */
+@media (max-width: 1024px) {
+  .signup-right { display: none !important; }
+  .signup-left { max-width: 100% !important; }
+  .signup-heading { font-size: 28px !important; line-height: 34px !important; }
+}
+@media (max-width: 1280px) {
+  .signup-hero-text { font-size: 56px !important; line-height: 58px !important; }
+}
