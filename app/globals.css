@@ -205,6 +205,7 @@ html { scroll-behavior: smooth; }
   .brands-h2 { font-size: 28px !important; line-height: 32px !important; }
   .cta-grid { grid-template-columns: 1fr !important; text-align: center; }
   .mechanics-card { grid-template-columns: 1fr !important; }
+  .mechanics-dots { display: none !important; }
   .cta-h4 { font-size: 36px !important; line-height: 40px !important; }
 }
 
