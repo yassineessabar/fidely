@@ -276,12 +276,14 @@ export default function SigninPage() {
             <FidelyLogo color="#959391" height={20} />
           </div>
           <div style={{ display: "flex", justifyContent: "center", gap: "8px", flexWrap: "wrap" }}>
-            {["Terms", "Privacy", "Help center"].map((link, i) => (
+            {[
+              { label: "Terms", href: "/terms" },
+              { label: "Privacy", href: "/privacy" },
+              { label: "Help center", href: "/help" },
+            ].map(({ label, href }) => (
               <a
-                key={link}
-                href={i === 2 ? "/help" : "#"}
-                target={i === 2 ? "_blank" : undefined}
-                rel={i === 2 ? "noopener noreferrer" : undefined}
+                key={label}
+                href={href}
                 style={{
                   fontSize: "12px",
                   fontWeight: 400,
@@ -291,7 +293,7 @@ export default function SigninPage() {
                   textUnderlineOffset: "1.8px",
                 }}
               >
-                {link}
+                {label}
               </a>
             ))}
           </div>
