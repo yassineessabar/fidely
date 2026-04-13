@@ -34,6 +34,7 @@ export default function AddToWalletButtons({ type }: { type: PassType }) {
       {/* Apple Wallet Button */}
       <button
         onClick={handleAppleWallet}
+        aria-label="Add to Apple Wallet"
         style={{
           display: "flex",
           alignItems: "center",
@@ -62,6 +63,7 @@ export default function AddToWalletButtons({ type }: { type: PassType }) {
       <button
         onClick={handleGoogleWallet}
         disabled={googleLoading}
+        aria-label="Add to Google Wallet"
         style={{
           display: "flex",
           alignItems: "center",
