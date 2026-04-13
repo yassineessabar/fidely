@@ -88,6 +88,63 @@ function ArticleHeader({
   );
 }
 
+function RelatedArticles({ currentSlug }: { currentSlug: string }) {
+  const related = posts.filter((p) => p.slug !== currentSlug).slice(0, 3);
+  return (
+    <div style={{ marginTop: "64px", borderTop: "1px solid rgba(0,0,0,0.06)", paddingTop: "40px" }}>
+      <h3 className="font-display" style={{ fontSize: "24px", fontWeight: 700, color: "rgb(11,5,29)", margin: "0 0 24px" }}>
+        Continue reading
+      </h3>
+      <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        {related.map((post) => (
+          <a
+            key={post.slug}
+            href={`/blog/${post.slug}`}
+            style={{
+              display: "flex",
+              gap: "16px",
+              alignItems: "center",
+              textDecoration: "none",
+              padding: "16px",
+              borderRadius: "12px",
+              border: "1px solid rgba(0,0,0,0.06)",
+              transition: "border-color 0.2s",
+            }}
+          >
+            <div style={{
+              width: "48px",
+              height: "48px",
+              borderRadius: "10px",
+              backgroundColor: post.color,
+              flexShrink: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+              <span style={{
+                fontSize: "10px",
+                fontWeight: 600,
+                color: "rgb(11,5,29)",
+                opacity: 0.5,
+              }}>
+                {post.category.slice(0, 3).toUpperCase()}
+              </span>
+            </div>
+            <div>
+              <p style={{ margin: 0, fontSize: "15px", fontWeight: 600, color: "rgb(11,5,29)", lineHeight: "20px" }}>
+                {post.title}
+              </p>
+              <p style={{ margin: "4px 0 0", fontSize: "13px", color: "rgb(97,95,109)" }}>
+                {post.date} · {post.readTime}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function ArticleFooter() {
   return (
     <div
@@ -866,6 +923,7 @@ export default function BlogPostPage({
         />
         {content || <p style={p}>{post.desc}</p>}
         <ArticleFooter />
+        <RelatedArticles currentSlug={post.slug} />
       </div>
     </article>
   );
