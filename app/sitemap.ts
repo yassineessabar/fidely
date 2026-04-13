@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { posts } from "./(website)/blog/posts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://fidely.com";
@@ -32,6 +33,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
       priority: 0.6,
+    })),
+    ...posts.map((post) => ({
+      url: `${baseUrl}/blog/${post.slug}`,
+      lastModified: new Date(post.dateISO),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
     })),
   ];
 }
