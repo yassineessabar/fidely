@@ -1,4 +1,16 @@
+import { Metadata } from "next";
 import FidelyLogo from "../../components/FidelyLogo";
+
+export const metadata: Metadata = {
+  title: "Press & Media — Company News & Resources",
+  description: "Press resources, company facts, and media kit for Fidely. Download logos, read our story, and get in touch with our press team.",
+  alternates: { canonical: "/press" },
+  openGraph: {
+    title: "Fidely Press & Media — Company News & Resources",
+    description: "Press resources, company facts, and media kit for Fidely.",
+    url: "/press",
+  },
+};
 
 export default function PressPage() {
   return (

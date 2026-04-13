@@ -1,3 +1,15 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Careers — Join Us & Build the Future of Local Business",
+  description: "Join Fidely and help local businesses thrive. We're hiring engineers, designers, and marketers. Remote-first, meaningful work.",
+  alternates: { canonical: "/careers" },
+  openGraph: {
+    title: "Careers at Fidely — Build the Future of Local Business",
+    description: "Join Fidely and help local businesses thrive. We're hiring engineers, designers, and marketers.",
+    url: "/careers",
+  },
+};
 
 const roles = [
   { title: "Full-Stack Engineer", location: "Remote / Paris", type: "Full-time", team: "Engineering" },

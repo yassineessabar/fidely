@@ -1,3 +1,15 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us — Our Mission to Help Local Businesses Grow",
+  description: "Fidely was born to help local businesses grow by keeping customers coming back. Learn about our mission, values, and the team building the future of customer retention.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About Fidely — Our Mission to Help Local Businesses Grow",
+    description: "Fidely was born to help local businesses grow by keeping customers coming back.",
+    url: "/about",
+  },
+};
 
 export default function AboutPage() {
   return (

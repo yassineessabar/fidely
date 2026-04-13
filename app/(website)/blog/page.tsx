@@ -1,3 +1,15 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Blog — Loyalty Marketing Tips & Insights",
+  description: "Expert tips on customer retention, loyalty programs, and digital marketing for local businesses. Learn how to bring customers back and grow revenue.",
+  alternates: { canonical: "/blog" },
+  openGraph: {
+    title: "Fidely Blog — Loyalty Marketing Tips & Insights",
+    description: "Expert tips on customer retention, loyalty programs, and digital marketing for local businesses.",
+    url: "/blog",
+  },
+};
 
 const posts = [
   { title: "Why paper loyalty cards are costing you customers", desc: "Most paper cards get lost within a week. Here's why digital is the future of customer retention.", date: "Mar 28, 2025", category: "Retention", color: "rgb(230,255,169)" },

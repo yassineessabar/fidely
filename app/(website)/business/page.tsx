@@ -1,3 +1,15 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "For Business — Grow Revenue Without Ads",
+  description: "Digital loyalty cards that bring customers back automatically. No app downloads, instant setup in Apple & Google Wallet. See +20-30% more repeat visits.",
+  alternates: { canonical: "/business" },
+  openGraph: {
+    title: "Fidely for Business — Grow Revenue Without Ads",
+    description: "Digital loyalty cards that bring customers back automatically. No app downloads, instant setup.",
+    url: "/business",
+  },
+};
 
 export default function BusinessPage() {
   return (
