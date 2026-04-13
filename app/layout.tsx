@@ -47,11 +47,62 @@ const klarnaTitle = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Fidely — Bring your customers back automatically",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://fidely.com"),
+  title: {
+    default: "Fidely — Digital Loyalty Cards for Apple & Google Wallet",
+    template: "%s | Fidely",
+  },
   description:
-    "Turn every visit into a returning customer. Digital loyalty cards for Apple Wallet & Google Wallet. No app. No friction. Just more revenue.",
+    "Turn every visit into a returning customer. Digital loyalty cards for Apple Wallet & Google Wallet. No app download needed. Launch in 24 hours.",
+  keywords: [
+    "digital loyalty card",
+    "apple wallet loyalty",
+    "google wallet loyalty",
+    "customer retention",
+    "loyalty program",
+    "digital punch card",
+    "reward card",
+    "cashback card",
+    "stamp card",
+    "customer loyalty app",
+    "fidely",
+  ],
+  authors: [{ name: "Fidely" }],
+  creator: "Fidely",
+  publisher: "Fidely",
   icons: {
     icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "Fidely",
+    title: "Fidely — Digital Loyalty Cards for Apple & Google Wallet",
+    description:
+      "Turn every visit into a returning customer. Digital loyalty cards for Apple Wallet & Google Wallet. No app download needed. Launch in 24 hours.",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Fidely — Digital Loyalty Cards for Apple & Google Wallet",
+    description:
+      "Turn every visit into a returning customer. Digital loyalty cards for Apple Wallet & Google Wallet. No app download needed.",
+    creator: "@fidely",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "/",
   },
 };
 
@@ -62,7 +113,50 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${klarnaText.variable} ${klarnaTitle.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+      <body className="min-h-full flex flex-col font-sans">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "@id": "https://fidely.com/#organization",
+                  name: "Fidely",
+                  url: "https://fidely.com",
+                  logo: {
+                    "@type": "ImageObject",
+                    url: "https://fidely.com/favicon.svg",
+                  },
+                  description:
+                    "Digital loyalty cards for Apple Wallet & Google Wallet. Help local businesses bring customers back automatically.",
+                  foundingDate: "2024",
+                  sameAs: [],
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://fidely.com/#website",
+                  url: "https://fidely.com",
+                  name: "Fidely",
+                  publisher: {
+                    "@id": "https://fidely.com/#organization",
+                  },
+                  potentialAction: {
+                    "@type": "SearchAction",
+                    target: {
+                      "@type": "EntryPoint",
+                      urlTemplate: "https://fidely.com/help?q={search_term_string}",
+                    },
+                    "query-input": "required name=search_term_string",
+                  },
+                },
+              ],
+            }),
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
