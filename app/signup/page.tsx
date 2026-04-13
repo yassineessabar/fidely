@@ -391,6 +391,14 @@ export default function SignupPage() {
               Privacy Policy
             </a>.
           </p>
+
+          {/* Sign in link */}
+          <p style={{ marginTop: "16px", fontSize: "14px", color: "rgb(97,95,109)", textAlign: "center" }}>
+            Already have an account?{" "}
+            <a href="/signin" style={{ color: "rgb(11,5,29)", fontWeight: 600, textDecoration: "underline", textUnderlineOffset: "2px" }}>
+              Sign in
+            </a>
+          </p>
         </div>
 
         {/* Footer */}
