@@ -151,6 +151,21 @@ export default function RootLayout({
                     "query-input": "required name=search_term_string",
                   },
                 },
+                {
+                  "@type": "SiteNavigationElement",
+                  "@id": "https://fidely.com/#navigation",
+                  name: ["Home", "Business", "Pricing", "Customers", "About", "Blog", "Help", "Contact"],
+                  url: [
+                    "https://fidely.com",
+                    "https://fidely.com/business",
+                    "https://fidely.com/pricing",
+                    "https://fidely.com/customers",
+                    "https://fidely.com/about",
+                    "https://fidely.com/blog",
+                    "https://fidely.com/help",
+                    "https://fidely.com/contact",
+                  ],
+                },
               ],
             }),
           }}

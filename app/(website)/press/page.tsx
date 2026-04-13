@@ -15,6 +15,14 @@ export const metadata: Metadata = {
 export default function PressPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
+          { "@type": "ListItem", position: 2, name: "Press", item: "https://fidely.com/press" },
+        ],
+      }) }} />
       <section style={{ backgroundColor: "white", padding: "80px 0" }}>
         <div style={{ maxWidth: "1140px", margin: "0 auto", padding: "0 24px" }}>
           <h1 className="font-display" style={{ fontSize: "52px", lineHeight: "55px", fontWeight: 500, color: "rgb(11,5,29)", margin: "0 0 16px" }}>

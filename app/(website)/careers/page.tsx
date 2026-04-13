@@ -22,6 +22,14 @@ const roles = [
 export default function CareersPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
+          { "@type": "ListItem", position: 2, name: "Careers", item: "https://fidely.com/careers" },
+        ],
+      }) }} />
       {/* Hero */}
       <section style={{ backgroundColor: "rgb(11,5,29)", padding: "80px 0" }}>
         <div style={{ maxWidth: "1140px", margin: "0 auto", padding: "0 24px" }}>
