@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { posts } from "./(website)/blog/posts";
+import { industries } from "./(website)/for/industries";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://fidely.com";
@@ -39,6 +40,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(post.dateISO),
       changeFrequency: "monthly" as const,
       priority: 0.7,
+    })),
+    ...industries.map((ind) => ({
+      url: `${baseUrl}/for/${ind.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
     })),
   ];
 }
