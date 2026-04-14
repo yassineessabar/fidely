@@ -45,8 +45,8 @@ export async function PATCH(
   const { id } = params;
   const body = await request.json();
 
+  const updates: any = {};
   const allowedFields = ["business_id", "type", "name", "status", "business_details", "branding", "logic"];
-  const updates: Record<string, any> = {};
   for (const key of allowedFields) {
     if (body[key] !== undefined) {
       updates[key] = body[key];
@@ -59,7 +59,7 @@ export async function PATCH(
 
   const { data, error } = await supabase
     .from("loyalty_cards")
-    .update(updates)
+    .update(updates as any)
     .eq("id", id)
     .select()
     .single();

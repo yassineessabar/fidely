@@ -55,7 +55,7 @@ type CardData = {
 
 type Merchant = {
   id: string;
-  business_name: string;
+  name: string;
 };
 
 interface CardBuilderFormProps {
@@ -310,7 +310,7 @@ export default function CardBuilderForm({
               >
                 <option value="">Select a merchant…</option>
                 {merchants.map((m) => (
-                  <option key={m.id} value={m.id}>{m.business_name}</option>
+                  <option key={m.id} value={m.id}>{m.name}</option>
                 ))}
               </select>
             </div>
