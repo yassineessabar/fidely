@@ -26,7 +26,16 @@ export default function NewCardPage() {
       .catch(() => {});
   }, []);
 
+  const validate = (data: any): string | null => {
+    if (!data.businessId) return "Please select a merchant";
+    if (!data.name) return "Please enter a card name";
+    if (!data.type) return "Please select a card type";
+    return null;
+  };
+
   const handleSave = async (data: any) => {
+    const err = validate(data);
+    if (err) { alert(err); return; }
     setSaving(true);
     try {
       const res = await fetch("/api/admin/cards", {
@@ -34,14 +43,15 @@ export default function NewCardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
       });
-      if (res.ok) {
-        const result = await res.json();
-        router.push(`/admin/cards/${result.card.id}`);
-      }
+      const result = await res.json();
+      if (!res.ok) { alert(result.error || "Failed to save"); return; }
+      router.push(`/admin/cards/${result.card.id}`);
     } finally { setSaving(false); }
   };
 
   const handlePublish = async (data: any) => {
+    const err = validate(data);
+    if (err) { alert(err); return; }
     setPublishing(true);
     try {
       const createRes = await fetch("/api/admin/cards", {
@@ -49,11 +59,12 @@ export default function NewCardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
       });
-      if (createRes.ok) {
-        const result = await createRes.json();
-        await fetch(`/api/admin/cards/${result.card.id}/publish`, { method: "POST" });
-        router.push(`/admin/cards/${result.card.id}`);
-      }
+      const createResult = await createRes.json();
+      if (!createRes.ok) { alert(createResult.error || "Failed to save card"); return; }
+      const publishRes = await fetch(`/api/admin/cards/${createResult.card.id}/publish`, { method: "POST" });
+      const publishResult = await publishRes.json();
+      if (!publishRes.ok) { alert(publishResult.error || "Failed to publish"); return; }
+      router.push(`/admin/cards/${createResult.card.id}`);
     } finally { setPublishing(false); }
   };
 

@@ -41,26 +41,31 @@ export default function EditCardPage() {
   const handleSave = async (data: any) => {
     setSaving(true);
     try {
-      await fetch(`/api/admin/cards/${cardId}`, {
+      const res = await fetch(`/api/admin/cards/${cardId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
       });
+      if (!res.ok) { const r = await res.json(); alert(r.error || "Failed to save"); }
     } finally { setSaving(false); }
   };
 
   const handlePublish = async (data: any) => {
     setPublishing(true);
     try {
-      await fetch(`/api/admin/cards/${cardId}`, {
+      const saveRes = await fetch(`/api/admin/cards/${cardId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
       });
+      if (!saveRes.ok) { const r = await saveRes.json(); alert(r.error || "Failed to save"); return; }
       const publishRes = await fetch(`/api/admin/cards/${cardId}/publish`, { method: "POST" });
       if (publishRes.ok) {
         const result = await publishRes.json();
         setPublishResult(result);
+      } else {
+        const r = await publishRes.json();
+        alert(r.error || "Failed to publish");
       }
     } finally { setPublishing(false); }
   };
