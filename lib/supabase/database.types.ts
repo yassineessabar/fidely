@@ -646,6 +646,53 @@ export type Database = {
         }
         Relationships: []
       }
+      loyalty_cards: {
+        Row: {
+          id: string
+          business_id: string
+          type: Database['public']['Enums']['card_type']
+          name: string
+          status: Database['public']['Enums']['card_status']
+          business_details: Json
+          branding: Json
+          logic: Json
+          share_url: string | null
+          qr_code_data: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          business_id: string
+          type: Database['public']['Enums']['card_type']
+          name: string
+          status?: Database['public']['Enums']['card_status']
+          business_details?: Json
+          branding?: Json
+          logic?: Json
+          share_url?: string | null
+          qr_code_data?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          business_id?: string
+          type?: Database['public']['Enums']['card_type']
+          name?: string
+          status?: Database['public']['Enums']['card_status']
+          business_details?: Json
+          branding?: Json
+          logic?: Json
+          share_url?: string | null
+          qr_code_data?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          { foreignKeyName: 'loyalty_cards_business_id_fkey'; columns: ['business_id']; referencedRelation: 'businesses'; referencedColumns: ['id'] },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -666,6 +713,8 @@ export type Database = {
       campaign_status: 'draft' | 'active' | 'sent' | 'paused'
       program_type: 'stamp_card' | 'points' | 'cashback' | 'referral' | 'vip_tiers' | 'subscriptions' | 'gift_rewards' | 'passes'
       card_style: 'gradient' | 'dark' | 'light'
+      card_type: 'coupon' | 'stamp' | 'points'
+      card_status: 'draft' | 'active' | 'archived'
       plan_tier: 'starter' | 'growth' | 'enterprise'
       invoice_status: 'paid' | 'pending' | 'failed'
       location_status: 'active' | 'inactive'
