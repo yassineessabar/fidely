@@ -9,12 +9,15 @@ const titleMap: Record<string, string> = {
   "/admin": "Dashboard",
   "/admin/applications": "Applications",
   "/admin/merchants": "Merchants",
+  "/admin/cards": "Cards",
+  "/admin/cards/new": "Card Builder",
   "/admin/invoices": "Invoices",
 };
 
 function getTitle(pathname: string): string {
   if (titleMap[pathname]) return titleMap[pathname];
   if (pathname.startsWith("/admin/merchants/")) return "Merchant Detail";
+  if (pathname.startsWith("/admin/cards/") && pathname !== "/admin/cards/new") return "Edit Card";
   return "Admin";
 }
 

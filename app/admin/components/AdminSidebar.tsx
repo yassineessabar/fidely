@@ -8,6 +8,7 @@ import {
   FileText,
   Building2,
   Receipt,
+  CreditCard,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
@@ -16,6 +17,7 @@ const navItems = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Applications", href: "/admin/applications", icon: FileText },
   { label: "Merchants", href: "/admin/merchants", icon: Building2 },
+  { label: "Cards", href: "/admin/cards", icon: CreditCard },
   { label: "Invoices", href: "/admin/invoices", icon: Receipt },
 ];
 
