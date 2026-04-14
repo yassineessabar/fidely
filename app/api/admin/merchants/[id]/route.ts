@@ -64,22 +64,14 @@ export async function PATCH(
   const { id } = params;
   const body = await request.json();
 
-  const allowedFields: Record<string, boolean> = { plan: true };
-  const updates: Record<string, unknown> = {};
-
-  for (const key of Object.keys(body)) {
-    if (allowedFields[key]) {
-      updates[key] = body[key];
-    }
-  }
-
-  if (Object.keys(updates).length === 0) {
-    return NextResponse.json({ error: "No valid fields to update" }, { status: 400 });
+  const plan = body.plan;
+  if (!plan || !["starter", "growth", "enterprise"].includes(plan)) {
+    return NextResponse.json({ error: "Invalid or missing plan" }, { status: 400 });
   }
 
   const { data, error } = await supabase
     .from("businesses")
-    .update(updates)
+    .update({ plan: plan as any })
     .eq("id", id)
     .select()
     .single();
