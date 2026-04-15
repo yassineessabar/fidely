@@ -495,7 +495,30 @@ export default function CardBuilderForm({
                     </div>
                     <div style={fieldWrap}>
                       <label style={labelStyle}>Stamp Icon</label>
-                      <input type="text" value={l.stampIcon} onChange={(e) => setLogic({ stampIcon: e.target.value })} placeholder="☕" style={inputStyle} />
+                      <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "6px" }}>
+                        {["☕", "🍕", "🍔", "🍩", "🧁", "🍺", "🍷", "🥤", "🍣", "💇", "💅", "✨", "⭐", "🎁", "💎", "🔥", "❤️", "🌸", "🏋️", "🧖", "💆", "🍦", "🥐", "🌮"].map((emoji) => (
+                          <button
+                            key={emoji}
+                            type="button"
+                            onClick={() => setLogic({ stampIcon: emoji })}
+                            style={{
+                              width: "100%",
+                              aspectRatio: "1",
+                              borderRadius: "8px",
+                              border: l.stampIcon === emoji ? "2px solid rgb(108,71,255)" : "1px solid rgb(228,227,223)",
+                              backgroundColor: l.stampIcon === emoji ? "rgb(237,233,254)" : "white",
+                              fontSize: "20px",
+                              cursor: "pointer",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              transition: "all 0.15s",
+                            }}
+                          >
+                            {emoji}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                   <div style={fieldWrap}>

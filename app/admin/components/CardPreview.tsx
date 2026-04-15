@@ -71,10 +71,43 @@ export default function CardPreview({ type, businessDetails, branding, logic }: 
         </div>
       )}
 
-      {/* QR placeholder */}
+      {/* QR code — realistic SVG */}
       <div style={{ display: "flex", justifyContent: "center", padding: "8px 20px 12px" }}>
-        <div style={{ width: "64px", height: "64px", borderRadius: "8px", backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ width: "48px", height: "48px", borderRadius: "4px", background: "repeating-conic-gradient(#000 0% 25%, #fff 0% 50%) 50% / 8px 8px" }} />
+        <div style={{ width: "72px", height: "72px", borderRadius: "10px", backgroundColor: "white", padding: "6px" }}>
+          <svg viewBox="0 0 29 29" width="60" height="60" style={{ display: "block" }}>
+            {/* Position detection patterns (3 corners) */}
+            <rect x="0" y="0" width="7" height="7" fill="#000"/><rect x="1" y="1" width="5" height="5" fill="#fff"/><rect x="2" y="2" width="3" height="3" fill="#000"/>
+            <rect x="22" y="0" width="7" height="7" fill="#000"/><rect x="23" y="1" width="5" height="5" fill="#fff"/><rect x="24" y="2" width="3" height="3" fill="#000"/>
+            <rect x="0" y="22" width="7" height="7" fill="#000"/><rect x="1" y="23" width="5" height="5" fill="#fff"/><rect x="2" y="24" width="3" height="3" fill="#000"/>
+            {/* Timing patterns */}
+            <rect x="8" y="6" width="1" height="1" fill="#000"/><rect x="10" y="6" width="1" height="1" fill="#000"/><rect x="12" y="6" width="1" height="1" fill="#000"/>
+            <rect x="6" y="8" width="1" height="1" fill="#000"/><rect x="6" y="10" width="1" height="1" fill="#000"/><rect x="6" y="12" width="1" height="1" fill="#000"/>
+            {/* Data modules — realistic random pattern */}
+            <rect x="8" y="0" width="1" height="1" fill="#000"/><rect x="10" y="0" width="1" height="1" fill="#000"/><rect x="12" y="1" width="1" height="1" fill="#000"/>
+            <rect x="9" y="2" width="1" height="1" fill="#000"/><rect x="11" y="2" width="1" height="1" fill="#000"/><rect x="13" y="3" width="1" height="1" fill="#000"/>
+            <rect x="8" y="4" width="1" height="1" fill="#000"/><rect x="14" y="1" width="1" height="1" fill="#000"/><rect x="15" y="3" width="1" height="1" fill="#000"/>
+            <rect x="9" y="8" width="1" height="1" fill="#000"/><rect x="11" y="8" width="1" height="1" fill="#000"/><rect x="13" y="9" width="1" height="1" fill="#000"/>
+            <rect x="8" y="10" width="1" height="1" fill="#000"/><rect x="10" y="11" width="1" height="1" fill="#000"/><rect x="12" y="10" width="1" height="1" fill="#000"/>
+            <rect x="14" y="8" width="1" height="1" fill="#000"/><rect x="16" y="9" width="1" height="1" fill="#000"/><rect x="18" y="8" width="1" height="1" fill="#000"/>
+            <rect x="15" y="11" width="1" height="1" fill="#000"/><rect x="17" y="10" width="1" height="1" fill="#000"/><rect x="19" y="11" width="1" height="1" fill="#000"/>
+            <rect x="20" y="8" width="1" height="1" fill="#000"/><rect x="22" y="9" width="1" height="1" fill="#000"/><rect x="24" y="8" width="1" height="1" fill="#000"/>
+            <rect x="21" y="10" width="1" height="1" fill="#000"/><rect x="23" y="11" width="1" height="1" fill="#000"/><rect x="25" y="10" width="1" height="1" fill="#000"/>
+            <rect x="8" y="13" width="1" height="1" fill="#000"/><rect x="10" y="14" width="1" height="1" fill="#000"/><rect x="12" y="13" width="1" height="1" fill="#000"/>
+            <rect x="9" y="15" width="1" height="1" fill="#000"/><rect x="11" y="16" width="1" height="1" fill="#000"/><rect x="13" y="15" width="1" height="1" fill="#000"/>
+            <rect x="14" y="14" width="1" height="1" fill="#000"/><rect x="16" y="13" width="1" height="1" fill="#000"/><rect x="18" y="14" width="1" height="1" fill="#000"/>
+            <rect x="15" y="16" width="1" height="1" fill="#000"/><rect x="17" y="15" width="1" height="1" fill="#000"/><rect x="19" y="16" width="1" height="1" fill="#000"/>
+            <rect x="20" y="13" width="1" height="1" fill="#000"/><rect x="22" y="14" width="1" height="1" fill="#000"/><rect x="24" y="15" width="1" height="1" fill="#000"/>
+            <rect x="8" y="18" width="1" height="1" fill="#000"/><rect x="10" y="19" width="1" height="1" fill="#000"/><rect x="12" y="18" width="1" height="1" fill="#000"/>
+            <rect x="14" y="19" width="1" height="1" fill="#000"/><rect x="16" y="18" width="1" height="1" fill="#000"/><rect x="18" y="19" width="1" height="1" fill="#000"/>
+            <rect x="20" y="18" width="1" height="1" fill="#000"/><rect x="22" y="19" width="1" height="1" fill="#000"/><rect x="24" y="20" width="1" height="1" fill="#000"/>
+            <rect x="9" y="20" width="1" height="1" fill="#000"/><rect x="11" y="21" width="1" height="1" fill="#000"/><rect x="13" y="20" width="1" height="1" fill="#000"/>
+            <rect x="15" y="22" width="1" height="1" fill="#000"/><rect x="17" y="23" width="1" height="1" fill="#000"/><rect x="19" y="22" width="1" height="1" fill="#000"/>
+            <rect x="21" y="22" width="1" height="1" fill="#000"/><rect x="23" y="23" width="1" height="1" fill="#000"/><rect x="25" y="24" width="1" height="1" fill="#000"/>
+            <rect x="8" y="24" width="1" height="1" fill="#000"/><rect x="10" y="25" width="1" height="1" fill="#000"/><rect x="12" y="26" width="1" height="1" fill="#000"/>
+            <rect x="14" y="25" width="1" height="1" fill="#000"/><rect x="16" y="26" width="1" height="1" fill="#000"/><rect x="18" y="25" width="1" height="1" fill="#000"/>
+            {/* Alignment pattern */}
+            <rect x="20" y="20" width="5" height="5" fill="#000"/><rect x="21" y="21" width="3" height="3" fill="#fff"/><rect x="22" y="22" width="1" height="1" fill="#000"/>
+          </svg>
         </div>
       </div>
 
@@ -116,14 +149,15 @@ function StampContent({ logic, primary, secondary, accent }: { logic: any; prima
       <div style={{ fontSize: "11px", fontWeight: 600, color: secondary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "10px" }}>
         {filled} / {total} {progressLabel}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(total, 5)}, 1fr)`, gap: "6px", marginBottom: "10px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(total, 5)}, 1fr)`, gap: "8px", marginBottom: "12px" }}>
         {Array.from({ length: total }).map((_, i) => (
           <div key={i} style={{
             width: "100%", aspectRatio: "1", borderRadius: "50%",
-            backgroundColor: i < filled ? accent : `${primary}15`,
-            border: i < filled ? "none" : `1.5px dashed ${primary}30`,
+            backgroundColor: i < filled ? accent : `${primary}10`,
+            border: i < filled ? `2px solid ${accent}` : `2px dashed ${primary}25`,
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: i < filled ? "14px" : "10px",
+            fontSize: i < filled ? "20px" : "12px",
+            transition: "all 0.2s",
           }}>
             {i < filled ? icon : ""}
           </div>
