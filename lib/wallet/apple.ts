@@ -11,10 +11,15 @@ const KEY_PATH = process.env.APPLE_PASS_KEY_PATH || "./certs/pass-key.pem";
 const KEY_PASSPHRASE = process.env.APPLE_PASS_CERT_PASSWORD || "";
 const WWDR_PATH = process.env.APPLE_WWDR_CERT_PATH || "./certs/wwdr.pem";
 
-function loadFileIfExists(path: string): Buffer | null {
+function loadFileIfExists(path: string, envVar?: string): Buffer | null {
+  // Try file first (local dev)
   const resolved = join(process.cwd(), path);
   if (existsSync(resolved)) {
     return readFileSync(resolved);
+  }
+  // Fall back to base64 env var (Vercel / serverless)
+  if (envVar && process.env[envVar]) {
+    return Buffer.from(process.env[envVar]!, "base64");
   }
   return null;
 }
@@ -46,16 +51,16 @@ function loadImageBuffers(template: PassTemplate): Record<string, Buffer> {
 }
 
 export function areCertificatesAvailable(): boolean {
-  const cert = loadFileIfExists(CERT_PATH);
-  const key = loadFileIfExists(KEY_PATH);
-  const wwdr = loadFileIfExists(WWDR_PATH);
+  const cert = loadFileIfExists(CERT_PATH, "APPLE_PASS_CERT_B64");
+  const key = loadFileIfExists(KEY_PATH, "APPLE_PASS_KEY_B64");
+  const wwdr = loadFileIfExists(WWDR_PATH, "APPLE_WWDR_CERT_B64");
   return !!(cert && key && wwdr && TEAM_ID);
 }
 
 export async function generateApplePass(template: PassTemplate): Promise<Buffer> {
-  const signerCert = loadFileIfExists(CERT_PATH);
-  const signerKey = loadFileIfExists(KEY_PATH);
-  const wwdr = loadFileIfExists(WWDR_PATH);
+  const signerCert = loadFileIfExists(CERT_PATH, "APPLE_PASS_CERT_B64");
+  const signerKey = loadFileIfExists(KEY_PATH, "APPLE_PASS_KEY_B64");
+  const wwdr = loadFileIfExists(WWDR_PATH, "APPLE_WWDR_CERT_B64");
 
   if (!signerCert || !signerKey || !wwdr) {
     throw new Error(
