@@ -234,32 +234,75 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
     messageEncoding: "iso-8859-1",
   });
 
-  // The passkit-generator library adds "additionalInfoFields" to storeCard
-  // which is only valid for eventTicket type. iOS rejects passes with this key.
-  // Fix: find the internal props symbol and patch the storeCard object's
-  // JSON serialization to exclude the invalid field.
+  // passkit-generator adds "additionalInfoFields" to storeCard which iOS rejects.
+  // Fix: get buffer, unpack, fix pass.json, recompute manifest, re-sign with openssl-compatible method.
+  const rawBuffer = pass.getAsBuffer();
+
+  const { default: JSZip } = await import("jszip");
+  const crypto = await import("crypto");
+  const zip = await JSZip.loadAsync(rawBuffer);
+
+  // 1. Fix pass.json
+  const passJsonStr = await zip.file("pass.json")!.async("string");
+  const passJson = JSON.parse(passJsonStr);
+  if (passJson.storeCard?.additionalInfoFields !== undefined) {
+    delete passJson.storeCard.additionalInfoFields;
+  }
+  const fixedPassJson = JSON.stringify(passJson);
+  zip.file("pass.json", fixedPassJson);
+
+  // 2. Recompute manifest
+  const manifest: Record<string, string> = {};
+  for (const name of Object.keys(zip.files)) {
+    if (name === "manifest.json" || name === "signature" || zip.files[name].dir) continue;
+    const content = await zip.file(name)!.async("nodebuffer");
+    manifest[name] = crypto.createHash("sha1").update(content).digest("hex");
+  }
+  const manifestStr = JSON.stringify(manifest);
+  zip.file("manifest.json", manifestStr);
+
+  // 3. Re-sign manifest using Node crypto (PKCS#7 detached signature)
+  const sign = crypto.createSign("SHA256");
+  sign.update(manifestStr);
+  const signatureRaw = sign.sign({ key: signerKey, passphrase: KEY_PASSPHRASE || undefined });
+
+  // Build PKCS#7 SignedData structure manually (DER format)
+  // Apple requires a proper PKCS#7 detached signature with the signing cert + WWDR cert
+  const { execSync } = await import("child_process");
+  const fs = await import("fs");
+  const os = await import("os");
+  const path = await import("path");
+
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "pkpass-"));
+  const manifestPath = path.join(tmpDir, "manifest.json");
+  const certPath = path.join(tmpDir, "cert.pem");
+  const keyPath = path.join(tmpDir, "key.pem");
+  const wwdrPath = path.join(tmpDir, "wwdr.pem");
+  const sigPath = path.join(tmpDir, "signature");
+
+  fs.writeFileSync(manifestPath, manifestStr);
+  fs.writeFileSync(certPath, signerCert);
+  fs.writeFileSync(keyPath, signerKey);
+  fs.writeFileSync(wwdrPath, wwdr);
+
   try {
-    const symbols = Object.getOwnPropertySymbols(pass);
-    for (const sym of symbols) {
-      const val = (pass as any)[sym];
-      if (val && typeof val === "object" && val.storeCard) {
-        // Override toJSON on the storeCard object to exclude additionalInfoFields
-        const origStoreCard = val.storeCard;
-        val.storeCard = new Proxy(origStoreCard, {
-          ownKeys(target: any) {
-            return Object.keys(target).filter((k: string) => k !== "additionalInfoFields");
-          },
-          getOwnPropertyDescriptor(target: any, prop: string) {
-            if (prop === "additionalInfoFields") return undefined;
-            return Object.getOwnPropertyDescriptor(target, prop);
-          },
-        });
-        break;
-      }
-    }
-  } catch {
-    // If patch fails, continue — pass may still work on some iOS versions
+    const cmd = `openssl smime -sign -signer "${certPath}" -inkey "${keyPath}"` +
+      (KEY_PASSPHRASE ? ` -passin pass:${KEY_PASSPHRASE}` : "") +
+      ` -certfile "${wwdrPath}" -in "${manifestPath}" -out "${sigPath}" -outform DER -binary`;
+    execSync(cmd, { stdio: "pipe" });
+    const signatureBuf = fs.readFileSync(sigPath);
+    zip.file("signature", signatureBuf);
+  } finally {
+    // Cleanup temp files
+    try {
+      fs.unlinkSync(manifestPath);
+      fs.unlinkSync(certPath);
+      fs.unlinkSync(keyPath);
+      fs.unlinkSync(wwdrPath);
+      fs.unlinkSync(sigPath);
+      fs.rmdirSync(tmpDir);
+    } catch {}
   }
 
-  return pass.getAsBuffer();
+  return Buffer.from(await zip.generateAsync({ type: "nodebuffer", compression: "STORE" }));
 }
