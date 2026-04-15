@@ -174,6 +174,15 @@ html { scroll-behavior: smooth; }
   .why-title { font-size: 28px !important; line-height: 32px !important; }
   .hiw-title { font-size: 24px !important; line-height: 28px !important; }
   .dashboard-grid, .ai-grid, .fb-grid, .fc-grid, .faq-grid, .calc-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .dashboard-grid { grid-template-areas: 'content' 'image' !important; }
+  .dashboard-grid > div:first-child {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    transform: scale(0.75);
+    transform-origin: top center;
+    margin-bottom: -60px;
+  }
   .faq-left { position: static !important; }
   .dashboard-h3, .ai-h3, .fb-h2, .fc-h2 { font-size: 36px !important; line-height: 40px !important; }
   .footer-grid { grid-template-columns: 1fr 1fr 1fr !important; gap: 32px !important; }
@@ -229,7 +238,13 @@ html { scroll-behavior: smooth; }
   .hero-subtitle { font-size: 17px !important; line-height: 26px !important; }
   .dashboard-kpi-row { grid-template-columns: repeat(2, 1fr) !important; }
   .dashboard-h3 { font-size: 32px !important; line-height: 36px !important; max-width: 100% !important; }
-  .dashboard-right { padding: 40px 24px !important; }
+  .dashboard-right {
+    padding: 0 !important;
+    text-align: center !important;
+    align-items: center !important;
+  }
+  .dashboard-right p { text-align: center !important; }
+  .dashboard-right h3 { max-width: 100% !important; }
 }
 
 @media (max-width: 640px) {
@@ -245,12 +260,17 @@ html { scroll-behavior: smooth; }
   }
   .hero-grid > div:nth-child(2) { height: 280px !important; }
   .hero-grid > div:nth-child(3) { gap: 12px !important; }
-  /* Star badge + CTA centering */
   .hero-grid > div:nth-child(3) > div { align-items: center !important; }
   .hero-grid > div:nth-child(3) a,
   .hero-grid > div:nth-child(3) button { margin: 0 auto !important; }
   .dashboard-kpi-row { grid-template-columns: 1fr !important; }
   .dashboard-h3 { font-size: 28px !important; line-height: 32px !important; }
+  .dashboard-grid > div:first-child {
+    transform: scale(0.65) !important;
+    margin-bottom: -80px !important;
+  }
+  .dashboard-right { gap: 20px !important; }
+  .dashboard-right p:last-of-type { font-size: 16px !important; line-height: 26px !important; }
 }
 
 @media (max-width: 480px) {
