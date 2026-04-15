@@ -234,27 +234,31 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
     messageEncoding: "iso-8859-1",
   });
 
-  // Monkey-patch: remove additionalInfoFields from the internal props
-  // before getAsBuffer serializes the pass. This way the library's own
-  // signing produces a valid signature without the invalid key.
+  // The passkit-generator library adds "additionalInfoFields" to storeCard
+  // which is only valid for eventTicket type. iOS rejects passes with this key.
+  // Fix: find the internal props symbol and patch the storeCard object's
+  // JSON serialization to exclude the invalid field.
   try {
     const symbols = Object.getOwnPropertySymbols(pass);
     for (const sym of symbols) {
       const val = (pass as any)[sym];
-      if (val && typeof val === "object" && "storeCard" in val) {
-        if (val.storeCard && val.storeCard.additionalInfoFields) {
-          // Replace with a proxy that serializes to empty
-          const origToJSON = val.storeCard.additionalInfoFields.toJSON;
-          if (origToJSON) {
-            val.storeCard.additionalInfoFields.toJSON = () => undefined;
-          }
-          // Also try direct delete
-          delete val.storeCard.additionalInfoFields;
-        }
+      if (val && typeof val === "object" && val.storeCard) {
+        // Override toJSON on the storeCard object to exclude additionalInfoFields
+        const origStoreCard = val.storeCard;
+        val.storeCard = new Proxy(origStoreCard, {
+          ownKeys(target: any) {
+            return Object.keys(target).filter((k: string) => k !== "additionalInfoFields");
+          },
+          getOwnPropertyDescriptor(target: any, prop: string) {
+            if (prop === "additionalInfoFields") return undefined;
+            return Object.getOwnPropertyDescriptor(target, prop);
+          },
+        });
+        break;
       }
     }
   } catch {
-    // If monkey-patch fails, continue anyway
+    // If patch fails, continue — pass may still work on some iOS versions
   }
 
   return pass.getAsBuffer();
