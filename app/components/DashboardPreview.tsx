@@ -72,7 +72,7 @@ export default function DashboardPreview() {
             boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
           }}>
             {/* KPI row */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "16px" }}>
+            <div className="dashboard-kpi-row" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "10px", marginBottom: "16px" }}>
               {kpis.map((kpi) => {
                 const Icon = kpi.icon;
                 return (
@@ -111,7 +111,7 @@ export default function DashboardPreview() {
           </div>
 
           {/* Content side */}
-          <div style={{
+          <div className="dashboard-right" style={{
             gridArea: "content",
             display: "flex",
             flexDirection: "column",
