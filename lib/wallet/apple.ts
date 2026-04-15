@@ -1,8 +1,9 @@
-import { createHash, createSign } from "crypto";
-import { readFileSync, existsSync } from "fs";
+import { createHash, createSign, X509Certificate } from "crypto";
+import { execSync } from "child_process";
+import { readFileSync, existsSync, writeFileSync, mkdtempSync, rmSync } from "fs";
 import { join } from "path";
+import { tmpdir } from "os";
 import { v4 as uuidv4 } from "uuid";
-import * as forge from "node-forge";
 import { PassTemplate } from "./types";
 
 const PASS_TYPE_ID = process.env.APPLE_PASS_TYPE_ID || "pass.com.kyro.loyalty";
@@ -148,42 +149,32 @@ function sha1Hex(buffer: Buffer): string {
 }
 
 /**
- * Create PKCS#7 detached signature using node-forge.
- * This replaces passkit-generator's signing to avoid environment-specific issues.
+ * Create PKCS#7 detached signature using openssl via child_process.
+ * node-forge produces invalid signatures on Vercel's runtime, so we
+ * shell out to openssl which is available on Vercel's Amazon Linux.
  */
 function createPkcs7Signature(
   manifestBuffer: Buffer,
   signerCertPem: string,
   signerKeyPem: string,
   wwdrCertPem: string,
-  passphrase?: string,
 ): Buffer {
-  const p7 = forge.pkcs7.createSignedData();
-  p7.content = new forge.util.ByteStringBuffer(manifestBuffer.toString("binary"));
+  const tmp = mkdtempSync(join(tmpdir(), "pkpass-"));
+  try {
+    writeFileSync(join(tmp, "manifest.json"), manifestBuffer);
+    writeFileSync(join(tmp, "cert.pem"), signerCertPem);
+    writeFileSync(join(tmp, "key.pem"), signerKeyPem);
+    writeFileSync(join(tmp, "wwdr.pem"), wwdrCertPem);
 
-  const wwdrCert = forge.pki.certificateFromPem(wwdrCertPem);
-  const signerCert = forge.pki.certificateFromPem(signerCertPem);
-  const signerKey = passphrase
-    ? forge.pki.decryptRsaPrivateKey(signerKeyPem, passphrase)
-    : forge.pki.privateKeyFromPem(signerKeyPem);
+    execSync(
+      `openssl smime -sign -binary -in manifest.json -out signature -outform DER -signer cert.pem -inkey key.pem -certfile wwdr.pem -passin pass:`,
+      { cwd: tmp, stdio: "pipe" },
+    );
 
-  p7.addCertificate(wwdrCert);
-  p7.addCertificate(signerCert);
-
-  p7.addSigner({
-    key: signerKey,
-    certificate: signerCert,
-    digestAlgorithm: forge.pki.oids.sha1,
-    authenticatedAttributes: [
-      { type: forge.pki.oids.contentType, value: forge.pki.oids.data },
-      { type: forge.pki.oids.messageDigest },
-      { type: forge.pki.oids.signingTime },
-    ],
-  });
-
-  p7.sign({ detached: true });
-
-  return Buffer.from(forge.asn1.toDer(p7.toAsn1()).getBytes(), "binary");
+    return readFileSync(join(tmp, "signature"));
+  } finally {
+    rmSync(tmp, { recursive: true, force: true });
+  }
 }
 
 /**
@@ -344,13 +335,12 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
   }
   const manifestBuffer = Buffer.from(JSON.stringify(manifest));
 
-  // Create PKCS#7 signature
+  // Create PKCS#7 signature using openssl (node-forge is unreliable on Vercel)
   const signatureBuffer = createPkcs7Signature(
     manifestBuffer,
     signerCertBuf.toString("utf-8"),
     signerKeyBuf.toString("utf-8"),
     wwdrBuf.toString("utf-8"),
-    KEY_PASSPHRASE || undefined,
   );
 
   // Build ZIP
