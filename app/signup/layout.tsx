@@ -2,11 +2,11 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Sign Up — Start Your Free Trial",
-  description: "Create your Fidely account and launch your digital loyalty program in minutes. Free trial, no credit card required.",
+  description: "Create your Kyro account and launch your digital loyalty program in minutes. Free trial, no credit card required.",
   alternates: { canonical: "/signup" },
   openGraph: {
-    title: "Sign Up for Fidely — Start Your Free Trial",
-    description: "Create your Fidely account and launch your digital loyalty program in minutes.",
+    title: "Sign Up for Kyro — Start Your Free Trial",
+    description: "Create your Kyro account and launch your digital loyalty program in minutes.",
     url: "/signup",
   },
 };
@@ -18,8 +18,8 @@ export default function SignupLayout({ children }: { children: React.ReactNode }
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
-          { "@type": "ListItem", position: 2, name: "Sign Up", item: "https://fidely.com/signup" },
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
+          { "@type": "ListItem", position: 2, name: "Sign Up", item: "https://kyro.com/signup" },
         ],
       }) }} />
       {children}

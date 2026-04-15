@@ -28,7 +28,7 @@ const plans = [
       "Unlimited customers",
       "Unlimited push notifications",
       "Advanced analytics & insights",
-      "Fidely AI recommendations",
+      "Kyro AI recommendations",
       "Customer segmentation",
       "Automated campaigns",
       "Priority support",
@@ -46,7 +46,7 @@ const plans = [
       "Unlimited locations",
       "Unlimited customers",
       "Unlimited notifications",
-      "Full Fidely AI suite",
+      "Full Kyro AI suite",
       "API access & integrations",
       "Custom branding",
       "Dedicated account manager",
@@ -101,7 +101,7 @@ export default function PricingPage() {
                 </h3>
                 <div style={{ display: "flex", alignItems: "baseline", gap: "4px", marginBottom: "16px" }}>
                   <span className="font-display" style={{ fontSize: plan.price === "Custom" ? "36px" : "48px", fontWeight: 700, color: plan.highlight ? "white" : "rgb(11,5,29)" }}>
-                    {plan.price === "Custom" ? "Custom" : `€${plan.price}`}
+                    {plan.price === "Custom" ? "Custom" : `$${plan.price}`}
                   </span>
                   {plan.period && <span style={{ fontSize: "16px", color: plan.highlight ? "rgba(255,255,255,0.5)" : "rgb(97,95,109)" }}>{plan.period}</span>}
                 </div>

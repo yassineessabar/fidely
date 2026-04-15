@@ -18,11 +18,11 @@ const revenueData = [
 ];
 
 const topCustomers = [
-  { name: "Sophie M.", visits: 24, spend: "€596" },
-  { name: "Marc D.", visits: 18, spend: "€412" },
-  { name: "Julie R.", visits: 15, spend: "€348" },
-  { name: "Thomas B.", visits: 12, spend: "€276" },
-  { name: "Léa P.", visits: 10, spend: "€230" },
+  { name: "Sophie M.", visits: 24, spend: "$596" },
+  { name: "Marc D.", visits: 18, spend: "$412" },
+  { name: "Julie R.", visits: 15, spend: "$348" },
+  { name: "Thomas B.", visits: 12, spend: "$276" },
+  { name: "Léa P.", visits: 10, spend: "$230" },
 ];
 
 export default function AnalyticsPage() {
@@ -36,7 +36,7 @@ export default function AnalyticsPage() {
         {[
           { label: "Repeat Customer Rate", value: "42%" },
           { label: "Avg. Visits per Customer", value: "3.8" },
-          { label: "Avg. Order Value Uplift", value: "+€4.20" },
+          { label: "Avg. Order Value Uplift", value: "+$4.20" },
           { label: "Inactive Rate", value: "18%" },
         ].map((m) => (
           <div key={m.label} style={{ backgroundColor: "white", borderRadius: "16px", padding: "20px", border: "1px solid rgba(0,0,0,0.04)" }}>
@@ -67,7 +67,7 @@ export default function AnalyticsPage() {
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={revenueData}>
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: "rgb(97,95,109)" }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: "rgb(97,95,109)" }} tickFormatter={(v) => `€${(v / 1000).toFixed(0)}k`} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: "rgb(97,95,109)" }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
               <Tooltip contentStyle={{ borderRadius: "8px", border: "1px solid rgba(0,0,0,0.06)", fontSize: "12px" }} />
               <Bar dataKey="loyalty" fill="rgb(11,5,29)" radius={[4, 4, 0, 0]} name="Loyalty" />
               <Bar dataKey="referral" fill="rgb(230,255,169)" radius={[4, 4, 0, 0]} name="Referral" />

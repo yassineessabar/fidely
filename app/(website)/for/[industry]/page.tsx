@@ -26,12 +26,12 @@ export default function IndustryPage({ params }: { params: { industry: string } 
     "@type": "WebPage",
     name: ind.metaTitle,
     description: ind.metaDescription,
-    url: `https://fidely.com/for/${ind.slug}`,
+    url: `https://kyro.com/for/${ind.slug}`,
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
-        { "@type": "ListItem", position: 2, name: ind.name, item: `https://fidely.com/for/${ind.slug}` },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
+        { "@type": "ListItem", position: 2, name: ind.name, item: `https://kyro.com/for/${ind.slug}` },
       ],
     },
   };
@@ -44,7 +44,7 @@ export default function IndustryPage({ params }: { params: { industry: string } 
       <section style={{ backgroundColor: "rgb(11,5,29)", padding: "80px 0" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto", padding: "0 24px" }}>
           <p style={{ fontSize: "14px", fontWeight: 500, color: "rgb(230,255,169)", margin: "0 0 16px" }}>
-            {ind.emoji} Fidely for {ind.name}
+            {ind.emoji} Kyro for {ind.name}
           </p>
           <h1 className="font-display" style={{ fontSize: "52px", lineHeight: "58px", fontWeight: 700, color: "white", margin: "0 0 20px" }}>
             {ind.headline}
@@ -91,7 +91,7 @@ export default function IndustryPage({ params }: { params: { industry: string } 
       <section style={{ backgroundColor: "white", padding: "80px 0" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto", padding: "0 24px" }}>
           <h2 className="font-display" style={{ fontSize: "36px", fontWeight: 700, color: "rgb(11,5,29)", margin: "0 0 32px", textAlign: "center" }}>
-            How Fidely helps {ind.name.toLowerCase()}
+            How Kyro helps {ind.name.toLowerCase()}
           </h2>
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {ind.benefits.map((b, i) => (
@@ -133,7 +133,7 @@ export default function IndustryPage({ params }: { params: { industry: string } 
       {/* Other industries */}
       <section style={{ backgroundColor: "white", padding: "60px 0" }}>
         <div style={{ maxWidth: "800px", margin: "0 auto", padding: "0 24px" }}>
-          <p style={{ fontSize: "14px", color: "rgb(97,95,109)", textAlign: "center", margin: "0 0 16px" }}>Fidely works for every local business</p>
+          <p style={{ fontSize: "14px", color: "rgb(97,95,109)", textAlign: "center", margin: "0 0 16px" }}>Kyro works for every local business</p>
           <div style={{ display: "flex", gap: "8px", justifyContent: "center", flexWrap: "wrap" }}>
             {industries.filter((i) => i.slug !== ind.slug).map((i) => (
               <a key={i.slug} href={`/for/${i.slug}`} style={{ padding: "8px 16px", borderRadius: "100px", border: "1px solid rgb(213,213,221)", fontSize: "13px", fontWeight: 500, color: "rgb(11,5,29)", textDecoration: "none", display: "flex", alignItems: "center", gap: "6px" }}>

@@ -1,0 +1,58 @@
+<script>start("/Users/yassineessabar/Downloads/klarna content/");</script>
+<script>onHasParentDirectory();</script>
+<script>addRow("example pass","example%20pass",1,320,"320 B",1776061449,"13/04/2026, 16:24:09");</script>
+<script>addRow("~$arna brand guidelines.mhtml","~$arna%20brand%20guidelines.mhtml",0,162,"162 B",1776060716,"13/04/2026, 16:11:56");</script>
+<script>addRow("24cbd85bbf8612c8e6b4dfdfcda54dfcc6489afe-8517x5142.webp","24cbd85bbf8612c8e6b4dfdfcda54dfcc6489afe-8517x5142.webp",0,117696,"115 kB",1776061262,"13/04/2026, 16:21:02");</script>
+<script>addRow("677b47e61a4022643bfcdcc5affbc348552598c2.mov","677b47e61a4022643bfcdcc5affbc348552598c2.mov",0,13876387,"13.2 MB",1776061040,"13/04/2026, 16:17:20");</script>
+<script>addRow("724fc180df6e93abec1bb7913ef1c3789c6f82c9-5941x6863.webp","724fc180df6e93abec1bb7913ef1c3789c6f82c9-5941x6863.webp",0,80604,"78.7 kB",1776061218,"13/04/2026, 16:20:18");</script>
+<script>addRow("a3beaeebb5cf43877a3f4092dc4e05986e86e511-2262x1273.webp","a3beaeebb5cf43877a3f4092dc4e05986e86e511-2262x1273.webp",0,197972,"193 kB",1776061239,"13/04/2026, 16:20:39");</script>
+<script>addRow("a9f11c454edbd637a6335cc9f6c6f7a33bf6e8d9-5944x6856.webp","a9f11c454edbd637a6335cc9f6c6f7a33bf6e8d9-5944x6856.webp",0,184024,"180 kB",1776061251,"13/04/2026, 16:20:51");</script>
+<script>addRow("ab7e51812ed10f5c2d13073759dbfe472b7828da.mp4","ab7e51812ed10f5c2d13073759dbfe472b7828da.mp4",0,5918111,"5.6 MB",1776061194,"13/04/2026, 16:19:54");</script>
+<script>addRow("e05a27df14464bee0e457775a6c6cefe78c8a6c4-4524x2545.webp","e05a27df14464bee0e457775a6c6cefe78c8a6c4-4524x2545.webp",0,272150,"266 kB",1776061255,"13/04/2026, 16:20:55");</script>
+<script>addRow("f0fcf4495751f29abd2896c1ba4eb79835e4235a-3064x1724.webp","f0fcf4495751f29abd2896c1ba4eb79835e4235a-3064x1724.webp",0,293328,"286 kB",1776061083,"13/04/2026, 16:18:03");</script>
+<script>addRow("f13d610eff31bac3323f907dc804945a52db64a1.mp4","f13d610eff31bac3323f907dc804945a52db64a1.mp4",0,3613948,"3.4 MB",1776061177,"13/04/2026, 16:19:37");</script>
+<script>addRow("Klarna brand guidelines.mhtml","Klarna%20brand%20guidelines.mhtml",0,7764490,"7.4 MB",1776060693,"13/04/2026, 16:11:33");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.12.08 pm.png","Screenshot%202026-04-13%20at%204.12.08%E2%80%AFpm.png",0,2141196,"2.0 MB",1776060734,"13/04/2026, 16:12:14");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.12.18 pm.png","Screenshot%202026-04-13%20at%204.12.18%E2%80%AFpm.png",0,911470,"890 kB",1776060743,"13/04/2026, 16:12:23");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.12.27 pm.png","Screenshot%202026-04-13%20at%204.12.27%E2%80%AFpm.png",0,2111366,"2.0 MB",1776060752,"13/04/2026, 16:12:32");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.12.33 pm.png","Screenshot%202026-04-13%20at%204.12.33%E2%80%AFpm.png",0,2358449,"2.2 MB",1776060758,"13/04/2026, 16:12:38");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.12.44 pm.png","Screenshot%202026-04-13%20at%204.12.44%E2%80%AFpm.png",0,4030182,"3.8 MB",1776060770,"13/04/2026, 16:12:50");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.12.53 pm.png","Screenshot%202026-04-13%20at%204.12.53%E2%80%AFpm.png",0,848472,"829 kB",1776060779,"13/04/2026, 16:12:59");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.13.03 pm.png","Screenshot%202026-04-13%20at%204.13.03%E2%80%AFpm.png",0,1317199,"1.3 MB",1776060788,"13/04/2026, 16:13:08");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.13.23 pm.png","Screenshot%202026-04-13%20at%204.13.23%E2%80%AFpm.png",0,2541116,"2.4 MB",1776060808,"13/04/2026, 16:13:28");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.13.30 pm.png","Screenshot%202026-04-13%20at%204.13.30%E2%80%AFpm.png",0,3958315,"3.8 MB",1776060815,"13/04/2026, 16:13:35");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.13.36 pm.png","Screenshot%202026-04-13%20at%204.13.36%E2%80%AFpm.png",0,1169526,"1.1 MB",1776060821,"13/04/2026, 16:13:41");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.13.42 pm.png","Screenshot%202026-04-13%20at%204.13.42%E2%80%AFpm.png",0,2538802,"2.4 MB",1776060828,"13/04/2026, 16:13:48");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.13.49 pm.png","Screenshot%202026-04-13%20at%204.13.49%E2%80%AFpm.png",0,1382298,"1.3 MB",1776060835,"13/04/2026, 16:13:55");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.14.00 pm.png","Screenshot%202026-04-13%20at%204.14.00%E2%80%AFpm.png",0,1465982,"1.4 MB",1776060845,"13/04/2026, 16:14:05");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.14.11 pm.png","Screenshot%202026-04-13%20at%204.14.11%E2%80%AFpm.png",0,2183265,"2.1 MB",1776060857,"13/04/2026, 16:14:17");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.14.23 pm.png","Screenshot%202026-04-13%20at%204.14.23%E2%80%AFpm.png",0,2455165,"2.3 MB",1776060868,"13/04/2026, 16:14:28");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.14.30 pm.png","Screenshot%202026-04-13%20at%204.14.30%E2%80%AFpm.png",0,823210,"804 kB",1776060876,"13/04/2026, 16:14:36");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.14.35 pm.png","Screenshot%202026-04-13%20at%204.14.35%E2%80%AFpm.png",0,749171,"732 kB",1776060881,"13/04/2026, 16:14:41");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.14.55 pm.png","Screenshot%202026-04-13%20at%204.14.55%E2%80%AFpm.png",0,1000325,"977 kB",1776060901,"13/04/2026, 16:15:01");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.15.03 pm.png","Screenshot%202026-04-13%20at%204.15.03%E2%80%AFpm.png",0,556215,"543 kB",1776060909,"13/04/2026, 16:15:09");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.15.09 pm.png","Screenshot%202026-04-13%20at%204.15.09%E2%80%AFpm.png",0,1559254,"1.5 MB",1776060915,"13/04/2026, 16:15:15");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.15.59 pm.png","Screenshot%202026-04-13%20at%204.15.59%E2%80%AFpm.png",0,3135939,"3.0 MB",1776060965,"13/04/2026, 16:16:05");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.16.07 pm.png","Screenshot%202026-04-13%20at%204.16.07%E2%80%AFpm.png",0,4918937,"4.7 MB",1776060972,"13/04/2026, 16:16:12");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.16.15 pm.png","Screenshot%202026-04-13%20at%204.16.15%E2%80%AFpm.png",0,3136588,"3.0 MB",1776060980,"13/04/2026, 16:16:20");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.16.36 pm.png","Screenshot%202026-04-13%20at%204.16.36%E2%80%AFpm.png",0,2595200,"2.5 MB",1776061001,"13/04/2026, 16:16:41");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.16.47 pm.png","Screenshot%202026-04-13%20at%204.16.47%E2%80%AFpm.png",0,975126,"952 kB",1776061013,"13/04/2026, 16:16:53");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.17.41 pm.png","Screenshot%202026-04-13%20at%204.17.41%E2%80%AFpm.png",0,1845858,"1.8 MB",1776061067,"13/04/2026, 16:17:47");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.17.53 pm.png","Screenshot%202026-04-13%20at%204.17.53%E2%80%AFpm.png",0,1872097,"1.8 MB",1776061079,"13/04/2026, 16:17:59");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.18.24 pm.png","Screenshot%202026-04-13%20at%204.18.24%E2%80%AFpm.png",0,2116375,"2.0 MB",1776061110,"13/04/2026, 16:18:30");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.18.31 pm.png","Screenshot%202026-04-13%20at%204.18.31%E2%80%AFpm.png",0,2582780,"2.5 MB",1776061117,"13/04/2026, 16:18:37");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.18.37 pm.png","Screenshot%202026-04-13%20at%204.18.37%E2%80%AFpm.png",0,1412407,"1.3 MB",1776061123,"13/04/2026, 16:18:43");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.18.43 pm.png","Screenshot%202026-04-13%20at%204.18.43%E2%80%AFpm.png",0,2053659,"2.0 MB",1776061129,"13/04/2026, 16:18:49");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.18.56 pm.png","Screenshot%202026-04-13%20at%204.18.56%E2%80%AFpm.png",0,1711097,"1.6 MB",1776061141,"13/04/2026, 16:19:01");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.19.04 pm.png","Screenshot%202026-04-13%20at%204.19.04%E2%80%AFpm.png",0,1083008,"1.0 MB",1776061150,"13/04/2026, 16:19:10");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.19.11 pm.png","Screenshot%202026-04-13%20at%204.19.11%E2%80%AFpm.png",0,450426,"440 kB",1776061157,"13/04/2026, 16:19:17");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.19.16 pm.png","Screenshot%202026-04-13%20at%204.19.16%E2%80%AFpm.png",0,954062,"932 kB",1776061161,"13/04/2026, 16:19:21");</script>
+<script>addRow("Screenshot 2026-04-13 at 4.19.20 pm.png","Screenshot%202026-04-13%20at%204.19.20%E2%80%AFpm.png",0,757643,"740 kB",1776061167,"13/04/2026, 16:19:27");</script>
+<script>addRow("videoframe_1418.png","videoframe_1418.png",0,988320,"965 kB",1776061196,"13/04/2026, 16:19:56");</script>
+<script>addRow("videoframe_1482.png","videoframe_1482.png",0,202851,"198 kB",1776061186,"13/04/2026, 16:19:46");</script>
+<script>addRow("videoframe_1718.png","videoframe_1718.png",0,205693,"201 kB",1776061269,"13/04/2026, 16:21:09");</script>
+<script>addRow("videoframe_2262.png","videoframe_2262.png",0,1825804,"1.7 MB",1776061210,"13/04/2026, 16:20:10");</script>
+<script>addRow("videoframe_3784.png","videoframe_3784.png",0,147505,"144 kB",1776061277,"13/04/2026, 16:21:17");</script>
+<script>addRow("videoframe_5027.png","videoframe_5027.png",0,83664,"81.7 kB",1776061227,"13/04/2026, 16:20:27");</script>
+<script>addRow("videoframe_6709 (1).png","videoframe_6709%20(1).png",0,3047807,"2.9 MB",1776061280,"13/04/2026, 16:21:20");</script>
+<script>addRow("videoframe_6709.png","videoframe_6709.png",0,2417738,"2.3 MB",1776061230,"13/04/2026, 16:20:30");</script>

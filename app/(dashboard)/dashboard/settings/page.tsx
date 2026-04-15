@@ -25,10 +25,10 @@ const locations = [
 ];
 
 const invoices = [
-  { date: "Mar 1, 2025", amount: "€79.00", plan: "Growth", status: "Paid" },
-  { date: "Feb 1, 2025", amount: "€79.00", plan: "Growth", status: "Paid" },
-  { date: "Jan 1, 2025", amount: "€79.00", plan: "Growth", status: "Paid" },
-  { date: "Dec 1, 2024", amount: "€29.00", plan: "Starter", status: "Paid" },
+  { date: "Mar 1, 2025", amount: "$79.00", plan: "Growth", status: "Paid" },
+  { date: "Feb 1, 2025", amount: "$79.00", plan: "Growth", status: "Paid" },
+  { date: "Jan 1, 2025", amount: "$79.00", plan: "Growth", status: "Paid" },
+  { date: "Dec 1, 2024", amount: "$29.00", plan: "Starter", status: "Paid" },
 ];
 
 const integrations = [
@@ -278,13 +278,13 @@ function BillingSection() {
             <p className="font-display" style={{ margin: "8px 0 0", fontSize: "28px", fontWeight: 700 }}>Growth</p>
           </div>
           <div style={{ textAlign: "right" }}>
-            <p className="font-display" style={{ margin: 0, fontSize: "32px", fontWeight: 700 }}>€79<span style={{ fontSize: "16px", fontWeight: 400, color: "rgba(255,255,255,0.5)" }}>/mo</span></p>
+            <p className="font-display" style={{ margin: 0, fontSize: "32px", fontWeight: 700 }}>$79<span style={{ fontSize: "16px", fontWeight: 400, color: "rgba(255,255,255,0.5)" }}>/mo</span></p>
           </div>
         </div>
         <div style={{ display: "flex", gap: "24px", fontSize: "13px", color: "rgba(255,255,255,0.6)" }}>
           <span>3 locations</span>
           <span>Unlimited customers</span>
-          <span>Fidely AI included</span>
+          <span>Kyro AI included</span>
         </div>
         <div style={{ display: "flex", gap: "8px", marginTop: "20px" }}>
           <button style={{ padding: "8px 16px", borderRadius: "8px", border: "none", backgroundColor: "rgb(230,255,169)", color: "rgb(11,5,29)", fontSize: "13px", fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}>Upgrade plan</button>
@@ -354,7 +354,7 @@ function IntegrationsSection() {
       {/* Webhook URL */}
       <div style={{ marginBottom: "28px" }}>
         <h3 style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 12px" }}>Webhook URL</h3>
-        <InputField label="" value="https://yoursite.com/api/fidely/webhook" />
+        <InputField label="" value="https://yoursite.com/api/kyro/webhook" />
         <div style={{ marginTop: "12px" }}><SaveBar /></div>
       </div>
 

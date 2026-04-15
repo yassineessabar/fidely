@@ -1,6 +1,6 @@
-# Fidely Brand Kit
+# Kyro Brand Kit
 
-> The complete brand identity system for Fidely. Inspired by Klarna's "Curiously Bold" framework, adapted for loyalty and local business.
+> The complete brand identity system for Kyro. Inspired by Klarna's "Curiously Bold" framework, adapted for loyalty and local business.
 
 ---
 
@@ -33,16 +33,16 @@ Like a perfectly designed loyalty card in your wallet — invisible until you ne
 
 | Name | Hex | RGB | Usage |
 |------|-----|-----|-------|
-| **Fidely Black** | `#0B051D` | rgb(11, 5, 29) | Primary text, buttons, dark backgrounds |
-| **Fidely Lime** | `#E6FFA9` | rgb(230, 255, 169) | Accent, highlights, CTAs on dark |
-| **Fidely White** | `#F9F8F5` | rgb(249, 248, 245) | Backgrounds, cards, off-white |
+| **Kyro Black** | `#0B051D` | rgb(11, 5, 29) | Primary text, buttons, dark backgrounds |
+| **Kyro Lime** | `#E6FFA9` | rgb(230, 255, 169) | Accent, highlights, CTAs on dark |
+| **Kyro White** | `#F9F8F5` | rgb(249, 248, 245) | Backgrounds, cards, off-white |
 | **Pure White** | `#FFFFFF` | rgb(255, 255, 255) | Clean backgrounds, cards |
 
 ### Secondary Palette
 
 | Name | Hex | RGB | Usage |
 |------|-----|-----|-------|
-| **Fidely Purple** | `#6C47FF` | rgb(108, 71, 255) | Gradients, hero sections |
+| **Kyro Purple** | `#6C47FF` | rgb(108, 71, 255) | Gradients, hero sections |
 | **Purple Dark** | `#2C2242` | rgb(44, 34, 66) | Dark gradient endpoint |
 | **Purple Mid** | `#AA89F2` | rgb(170, 137, 242) | Secondary accents, tags |
 | **Purple Light** | `#F3E8FF` | rgb(243, 232, 255) | Light purple backgrounds |
@@ -62,10 +62,10 @@ Like a perfectly designed loyalty card in your wallet — invisible until you ne
 | **Footer Text** | `#C4C3CA` | rgb(196, 195, 202) | Footer body text |
 
 ### Color Rules
-- **Dark backgrounds**: Use Fidely Black or Purple gradients. Text in white or lime.
-- **Light backgrounds**: Use Fidely White or Pure White. Text in Fidely Black.
+- **Dark backgrounds**: Use Kyro Black or Purple gradients. Text in white or lime.
+- **Light backgrounds**: Use Kyro White or Pure White. Text in Kyro Black.
 - **Accents**: Lime on dark, Purple Vivid on light. Never lime on white.
-- **Gradients**: Always `135deg` from Fidely Black → Purple Dark → Purple.
+- **Gradients**: Always `135deg` from Kyro Black → Purple Dark → Purple.
 
 ---
 
@@ -109,15 +109,15 @@ Like a perfectly designed loyalty card in your wallet — invisible until you ne
 ## 4. Logo
 
 ### Construction
-The Fidely logo consists of two parts:
+The Kyro logo consists of two parts:
 1. **Brand mark** — A rounded square with the stylized "f" and ascending curve in lime
-2. **Wordmark** — "fidely" in Klarna Title Bold
+2. **Wordmark** — "kyro" in Klarna Title Bold
 
 ### Colors
 | Context | Mark BG | Mark Symbol | Wordmark |
 |---------|---------|-------------|----------|
-| Light background | Fidely Black | Lime | Fidely Black |
-| Dark background | Fidely Black | Lime | White |
+| Light background | Kyro Black | Lime | Kyro Black |
+| Dark background | Kyro Black | Lime | White |
 | Muted/footer | Gray | Lime | Gray |
 
 ### Clear Space
@@ -198,7 +198,7 @@ The height of the brand mark defines the minimum clear space around the full log
 
 ### Copy Style Examples
 
-| Generic | Fidely |
+| Generic | Kyro |
 |---------|--------|
 | "Comprehensive customer retention platform" | "Bring your customers back" |
 | "Leverage digital loyalty mechanics" | "Loyalty cards in their phone" |
@@ -277,14 +277,14 @@ The height of the brand mark defines the minimum clear space around the full log
 
 | Variant | Background | Text | Border | Radius |
 |---------|-----------|------|--------|--------|
-| Primary | Fidely Black | White | None | 9999px |
-| Secondary | White | Fidely Black | 1px Warm Gray | 9999px |
-| Accent | Lime | Fidely Black | None | 9999px |
-| Ghost | Transparent | Fidely Black | None | 9999px |
+| Primary | Kyro Black | White | None | 9999px |
+| Secondary | White | Kyro Black | 1px Warm Gray | 9999px |
+| Accent | Lime | Kyro Black | None | 9999px |
+| Ghost | Transparent | Kyro Black | None | 9999px |
 
 ### Inputs
 - Height: 50px
-- Background: Fidely White (#F9F8F5)
+- Background: Kyro White (#F9F8F5)
 - Border: 1px solid Warm Gray (#E4E3DF)
 - Radius: 12px
 - Font: Klarna Text, 16px
@@ -319,7 +319,7 @@ The height of the brand mark defines the minimum clear space around the full log
 
 ### OG/Social Images
 - Auto-generated at `/opengraph-image` and `/twitter-image`
-- 1200x630px, dark gradient with Fidely branding
+- 1200x630px, dark gradient with Kyro branding
 
 ---
 
@@ -327,10 +327,10 @@ The height of the brand mark defines the minimum clear space around the full log
 
 ```css
 :root {
-  --dark: rgb(11, 5, 29);           /* Fidely Black */
+  --dark: rgb(11, 5, 29);           /* Kyro Black */
   --white: rgb(255, 255, 255);      /* Pure White */
-  --cream: rgb(249, 248, 245);      /* Fidely White */
-  --green-light: rgb(230, 255, 169); /* Fidely Lime */
+  --cream: rgb(249, 248, 245);      /* Kyro White */
+  --green-light: rgb(230, 255, 169); /* Kyro Lime */
   --purple-dark: rgb(44, 34, 66);   /* Purple Dark */
   --purple-mid: rgb(170, 137, 242); /* Purple Mid */
   --muted: rgb(97, 95, 109);        /* Muted text */
@@ -350,7 +350,7 @@ The height of the brand mark defines the minimum clear space around the full log
 ```
 app/
   components/
-    FidelyLogo.tsx          ← Brand mark + wordmark component
+    KyroLogo.tsx          ← Brand mark + wordmark component
   layout.tsx                ← Fonts loaded here (Klarna Title + Text)
   globals.css               ← CSS variables + animations
   opengraph-image.tsx       ← Auto-generated OG image
@@ -367,4 +367,4 @@ font/
 
 ---
 
-*This brand kit is the single source of truth for all Fidely design decisions. When in doubt, reference this document.*
+*This brand kit is the single source of truth for all Kyro design decisions. When in doubt, reference this document.*

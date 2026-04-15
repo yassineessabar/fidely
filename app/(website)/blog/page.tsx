@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   description: "Expert tips on customer retention, loyalty programs, and digital marketing for local businesses. Learn how to bring customers back and grow revenue.",
   alternates: { canonical: "/blog" },
   openGraph: {
-    title: "Fidely Blog — Loyalty Marketing Tips & Insights",
+    title: "Kyro Blog — Loyalty Marketing Tips & Insights",
     description: "Expert tips on customer retention, loyalty programs, and digital marketing for local businesses.",
     url: "/blog",
   },
@@ -19,8 +19,8 @@ export default function BlogPage() {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
-          { "@type": "ListItem", position: 2, name: "Blog", item: "https://fidely.com/blog" },
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
+          { "@type": "ListItem", position: 2, name: "Blog", item: "https://kyro.com/blog" },
         ],
       }) }} />
       <section style={{ backgroundColor: "white", padding: "80px 0" }}>

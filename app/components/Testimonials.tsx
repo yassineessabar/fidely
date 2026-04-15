@@ -1,14 +1,15 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { useInView } from "../hooks/useInView";
 
 const testimonials = [
-  { quote: "We saw +30% revenue in just 3 weeks. No ads, no extra staff. Fidely paid for itself on day one. Absolute game-changer for our café.", author: "Marie L.", date: "15th of March 2025", bg: "rgb(44,34,66)", text: "white", starsWhite: true },
-  { quote: "Super simple to set up and my customers actually love it — they ask about their points every visit. Best decision for our business.", author: "Thomas B.", date: "8th of March 2025", bg: "rgb(170,137,242)", text: "rgb(11,5,29)", starsWhite: false },
-  { quote: "We replaced paper cards in one day. Now we know exactly who our regulars are and can reward them properly. The data alone is worth it.", author: "Sophie D.", date: "2nd of March 2025", bg: "rgb(230,255,169)", text: "rgb(11,5,29)", starsWhite: false },
-  { quote: "The push notifications are a game changer. We send a promo on slow days and the shop fills up. It's free marketing. Can't believe we didn't do this sooner.", author: "Lucas M.", date: "22nd of February 2025", bg: "rgb(228,227,223)", text: "rgb(11,5,29)", starsWhite: false },
-  { quote: "I was skeptical at first, but the data speaks. Retention went from 20% to 55% in a month. Fidely just works — simple and effective.", author: "Julie R.", date: "14th of February 2025", bg: "rgb(249,248,245)", text: "rgb(11,5,29)", starsWhite: false },
+  { quote: "We saw +30% revenue in just 3 weeks. No ads, no extra staff. Kyro paid for itself on day one. Absolute game-changer for our café.", author: "Marie L.", date: "15th of March 2025", bg: "rgb(44,34,66)", text: "white", starsWhite: true, image: "/images/testimonials/merchant-cafe.png" },
+  { quote: "Super simple to set up and my customers actually love it — they ask about their points every visit. Best decision for our business.", author: "Thomas B.", date: "8th of March 2025", bg: "rgb(170,137,242)", text: "rgb(11,5,29)", starsWhite: false, image: "/images/testimonials/merchant-salon.png" },
+  { quote: "We replaced paper cards in one day. Now we know exactly who our regulars are and can reward them properly. The data alone is worth it.", author: "Sophie D.", date: "2nd of March 2025", bg: "rgb(230,255,169)", text: "rgb(11,5,29)", starsWhite: false, image: "/images/testimonials/merchant-bakery.png" },
+  { quote: "The push notifications are a game changer. We send a promo on slow days and the shop fills up. It's free marketing. Can't believe we didn't do this sooner.", author: "Lucas M.", date: "22nd of February 2025", bg: "rgb(228,227,223)", text: "rgb(11,5,29)", starsWhite: false, image: "/images/testimonials/merchant-gym.png" },
+  { quote: "I was skeptical at first, but the data speaks. Retention went from 20% to 55% in a month. Kyro just works — simple and effective.", author: "Julie R.", date: "14th of February 2025", bg: "rgb(249,248,245)", text: "rgb(11,5,29)", starsWhite: false, image: "/images/testimonials/merchant-retail.png" },
 ];
 
 export default function Testimonials() {
@@ -47,10 +48,10 @@ export default function Testimonials() {
               className={`font-display ${isVisible ? "animate-fade-in-up" : ""}`}
               style={{ fontWeight: 700, fontSize: "52px", lineHeight: "57.2px", color: "rgb(11,5,29)", margin: "0 0 16px" }}
             >
-              Businesses love Fidely
+              Businesses love Kyro
             </h3>
             <p style={{ fontSize: "20px", lineHeight: "32px", color: "rgb(97,95,109)", margin: "0 0 40px", fontWeight: 400 }}>
-              500+ local businesses grow their revenue with Fidely every day.
+              500+ local businesses grow their revenue with Kyro every day.
             </p>
           </div>
 
@@ -100,7 +101,14 @@ export default function Testimonials() {
                       &ldquo;{t.quote}&rdquo;
                     </p>
                   </div>
-                  <div style={{ gridArea: "author", paddingTop: "32px", alignSelf: "self-end" }}>
+                  <div style={{ gridArea: "author", paddingTop: "32px", alignSelf: "self-end", display: "flex", alignItems: "center", gap: "12px" }}>
+                    <Image
+                      src={t.image}
+                      alt={t.author}
+                      width={44}
+                      height={44}
+                      style={{ borderRadius: "50%", objectFit: "cover", width: "44px", height: "44px" }}
+                    />
                     <p style={{ fontSize: "16px", fontWeight: 500, lineHeight: "24px", color: t.text, margin: 0 }}>
                       {t.author} — {t.date}
                     </p>

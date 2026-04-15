@@ -1,0 +1,254 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 880" width="440" height="880">
+  <defs>
+    <!-- Phone body gradient -->
+    <linearGradient id="phoneBody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#0f0f1a"/>
+    </linearGradient>
+    <!-- Screen gradient -->
+    <linearGradient id="screenBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f2f2f7"/>
+      <stop offset="100%" stop-color="#e5e5ea"/>
+    </linearGradient>
+    <!-- Kyro card gradient -->
+    <linearGradient id="kyroCard" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0B051D"/>
+      <stop offset="60%" stop-color="#1a1040"/>
+      <stop offset="100%" stop-color="#6C47FF"/>
+    </linearGradient>
+    <!-- Card shine -->
+    <linearGradient id="cardShine" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.15)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.05)"/>
+    </linearGradient>
+    <!-- Phone shadow -->
+    <filter id="phoneShadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="20" stdDeviation="30" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+    <!-- Card shadow -->
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <!-- Glow effect for lime elements -->
+    <filter id="limeGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Screen reflection -->
+    <linearGradient id="screenReflect" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.08)"/>
+      <stop offset="40%" stop-color="rgba(255,255,255,0)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+    <!-- Barcode pattern -->
+    <pattern id="barcode" x="0" y="0" width="4" height="40" patternUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="2" height="40" fill="#0B051D" opacity="0.8"/>
+      <rect x="2" y="0" width="1" height="40" fill="#0B051D" opacity="0.3"/>
+      <rect x="3" y="0" width="1" height="40" fill="#0B051D" opacity="0.6"/>
+    </pattern>
+    <!-- Second card gradient (behind) -->
+    <linearGradient id="kyroCard2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6C47FF"/>
+      <stop offset="100%" stop-color="#AA89F2"/>
+    </linearGradient>
+    <!-- Third card gradient (behind) -->
+    <linearGradient id="kyroCard3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E6FFA9"/>
+      <stop offset="100%" stop-color="#d4f080"/>
+    </linearGradient>
+    <!-- Notch clip -->
+    <clipPath id="screenClip">
+      <rect x="28" y="28" width="384" height="824" rx="32"/>
+    </clipPath>
+  </defs>
+
+  <!-- Phone body -->
+  <g filter="url(#phoneShadow)">
+    <!-- Outer frame -->
+    <rect x="4" y="4" width="432" height="872" rx="56" fill="#2a2a3a" stroke="#3a3a4a" stroke-width="1"/>
+    <!-- Inner body -->
+    <rect x="8" y="8" width="424" height="864" rx="54" fill="url(#phoneBody)"/>
+    <!-- Side buttons -->
+    <rect x="0" y="180" width="4" height="40" rx="2" fill="#2a2a3a"/>
+    <rect x="0" y="240" width="4" height="60" rx="2" fill="#2a2a3a"/>
+    <rect x="0" y="310" width="4" height="60" rx="2" fill="#2a2a3a"/>
+    <rect x="436" y="260" width="4" height="80" rx="2" fill="#2a2a3a"/>
+  </g>
+
+  <!-- Screen -->
+  <g clip-path="url(#screenClip)">
+    <!-- Screen background (iOS wallet style) -->
+    <rect x="28" y="28" width="384" height="824" fill="url(#screenBg)"/>
+
+    <!-- Status bar -->
+    <g fill="#000" font-family="-apple-system, SF Pro Display, system-ui, sans-serif" font-weight="600" font-size="15">
+      <text x="52" y="62">9:41</text>
+      <!-- Signal bars -->
+      <g transform="translate(310, 48)">
+        <rect x="0" y="8" width="3" height="4" rx="1" fill="#000"/>
+        <rect x="5" y="5" width="3" height="7" rx="1" fill="#000"/>
+        <rect x="10" y="2" width="3" height="10" rx="1" fill="#000"/>
+        <rect x="15" y="0" width="3" height="12" rx="1" fill="#000"/>
+      </g>
+      <!-- WiFi -->
+      <g transform="translate(335, 48)">
+        <path d="M6 10 A1 1 0 1 1 6.01 10" fill="#000"/>
+        <path d="M2 7 Q6 3 10 7" stroke="#000" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M-1 4 Q6 -1 13 4" stroke="#000" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      </g>
+      <!-- Battery -->
+      <rect x="358" y="48" width="26" height="12" rx="3" stroke="#000" stroke-width="1.2" fill="none"/>
+      <rect x="384" y="52" width="2" height="5" rx="1" fill="#000"/>
+      <rect x="360" y="50" width="20" height="8" rx="1.5" fill="#000"/>
+    </g>
+
+    <!-- Dynamic Island -->
+    <rect x="160" y="36" width="120" height="34" rx="17" fill="#000"/>
+
+    <!-- Wallet header -->
+    <text x="48" y="110" font-family="-apple-system, SF Pro Display, system-ui, sans-serif" font-size="34" font-weight="700" fill="#000">Wallet</text>
+
+    <!-- Apple Pay hint -->
+    <text x="48" y="135" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="13" fill="#8e8e93">Apple Pay &amp; Passes</text>
+
+    <!-- Card stack - back card 3 (lime/green) -->
+    <g transform="translate(42, 172)" filter="url(#cardShadow)">
+      <rect x="8" y="0" width="284" height="175" rx="14" fill="url(#kyroCard3)" opacity="0.5"/>
+    </g>
+
+    <!-- Card stack - back card 2 (purple) -->
+    <g transform="translate(42, 180)" filter="url(#cardShadow)">
+      <rect x="4" y="0" width="292" height="175" rx="14" fill="url(#kyroCard2)" opacity="0.7"/>
+    </g>
+
+    <!-- Main Kyro Card -->
+    <g transform="translate(42, 190)" filter="url(#cardShadow)">
+      <!-- Card background -->
+      <rect x="0" y="0" width="300" height="185" rx="14" fill="url(#kyroCard)"/>
+      <!-- Card shine overlay -->
+      <rect x="0" y="0" width="300" height="185" rx="14" fill="url(#cardShine)"/>
+
+      <!-- Decorative circles -->
+      <circle cx="260" cy="30" r="60" fill="#6C47FF" opacity="0.2"/>
+      <circle cx="280" cy="140" r="40" fill="#E6FFA9" opacity="0.1"/>
+
+      <!-- Kyro logo text -->
+      <text x="20" y="36" font-family="-apple-system, SF Pro Display, system-ui, sans-serif" font-size="22" font-weight="700" fill="#E6FFA9" letter-spacing="1">kyro</text>
+
+      <!-- Card type label -->
+      <text x="20" y="56" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="11" fill="rgba(255,255,255,0.6)" letter-spacing="2" text-transform="uppercase">LOYALTY CARD</text>
+
+      <!-- Star/points display -->
+      <g transform="translate(20, 75)">
+        <!-- Stamps row -->
+        <g>
+          <circle cx="10" cy="10" r="10" fill="#E6FFA9"/>
+          <text x="10" y="14" text-anchor="middle" font-size="12" fill="#0B051D">&#9733;</text>
+          <circle cx="34" cy="10" r="10" fill="#E6FFA9"/>
+          <text x="34" y="14" text-anchor="middle" font-size="12" fill="#0B051D">&#9733;</text>
+          <circle cx="58" cy="10" r="10" fill="#E6FFA9"/>
+          <text x="58" y="14" text-anchor="middle" font-size="12" fill="#0B051D">&#9733;</text>
+          <circle cx="82" cy="10" r="10" fill="#E6FFA9"/>
+          <text x="82" y="14" text-anchor="middle" font-size="12" fill="#0B051D">&#9733;</text>
+          <circle cx="106" cy="10" r="10" fill="#E6FFA9"/>
+          <text x="106" y="14" text-anchor="middle" font-size="12" fill="#0B051D">&#9733;</text>
+          <circle cx="130" cy="10" r="10" fill="#E6FFA9" opacity="0.3"/>
+          <circle cx="154" cy="10" r="10" fill="#E6FFA9" opacity="0.3"/>
+          <circle cx="178" cy="10" r="10" fill="#E6FFA9" opacity="0.3"/>
+        </g>
+        <text x="0" y="38" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="11" fill="rgba(255,255,255,0.5)">5 / 8 stamps collected</text>
+      </g>
+
+      <!-- Cashback badge -->
+      <g transform="translate(200, 66)">
+        <rect x="0" y="0" width="80" height="50" rx="10" fill="rgba(230,255,169,0.15)" stroke="#E6FFA9" stroke-width="0.5"/>
+        <text x="40" y="24" text-anchor="middle" font-family="-apple-system, SF Pro Display, system-ui, sans-serif" font-size="20" font-weight="700" fill="#E6FFA9">$12</text>
+        <text x="40" y="40" text-anchor="middle" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="9" fill="rgba(255,255,255,0.6)">cashback</text>
+      </g>
+
+      <!-- Divider line -->
+      <line x1="20" y1="140" x2="280" y2="140" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+
+      <!-- Bottom row: name + barcode hint -->
+      <text x="20" y="160" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="12" fill="rgba(255,255,255,0.7)">Sarah Johnson</text>
+      <text x="20" y="175" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="10" fill="rgba(255,255,255,0.4)">Member since 2024</text>
+
+      <!-- QR code hint (small) -->
+      <g transform="translate(250, 148)">
+        <rect x="0" y="0" width="30" height="30" rx="3" fill="white"/>
+        <!-- Simplified QR pattern -->
+        <rect x="3" y="3" width="8" height="8" fill="#0B051D"/>
+        <rect x="19" y="3" width="8" height="8" fill="#0B051D"/>
+        <rect x="3" y="19" width="8" height="8" fill="#0B051D"/>
+        <rect x="13" y="13" width="4" height="4" fill="#0B051D"/>
+        <rect x="19" y="19" width="4" height="4" fill="#6C47FF"/>
+        <rect x="24" y="19" width="3" height="3" fill="#0B051D"/>
+        <rect x="13" y="19" width="4" height="4" fill="#0B051D"/>
+        <rect x="19" y="13" width="4" height="4" fill="#0B051D"/>
+        <rect x="13" y="5" width="4" height="3" fill="#0B051D"/>
+        <rect x="5" y="13" width="3" height="4" fill="#0B051D"/>
+      </g>
+    </g>
+
+    <!-- Recent Transactions section -->
+    <g transform="translate(42, 400)">
+      <text x="0" y="14" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="13" fill="#8e8e93" font-weight="600" letter-spacing="0.5">RECENT ACTIVITY</text>
+
+      <!-- Transaction 1 -->
+      <g transform="translate(0, 30)">
+        <rect x="0" y="0" width="300" height="52" rx="12" fill="white"/>
+        <circle cx="26" cy="26" r="16" fill="#E6FFA9"/>
+        <text x="26" y="31" text-anchor="middle" font-size="14" fill="#0B051D">&#9733;</text>
+        <text x="52" y="22" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000">Stamp earned</text>
+        <text x="52" y="38" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="11" fill="#8e8e93">The Daily Grind Coffee</text>
+        <text x="274" y="22" text-anchor="end" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="12" font-weight="500" fill="#6C47FF">+1</text>
+        <text x="274" y="38" text-anchor="end" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="10" fill="#8e8e93">Today</text>
+      </g>
+
+      <!-- Transaction 2 -->
+      <g transform="translate(0, 90)">
+        <rect x="0" y="0" width="300" height="52" rx="12" fill="white"/>
+        <circle cx="26" cy="26" r="16" fill="#6C47FF" opacity="0.15"/>
+        <text x="26" y="31" text-anchor="middle" font-size="12" fill="#6C47FF">$</text>
+        <text x="52" y="22" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000">Cashback credited</text>
+        <text x="52" y="38" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="11" fill="#8e8e93">Bella's Bakehouse</text>
+        <text x="274" y="22" text-anchor="end" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="12" font-weight="500" fill="#34c759">+$2.50</text>
+        <text x="274" y="38" text-anchor="end" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="10" fill="#8e8e93">Yesterday</text>
+      </g>
+
+      <!-- Transaction 3 -->
+      <g transform="translate(0, 150)">
+        <rect x="0" y="0" width="300" height="52" rx="12" fill="white"/>
+        <circle cx="26" cy="26" r="16" fill="#E6FFA9"/>
+        <text x="26" y="31" text-anchor="middle" font-size="11" fill="#0B051D">&#127881;</text>
+        <text x="52" y="22" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="14" font-weight="500" fill="#000">Reward unlocked!</text>
+        <text x="52" y="38" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="11" fill="#8e8e93">Free coffee - The Daily Grind</text>
+        <text x="274" y="22" text-anchor="end" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="12" font-weight="500" fill="#E6FFA9" filter="url(#limeGlow)">Claim</text>
+        <text x="274" y="38" text-anchor="end" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="10" fill="#8e8e93">2 days ago</text>
+      </g>
+    </g>
+
+    <!-- Bottom nav suggestion (subtle) -->
+    <g transform="translate(42, 640)">
+      <text x="0" y="14" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="13" fill="#8e8e93" font-weight="600" letter-spacing="0.5">NEARBY</text>
+      <g transform="translate(0, 26)">
+        <rect x="0" y="0" width="300" height="48" rx="12" fill="white"/>
+        <circle cx="26" cy="24" r="14" fill="#0B051D"/>
+        <text x="26" y="28" text-anchor="middle" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="8" font-weight="700" fill="#E6FFA9">f</text>
+        <text x="52" y="20" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="13" font-weight="500" fill="#000">The Daily Grind Coffee</text>
+        <text x="52" y="36" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="11" fill="#8e8e93">150m away - 2x stamps today</text>
+        <text x="280" y="28" text-anchor="end" font-family="-apple-system, SF Pro Text, system-ui, sans-serif" font-size="11" font-weight="500" fill="#6C47FF">View</text>
+      </g>
+    </g>
+
+    <!-- Home indicator -->
+    <rect x="155" y="832" width="130" height="5" rx="2.5" fill="#000" opacity="0.2"/>
+
+    <!-- Screen reflection overlay -->
+    <rect x="28" y="28" width="384" height="824" rx="32" fill="url(#screenReflect)"/>
+  </g>
+</svg>

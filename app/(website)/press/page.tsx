@@ -1,13 +1,13 @@
 import { Metadata } from "next";
-import FidelyLogo from "../../components/FidelyLogo";
+import KyroLogo from "../../components/KyroLogo";
 
 export const metadata: Metadata = {
   title: "Press & Media — Company News & Resources",
-  description: "Press resources, company facts, and media kit for Fidely. Download logos, read our story, and get in touch with our press team.",
+  description: "Press resources, company facts, and media kit for Kyro. Download logos, read our story, and get in touch with our press team.",
   alternates: { canonical: "/press" },
   openGraph: {
-    title: "Fidely Press & Media — Company News & Resources",
-    description: "Press resources, company facts, and media kit for Fidely.",
+    title: "Kyro Press & Media — Company News & Resources",
+    description: "Press resources, company facts, and media kit for Kyro.",
     url: "/press",
   },
 };
@@ -19,8 +19,8 @@ export default function PressPage() {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
-          { "@type": "ListItem", position: 2, name: "Press", item: "https://fidely.com/press" },
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
+          { "@type": "ListItem", position: 2, name: "Press", item: "https://kyro.com/press" },
         ],
       }) }} />
       <section style={{ backgroundColor: "white", padding: "80px 0" }}>
@@ -29,16 +29,16 @@ export default function PressPage() {
             Press & Media
           </h1>
           <p style={{ fontSize: "20px", lineHeight: "32px", color: "rgb(97,95,109)", margin: "0 0 64px", fontWeight: 400, maxWidth: "600px" }}>
-            Resources for journalists and media covering Fidely.
+            Resources for journalists and media covering Kyro.
           </p>
 
           {/* Brand assets */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "24px", marginBottom: "64px" }} className="ai-grid">
             <div style={{ backgroundColor: "rgb(11,5,29)", borderRadius: "24px", padding: "60px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <FidelyLogo color="white" height={48} />
+              <KyroLogo color="white" height={48} />
             </div>
             <div style={{ backgroundColor: "rgb(249,248,245)", borderRadius: "24px", padding: "60px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <FidelyLogo color="rgb(11,5,29)" height={48} />
+              <KyroLogo color="rgb(11,5,29)" height={48} />
             </div>
           </div>
 
@@ -64,7 +64,7 @@ export default function PressPage() {
           <div style={{ backgroundColor: "rgb(249,248,245)", borderRadius: "24px", padding: "40px" }}>
             <h3 className="font-display" style={{ fontSize: "24px", fontWeight: 700, color: "rgb(11,5,29)", margin: "0 0 8px" }}>Media inquiries</h3>
             <p style={{ fontSize: "16px", color: "rgb(97,95,109)", margin: 0 }}>
-              For press inquiries, please contact <a href="mailto:press@fidely.com" style={{ color: "rgb(11,5,29)", textDecoration: "underline" }}>press@fidely.com</a>
+              For press inquiries, please contact <a href="mailto:press@kyro.com" style={{ color: "rgb(11,5,29)", textDecoration: "underline" }}>press@kyro.com</a>
             </p>
           </div>
         </div>

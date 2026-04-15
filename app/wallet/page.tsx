@@ -5,7 +5,7 @@ import { templates } from "../../lib/wallet/templates";
 import { PassType } from "../../lib/wallet/types";
 import PassCard from "./components/PassCard";
 import AddToWalletButtons from "./components/AddToWalletButtons";
-import FidelyLogo from "../components/FidelyLogo";
+import KyroLogo from "../components/KyroLogo";
 
 const passTypes: { key: PassType; label: string; icon: string }[] = [
   { key: "discount", label: "Discount", icon: "🏷️" },
@@ -36,7 +36,7 @@ export default function WalletDemoPage() {
           display: "flex",
           justifyContent: "center",
         }}>
-          <FidelyLogo color="rgb(11,5,29)" height={22} />
+          <KyroLogo color="rgb(11,5,29)" height={22} />
         </div>
       </div>
 
@@ -173,7 +173,7 @@ export default function WalletDemoPage() {
         <div style={{ marginTop: "32px", textAlign: "center" }}>
           <p style={{ fontSize: "11px", color: "rgb(137,135,137)", margin: "0 0 8px" }}>Powered by</p>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <FidelyLogo color="rgb(137,135,137)" height={16} />
+            <KyroLogo color="rgb(137,135,137)" height={16} />
           </div>
         </div>
       </div>

@@ -85,9 +85,9 @@ export default function Calculator() {
   const annualRevenue = monthlyRevenue * 12;
 
   const formatCurrency = (n: number) => {
-    if (n >= 1_000_000) return `€${(n / 1_000_000).toFixed(1)}M`;
-    if (n >= 1_000) return `€${(n / 1_000).toFixed(1)}k`;
-    return `€${n.toFixed(0)}`;
+    if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
+    if (n >= 1_000) return `$${(n / 1_000).toFixed(1)}k`;
+    return `$${n.toFixed(0)}`;
   };
 
   return (
@@ -138,7 +138,7 @@ export default function Calculator() {
           >
             <Slider label="Customers per day" value={customersPerDay} min={10} max={200} step={5} onChange={setCustomersPerDay} />
             <Slider label="Days open per month" value={daysOpen} min={10} max={31} step={1} onChange={setDaysOpen} />
-            <Slider label="Average order value" value={avgOrder} min={5} max={200} step={5} prefix="€" onChange={setAvgOrder} />
+            <Slider label="Average order value" value={avgOrder} min={5} max={200} step={5} prefix="$" onChange={setAvgOrder} />
             <Slider label="Number of locations" value={locations} min={1} max={20} step={1} onChange={setLocations} />
           </div>
 

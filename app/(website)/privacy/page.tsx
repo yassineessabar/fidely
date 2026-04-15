@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Fidely Privacy Policy. Learn how we collect, use, and protect your data on our digital loyalty card platform.",
+  description: "Kyro Privacy Policy. Learn how we collect, use, and protect your data on our digital loyalty card platform.",
   alternates: { canonical: "/privacy" },
 };
 
@@ -24,7 +24,7 @@ export default function PrivacyPage() {
         <p style={{ fontSize: "14px", color: "rgb(97,95,109)", margin: "0 0 48px" }}>Last updated: April 1, 2025</p>
 
         <p style={pStyle}>
-          At Fidely, we take your privacy seriously. This policy explains what data we collect, how we use it, and your rights regarding your information. This policy applies to merchants using our platform, their customers who use digital loyalty cards, and visitors to our website.
+          At Kyro, we take your privacy seriously. This policy explains what data we collect, how we use it, and your rights regarding your information. This policy applies to merchants using our platform, their customers who use digital loyalty cards, and visitors to our website.
         </p>
 
         <h2 className={h2} style={h2Style}>1. Data We Collect</h2>
@@ -63,7 +63,7 @@ export default function PrivacyPage() {
 
         <h2 className={h2} style={h2Style}>3. Data Ownership</h2>
         <p style={pStyle}>
-          Customer data collected through loyalty cards belongs to the merchant. Fidely processes this data as a data processor on behalf of the merchant (the data controller). Merchants are responsible for obtaining proper consent from their customers and complying with applicable data protection laws.
+          Customer data collected through loyalty cards belongs to the merchant. Kyro processes this data as a data processor on behalf of the merchant (the data controller). Merchants are responsible for obtaining proper consent from their customers and complying with applicable data protection laws.
         </p>
 
         <h2 className={h2} style={h2Style}>4. Data Security</h2>
@@ -87,7 +87,7 @@ export default function PrivacyPage() {
           <li style={liStyle}><strong>Restriction:</strong> Request restriction of processing in certain circumstances</li>
         </ul>
         <p style={pStyle}>
-          To exercise any of these rights, contact us at <a href="mailto:privacy@fidely.com" style={{ color: "rgb(147,51,234)", textDecoration: "underline", textUnderlineOffset: "2px" }}>privacy@fidely.com</a>.
+          To exercise any of these rights, contact us at <a href="mailto:privacy@kyro.com" style={{ color: "rgb(147,51,234)", textDecoration: "underline", textUnderlineOffset: "2px" }}>privacy@kyro.com</a>.
         </p>
 
         <h2 className={h2} style={h2Style}>7. Cookies</h2>
@@ -112,7 +112,7 @@ export default function PrivacyPage() {
 
         <h2 className={h2} style={h2Style}>11. Contact Us</h2>
         <p style={pStyle}>
-          For any privacy-related questions or requests, contact our data protection team at <a href="mailto:privacy@fidely.com" style={{ color: "rgb(147,51,234)", textDecoration: "underline", textUnderlineOffset: "2px" }}>privacy@fidely.com</a>.
+          For any privacy-related questions or requests, contact our data protection team at <a href="mailto:privacy@kyro.com" style={{ color: "rgb(147,51,234)", textDecoration: "underline", textUnderlineOffset: "2px" }}>privacy@kyro.com</a>.
         </p>
       </div>
     </section>

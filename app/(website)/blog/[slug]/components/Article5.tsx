@@ -14,11 +14,11 @@ export default function Article5() {
       <ul style={ul}>
         <li style={li}><strong>77% of users</strong> never use an app again after 72 hours</li>
         <li style={li}><strong>95% of apps</strong> are abandoned within 30 days</li>
-        <li style={li}><strong>The average cost</strong> to build a basic app: €15,000-50,000</li>
-        <li style={li}><strong>Ongoing maintenance:</strong> €3,000-10,000/year</li>
+        <li style={li}><strong>The average cost</strong> to build a basic app: $15,000-50,000</li>
+        <li style={li}><strong>Ongoing maintenance:</strong> $3,000-10,000/year</li>
       </ul>
       <p style={p}>
-        So you spend €20,000+ on an app that 95% of your customers will stop using within a month. That&apos;s not a growth strategy — that&apos;s an expensive mistake.
+        So you spend $20,000+ on an app that 95% of your customers will stop using within a month. That&apos;s not a growth strategy — that&apos;s an expensive mistake.
       </p>
 
       <h2 className="font-display" style={h2}>The wallet advantage</h2>
@@ -53,7 +53,7 @@ export default function Article5() {
         <li style={li}><strong>Push notifications:</strong> Wallet ✓ — App ✓</li>
         <li style={li}><strong>Customer data collection:</strong> Wallet ✓ — App ✓</li>
         <li style={li}><strong>No download required:</strong> Wallet ✓ — App ✗</li>
-        <li style={li}><strong>Setup cost:</strong> Wallet ~€30/month — App ~€20,000+</li>
+        <li style={li}><strong>Setup cost:</strong> Wallet ~$30/month — App ~$20,000+</li>
         <li style={li}><strong>Time to launch:</strong> Wallet: 24 hours — App: 3-6 months</li>
         <li style={li}><strong>Adoption rate:</strong> Wallet: 70-80% — App: 5-10%</li>
       </ul>

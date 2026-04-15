@@ -4,7 +4,7 @@ import { join } from "path";
 import { v4 as uuidv4 } from "uuid";
 import { PassTemplate } from "./types";
 
-const PASS_TYPE_ID = process.env.APPLE_PASS_TYPE_ID || "pass.com.fidely.loyalty";
+const PASS_TYPE_ID = process.env.APPLE_PASS_TYPE_ID || "pass.com.kyro.loyalty";
 const TEAM_ID = process.env.APPLE_TEAM_ID || "";
 const CERT_PATH = process.env.APPLE_PASS_CERT_PATH || "./certs/pass.pem";
 const KEY_PATH = process.env.APPLE_PASS_KEY_PATH || "./certs/pass-key.pem";

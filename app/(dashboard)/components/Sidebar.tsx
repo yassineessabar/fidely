@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import FidelyLogo from "../../components/FidelyLogo";
+import KyroLogo from "../../components/KyroLogo";
 import {
   LayoutDashboard,
   Users,
@@ -68,7 +68,7 @@ export default function Sidebar({
             <span className="font-display" style={{ color: "rgb(11,5,29)", fontWeight: 800, fontSize: "16px" }}>f</span>
           </div>
         ) : (
-          <FidelyLogo color="white" height={22} />
+          <KyroLogo color="white" height={22} />
         )}
       </div>
 

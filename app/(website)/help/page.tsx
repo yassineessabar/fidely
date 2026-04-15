@@ -40,7 +40,7 @@ const categories = [
       "Understanding your dashboard",
       "Tracking repeat visits",
       "Revenue attribution",
-      "Fidely AI recommendations",
+      "Kyro AI recommendations",
     ],
   },
   {

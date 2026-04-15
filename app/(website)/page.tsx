@@ -7,17 +7,18 @@ import Testimonials from "../components/Testimonials";
 import Logos from "../components/Logos";
 import Calculator from "../components/Calculator";
 import DashboardPreview from "../components/DashboardPreview";
-import FidelyAI from "../sections/FidelyAI";
+
+import Stats from "../components/Stats";
 import CTA from "../components/CTA";
 import FAQ from "../components/FAQ";
 
 export const metadata: Metadata = {
-  title: "Fidely — Digital Loyalty Cards for Apple & Google Wallet",
+  title: "Kyro — Digital Loyalty Cards for Apple & Google Wallet",
   description:
     "Turn every visit into a returning customer. Digital loyalty cards for Apple Wallet & Google Wallet. No app download. Launch in 24 hours. +20-30% more repeat visits.",
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Fidely — Digital Loyalty Cards for Apple & Google Wallet",
+    title: "Kyro — Digital Loyalty Cards for Apple & Google Wallet",
     description:
       "Turn every visit into a returning customer. Digital loyalty cards for Apple & Google Wallet. No app download. Launch in 24 hours.",
     url: "/",
@@ -95,7 +96,7 @@ const breadcrumbData = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://fidely.com",
+      item: "https://kyro.com",
     },
   ],
 };
@@ -113,13 +114,14 @@ export default function Home() {
       />
       <Hero />
       <Features />
+      <Stats />
       <LoyaltyMechanics />
       <HowItWorks />
       <Testimonials />
       <Logos />
       <Calculator />
       <DashboardPreview />
-      <FidelyAI />
+
       <CTA />
       <FAQ />
     </main>

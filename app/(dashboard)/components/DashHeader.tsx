@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Search, Bell, Menu, LogOut, Settings, User } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function DashHeader({
   title,
@@ -11,8 +12,15 @@ export default function DashHeader({
   title: string;
   onMenuClick: () => void;
 }) {
+  const router = useRouter();
   const [profileOpen, setProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/signout", { method: "POST" });
+    router.push("/signin");
+    router.refresh();
+  };
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -219,18 +227,22 @@ export default function DashHeader({
 
               {/* Logout */}
               <div style={{ padding: "6px", borderTop: "1px solid rgba(0,0,0,0.06)" }}>
-                <Link
-                  href="/"
+                <button
+                  onClick={handleLogout}
                   style={{
+                    width: "100%",
                     display: "flex",
                     alignItems: "center",
                     gap: "10px",
                     padding: "10px 12px",
                     borderRadius: "8px",
-                    textDecoration: "none",
+                    border: "none",
+                    background: "none",
                     color: "rgb(220,38,38)",
                     fontSize: "14px",
                     fontWeight: 500,
+                    cursor: "pointer",
+                    fontFamily: "inherit",
                     transition: "background-color 0.1s",
                   }}
                   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "rgba(220,38,38,0.05)")}
@@ -238,7 +250,7 @@ export default function DashHeader({
                 >
                   <LogOut size={16} color="rgb(220,38,38)" />
                   Log out
-                </Link>
+                </button>
               </div>
             </div>
           )}

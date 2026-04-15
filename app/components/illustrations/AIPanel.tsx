@@ -9,7 +9,7 @@ export default function AIPanel() {
       <rect x="20" y="20" width="36" height="36" rx="10" fill="url(#aiGrad)" />
       <circle cx="38" cy="38" r="6" fill="none" stroke="white" strokeWidth="1.5" />
       <path d="M35 38 L38 33 L41 38 L38 43 Z" fill="white" opacity="0.8" />
-      <text x="68" y="36" fontSize="14" fill="white" fontWeight="600" fontFamily="sans-serif">Fidely AI</text>
+      <text x="68" y="36" fontSize="14" fill="white" fontWeight="600" fontFamily="sans-serif">Kyro AI</text>
       <text x="68" y="50" fontSize="10" fill="rgba(255,255,255,0.4)" fontFamily="sans-serif">4 new recommendations</text>
       <circle cx="388" cy="38" r="4" fill="rgb(230,255,169)" />
       <line x1="20" y1="72" x2="400" y2="72" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />

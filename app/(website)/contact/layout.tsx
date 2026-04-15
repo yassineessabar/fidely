@@ -2,11 +2,11 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Contact Us — Get in Touch",
-  description: "Have questions about Fidely? Contact our team for demos, support, or partnership inquiries. We'd love to hear from you.",
+  description: "Have questions about Kyro? Contact our team for demos, support, or partnership inquiries. We'd love to hear from you.",
   alternates: { canonical: "/contact" },
   openGraph: {
-    title: "Contact Fidely — Get in Touch",
-    description: "Have questions about Fidely? Contact our team for demos, support, or partnership inquiries.",
+    title: "Contact Kyro — Get in Touch",
+    description: "Have questions about Kyro? Contact our team for demos, support, or partnership inquiries.",
     url: "/contact",
   },
 };
@@ -14,16 +14,16 @@ export const metadata: Metadata = {
 const localBusinessJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Fidely",
+  name: "Kyro",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web, iOS (Apple Wallet), Android (Google Wallet)",
   description: "Digital loyalty cards for Apple Wallet & Google Wallet. Help local businesses bring customers back automatically.",
-  url: "https://fidely.com",
+  url: "https://kyro.com",
   author: {
     "@type": "Organization",
-    name: "Fidely",
-    url: "https://fidely.com",
-    email: "help@fidely.com",
+    name: "Kyro",
+    url: "https://kyro.com",
+    email: "help@kyro.com",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Paris",
@@ -33,12 +33,12 @@ const localBusinessJsonLd = {
       {
         "@type": "ContactPoint",
         contactType: "sales",
-        email: "sales@fidely.com",
+        email: "sales@kyro.com",
       },
       {
         "@type": "ContactPoint",
         contactType: "customer support",
-        email: "help@fidely.com",
+        email: "help@kyro.com",
       },
     ],
   },
@@ -54,8 +54,8 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
-    { "@type": "ListItem", position: 2, name: "Contact", item: "https://fidely.com/contact" },
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
+    { "@type": "ListItem", position: 2, name: "Contact", item: "https://kyro.com/contact" },
   ],
 };
 

@@ -20,7 +20,7 @@ export default function PhoneMockup({ variant = "wallet" }: { variant?: "wallet"
           {/* Logo + brand */}
           <rect x="36" y="76" width="36" height="36" rx="10" fill="white" />
           <text x="46" y="100" fontSize="16" fill="#6C47FF" fontWeight="800" fontFamily="sans-serif">f</text>
-          <text x="84" y="91" fontSize="14" fill="white" fontWeight="600" fontFamily="sans-serif">Fidely Card</text>
+          <text x="84" y="91" fontSize="14" fill="white" fontWeight="600" fontFamily="sans-serif">Kyro Card</text>
           <text x="84" y="106" fontSize="10" fill="rgba(255,255,255,0.5)" fontFamily="sans-serif">Café Bloom</text>
 
           {/* Points section */}

@@ -49,12 +49,12 @@ export default function Article4() {
 
       <h2 className="font-display" style={h2}>The math of retention</h2>
       <p style={p}>
-        Let&apos;s make this concrete. Say you have 500 active customers with an average order of €15. If these strategies increase visit frequency by just one extra visit per month:
+        Let&apos;s make this concrete. Say you have 500 active customers with an average order of $15. If these strategies increase visit frequency by just one extra visit per month:
       </p>
       <ul style={ul}>
-        <li style={li}>500 customers × 1 extra visit × €15 = <strong>€7,500/month in additional revenue</strong></li>
-        <li style={li}>That&apos;s €90,000/year from retention alone</li>
-        <li style={li}>Cost: a digital loyalty platform at €29-79/month</li>
+        <li style={li}>500 customers × 1 extra visit × $15 = <strong>$7,500/month in additional revenue</strong></li>
+        <li style={li}>That&apos;s $90,000/year from retention alone</li>
+        <li style={li}>Cost: a digital loyalty platform at $29-79/month</li>
       </ul>
       <p style={p}>
         The ROI isn&apos;t just good — it&apos;s absurd. Retention is the highest-leverage growth strategy any local business can deploy.

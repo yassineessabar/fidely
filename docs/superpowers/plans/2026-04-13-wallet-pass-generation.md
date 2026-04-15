@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build end-to-end Apple Wallet (.pkpass) and Google Wallet pass generation for 4 loyalty card types (Discount, Reward, Stamp, Cashback) with Fidely branding, agile for per-merchant customization.
+**Goal:** Build end-to-end Apple Wallet (.pkpass) and Google Wallet pass generation for 4 loyalty card types (Discount, Reward, Stamp, Cashback) with Kyro branding, agile for per-merchant customization.
 
-**Architecture:** Next.js API routes generate passes on-the-fly from template configs. `lib/wallet/` holds shared generation logic. `app/wallet/` is the demo preview page. Each merchant will eventually supply their own config; the 4 Fidely demos are hardcoded presets. Apple passes use `passkit-generator` (PKPass constructor with buffers). Google passes use JWT signing with `jsonwebtoken`.
+**Architecture:** Next.js API routes generate passes on-the-fly from template configs. `lib/wallet/` holds shared generation logic. `app/wallet/` is the demo preview page. Each merchant will eventually supply their own config; the 4 Kyro demos are hardcoded presets. Apple passes use `passkit-generator` (PKPass constructor with buffers). Google passes use JWT signing with `jsonwebtoken`.
 
 **Tech Stack:** Next.js 14.2 (App Router), passkit-generator v3, jsonwebtoken v9, uuid v9, TypeScript
 
@@ -12,7 +12,7 @@
 - Font: KlarnaText (body) + KlarnaTitle (display), loaded in `app/layout.tsx` via `next/font/local`
 - CSS vars defined in `app/globals.css`: `--dark: rgb(11,5,29)`, `--purple-mid: rgb(170,137,242)`, etc.
 - Existing card types in `app/card/[type]/page.tsx` — 5 types with enrollment forms
-- Logo component at `app/components/FidelyLogo.tsx`
+- Logo component at `app/components/KyroLogo.tsx`
 - Route params pattern: `export async function GET(req: NextRequest, { params }: { params: { type: string } })`
 
 ---
@@ -22,7 +22,7 @@
 | File | Action | Purpose |
 |------|--------|---------|
 | `lib/wallet/types.ts` | Create | TypeScript interfaces for PassTemplate, PassData, field configs |
-| `lib/wallet/templates.ts` | Create | 4 Fidely demo template configurations |
+| `lib/wallet/templates.ts` | Create | 4 Kyro demo template configurations |
 | `lib/wallet/apple.ts` | Create | Apple .pkpass generation using passkit-generator |
 | `lib/wallet/google.ts` | Create | Google Wallet JWT generation |
 | `app/api/wallet/apple/[type]/route.ts` | Create | GET handler returning .pkpass binary |
@@ -34,8 +34,8 @@
 | `public/wallet/strip-reward.png` | Create | Purple strip image for reward pass |
 | `public/wallet/strip-stamp.png` | Create | Purple strip image for stamp pass |
 | `public/wallet/strip-cashback.png` | Create | Purple strip image for cashback pass |
-| `public/wallet/icon.png` | Create | Fidely icon for passes (29x29, 58x58, 87x87) |
-| `public/wallet/logo.png` | Create | Fidely logo for passes |
+| `public/wallet/icon.png` | Create | Kyro icon for passes (29x29, 58x58, 87x87) |
+| `public/wallet/logo.png` | Create | Kyro logo for passes |
 | `.env.example` | Create | Template env vars for Apple + Google certs |
 | `docs/wallet-setup.md` | Create | Certificate setup guide |
 
@@ -49,7 +49,7 @@
 - [ ] **Step 1: Install npm packages**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 npm install passkit-generator@^3 jsonwebtoken@^9 uuid@^9
 npm install -D @types/jsonwebtoken @types/uuid
 ```
@@ -57,7 +57,7 @@ npm install -D @types/jsonwebtoken @types/uuid
 - [ ] **Step 2: Verify installation**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 node -e "require('passkit-generator'); require('jsonwebtoken'); require('uuid'); console.log('OK')"
 ```
 
@@ -66,7 +66,7 @@ Expected: `OK`
 - [ ] **Step 3: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add package.json package-lock.json
 git commit -m "feat: add passkit-generator, jsonwebtoken, uuid for wallet pass generation"
 ```
@@ -126,14 +126,14 @@ export interface GeneratePassOptions {
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add lib/wallet/types.ts
 git commit -m "feat: add wallet pass type definitions"
 ```
 
 ---
 
-### Task 3: Fidely Demo Templates
+### Task 3: Kyro Demo Templates
 
 **Files:**
 - Create: `lib/wallet/templates.ts`
@@ -152,9 +152,9 @@ const FIDELY_DARK = "rgb(88,28,135)";
 export const templates: Record<PassType, PassTemplate> = {
   discount: {
     type: "discount",
-    merchantName: "Fidely",
-    merchantId: "fidely-demo",
-    logoText: "Fidely",
+    merchantName: "Kyro",
+    merchantId: "kyro-demo",
+    logoText: "Kyro",
     description: "Make purchases, increase the discount",
     backgroundColor: FIDELY_PURPLE,
     foregroundColor: FIDELY_LIGHT,
@@ -169,7 +169,7 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "ABOUT", value: "Present this card at checkout to receive your discount. Your tier upgrades automatically as you spend more." },
-      { key: "powered", label: "POWERED BY", value: "Fidely - https://fidely.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
     ],
     barcodeFormat: "PDF417",
     barcodeValue: "FIDELY-DISCOUNT-DEMO-001",
@@ -178,9 +178,9 @@ export const templates: Record<PassType, PassTemplate> = {
 
   reward: {
     type: "reward",
-    merchantName: "Fidely",
-    merchantId: "fidely-demo",
-    logoText: "Fidely",
+    merchantName: "Kyro",
+    merchantId: "kyro-demo",
+    logoText: "Kyro",
     description: "Collect points and get rewards",
     backgroundColor: FIDELY_PURPLE,
     foregroundColor: FIDELY_LIGHT,
@@ -197,7 +197,7 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "HOW IT WORKS", value: "Earn 1 point per $1 spent. Redeem points for exclusive rewards at any time." },
-      { key: "powered", label: "POWERED BY", value: "Fidely - https://fidely.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
     ],
     barcodeFormat: "PDF417",
     barcodeValue: "FIDELY-REWARD-DEMO-001",
@@ -206,9 +206,9 @@ export const templates: Record<PassType, PassTemplate> = {
 
   stamp: {
     type: "stamp",
-    merchantName: "Fidely",
-    merchantId: "fidely-demo",
-    logoText: "Fidely",
+    merchantName: "Kyro",
+    merchantId: "kyro-demo",
+    logoText: "Kyro",
     description: "Collect stamps to get rewards",
     backgroundColor: FIDELY_PURPLE,
     foregroundColor: FIDELY_LIGHT,
@@ -225,7 +225,7 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "HOW IT WORKS", value: "Collect 1 stamp per visit. After 10 stamps, redeem your free reward. Card resets after redemption." },
-      { key: "powered", label: "POWERED BY", value: "Fidely - https://fidely.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
     ],
     barcodeFormat: "QR",
     barcodeValue: "FIDELY-STAMP-DEMO-001",
@@ -234,9 +234,9 @@ export const templates: Record<PassType, PassTemplate> = {
 
   cashback: {
     type: "cashback",
-    merchantName: "Fidely",
-    merchantId: "fidely-demo",
-    logoText: "Fidely",
+    merchantName: "Kyro",
+    merchantId: "kyro-demo",
+    logoText: "Kyro",
     description: "Get bonus points for each purchase",
     backgroundColor: FIDELY_PURPLE,
     foregroundColor: FIDELY_LIGHT,
@@ -253,7 +253,7 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "HOW IT WORKS", value: "Earn 5% cashback on every purchase. Cashback is credited to your points balance instantly." },
-      { key: "powered", label: "POWERED BY", value: "Fidely - https://fidely.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
     ],
     barcodeFormat: "PDF417",
     barcodeValue: "FIDELY-CASHBACK-DEMO-001",
@@ -269,9 +269,9 @@ export function getTemplate(type: PassType): PassTemplate | undefined {
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add lib/wallet/templates.ts
-git commit -m "feat: add 4 Fidely demo wallet pass templates"
+git commit -m "feat: add 4 Kyro demo wallet pass templates"
 ```
 
 ---
@@ -279,9 +279,9 @@ git commit -m "feat: add 4 Fidely demo wallet pass templates"
 ### Task 4: Generate Pass Asset Images
 
 **Files:**
-- Create: `public/wallet/icon.png` (Fidely "f" mark, 87x87)
+- Create: `public/wallet/icon.png` (Kyro "f" mark, 87x87)
 - Create: `public/wallet/icon@2x.png` (174x174)
-- Create: `public/wallet/logo.png` (Fidely logo, 320x100)
+- Create: `public/wallet/logo.png` (Kyro logo, 320x100)
 - Create: `public/wallet/logo@2x.png` (640x200)
 - Create: `public/wallet/strip-discount.png` (640x198)
 - Create: `public/wallet/strip-reward.png` (640x198)
@@ -293,7 +293,7 @@ git commit -m "feat: add 4 Fidely demo wallet pass templates"
 - [ ] **Step 1: Create the `public/wallet/` directory**
 
 ```bash
-mkdir -p /Users/yassineessabar/Documents/GitHub/fidely-card/public/wallet
+mkdir -p /Users/yassineessabar/Documents/GitHub/kyro-card/public/wallet
 ```
 
 - [ ] **Step 2: Generate pass images using a Node.js script**
@@ -405,7 +405,7 @@ for (let i = 0; i < 256; i++) {
   crc32Table[i] = c;
 }
 
-// Generate images - all purple-themed for Fidely
+// Generate images - all purple-themed for Kyro
 // Purple: rgb(192, 132, 252)
 const purple = [192, 132, 252];
 
@@ -429,7 +429,7 @@ console.log("Generated all wallet pass images in public/wallet/");
 
 Run:
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 node scripts/generate-pass-images.mjs
 ```
 
@@ -438,7 +438,7 @@ Expected: `Generated all wallet pass images in public/wallet/`
 - [ ] **Step 3: Verify images exist**
 
 ```bash
-ls -la /Users/yassineessabar/Documents/GitHub/fidely-card/public/wallet/
+ls -la /Users/yassineessabar/Documents/GitHub/kyro-card/public/wallet/
 ```
 
 Expected: 10 PNG files (icon, icon@2x, icon@3x, logo, logo@2x, strip-discount, strip-reward, strip-stamp, strip-cashback)
@@ -446,7 +446,7 @@ Expected: 10 PNG files (icon, icon@2x, icon@3x, logo, logo@2x, strip-discount, s
 - [ ] **Step 4: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add public/wallet/ scripts/generate-pass-images.mjs
 git commit -m "feat: add wallet pass asset images (icons, logos, strip banners)"
 ```
@@ -469,7 +469,7 @@ import { join } from "path";
 import { v4 as uuidv4 } from "uuid";
 import { PassTemplate } from "./types";
 
-const PASS_TYPE_ID = process.env.APPLE_PASS_TYPE_ID || "pass.com.fidely.loyalty";
+const PASS_TYPE_ID = process.env.APPLE_PASS_TYPE_ID || "pass.com.kyro.loyalty";
 const TEAM_ID = process.env.APPLE_TEAM_ID || "";
 const CERT_PATH = process.env.APPLE_PASS_CERT_PATH || "./certs/pass.pem";
 const KEY_PATH = process.env.APPLE_PASS_KEY_PATH || "./certs/pass-key.pem";
@@ -622,7 +622,7 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add lib/wallet/apple.ts
 git commit -m "feat: add Apple Wallet .pkpass generation module"
 ```
@@ -664,7 +664,7 @@ export function areGoogleCredentialsAvailable(): boolean {
 
 export function generateGoogleWalletUrl(
   template: PassTemplate,
-  baseUrl: string = "https://fidely.com"
+  baseUrl: string = "https://kyro.com"
 ): string {
   if (!ISSUER_ID || !SERVICE_ACCOUNT_EMAIL || !PRIVATE_KEY) {
     throw new Error(
@@ -675,7 +675,7 @@ export function generateGoogleWalletUrl(
     );
   }
 
-  const classSuffix = `fidely_${template.type}_${template.merchantId}`.replace(/[^a-zA-Z0-9_.-]/g, "_");
+  const classSuffix = `kyro_${template.type}_${template.merchantId}`.replace(/[^a-zA-Z0-9_.-]/g, "_");
   const objectSuffix = `${classSuffix}_${uuidv4().replace(/-/g, "")}`;
 
   const hexBg = rgbToHex(template.backgroundColor);
@@ -739,7 +739,7 @@ export function generateGoogleWalletUrl(
     classId: `${ISSUER_ID}.${classSuffix}`,
     state: "ACTIVE",
     accountId: `demo-${template.type}`,
-    accountName: "Fidely Demo",
+    accountName: "Kyro Demo",
     barcode: {
       type: getBarcodeType(template.barcodeFormat),
       value: template.barcodeValue,
@@ -777,7 +777,7 @@ export function generateGoogleWalletUrl(
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add lib/wallet/google.ts
 git commit -m "feat: add Google Wallet JWT pass generation module"
 ```
@@ -837,7 +837,7 @@ export async function GET(
       status: 200,
       headers: {
         "Content-Type": "application/vnd.apple.pkpass",
-        "Content-Disposition": `attachment; filename="fidely-${type}.pkpass"`,
+        "Content-Disposition": `attachment; filename="kyro-${type}.pkpass"`,
       },
     });
   } catch (err) {
@@ -850,7 +850,7 @@ export async function GET(
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add app/api/wallet/apple/\[type\]/route.ts
 git commit -m "feat: add Apple Wallet API route (GET /api/wallet/apple/[type])"
 ```
@@ -919,7 +919,7 @@ export async function GET(
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add app/api/wallet/google/\[type\]/route.ts
 git commit -m "feat: add Google Wallet API route (GET /api/wallet/google/[type])"
 ```
@@ -1050,7 +1050,7 @@ export default function AddToWalletButtons({ type }: { type: PassType }) {
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add app/wallet/components/AddToWalletButtons.tsx
 git commit -m "feat: add AddToWalletButtons component (Apple + Google)"
 ```
@@ -1062,7 +1062,7 @@ git commit -m "feat: add AddToWalletButtons component (Apple + Google)"
 **Files:**
 - Create: `app/wallet/components/PassCard.tsx`
 
-This component renders a single pass card preview matching the Boomerang/Apple Wallet style from the screenshots: purple card with Fidely logo, strip banner area, field labels + values, barcode at bottom, "Powered by Fidely" footer.
+This component renders a single pass card preview matching the Boomerang/Apple Wallet style from the screenshots: purple card with Kyro logo, strip banner area, field labels + values, barcode at bottom, "Powered by Kyro" footer.
 
 - [ ] **Step 1: Create the PassCard component**
 
@@ -1072,7 +1072,7 @@ Create `app/wallet/components/PassCard.tsx`:
 "use client";
 
 import { PassTemplate } from "../../../lib/wallet/types";
-import FidelyLogo from "../../components/FidelyLogo";
+import KyroLogo from "../../components/KyroLogo";
 
 export default function PassCard({ template }: { template: PassTemplate }) {
   const isStamp = template.type === "stamp";
@@ -1093,7 +1093,7 @@ export default function PassCard({ template }: { template: PassTemplate }) {
         justifyContent: "space-between",
         alignItems: "flex-start",
       }}>
-        <FidelyLogo color="rgb(88,28,135)" height={20} />
+        <KyroLogo color="rgb(88,28,135)" height={20} />
         {template.headerFields.length > 0 && (
           <div style={{ textAlign: "right" }}>
             <p style={{
@@ -1262,7 +1262,7 @@ export default function PassCard({ template }: { template: PassTemplate }) {
           fontSize: "11px",
           color: "rgb(107,114,128)",
         }}>
-          Powered by Fidely
+          Powered by Kyro
         </p>
       </div>
     </div>
@@ -1273,7 +1273,7 @@ export default function PassCard({ template }: { template: PassTemplate }) {
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add app/wallet/components/PassCard.tsx
 git commit -m "feat: add PassCard preview component matching Apple Wallet style"
 ```
@@ -1297,7 +1297,7 @@ import { templates } from "../../lib/wallet/templates";
 import { PassType } from "../../lib/wallet/types";
 import PassCard from "./components/PassCard";
 import AddToWalletButtons from "./components/AddToWalletButtons";
-import FidelyLogo from "../components/FidelyLogo";
+import KyroLogo from "../components/KyroLogo";
 
 const passTypes: { key: PassType; label: string; icon: string }[] = [
   { key: "discount", label: "Discount", icon: "\uD83C\uDFF7\uFE0F" },
@@ -1328,7 +1328,7 @@ export default function WalletDemoPage() {
           display: "flex",
           justifyContent: "center",
         }}>
-          <FidelyLogo color="rgb(11,5,29)" height={22} />
+          <KyroLogo color="rgb(11,5,29)" height={22} />
         </div>
       </div>
 
@@ -1465,7 +1465,7 @@ export default function WalletDemoPage() {
         <div style={{ marginTop: "32px", textAlign: "center" }}>
           <p style={{ fontSize: "11px", color: "rgb(137,135,137)", margin: "0 0 8px" }}>Powered by</p>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <FidelyLogo color="rgb(137,135,137)" height={16} />
+            <KyroLogo color="rgb(137,135,137)" height={16} />
           </div>
         </div>
       </div>
@@ -1477,7 +1477,7 @@ export default function WalletDemoPage() {
 - [ ] **Step 2: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add app/wallet/page.tsx
 git commit -m "feat: add wallet demo preview page with 4 pass types"
 ```
@@ -1502,7 +1502,7 @@ Create `.env.example`:
 # --- Apple Wallet ---
 # Get these from Apple Developer Portal > Certificates, Identifiers & Profiles
 APPLE_TEAM_ID=
-APPLE_PASS_TYPE_ID=pass.com.fidely.loyalty
+APPLE_PASS_TYPE_ID=pass.com.kyro.loyalty
 APPLE_PASS_CERT_PATH=./certs/pass.pem
 APPLE_PASS_KEY_PATH=./certs/pass-key.pem
 APPLE_PASS_CERT_PASSWORD=
@@ -1528,15 +1528,15 @@ Create `docs/wallet-setup.md`:
 
 1. Go to [Apple Developer Portal](https://developer.apple.com/account/resources/identifiers/list/passTypeId)
 2. Click **+** to register a new Pass Type ID
-3. Enter description: "Fidely Loyalty Card"
-4. Enter identifier: `pass.com.fidely.loyalty`
+3. Enter description: "Kyro Loyalty Card"
+4. Enter identifier: `pass.com.kyro.loyalty`
 5. Click **Register**
 
 ### 2. Create a Pass Signing Certificate
 
 1. Go to [Certificates](https://developer.apple.com/account/resources/certificates/list)
 2. Click **+** > choose **Pass Type ID Certificate**
-3. Select your Pass Type ID (`pass.com.fidely.loyalty`)
+3. Select your Pass Type ID (`pass.com.kyro.loyalty`)
 4. Follow the CSR creation steps (Keychain Access > Certificate Assistant > Request a Certificate)
 5. Upload CSR, download the `.cer` file
 
@@ -1565,7 +1565,7 @@ openssl x509 -inform DER -in certs/wwdr.cer -out certs/wwdr.pem
 
 ```bash
 APPLE_TEAM_ID=YOUR_TEAM_ID        # Find in Apple Developer Portal top-right
-APPLE_PASS_TYPE_ID=pass.com.fidely.loyalty
+APPLE_PASS_TYPE_ID=pass.com.kyro.loyalty
 APPLE_PASS_CERT_PATH=./certs/pass.pem
 APPLE_PASS_KEY_PATH=./certs/pass-key.pem
 APPLE_PASS_CERT_PASSWORD=your_p12_password
@@ -1611,7 +1611,7 @@ Note: For `GOOGLE_WALLET_PRIVATE_KEY`, copy the `private_key` value from the ser
 ## Directory Structure
 
 ```
-fidely-card/
+kyro-card/
   certs/                    # DO NOT COMMIT — add to .gitignore
     pass.pem
     pass-key.pem
@@ -1640,14 +1640,14 @@ Returns `{ "url": "https://pay.google.com/gp/v/save/..." }`. Open the URL to add
 Check if `.gitignore` exists and add `certs/` to it:
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 echo -e "\n# Wallet certificates\ncerts/" >> .gitignore
 ```
 
 - [ ] **Step 4: Commit**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 git add .env.example docs/wallet-setup.md .gitignore
 git commit -m "feat: add wallet setup documentation and env config template"
 ```
@@ -1659,7 +1659,7 @@ git commit -m "feat: add wallet setup documentation and env config template"
 - [ ] **Step 1: Run the Next.js build to check for TypeScript errors**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 npx next build 2>&1 | head -50
 ```
 
@@ -1668,7 +1668,7 @@ Expected: Build succeeds (may show warnings about missing env vars, but no TypeS
 - [ ] **Step 2: Start dev server and verify the preview page loads**
 
 ```bash
-cd /Users/yassineessabar/Documents/GitHub/fidely-card
+cd /Users/yassineessabar/Documents/GitHub/kyro-card
 npx next dev &
 sleep 3
 curl -s http://localhost:3000/wallet | head -20

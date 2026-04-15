@@ -2,11 +2,11 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Pricing — Simple, Transparent Plans",
-  description: "Start free, grow as you scale. Fidely pricing starts at $29/month for one location. No hidden fees, no cost per message. Cancel anytime.",
+  description: "Start free, grow as you scale. Kyro pricing starts at $29/month for one location. No hidden fees, no cost per message. Cancel anytime.",
   alternates: { canonical: "/pricing" },
   openGraph: {
-    title: "Fidely Pricing — Simple, Transparent Plans",
-    description: "Start free, grow as you scale. Fidely pricing starts at $29/month. No hidden fees.",
+    title: "Kyro Pricing — Simple, Transparent Plans",
+    description: "Start free, grow as you scale. Kyro pricing starts at $29/month. No hidden fees.",
     url: "/pricing",
   },
 };
@@ -14,9 +14,9 @@ export const metadata: Metadata = {
 const pricingJsonLd = {
   "@context": "https://schema.org",
   "@type": "Product",
-  name: "Fidely Digital Loyalty Platform",
+  name: "Kyro Digital Loyalty Platform",
   description: "Digital loyalty cards for Apple Wallet & Google Wallet. Help local businesses bring customers back automatically.",
-  brand: { "@type": "Brand", name: "Fidely" },
+  brand: { "@type": "Brand", name: "Kyro" },
   offers: [
     {
       "@type": "Offer",
@@ -26,7 +26,7 @@ const pricingJsonLd = {
       priceValidUntil: "2026-12-31",
       availability: "https://schema.org/InStock",
       description: "Perfect for a single location. 1 location, up to 500 customers, unlimited push notifications.",
-      url: "https://fidely.com/pricing",
+      url: "https://kyro.com/pricing",
     },
     {
       "@type": "Offer",
@@ -36,7 +36,7 @@ const pricingJsonLd = {
       priceValidUntil: "2026-12-31",
       availability: "https://schema.org/InStock",
       description: "For growing businesses. Up to 3 locations, unlimited customers, advanced analytics.",
-      url: "https://fidely.com/pricing",
+      url: "https://kyro.com/pricing",
     },
     {
       "@type": "Offer",
@@ -46,7 +46,7 @@ const pricingJsonLd = {
       priceValidUntil: "2026-12-31",
       availability: "https://schema.org/InStock",
       description: "For multi-location businesses. Unlimited locations, unlimited customers, dedicated support.",
-      url: "https://fidely.com/pricing",
+      url: "https://kyro.com/pricing",
     },
   ],
 };
@@ -55,8 +55,8 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
-    { "@type": "ListItem", position: 2, name: "Pricing", item: "https://fidely.com/pricing" },
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
+    { "@type": "ListItem", position: 2, name: "Pricing", item: "https://kyro.com/pricing" },
   ],
 };
 

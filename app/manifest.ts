@@ -2,8 +2,8 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Fidely — Digital Loyalty Cards",
-    short_name: "Fidely",
+    name: "Kyro — Digital Loyalty Cards",
+    short_name: "Kyro",
     description:
       "Digital loyalty cards for Apple Wallet & Google Wallet. Bring your customers back automatically.",
     start_url: "/",

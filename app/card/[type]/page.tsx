@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useParams } from "next/navigation";
-import FidelyLogo from "../../components/FidelyLogo";
+import KyroLogo from "../../components/KyroLogo";
 
 const passTypes: Record<string, { title: string; subtitle: string; desc: string; icon: string; color: string; bgColor: string; rules: string; points?: string; expiry: string }> = {
   punch: {
@@ -23,8 +23,8 @@ const passTypes: Record<string, { title: string; subtitle: string; desc: string;
     icon: "🎁",
     color: "rgb(170,137,242)",
     bgColor: "rgb(44,34,66)",
-    rules: "Earn 1 point per €1 spent. Redeem points for rewards at any time. Points never expire.",
-    points: "1 point per €1",
+    rules: "Earn 1 point per $1 spent. Redeem points for rewards at any time. Points never expire.",
+    points: "1 point per $1",
     expiry: "No expiry",
   },
   membership: {
@@ -44,7 +44,7 @@ const passTypes: Record<string, { title: string; subtitle: string; desc: string;
     icon: "💰",
     color: "rgb(100,200,150)",
     bgColor: "rgb(15,76,58)",
-    rules: "Earn 5% cashback on every purchase. Minimum €50 balance to redeem. Cashback credited instantly.",
+    rules: "Earn 5% cashback on every purchase. Minimum $50 balance to redeem. Cashback credited instantly.",
     points: "5% cashback",
     expiry: "6 months from last activity",
   },
@@ -120,7 +120,7 @@ export default function CardEnrollPage() {
           alignItems: "center",
           height: "47px",
         }}>
-          <FidelyLogo color="rgb(11,5,29)" height={22} />
+          <KyroLogo color="rgb(11,5,29)" height={22} />
         </div>
       </div>
 
@@ -385,7 +385,7 @@ export default function CardEnrollPage() {
         <div style={{ marginTop: "32px", textAlign: "center" }}>
           <p style={{ fontSize: "11px", color: "rgb(137,135,137)", margin: "0 0 8px" }}>Powered by</p>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <FidelyLogo color="rgb(137,135,137)" height={16} />
+            <KyroLogo color="rgb(137,135,137)" height={16} />
           </div>
         </div>
       </div>

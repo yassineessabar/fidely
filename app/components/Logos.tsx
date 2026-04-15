@@ -1,31 +1,32 @@
 "use client";
 
+import Image from "next/image";
 import { useInView } from "../hooks/useInView";
 
 const columns = [
   [
-    { name: "Café Bloom", emoji: "☕", bg: "#6C47FF", h: 266 },
-    { name: "Fresh Gym", emoji: "💪", bg: "#1a6b50", h: 266 },
-    { name: "Glow Salon", emoji: "💇", bg: "#AA89F2", h: 266 },
-    { name: "The Bakery", emoji: "🥐", bg: "#c47a3a", h: 266 },
+    { name: "Café Bloom", img: "/images/brands/biz-cafe.png", h: 266 },
+    { name: "Fresh Gym", img: "/images/brands/biz-gym.png", h: 266 },
+    { name: "Glow Salon", img: "/images/brands/biz-salon.png", h: 266 },
+    { name: "The Bakery", img: "/images/brands/biz-bakery.png", h: 266 },
   ],
   [
-    { name: "Barbershop", emoji: "✂️", bg: "#2C2242", h: 266 },
-    { name: "Pizzeria", emoji: "🍕", bg: "#922b21", h: 266 },
-    { name: "Yoga Studio", emoji: "🧘", bg: "#4a2fd4", h: 266 },
-    { name: "Pet Shop", emoji: "🐾", bg: "#1b4332", h: 266 },
+    { name: "Barbershop", img: "/images/brands/biz-barber.png", h: 266 },
+    { name: "Pizzeria", img: "/images/brands/biz-pizza.png", h: 266 },
+    { name: "Yoga Studio", img: "/images/brands/biz-yoga.png", h: 266 },
+    { name: "Pet Shop", img: "/images/brands/biz-pets.png", h: 266 },
   ],
   [
-    { name: "Flower Shop", emoji: "💐", bg: "#b8875a", h: 266 },
-    { name: "Sushi Bar", emoji: "🍣", bg: "#1a1a2e", h: 266 },
-    { name: "Ice Cream", emoji: "🍦", bg: "#e84393", h: 266 },
-    { name: "Bookstore", emoji: "📚", bg: "#2C2242", h: 266 },
+    { name: "Flower Shop", img: "/images/brands/biz-flowers.png", h: 266 },
+    { name: "Sushi Bar", img: "/images/brands/biz-sushi.png", h: 266 },
+    { name: "Ice Cream", img: "/images/brands/biz-icecream.png", h: 266 },
+    { name: "Bookstore", img: "/images/brands/biz-books.png", h: 266 },
   ],
   [
-    { name: "Wine Bar", emoji: "🍷", bg: "#6C47FF", h: 266 },
-    { name: "Nail Salon", emoji: "💅", bg: "#c44dbb", h: 266 },
-    { name: "Juice Bar", emoji: "🥤", bg: "#0f4c3a", h: 266 },
-    { name: "Auto Wash", emoji: "🚗", bg: "#1a1a2e", h: 266 },
+    { name: "Wine Bar", img: "/images/brands/biz-wine.png", h: 266 },
+    { name: "Nail Salon", img: "/images/brands/biz-nails.png", h: 266 },
+    { name: "Juice Bar", img: "/images/brands/biz-juice.png", h: 266 },
+    { name: "Auto Wash", img: "/images/brands/biz-carwash.png", h: 266 },
   ],
 ];
 
@@ -41,7 +42,7 @@ export default function Logos() {
             className={`brands-h2 font-display ${isVisible ? "animate-fade-in-up" : ""}`}
             style={{ fontWeight: 500, fontSize: "40px", lineHeight: "42px", color: "rgb(11,5,29)", margin: 0 }}
           >
-            Businesses that use Fidely
+            Businesses that use Kyro
           </h2>
           <a href="#cta" style={{ placeSelf: "flex-end end", fontSize: "16px", fontWeight: 400, color: "rgb(11,5,29)", textDecoration: "underline", textUnderlineOffset: "4px" }}>
             See all
@@ -79,17 +80,19 @@ export default function Logos() {
                     borderRadius: "32px",
                     overflow: "hidden",
                     flexShrink: 0,
-                    backgroundColor: brand.bg,
                   }}
                 >
-                  {/* Darkened overlay */}
-                  <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.4)", borderRadius: "32px" }} />
-                  {/* Logo */}
-                  <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", gap: "8px" }}>
-                    <div style={{ width: "94px", height: "94px", borderRadius: "50%", backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "36px", boxShadow: "0 4px 20px rgba(0,0,0,0.15)" }}>
-                      {brand.emoji}
-                    </div>
-                    <span style={{ color: "white", fontSize: "14px", fontWeight: 600, textShadow: "0 1px 4px rgba(0,0,0,0.3)" }}>{brand.name}</span>
+                  <Image
+                    src={brand.img}
+                    alt={brand.name}
+                    fill
+                    style={{ objectFit: "cover" }}
+                  />
+                  {/* Gradient overlay */}
+                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.1) 40%, transparent 100%)", borderRadius: "32px" }} />
+                  {/* Name */}
+                  <div style={{ position: "absolute", bottom: "20px", left: "20px", zIndex: 1 }}>
+                    <span style={{ color: "white", fontSize: "16px", fontWeight: 600, textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>{brand.name}</span>
                   </div>
                 </div>
               ))}

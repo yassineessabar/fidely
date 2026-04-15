@@ -70,7 +70,7 @@ function makePNG(width, height, r, g, b) {
   return Buffer.concat([signature, ihdr, idat, iend]);
 }
 
-const p = [192, 132, 252]; // Fidely purple
+const p = [192, 132, 252]; // Kyro purple
 
 // Icons
 writeFileSync(join(OUT, "icon.png"), makePNG(29, 29, ...p));

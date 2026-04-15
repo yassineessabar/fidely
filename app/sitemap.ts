@@ -4,7 +4,7 @@ import { industries } from "./(website)/for/industries";
 import { features } from "./(website)/features/features";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://fidely.com";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://kyro.com";
 
   const staticPages = [
     { path: "", priority: 1.0, changeFrequency: "weekly" as const },

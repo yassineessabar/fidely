@@ -1,7 +1,7 @@
 "use client";
 
 import { PassTemplate } from "../../../lib/wallet/types";
-import FidelyLogo from "../../components/FidelyLogo";
+import KyroLogo from "../../components/KyroLogo";
 
 export default function PassCard({ template }: { template: PassTemplate }) {
   const isStamp = template.type === "stamp";
@@ -22,7 +22,7 @@ export default function PassCard({ template }: { template: PassTemplate }) {
         justifyContent: "space-between",
         alignItems: "flex-start",
       }}>
-        <FidelyLogo color="rgb(88,28,135)" height={20} />
+        <KyroLogo color="rgb(88,28,135)" height={20} />
         {template.headerFields.length > 0 && (
           <div style={{ textAlign: "right" }}>
             <p style={{
@@ -189,7 +189,7 @@ export default function PassCard({ template }: { template: PassTemplate }) {
           fontSize: "11px",
           color: "rgb(107,114,128)",
         }}>
-          Powered by Fidely
+          Powered by Kyro
         </p>
       </div>
     </div>

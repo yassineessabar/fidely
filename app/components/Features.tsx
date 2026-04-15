@@ -1,7 +1,7 @@
 "use client";
 
 import { useInView } from "../hooks/useInView";
-import PhoneMockup from "./illustrations/PhoneMockup";
+import Image from "next/image";
 
 const cards = [
   {
@@ -10,8 +10,8 @@ const cards = [
     cta: "Learn more",
     gradient: "linear-gradient(135deg, #6C47FF 0%, #8B6FFF 100%)",
     visual: (
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", padding: "20px 40px" }}>
-        <PhoneMockup variant="scan" />
+      <div style={{ width: "100%", height: "100%", position: "relative" }}>
+        <Image src="/images/features/feature-scan.png" alt="Customer scanning QR code" fill style={{ objectFit: "cover" }} />
       </div>
     ),
   },
@@ -21,8 +21,8 @@ const cards = [
     cta: "See how",
     gradient: "linear-gradient(135deg, #2C2242 0%, #44346A 100%)",
     visual: (
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", padding: "20px 40px" }}>
-        <PhoneMockup variant="wallet" />
+      <div style={{ width: "100%", height: "100%", position: "relative" }}>
+        <Image src="/images/features/feature-wallet.png" alt="Loyalty card in Apple Wallet" fill style={{ objectFit: "cover" }} />
       </div>
     ),
   },
@@ -32,8 +32,8 @@ const cards = [
     cta: "Learn more",
     gradient: "linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%)",
     visual: (
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", padding: "20px 40px" }}>
-        <PhoneMockup variant="notification" />
+      <div style={{ width: "100%", height: "100%", position: "relative" }}>
+        <Image src="/images/features/feature-notifications.png" alt="Push notification on lock screen" fill style={{ objectFit: "cover" }} />
       </div>
     ),
   },
@@ -43,13 +43,13 @@ export default function Features() {
   const { ref, isVisible } = useInView();
 
   return (
-    <section id="use-fidely" ref={ref} style={{ backgroundColor: "white", padding: "80px 0" }}>
+    <section id="use-kyro" ref={ref} style={{ backgroundColor: "white", padding: "80px 0" }}>
       <div style={{ maxWidth: "1140px", margin: "0 auto", padding: "0 24px" }}>
         <h2
           className={`section-h2 font-display ${isVisible ? "animate-fade-in-up" : ""}`}
           style={{ fontWeight: 500, fontSize: "52px", lineHeight: "55px", color: "rgb(11,5,29)", margin: "0 0 48px", maxWidth: "700px" }}
         >
-          Use Fidely anywhere you connect
+          Use Kyro anywhere you connect
         </h2>
 
         <div className="features-grid" style={{ display: "flex", flexWrap: "nowrap", gap: "0", marginTop: "8px", width: "100%", overflow: "hidden" }}>

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const ogImageAlt = "Fidely — Digital Loyalty Cards for Apple & Google Wallet";
+export const ogImageAlt = "Kyro — Digital Loyalty Cards for Apple & Google Wallet";
 export const ogImageSize = { width: 1200, height: 630 };
 export const ogImageContentType = "image/png";
 
@@ -52,7 +52,7 @@ export function generateOgImage() {
               letterSpacing: "-1px",
             }}
           >
-            fidely
+            kyro
           </span>
         </div>
         <div

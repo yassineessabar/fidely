@@ -178,7 +178,7 @@ export default function FAQ() {
                 fontWeight: 400,
               }}
             >
-              Everything you need to know about Fidely.
+              Everything you need to know about Kyro.
             </p>
           </div>
 

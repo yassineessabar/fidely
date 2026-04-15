@@ -1,12 +1,13 @@
 import { Metadata } from "next";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "About Us — Our Mission to Help Local Businesses Grow",
-  description: "Fidely was born to help local businesses grow by keeping customers coming back. Learn about our mission, values, and the team building the future of customer retention.",
+  description: "Kyro was born to help local businesses grow by keeping customers coming back. Learn about our mission, values, and the team building the future of customer retention.",
   alternates: { canonical: "/about" },
   openGraph: {
-    title: "About Fidely — Our Mission to Help Local Businesses Grow",
-    description: "Fidely was born to help local businesses grow by keeping customers coming back.",
+    title: "About Kyro — Our Mission to Help Local Businesses Grow",
+    description: "Kyro was born to help local businesses grow by keeping customers coming back.",
     url: "/about",
   },
 };
@@ -18,20 +19,25 @@ export default function AboutPage() {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
-          { "@type": "ListItem", position: 2, name: "About", item: "https://fidely.com/about" },
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
+          { "@type": "ListItem", position: 2, name: "About", item: "https://kyro.com/about" },
         ],
       }) }} />
       {/* Hero */}
       <section style={{ backgroundColor: "rgb(11,5,29)", padding: "80px 0" }}>
-        <div style={{ maxWidth: "1140px", margin: "0 auto", padding: "0 24px" }}>
-          <p style={{ fontSize: "14px", fontWeight: 500, color: "rgb(230,255,169)", margin: "0 0 16px" }}>About Fidely</p>
-          <h1 className="font-display" style={{ fontSize: "66px", lineHeight: "72.6px", fontWeight: 500, color: "white", margin: "0 0 24px", maxWidth: "700px" }}>
-            We help local businesses grow
-          </h1>
-          <p style={{ fontSize: "20px", lineHeight: "32px", color: "rgba(255,255,255,0.7)", margin: 0, maxWidth: "600px", fontWeight: 400 }}>
-            Fidely was born from a simple insight: local businesses lose customers not because of bad products, but because they have no way to stay in touch.
-          </p>
+        <div style={{ maxWidth: "1140px", margin: "0 auto", padding: "0 24px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "48px", alignItems: "center" }} className="ai-grid">
+          <div>
+            <p style={{ fontSize: "14px", fontWeight: 500, color: "rgb(230,255,169)", margin: "0 0 16px" }}>About Kyro</p>
+            <h1 className="font-display" style={{ fontSize: "66px", lineHeight: "72.6px", fontWeight: 500, color: "white", margin: "0 0 24px", maxWidth: "700px" }}>
+              We help local businesses grow
+            </h1>
+            <p style={{ fontSize: "20px", lineHeight: "32px", color: "rgba(255,255,255,0.7)", margin: 0, maxWidth: "600px", fontWeight: 400 }}>
+              Kyro was born from a simple insight: local businesses lose customers not because of bad products, but because they have no way to stay in touch.
+            </p>
+          </div>
+          <div style={{ borderRadius: "16px", overflow: "hidden" }}>
+            <Image src="/images/about/about-mission.png" alt="Local business community" width={560} height={315} style={{ width: "100%", height: "auto" }} />
+          </div>
         </div>
       </section>
 
@@ -47,7 +53,7 @@ export default function AboutPage() {
                 We believe every local business deserves the same retention tools as the biggest brands — without the complexity or cost.
               </p>
               <p style={{ fontSize: "16px", lineHeight: "24px", color: "rgb(97,95,109)", margin: 0 }}>
-                Fidely makes customer retention simple: a digital loyalty card in their wallet, automatic data collection, and free push notifications to bring them back.
+                Kyro makes customer retention simple: a digital loyalty card in their wallet, automatic data collection, and free push notifications to bring them back.
               </p>
             </div>
             <div>

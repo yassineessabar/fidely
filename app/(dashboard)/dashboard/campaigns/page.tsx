@@ -4,12 +4,12 @@ import { useState } from "react";
 import { Plus, Send, Clock, Users, TrendingUp, Eye } from "lucide-react";
 
 const campaigns = [
-  { name: "Weekend Double Points", status: "Sent", audience: "All customers", sent: "1,247", opened: "68%", revenue: "€1,420", date: "Mar 28" },
-  { name: "We Miss You", status: "Sent", audience: "Inactive (14+ days)", sent: "67", opened: "42%", revenue: "€380", date: "Mar 25" },
-  { name: "Birthday Rewards", status: "Active", audience: "Birthday this month", sent: "23", opened: "91%", revenue: "€210", date: "Mar 20" },
-  { name: "Flash Lunch Deal", status: "Sent", audience: "All customers", sent: "1,247", opened: "55%", revenue: "€890", date: "Mar 18" },
+  { name: "Weekend Double Points", status: "Sent", audience: "All customers", sent: "1,247", opened: "68%", revenue: "$1,420", date: "Mar 28" },
+  { name: "We Miss You", status: "Sent", audience: "Inactive (14+ days)", sent: "67", opened: "42%", revenue: "$380", date: "Mar 25" },
+  { name: "Birthday Rewards", status: "Active", audience: "Birthday this month", sent: "23", opened: "91%", revenue: "$210", date: "Mar 20" },
+  { name: "Flash Lunch Deal", status: "Sent", audience: "All customers", sent: "1,247", opened: "55%", revenue: "$890", date: "Mar 18" },
   { name: "VIP Exclusive Offer", status: "Draft", audience: "VIP segment", sent: "—", opened: "—", revenue: "—", date: "—" },
-  { name: "New Customer Welcome", status: "Active", audience: "New signups", sent: "342", opened: "78%", revenue: "€520", date: "Ongoing" },
+  { name: "New Customer Welcome", status: "Active", audience: "New signups", sent: "342", opened: "78%", revenue: "$520", date: "Ongoing" },
 ];
 
 const templates = [
@@ -48,7 +48,7 @@ export default function CampaignsPage() {
           { label: "Total Sent", value: "2,926", icon: Send },
           { label: "Avg. Open Rate", value: "64%", icon: Eye },
           { label: "Customers Reached", value: "1,247", icon: Users },
-          { label: "Revenue from Campaigns", value: "€3,420", icon: TrendingUp },
+          { label: "Revenue from Campaigns", value: "$3,420", icon: TrendingUp },
         ].map((k) => {
           const Icon = k.icon;
           return (

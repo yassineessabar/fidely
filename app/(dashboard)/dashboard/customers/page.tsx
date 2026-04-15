@@ -4,16 +4,16 @@ import { useState } from "react";
 import { Search, Download, Filter, ChevronDown } from "lucide-react";
 
 const customers = [
-  { name: "Sophie Martin", email: "sophie@email.com", visits: 24, points: 480, lastVisit: "Today", status: "VIP", spend: "€596", card: "Gold" },
-  { name: "Marc Dupont", email: "marc.d@email.com", visits: 18, points: 360, lastVisit: "Yesterday", status: "Active", spend: "€412", card: "Silver" },
-  { name: "Julie Rousseau", email: "julie.r@email.com", visits: 15, points: 290, lastVisit: "2 days ago", status: "Active", spend: "€348", card: "Silver" },
-  { name: "Thomas Bernard", email: "thomas.b@email.com", visits: 12, points: 240, lastVisit: "3 days ago", status: "Active", spend: "€276", card: "Bronze" },
-  { name: "Léa Petit", email: "lea.p@email.com", visits: 10, points: 195, lastVisit: "5 days ago", status: "Active", spend: "€230", card: "Bronze" },
-  { name: "Antoine Moreau", email: "antoine@email.com", visits: 8, points: 160, lastVisit: "1 week ago", status: "Active", spend: "€184", card: "Bronze" },
-  { name: "Camille Leroy", email: "camille@email.com", visits: 5, points: 95, lastVisit: "2 weeks ago", status: "Inactive", spend: "€115", card: "Basic" },
-  { name: "Lucas Girard", email: "lucas.g@email.com", visits: 3, points: 60, lastVisit: "3 weeks ago", status: "Inactive", spend: "€69", card: "Basic" },
-  { name: "Emma Bonnet", email: "emma.b@email.com", visits: 2, points: 40, lastVisit: "1 month ago", status: "Inactive", spend: "€46", card: "Basic" },
-  { name: "Hugo Laurent", email: "hugo@email.com", visits: 1, points: 20, lastVisit: "1 month ago", status: "New", spend: "€23", card: "Basic" },
+  { name: "Sophie Martin", email: "sophie@email.com", visits: 24, points: 480, lastVisit: "Today", status: "VIP", spend: "$596", card: "Gold" },
+  { name: "Marc Dupont", email: "marc.d@email.com", visits: 18, points: 360, lastVisit: "Yesterday", status: "Active", spend: "$412", card: "Silver" },
+  { name: "Julie Rousseau", email: "julie.r@email.com", visits: 15, points: 290, lastVisit: "2 days ago", status: "Active", spend: "$348", card: "Silver" },
+  { name: "Thomas Bernard", email: "thomas.b@email.com", visits: 12, points: 240, lastVisit: "3 days ago", status: "Active", spend: "$276", card: "Bronze" },
+  { name: "Léa Petit", email: "lea.p@email.com", visits: 10, points: 195, lastVisit: "5 days ago", status: "Active", spend: "$230", card: "Bronze" },
+  { name: "Antoine Moreau", email: "antoine@email.com", visits: 8, points: 160, lastVisit: "1 week ago", status: "Active", spend: "$184", card: "Bronze" },
+  { name: "Camille Leroy", email: "camille@email.com", visits: 5, points: 95, lastVisit: "2 weeks ago", status: "Inactive", spend: "$115", card: "Basic" },
+  { name: "Lucas Girard", email: "lucas.g@email.com", visits: 3, points: 60, lastVisit: "3 weeks ago", status: "Inactive", spend: "$69", card: "Basic" },
+  { name: "Emma Bonnet", email: "emma.b@email.com", visits: 2, points: 40, lastVisit: "1 month ago", status: "Inactive", spend: "$46", card: "Basic" },
+  { name: "Hugo Laurent", email: "hugo@email.com", visits: 1, points: 20, lastVisit: "1 month ago", status: "New", spend: "$23", card: "Basic" },
 ];
 
 const filters = ["All", "Active", "VIP", "Inactive", "New"];

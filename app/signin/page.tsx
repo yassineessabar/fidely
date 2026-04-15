@@ -1,8 +1,44 @@
 "use client";
 
-import FidelyLogo from "../components/FidelyLogo";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import KyroLogo from "../components/KyroLogo";
 
 export default function SigninPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Invalid email or password");
+        return;
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       style={{
@@ -115,104 +151,131 @@ export default function SigninPage() {
             Sign in to manage your loyalty cards, track your customers, and grow your revenue.
           </p>
 
-          {/* Email input */}
-          <div style={{ marginTop: "32px" }}>
-            <label
+          {/* Error message */}
+          {error && (
+            <div
               style={{
-                display: "block",
+                marginTop: "16px",
+                padding: "12px 16px",
+                backgroundColor: "rgb(254,242,242)",
+                border: "1px solid rgb(252,165,165)",
+                borderRadius: "12px",
                 fontSize: "14px",
-                fontWeight: 500,
-                color: "rgb(11,5,29)",
-                marginBottom: "8px",
+                color: "rgb(185,28,28)",
               }}
             >
-              Email address
-            </label>
-            <input
-              type="email"
-              placeholder="you@business.com"
-              style={{
-                width: "100%",
-                height: "50px",
-                padding: "0 16px",
-                fontSize: "16px",
-                fontWeight: 400,
-                color: "rgb(11,5,29)",
-                backgroundColor: "rgb(249,248,245)",
-                border: "1px solid rgb(228,227,223)",
-                borderRadius: "12px",
-                outline: "none",
-                fontFamily: "inherit",
-                transition: "border-color 0.2s",
-              }}
-            />
-          </div>
+              {error}
+            </div>
+          )}
 
-          {/* Password input */}
-          <div style={{ marginTop: "16px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+          <form onSubmit={handleSubmit}>
+            {/* Email input */}
+            <div style={{ marginTop: "32px" }}>
               <label
                 style={{
+                  display: "block",
                   fontSize: "14px",
                   fontWeight: 500,
                   color: "rgb(11,5,29)",
+                  marginBottom: "8px",
                 }}
               >
-                Password
+                Email address
               </label>
-              <a
-                href="#"
+              <input
+                type="email"
+                placeholder="you@business.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
                 style={{
-                  fontSize: "13px",
-                  color: "rgb(147,51,234)",
-                  textDecoration: "none",
-                  fontWeight: 500,
+                  width: "100%",
+                  height: "50px",
+                  padding: "0 16px",
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  color: "rgb(11,5,29)",
+                  backgroundColor: "rgb(249,248,245)",
+                  border: "1px solid rgb(228,227,223)",
+                  borderRadius: "12px",
+                  outline: "none",
+                  fontFamily: "inherit",
+                  transition: "border-color 0.2s",
+                }}
+              />
+            </div>
+
+            {/* Password input */}
+            <div style={{ marginTop: "16px" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+                <label
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: 500,
+                    color: "rgb(11,5,29)",
+                  }}
+                >
+                  Password
+                </label>
+                <a
+                  href="#"
+                  style={{
+                    fontSize: "13px",
+                    color: "rgb(147,51,234)",
+                    textDecoration: "none",
+                    fontWeight: 500,
+                  }}
+                >
+                  Forgot password?
+                </a>
+              </div>
+              <input
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  padding: "0 16px",
+                  fontSize: "16px",
+                  fontWeight: 400,
+                  color: "rgb(11,5,29)",
+                  backgroundColor: "rgb(249,248,245)",
+                  border: "1px solid rgb(228,227,223)",
+                  borderRadius: "12px",
+                  outline: "none",
+                  fontFamily: "inherit",
+                  transition: "border-color 0.2s",
+                }}
+              />
+            </div>
+
+            {/* Sign in button */}
+            <div style={{ marginTop: "24px" }}>
+              <button
+                type="submit"
+                disabled={loading}
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  backgroundColor: loading ? "rgb(107,100,120)" : "rgb(11,5,29)",
+                  borderRadius: "9999px",
+                  border: "none",
+                  cursor: loading ? "not-allowed" : "pointer",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  transition: "background-color 0.2s",
                 }}
               >
-                Forgot password?
-              </a>
+                <span style={{ color: "rgb(249,248,245)", fontSize: "16px", fontWeight: 500, lineHeight: "18px" }}>
+                  {loading ? "Signing in..." : "Sign in"}
+                </span>
+              </button>
             </div>
-            <input
-              type="password"
-              placeholder="Enter your password"
-              style={{
-                width: "100%",
-                height: "50px",
-                padding: "0 16px",
-                fontSize: "16px",
-                fontWeight: 400,
-                color: "rgb(11,5,29)",
-                backgroundColor: "rgb(249,248,245)",
-                border: "1px solid rgb(228,227,223)",
-                borderRadius: "12px",
-                outline: "none",
-                fontFamily: "inherit",
-                transition: "border-color 0.2s",
-              }}
-            />
-          </div>
-
-          {/* Sign in button */}
-          <div style={{ marginTop: "24px" }}>
-            <button
-              style={{
-                width: "100%",
-                height: "50px",
-                backgroundColor: "rgb(11,5,29)",
-                borderRadius: "9999px",
-                border: "none",
-                cursor: "pointer",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                transition: "background-color 0.2s",
-              }}
-            >
-              <span style={{ color: "rgb(249,248,245)", fontSize: "16px", fontWeight: 500, lineHeight: "18px" }}>
-                Sign in
-              </span>
-            </button>
-          </div>
+          </form>
 
           {/* Divider */}
           <div style={{ display: "flex", alignItems: "center", gap: "16px", marginTop: "32px" }}>
@@ -273,7 +336,7 @@ export default function SigninPage() {
           }}
         >
           <div style={{ alignSelf: "center" }}>
-            <FidelyLogo color="#959391" height={20} />
+            <KyroLogo color="#959391" height={20} />
           </div>
           <div style={{ display: "flex", justifyContent: "center", gap: "8px", flexWrap: "wrap" }}>
             {[
@@ -353,7 +416,7 @@ export default function SigninPage() {
               <span className="font-display" style={{ color: "#6C47FF", fontWeight: 800, fontSize: "14px" }}>f</span>
             </div>
             <div>
-              <p style={{ margin: 0, color: "white", fontSize: "12px", fontWeight: 600 }}>Fidely Card</p>
+              <p style={{ margin: 0, color: "white", fontSize: "12px", fontWeight: 600 }}>Kyro Card</p>
               <p style={{ margin: 0, color: "rgba(255,255,255,0.5)", fontSize: "10px" }}>Your Business</p>
             </div>
           </div>

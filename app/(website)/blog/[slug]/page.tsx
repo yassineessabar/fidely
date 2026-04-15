@@ -31,7 +31,7 @@ export async function generateMetadata({
       description: post.desc,
       url: `/blog/${post.slug}`,
       publishedTime: post.dateISO,
-      authors: ["Fidely"],
+      authors: ["Kyro"],
       tags: [post.category, "loyalty", "customer retention"],
     },
     twitter: {
@@ -66,23 +66,23 @@ export default function BlogPostPage({
     description: post.desc,
     datePublished: post.dateISO,
     dateModified: post.dateISO,
-    author: { "@type": "Organization", name: "Fidely", url: "https://fidely.com" },
+    author: { "@type": "Organization", name: "Kyro", url: "https://kyro.com" },
     publisher: {
       "@type": "Organization",
-      name: "Fidely",
-      url: "https://fidely.com",
-      logo: { "@type": "ImageObject", url: "https://fidely.com/favicon.svg" },
+      name: "Kyro",
+      url: "https://kyro.com",
+      logo: { "@type": "ImageObject", url: "https://kyro.com/favicon.svg" },
     },
-    mainEntityOfPage: { "@type": "WebPage", "@id": `https://fidely.com/blog/${post.slug}` },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `https://kyro.com/blog/${post.slug}` },
   };
 
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
-      { "@type": "ListItem", position: 2, name: "Blog", item: "https://fidely.com/blog" },
-      { "@type": "ListItem", position: 3, name: post.title, item: `https://fidely.com/blog/${post.slug}` },
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://kyro.com/blog" },
+      { "@type": "ListItem", position: 3, name: post.title, item: `https://kyro.com/blog/${post.slug}` },
     ],
   };
 

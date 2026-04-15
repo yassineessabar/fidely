@@ -36,7 +36,7 @@ export async function generateMetadata({
     description: meta.description,
     alternates: { canonical: `/card/${type}` },
     openGraph: {
-      title: `${meta.title} | Fidely`,
+      title: `${meta.title} | Kyro`,
       description: meta.description,
       url: `/card/${type}`,
     },

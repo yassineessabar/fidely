@@ -23,7 +23,7 @@ export const posts: BlogPost[] = [
   {
     slug: "how-cafe-bloom-increased-revenue-30-percent",
     title: "How Café Bloom Increased Revenue by 30% in 3 Weeks",
-    desc: "A case study on how a small Parisian café used Fidely to transform their customer retention.",
+    desc: "A case study on how a small Parisian café used Kyro to transform their customer retention.",
     date: "Mar 15, 2025",
     dateISO: "2025-03-15",
     category: "Case Study",

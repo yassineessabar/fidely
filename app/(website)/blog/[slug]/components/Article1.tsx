@@ -29,9 +29,9 @@ export default function Article1() {
       <p style={p}>
         Now think about what that costs you. Each lost card is a lost customer
         relationship. If your average customer visits 3 times before completing
-        a punch card, and your average order is €15, every lost card represents
+        a punch card, and your average order is $15, every lost card represents
         at least{" "}
-        <strong>€45 in potential revenue</strong> that walks out the door.
+        <strong>$45 in potential revenue</strong> that walks out the door.
       </p>
 
       <h2 className="font-display" style={h2}>
@@ -41,8 +41,8 @@ export default function Article1() {
         1. Printing costs add up
       </h3>
       <p style={p}>
-        A batch of 1,000 punch cards costs €50-100. You go through 3-4 batches
-        a year. That&apos;s €200-400 annually — not huge, but not zero either.
+        A batch of 1,000 punch cards costs $50-100. You go through 3-4 batches
+        a year. That&apos;s $200-400 annually — not huge, but not zero either.
         Digital cards cost nothing to distribute.
       </p>
       <h3 className="font-display" style={h3style}>

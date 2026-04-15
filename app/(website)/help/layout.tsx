@@ -2,11 +2,11 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Help Center — Guides & Support",
-  description: "Find answers to common questions about Fidely. Setup guides, troubleshooting, account management, and customer support.",
+  description: "Find answers to common questions about Kyro. Setup guides, troubleshooting, account management, and customer support.",
   alternates: { canonical: "/help" },
   openGraph: {
-    title: "Fidely Help Center — Guides & Support",
-    description: "Find answers to common questions about Fidely. Setup guides, troubleshooting, and support.",
+    title: "Kyro Help Center — Guides & Support",
+    description: "Find answers to common questions about Kyro. Setup guides, troubleshooting, and support.",
     url: "/help",
   },
 };
@@ -18,7 +18,7 @@ const helpFaqJsonLd = {
     {
       "@type": "Question",
       name: "How do I set up my first loyalty card?",
-      acceptedAnswer: { "@type": "Answer", text: "Sign up for Fidely, choose your card type (punch, reward, cashback, or discount), customize the design, and share the QR code with your customers. Setup takes less than 24 hours." },
+      acceptedAnswer: { "@type": "Answer", text: "Sign up for Kyro, choose your card type (punch, reward, cashback, or discount), customize the design, and share the QR code with your customers. Setup takes less than 24 hours." },
     },
     {
       "@type": "Question",
@@ -28,7 +28,7 @@ const helpFaqJsonLd = {
     {
       "@type": "Question",
       name: "How do I send push notifications?",
-      acceptedAnswer: { "@type": "Answer", text: "From your Fidely dashboard, go to Campaigns, write your message, select your audience, and send. Notifications are delivered instantly to customers' lock screens at no cost." },
+      acceptedAnswer: { "@type": "Answer", text: "From your Kyro dashboard, go to Campaigns, write your message, select your audience, and send. Notifications are delivered instantly to customers' lock screens at no cost." },
     },
     {
       "@type": "Question",
@@ -38,7 +38,7 @@ const helpFaqJsonLd = {
     {
       "@type": "Question",
       name: "How do I track customer visits and analytics?",
-      acceptedAnswer: { "@type": "Answer", text: "Your Fidely dashboard shows real-time analytics: total customers, visit frequency, redemption rates, and revenue impact. All data is collected automatically when customers use their card." },
+      acceptedAnswer: { "@type": "Answer", text: "Your Kyro dashboard shows real-time analytics: total customers, visit frequency, redemption rates, and revenue impact. All data is collected automatically when customers use their card." },
     },
   ],
 };
@@ -47,8 +47,8 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
-    { "@type": "ListItem", position: 2, name: "Help Center", item: "https://fidely.com/help" },
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
+    { "@type": "ListItem", position: 2, name: "Help Center", item: "https://kyro.com/help" },
   ],
 };
 

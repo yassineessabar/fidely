@@ -20,7 +20,7 @@ export default function Article2() {
       <p style={p}>
         Café Bloom&apos;s revenue was flat. Weekday mornings were strong, but
         afternoons and weekends were hit-or-miss. Marie tried Instagram
-        promotions and a €500 Google Ads campaign. Both brought in new faces,
+        promotions and a $500 Google Ads campaign. Both brought in new faces,
         but most never came back for a second visit.
       </p>
       <p style={p}>
@@ -34,7 +34,7 @@ export default function Article2() {
         The solution
       </h2>
       <p style={p}>
-        In February 2025, Marie launched a digital loyalty card with Fidely.
+        In February 2025, Marie launched a digital loyalty card with Kyro.
         Setup took one afternoon. Here&apos;s what she did:
       </p>
       <ul style={ul}>
@@ -79,8 +79,8 @@ export default function Article2() {
         reminded them.&rdquo;
       </p>
       <p style={p}>
-        Cost of that notification? €0. The equivalent SMS campaign would have
-        cost €12-15.
+        Cost of that notification? $0. The equivalent SMS campaign would have
+        cost $12-15.
       </p>
 
       <h2 className="font-display" style={h2}>

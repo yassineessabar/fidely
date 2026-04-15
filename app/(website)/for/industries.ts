@@ -23,7 +23,7 @@ export const industries: Industry[] = [
     description: "Digital loyalty cards designed for cafés. Replace paper punch cards with Apple & Google Wallet passes that customers actually keep.",
     metaTitle: "Café Loyalty Program — Digital Punch Cards for Coffee Shops",
     metaDescription: "Digital loyalty cards for cafés and coffee shops. Replace paper punch cards with Apple & Google Wallet. Increase repeat visits by 30%. No app needed.",
-    heroSubtitle: "The average café loses 80% of first-time visitors. Fidely brings them back with digital punch cards that live in their phone.",
+    heroSubtitle: "The average café loses 80% of first-time visitors. Kyro brings them back with digital punch cards that live in their phone.",
     painPoints: [
       "Paper punch cards get lost — 80% never get completed",
       "No way to contact customers who haven't visited in weeks",
@@ -40,7 +40,7 @@ export const industries: Industry[] = [
     stats: [
       { value: "+35%", label: "repeat visits" },
       { value: "3.8x", label: "card completion rate vs paper" },
-      { value: "€0", label: "per notification sent" },
+      { value: "$0", label: "per notification sent" },
     ],
     testimonial: { quote: "We switched from paper and saw 3x more completed cards in the first month. The notifications alone brought back customers we hadn't seen in weeks.", author: "Marie D.", business: "Café Bloom, Paris" },
     cta: "Get your café loyalty card",
@@ -86,7 +86,7 @@ export const industries: Industry[] = [
     heroSubtitle: "The average salon client visits every 6-8 weeks. With the right nudge, you can bring that down to 4-5 weeks — that's 2-3 extra visits per year.",
     painPoints: [
       "Clients forget to rebook — they go wherever is convenient",
-      "No-shows cost you €50-100 per empty chair hour",
+      "No-shows cost you $50-100 per empty chair hour",
       "You rely on Instagram DMs to stay in touch",
       "Competitors are one Google search away",
     ],

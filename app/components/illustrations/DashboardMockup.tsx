@@ -15,7 +15,7 @@ export default function DashboardMockup() {
 
       {/* URL bar */}
       <rect x="170" y="10" width="220" height="20" rx="4" fill="white" />
-      <text x="210" y="24" fontSize="8" fill="#9CA3AF" fontFamily="sans-serif">dashboard.fidely.com</text>
+      <text x="210" y="24" fontSize="8" fill="#9CA3AF" fontFamily="sans-serif">dashboard.kyro.com</text>
 
       {/* Sidebar */}
       <rect x="0" y="40" width="60" height="340" fill="#0B051D" />
@@ -45,7 +45,7 @@ export default function DashboardMockup() {
       {[
         { x: 80, label: "Customers", value: "1,471", change: "+12%" },
         { x: 190, label: "Repeat Visits", value: "188", change: "+28%" },
-        { x: 300, label: "Revenue", value: "€16.3k", change: "+18%" },
+        { x: 300, label: "Revenue", value: "$16.3k", change: "+18%" },
         { x: 410, label: "Active Cards", value: "1,247", change: "+9%" },
       ].map((card) => (
         <g key={card.label}>

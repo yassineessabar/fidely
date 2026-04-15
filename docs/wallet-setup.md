@@ -6,15 +6,15 @@
 
 1. Go to [Apple Developer Portal](https://developer.apple.com/account/resources/identifiers/list/passTypeId)
 2. Click **+** to register a new Pass Type ID
-3. Enter description: "Fidely Loyalty Card"
-4. Enter identifier: `pass.com.fidely.loyalty`
+3. Enter description: "Kyro Loyalty Card"
+4. Enter identifier: `pass.com.kyro.loyalty`
 5. Click **Register**
 
 ### 2. Create a Pass Signing Certificate
 
 1. Go to [Certificates](https://developer.apple.com/account/resources/certificates/list)
 2. Click **+** > choose **Pass Type ID Certificate**
-3. Select your Pass Type ID (`pass.com.fidely.loyalty`)
+3. Select your Pass Type ID (`pass.com.kyro.loyalty`)
 4. Follow the CSR creation steps (Keychain Access > Certificate Assistant > Request a Certificate)
 5. Upload CSR, download the `.cer` file
 
@@ -40,7 +40,7 @@ openssl x509 -inform DER -in certs/wwdr.cer -out certs/wwdr.pem
 
 ```bash
 APPLE_TEAM_ID=YOUR_TEAM_ID
-APPLE_PASS_TYPE_ID=pass.com.fidely.loyalty
+APPLE_PASS_TYPE_ID=pass.com.kyro.loyalty
 APPLE_PASS_CERT_PATH=./certs/pass.pem
 APPLE_PASS_KEY_PATH=./certs/pass-key.pem
 APPLE_PASS_CERT_PASSWORD=your_p12_password
@@ -84,7 +84,7 @@ GOOGLE_WALLET_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KE
 ## Directory Structure
 
 ```
-fidely-card/
+kyro-card/
   certs/                    # DO NOT COMMIT
     pass.pem
     pass-key.pem

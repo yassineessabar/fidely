@@ -1,0 +1,69 @@
+{
+  "generated": "2026-04-13T20:37:24.245Z",
+  "model": "mixed (per-image)",
+  "total": 12,
+  "completed": 12,
+  "failed": 0,
+  "images": [
+    {
+      "id": "blog-loyalty-stats",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/1e1ff034-a1fc-4399-a657-2dfd158a8250.png"
+    },
+    {
+      "id": "blog-digital-vs-paper",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/2c741c77-813e-43e9-8bdd-ec9d44c39bd8.png"
+    },
+    {
+      "id": "blog-cafe-success",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/1567f99d-7363-45f9-8520-c92265a93b1f.png"
+    },
+    {
+      "id": "blog-push-notifications",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/84f66b3a-28e6-4fa5-a783-039c37894000.png"
+    },
+    {
+      "id": "blog-retention",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/6a7803ea-5029-4052-814a-c421e7a29d0f.png"
+    },
+    {
+      "id": "blog-small-business",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/45d1d966-7d18-43e5-a657-db89c87818d8.png"
+    },
+    {
+      "id": "careers-hero",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/461accec-cb9d-4b64-b8e8-2bc550e72dd5.png"
+    },
+    {
+      "id": "press-hero",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/67d1e00d-a629-4cea-aea0-09a6d83919ac.png"
+    },
+    {
+      "id": "brand-abstract-1",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/e72b3cb3-e67d-4b7e-a9f9-681b2493623b.png"
+    },
+    {
+      "id": "brand-abstract-2",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/cfdb851b-55c9-4108-91fd-5cfcbebf8f61.png"
+    },
+    {
+      "id": "brand-abstract-3",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/cefe1543-524b-4d67-8572-791db4b363c7.png"
+    },
+    {
+      "id": "brand-mosaic",
+      "status": "success",
+      "url": "https://d3u0tzju9qaucj.cloudfront.net/7650a50f-94e0-46c4-8f40-7dd3f5407df2/13194414-3f3a-4b25-9dc6-0c1bd2faad37.png"
+    }
+  ]
+}

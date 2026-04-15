@@ -26,13 +26,13 @@ export default function FeaturePage({ params }: { params: { feature: string } })
     "@type": "WebPage",
     name: feat.metaTitle,
     description: feat.metaDescription,
-    url: `https://fidely.com/features/${feat.slug}`,
+    url: `https://kyro.com/features/${feat.slug}`,
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://fidely.com" },
-        { "@type": "ListItem", position: 2, name: "Features", item: "https://fidely.com/features" },
-        { "@type": "ListItem", position: 3, name: feat.name, item: `https://fidely.com/features/${feat.slug}` },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
+        { "@type": "ListItem", position: 2, name: "Features", item: "https://kyro.com/features" },
+        { "@type": "ListItem", position: 3, name: feat.name, item: `https://kyro.com/features/${feat.slug}` },
       ],
     },
   };

@@ -27,7 +27,7 @@ export default function AIPage() {
         <div style={{ width: "36px", height: "36px", borderRadius: "10px", background: "linear-gradient(135deg, rgb(11,5,29), rgb(44,34,66))", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <Sparkles size={18} color="rgb(230,255,169)" />
         </div>
-        <h1 className="font-display" style={{ fontSize: "24px", fontWeight: 700, color: "rgb(11,5,29)", margin: 0 }}>Fidely AI</h1>
+        <h1 className="font-display" style={{ fontSize: "24px", fontWeight: 700, color: "rgb(11,5,29)", margin: 0 }}>Kyro AI</h1>
       </div>
       <p style={{ fontSize: "14px", color: "rgb(97,95,109)", margin: "0 0 32px" }}>Smart recommendations to grow your revenue</p>
 
@@ -37,7 +37,7 @@ export default function AIPage() {
           <input
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Ask Fidely AI anything..."
+            placeholder="Ask Kyro AI anything..."
             style={{ flex: 1, height: "48px", padding: "0 16px", fontSize: "15px", color: "rgb(11,5,29)", backgroundColor: "rgb(249,248,245)", border: "1px solid rgba(0,0,0,0.06)", borderRadius: "12px", outline: "none", fontFamily: "inherit" }}
           />
           <button style={{ width: "48px", height: "48px", borderRadius: "12px", border: "none", backgroundColor: "rgb(11,5,29)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>

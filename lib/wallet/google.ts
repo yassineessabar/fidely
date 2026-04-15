@@ -23,7 +23,7 @@ export function areGoogleCredentialsAvailable(): boolean {
 
 export function generateGoogleWalletUrl(
   template: PassTemplate,
-  baseUrl: string = "https://fidely.com"
+  baseUrl: string = "https://kyro.com"
 ): string {
   if (!ISSUER_ID || !SERVICE_ACCOUNT_EMAIL || !PRIVATE_KEY) {
     throw new Error(
@@ -34,7 +34,7 @@ export function generateGoogleWalletUrl(
     );
   }
 
-  const classSuffix = `fidely_${template.type}_${template.merchantId}`.replace(/[^a-zA-Z0-9_.-]/g, "_");
+  const classSuffix = `kyro_${template.type}_${template.merchantId}`.replace(/[^a-zA-Z0-9_.-]/g, "_");
   const objectSuffix = `${classSuffix}_${uuidv4().replace(/-/g, "")}`;
 
   const hexBg = rgbToHex(template.backgroundColor);
@@ -96,7 +96,7 @@ export function generateGoogleWalletUrl(
     classId: `${ISSUER_ID}.${classSuffix}`,
     state: "ACTIVE",
     accountId: `demo-${template.type}`,
-    accountName: "Fidely Demo",
+    accountName: "Kyro Demo",
     barcode: {
       type: getBarcodeType(template.barcodeFormat),
       value: template.barcodeValue,

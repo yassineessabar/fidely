@@ -47,7 +47,7 @@ export const features: Feature[] = [
     headline: "Free marketing, forever",
     subtitle: "Unlimited push notifications to your customers' lock screens. No SMS fees, no ad spend, no app required.",
     benefits: [
-      { title: "€0 per message", desc: "Unlike SMS (€0.05-0.08 each) or ads (€100+ per campaign), wallet notifications are completely free. Send daily if you want." },
+      { title: "$0 per message", desc: "Unlike SMS ($0.05-0.08 each) or ads ($100+ per campaign), wallet notifications are completely free. Send daily if you want." },
       { title: "95% delivery rate", desc: "Lands directly on the lock screen — the same place texts and calls appear. Almost impossible to miss." },
       { title: "Permission-based", desc: "Customers opted in by adding your card. They expect and welcome your updates. Not spam — helpful reminders." },
       { title: "Instant action", desc: "A 'Double points today!' message at 11am drives lunch traffic that same day. Real-time response, not next-week brand awareness." },
@@ -59,7 +59,7 @@ export const features: Feature[] = [
       { step: "Track results", desc: "See open rates, visit impact, and which messages drive the most foot traffic." },
     ],
     stats: [
-      { value: "€0", label: "per notification" },
+      { value: "$0", label: "per notification" },
       { value: "95%", label: "delivery rate" },
       { value: "67%", label: "average open rate" },
     ],
@@ -79,7 +79,7 @@ export const features: Feature[] = [
       { title: "Tiered status", desc: "Bronze → Silver → Gold. Higher tiers earn faster. Status creates emotional loyalty that discounts alone can't match." },
     ],
     howItWorks: [
-      { step: "Set your earn rate", desc: "1 point per €1, 10 points per visit, or any formula. You decide what drives the behavior you want." },
+      { step: "Set your earn rate", desc: "1 point per $1, 10 points per visit, or any formula. You decide what drives the behavior you want." },
       { step: "Define rewards", desc: "Create a reward catalog: free items, discounts, exclusive access. Multiple tiers work best." },
       { step: "Customers earn automatically", desc: "Each purchase or visit adds points. Balance updates in real-time on their wallet card." },
       { step: "Redemption is instant", desc: "Customer hits the threshold, shows their card, gets the reward. Simple." },

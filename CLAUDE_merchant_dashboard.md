@@ -1,8 +1,8 @@
-# CLAUDE.md — Fidely Merchant Dashboard
+# CLAUDE.md — Kyro Merchant Dashboard
 
 You are a senior product engineer and SaaS UX designer.
 
-Your task is to design and build the **merchant-side dashboard** for **Fidely**, a loyalty and retention platform for local businesses.
+Your task is to design and build the **merchant-side dashboard** for **Kyro**, a loyalty and retention platform for local businesses.
 
 ## Product goal
 
@@ -35,7 +35,7 @@ Merchants should instantly understand:
 
 1. how many customers they have
 2. how many came back
-3. how much revenue Fidely generated
+3. how much revenue Kyro generated
 4. what action to take next
 
 ## Tech stack
@@ -306,7 +306,7 @@ Recommended:
 
 Create a page called:
 
-**Fidely AI**
+**Kyro AI**
 
 Purpose:
 give merchants smart, actionable suggestions.

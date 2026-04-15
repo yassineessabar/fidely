@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import FidelyLogo from "./FidelyLogo";
+import KyroLogo from "./KyroLogo";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -46,57 +46,6 @@ export default function Navbar() {
           borderBottom: "1px solid rgba(0,0,0,0.06)",
         }}
       >
-        {/* Top sub-bar: For businesses / For customers */}
-        <ul
-          style={{
-            height: "32px",
-            listStyle: "none",
-            margin: "0",
-            padding: "0",
-            display: "flex",
-            position: "relative",
-            flexDirection: "row",
-            gap: "16px",
-            maxWidth: "1680px",
-            zIndex: 1,
-            alignItems: "center",
-            borderBottom: "1px solid rgba(0,0,0,0.06)",
-          }}
-        >
-          <li style={{ listStyle: "none", display: "flex" }}>
-            <button
-              style={{
-                color: "rgb(11,5,29)",
-                background: "transparent",
-                border: "none",
-                fontSize: "13px",
-                fontWeight: 500,
-                padding: "4px 0",
-                cursor: "pointer",
-                fontFamily: "inherit",
-              }}
-            >
-              For businesses
-            </button>
-          </li>
-          <li style={{ listStyle: "none", display: "flex" }}>
-            <button
-              style={{
-                color: "rgb(97,95,109)",
-                background: "transparent",
-                border: "none",
-                fontSize: "13px",
-                fontWeight: 400,
-                padding: "4px 0",
-                cursor: "pointer",
-                fontFamily: "inherit",
-              }}
-            >
-              For customers
-            </button>
-          </li>
-        </ul>
-
         {/* Main nav bar */}
         <div style={{ height: "72px" }}>
           <div
@@ -142,8 +91,8 @@ export default function Navbar() {
               </button>
 
               {/* Logo */}
-              <a href="#" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-                <FidelyLogo color="rgb(11,5,29)" height={30} />
+              <a href="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+                <KyroLogo color="rgb(11,5,29)" height={30} />
               </a>
             </div>
 
@@ -178,7 +127,7 @@ export default function Navbar() {
                     transition: "background-color 0.2s",
                   }}
                 >
-                  Discover Fidely
+                  Discover Kyro
                   <svg width="12" height="7" viewBox="0 0 12 7" fill="none" style={{ transform: dropdownOpen ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>
                     <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
@@ -190,7 +139,7 @@ export default function Navbar() {
                 </a>
               </li>
               <li>
-                <a href="#why-fidely" style={{ display: "flex", alignItems: "center", padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "rgb(55,53,68)", textDecoration: "none", borderRadius: "999px", transition: "color 0.2s" }}>
+                <a href="#why-kyro" style={{ display: "flex", alignItems: "center", padding: "8px 16px", fontSize: "14px", fontWeight: 500, color: "rgb(55,53,68)", textDecoration: "none", borderRadius: "999px", transition: "color 0.2s" }}>
                   Features
                 </a>
               </li>
@@ -204,7 +153,7 @@ export default function Navbar() {
             {/* Right: Sign in + CTA */}
             <div style={{ display: "flex", alignItems: "center", gap: "12px", marginLeft: "auto" }} className="desktop-nav">
               <a
-                href="/signup"
+                href="/signin"
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -222,7 +171,7 @@ export default function Navbar() {
                 Sign in
               </a>
               <a
-                href="#cta"
+                href="/signup"
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -243,7 +192,31 @@ export default function Navbar() {
                   <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" strokeLinecap="round" strokeLinejoin="round"/>
                   <circle cx="12" cy="7" r="4" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                Book a demo
+                Get started
+              </a>
+              <a
+                href="https://calendly.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "6px",
+                  padding: "0 16px",
+                  height: "40px",
+                  fontSize: "14px",
+                  fontWeight: 500,
+                  color: "rgb(11,5,29)",
+                  backgroundColor: "white",
+                  border: "1.5px solid rgb(11,5,29)",
+                  borderRadius: "999px",
+                  textDecoration: "none",
+                  transition: "background-color 0.2s",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Book demo
               </a>
             </div>
           </div>
@@ -309,7 +282,7 @@ export default function Navbar() {
         <a href="/help" onClick={() => setMobileOpen(false)} style={{ fontSize: "16px", fontWeight: 500, color: "rgb(11,5,29)", textDecoration: "none", padding: "12px 0", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>Help</a>
         <div style={{ marginTop: "auto", paddingTop: "24px" }}>
           <a
-            href="#cta"
+            href="/signup"
             onClick={() => setMobileOpen(false)}
             style={{
               display: "flex",
@@ -327,7 +300,31 @@ export default function Navbar() {
               width: "100%",
             }}
           >
-            Book a demo
+            Get started
+          </a>
+          <a
+            href="https://calendly.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileOpen(false)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "8px",
+              padding: "0 20px",
+              height: "48px",
+              fontSize: "16px",
+              fontWeight: 500,
+              color: "rgb(11,5,29)",
+              backgroundColor: "white",
+              border: "1.5px solid rgb(11,5,29)",
+              borderRadius: "999px",
+              textDecoration: "none",
+              width: "100%",
+            }}
+          >
+            Book demo
           </a>
         </div>
       </div>

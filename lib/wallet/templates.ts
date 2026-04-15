@@ -1,19 +1,19 @@
 import { PassTemplate, PassType } from "./types";
 
-const FIDELY_PURPLE = "rgb(192,132,252)";
-const FIDELY_LIGHT = "rgb(243,232,255)";
-const FIDELY_DARK = "rgb(88,28,135)";
+const KYRO_PURPLE = "rgb(192,132,252)";
+const KYRO_LIGHT = "rgb(243,232,255)";
+const KYRO_DARK = "rgb(88,28,135)";
 
 export const templates: Record<PassType, PassTemplate> = {
   discount: {
     type: "discount",
-    merchantName: "Fidely",
-    merchantId: "fidely-demo",
-    logoText: "Fidely",
+    merchantName: "Kyro",
+    merchantId: "kyro-demo",
+    logoText: "Kyro",
     description: "Make purchases, increase the discount",
-    backgroundColor: FIDELY_PURPLE,
-    foregroundColor: FIDELY_LIGHT,
-    labelColor: FIDELY_DARK,
+    backgroundColor: KYRO_PURPLE,
+    foregroundColor: KYRO_LIGHT,
+    labelColor: KYRO_DARK,
     headerFields: [],
     primaryFields: [
       { key: "discount", label: "DISCOUNT PERCENTAGE", value: "5%" },
@@ -24,22 +24,22 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "ABOUT", value: "Present this card at checkout to receive your discount. Your tier upgrades automatically as you spend more." },
-      { key: "powered", label: "POWERED BY", value: "Fidely - https://fidely.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
     ],
     barcodeFormat: "PDF417",
-    barcodeValue: "FIDELY-DISCOUNT-DEMO-001",
+    barcodeValue: "KYRO-DISCOUNT-DEMO-001",
     stripImagePath: "/wallet/strip-discount.png",
   },
 
   reward: {
     type: "reward",
-    merchantName: "Fidely",
-    merchantId: "fidely-demo",
-    logoText: "Fidely",
+    merchantName: "Kyro",
+    merchantId: "kyro-demo",
+    logoText: "Kyro",
     description: "Collect points and get rewards",
-    backgroundColor: FIDELY_PURPLE,
-    foregroundColor: FIDELY_LIGHT,
-    labelColor: FIDELY_DARK,
+    backgroundColor: KYRO_PURPLE,
+    foregroundColor: KYRO_LIGHT,
+    labelColor: KYRO_DARK,
     headerFields: [
       { key: "balance", label: "BALANCE", value: 23 },
     ],
@@ -52,22 +52,22 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "HOW IT WORKS", value: "Earn 1 point per $1 spent. Redeem points for exclusive rewards at any time." },
-      { key: "powered", label: "POWERED BY", value: "Fidely - https://fidely.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
     ],
     barcodeFormat: "PDF417",
-    barcodeValue: "FIDELY-REWARD-DEMO-001",
+    barcodeValue: "KYRO-REWARD-DEMO-001",
     stripImagePath: "/wallet/strip-reward.png",
   },
 
   stamp: {
     type: "stamp",
-    merchantName: "Fidely",
-    merchantId: "fidely-demo",
-    logoText: "Fidely",
+    merchantName: "Kyro",
+    merchantId: "kyro-demo",
+    logoText: "Kyro",
     description: "Collect stamps to get rewards",
-    backgroundColor: FIDELY_PURPLE,
-    foregroundColor: FIDELY_LIGHT,
-    labelColor: FIDELY_DARK,
+    backgroundColor: KYRO_PURPLE,
+    foregroundColor: KYRO_LIGHT,
+    labelColor: KYRO_DARK,
     headerFields: [
       { key: "validUntil", label: "VALID UNTIL", value: "04/12/2027" },
     ],
@@ -80,22 +80,22 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "HOW IT WORKS", value: "Collect 1 stamp per visit. After 10 stamps, redeem your free reward. Card resets after redemption." },
-      { key: "powered", label: "POWERED BY", value: "Fidely - https://fidely.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
     ],
     barcodeFormat: "QR",
-    barcodeValue: "FIDELY-STAMP-DEMO-001",
+    barcodeValue: "KYRO-STAMP-DEMO-001",
     stripImagePath: "/wallet/strip-stamp.png",
   },
 
   cashback: {
     type: "cashback",
-    merchantName: "Fidely",
-    merchantId: "fidely-demo",
-    logoText: "Fidely",
+    merchantName: "Kyro",
+    merchantId: "kyro-demo",
+    logoText: "Kyro",
     description: "Get bonus points for each purchase",
-    backgroundColor: FIDELY_PURPLE,
-    foregroundColor: FIDELY_LIGHT,
-    labelColor: FIDELY_DARK,
+    backgroundColor: KYRO_PURPLE,
+    foregroundColor: KYRO_LIGHT,
+    labelColor: KYRO_DARK,
     headerFields: [
       { key: "points", label: "POINTS", value: "0,00" },
     ],
@@ -108,10 +108,10 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "HOW IT WORKS", value: "Earn 5% cashback on every purchase. Cashback is credited to your points balance instantly." },
-      { key: "powered", label: "POWERED BY", value: "Fidely - https://fidely.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
     ],
     barcodeFormat: "PDF417",
-    barcodeValue: "FIDELY-CASHBACK-DEMO-001",
+    barcodeValue: "KYRO-CASHBACK-DEMO-001",
     stripImagePath: "/wallet/strip-cashback.png",
   },
 };

@@ -7,7 +7,7 @@ import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "rec
 const kpis = [
   { label: "Total Customers", value: "1,471", change: "+12.3%", positive: true, icon: Users },
   { label: "Repeat Visits", value: "188", change: "+28.6%", positive: true, icon: RotateCcw },
-  { label: "Revenue Generated", value: "€16,328", change: "+18.4%", positive: true, icon: TrendingUp },
+  { label: "Revenue Generated", value: "$16,328", change: "+18.4%", positive: true, icon: TrendingUp },
   { label: "Active Cards", value: "1,247", change: "+9.1%", positive: true, icon: CreditCard },
 ];
 
@@ -99,8 +99,8 @@ export default function DashboardPage() {
                 </linearGradient>
               </defs>
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "rgb(97,95,109)" }} />
-              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "rgb(97,95,109)" }} tickFormatter={(v) => chartMode === "revenue" ? `€${(v / 1000).toFixed(0)}k` : v} />
-              <Tooltip contentStyle={{ borderRadius: "10px", border: "1px solid rgba(0,0,0,0.06)", fontSize: "13px" }} formatter={(v: number) => [chartMode === "revenue" ? `€${v.toLocaleString()}` : v, chartMode === "revenue" ? "Revenue" : "Visits"]} />
+              <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "rgb(97,95,109)" }} tickFormatter={(v) => chartMode === "revenue" ? `$${(v / 1000).toFixed(0)}k` : v} />
+              <Tooltip contentStyle={{ borderRadius: "10px", border: "1px solid rgba(0,0,0,0.06)", fontSize: "13px" }} formatter={(v: number) => [chartMode === "revenue" ? `$${v.toLocaleString()}` : v, chartMode === "revenue" ? "Revenue" : "Visits"]} />
               <Area type="monotone" dataKey={chartMode} stroke="rgb(11,5,29)" strokeWidth={2} fill="url(#grad)" />
             </AreaChart>
           </ResponsiveContainer>
@@ -111,8 +111,8 @@ export default function DashboardPage() {
           {[
             { label: "New Customers", value: "1,471", sub: "this month" },
             { label: "Repeat Visits", value: "188", sub: "+28.6% vs last month" },
-            { label: "Avg. Order Value", value: "€24.80", sub: "+3.2% uplift" },
-            { label: "ROI", value: "€1 → €7.86", sub: "per €1 spent on Fidely" },
+            { label: "Avg. Order Value", value: "$24.80", sub: "+3.2% uplift" },
+            { label: "ROI", value: "$1 → $7.86", sub: "per $1 spent on Kyro" },
           ].map((s) => (
             <div key={s.label} style={{ backgroundColor: "white", borderRadius: "16px", padding: "20px", border: "1px solid rgba(0,0,0,0.04)", flex: 1 }}>
               <p style={{ fontSize: "12px", color: "rgb(97,95,109)", margin: "0 0 6px" }}>{s.label}</p>

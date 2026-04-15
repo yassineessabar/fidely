@@ -15,11 +15,11 @@ export default function Article3() {
         Let&apos;s look at what it costs to reach 1,000 customers through different channels:
       </p>
       <ul style={ul}>
-        <li style={li}><strong>SMS:</strong> €50-80 per campaign (€0.05-0.08 per message)</li>
-        <li style={li}><strong>Email:</strong> €20-50/month for a platform, plus time to design</li>
-        <li style={li}><strong>Instagram/Facebook ads:</strong> €100-500+ per campaign</li>
-        <li style={li}><strong>Google Ads:</strong> €200-1,000+ per campaign</li>
-        <li style={li}><strong>Wallet push notifications:</strong> €0. Free. Always.</li>
+        <li style={li}><strong>SMS:</strong> $50-80 per campaign ($0.05-0.08 per message)</li>
+        <li style={li}><strong>Email:</strong> $20-50/month for a platform, plus time to design</li>
+        <li style={li}><strong>Instagram/Facebook ads:</strong> $100-500+ per campaign</li>
+        <li style={li}><strong>Google Ads:</strong> $200-1,000+ per campaign</li>
+        <li style={li}><strong>Wallet push notifications:</strong> $0. Free. Always.</li>
       </ul>
       <p style={p}>
         That&apos;s not a typo. Push notifications through Apple Wallet and Google Wallet cost nothing to send. You can send them daily if you want. There&apos;s no per-message fee, no platform subscription, no ad spend.
@@ -61,11 +61,11 @@ export default function Article3() {
         Here&apos;s where it gets powerful. Every notification you send is free. So as your customer base grows from 100 to 500 to 2,000, your reach grows proportionally — but your cost stays at zero. Compare that to ads, where reaching more people means spending more money.
       </p>
       <p style={p}>
-        After 6 months, a business with 1,000 wallet customers sending 2 notifications per week has sent 48,000 marketing messages. At SMS rates, that would have cost €2,400-3,800. With wallet notifications: €0.
+        After 6 months, a business with 1,000 wallet customers sending 2 notifications per week has sent 48,000 marketing messages. At SMS rates, that would have cost $2,400-3,800. With wallet notifications: $0.
       </p>
 
       <blockquote style={blockquote}>
-        &ldquo;We used to spend €300/month on SMS campaigns. Now we reach the same customers through wallet notifications for free. That&apos;s €3,600/year back in our pocket.&rdquo;
+        &ldquo;We used to spend $300/month on SMS campaigns. Now we reach the same customers through wallet notifications for free. That&apos;s $3,600/year back in our pocket.&rdquo;
       </blockquote>
 
       <h2 className="font-display" style={h2}>Getting started</h2>

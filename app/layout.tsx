@@ -47,10 +47,10 @@ const klarnaTitle = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://fidely.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://kyro.com"),
   title: {
-    default: "Fidely — Digital Loyalty Cards for Apple & Google Wallet",
-    template: "%s | Fidely",
+    default: "Kyro — Digital Loyalty Cards for Apple & Google Wallet",
+    template: "%s | Kyro",
   },
   description:
     "Turn every visit into a returning customer. Digital loyalty cards for Apple Wallet & Google Wallet. No app download needed. Launch in 24 hours.",
@@ -65,11 +65,11 @@ export const metadata: Metadata = {
     "cashback card",
     "stamp card",
     "customer loyalty app",
-    "fidely",
+    "kyro",
   ],
-  authors: [{ name: "Fidely" }],
-  creator: "Fidely",
-  publisher: "Fidely",
+  authors: [{ name: "Kyro" }],
+  creator: "Kyro",
+  publisher: "Kyro",
   icons: {
     icon: "/favicon.svg",
     apple: "/favicon.svg",
@@ -77,18 +77,18 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "Fidely",
-    title: "Fidely — Digital Loyalty Cards for Apple & Google Wallet",
+    siteName: "Kyro",
+    title: "Kyro — Digital Loyalty Cards for Apple & Google Wallet",
     description:
       "Turn every visit into a returning customer. Digital loyalty cards for Apple Wallet & Google Wallet. No app download needed. Launch in 24 hours.",
     url: "/",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fidely — Digital Loyalty Cards for Apple & Google Wallet",
+    title: "Kyro — Digital Loyalty Cards for Apple & Google Wallet",
     description:
       "Turn every visit into a returning customer. Digital loyalty cards for Apple Wallet & Google Wallet. No app download needed.",
-    creator: "@fidely",
+    creator: "@kyro",
   },
   robots: {
     index: true,
@@ -122,12 +122,12 @@ export default function RootLayout({
               "@graph": [
                 {
                   "@type": "Organization",
-                  "@id": "https://fidely.com/#organization",
-                  name: "Fidely",
-                  url: "https://fidely.com",
+                  "@id": "https://kyro.com/#organization",
+                  name: "Kyro",
+                  url: "https://kyro.com",
                   logo: {
                     "@type": "ImageObject",
-                    url: "https://fidely.com/favicon.svg",
+                    url: "https://kyro.com/favicon.svg",
                   },
                   description:
                     "Digital loyalty cards for Apple Wallet & Google Wallet. Help local businesses bring customers back automatically.",
@@ -136,34 +136,34 @@ export default function RootLayout({
                 },
                 {
                   "@type": "WebSite",
-                  "@id": "https://fidely.com/#website",
-                  url: "https://fidely.com",
-                  name: "Fidely",
+                  "@id": "https://kyro.com/#website",
+                  url: "https://kyro.com",
+                  name: "Kyro",
                   publisher: {
-                    "@id": "https://fidely.com/#organization",
+                    "@id": "https://kyro.com/#organization",
                   },
                   potentialAction: {
                     "@type": "SearchAction",
                     target: {
                       "@type": "EntryPoint",
-                      urlTemplate: "https://fidely.com/help?q={search_term_string}",
+                      urlTemplate: "https://kyro.com/help?q={search_term_string}",
                     },
                     "query-input": "required name=search_term_string",
                   },
                 },
                 {
                   "@type": "SiteNavigationElement",
-                  "@id": "https://fidely.com/#navigation",
+                  "@id": "https://kyro.com/#navigation",
                   name: ["Home", "Business", "Pricing", "Customers", "About", "Blog", "Help", "Contact"],
                   url: [
-                    "https://fidely.com",
-                    "https://fidely.com/business",
-                    "https://fidely.com/pricing",
-                    "https://fidely.com/customers",
-                    "https://fidely.com/about",
-                    "https://fidely.com/blog",
-                    "https://fidely.com/help",
-                    "https://fidely.com/contact",
+                    "https://kyro.com",
+                    "https://kyro.com/business",
+                    "https://kyro.com/pricing",
+                    "https://kyro.com/customers",
+                    "https://kyro.com/about",
+                    "https://kyro.com/blog",
+                    "https://kyro.com/help",
+                    "https://kyro.com/contact",
                   ],
                 },
               ],

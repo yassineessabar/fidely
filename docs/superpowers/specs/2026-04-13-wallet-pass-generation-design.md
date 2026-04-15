@@ -2,7 +2,7 @@
 
 ## Goal
 
-Build end-to-end Apple Wallet (.pkpass) and Google Wallet pass generation for Fidely's 4 loyalty card types. Merchant-agile: each merchant configures their own design, the 4 Fidely-branded demos serve as working templates.
+Build end-to-end Apple Wallet (.pkpass) and Google Wallet pass generation for Kyro's 4 loyalty card types. Merchant-agile: each merchant configures their own design, the 4 Kyro-branded demos serve as working templates.
 
 ## 4 Pass Types
 
@@ -13,7 +13,7 @@ Build end-to-end Apple Wallet (.pkpass) and Google Wallet pass generation for Fi
 | **Stamp** | `storeCard` | Valid Until | Stamps Until Reward | Available Rewards | QR |
 | **Cashback** | `storeCard` | Points | Cashback % | Cashback Status | PDF417 |
 
-All passes share: Fidely logo, purple gradient strip image, "Powered by Fidely" back field, merchant name as org.
+All passes share: Kyro logo, purple gradient strip image, "Powered by Kyro" back field, merchant name as org.
 
 ## Architecture
 
@@ -37,7 +37,7 @@ lib/
     types.ts                    ← PassTemplate, MerchantConfig, PassData interfaces
     apple.ts                    ← Apple .pkpass generation logic
     google.ts                   ← Google Wallet JWT generation logic
-    templates.ts                ← 4 Fidely demo template configs
+    templates.ts                ← 4 Kyro demo template configs
     assets.ts                   ← Logo, icon, strip image paths
 ```
 
@@ -63,7 +63,7 @@ interface PassTemplate {
 }
 ```
 
-Each merchant creates their own PassTemplate. The 4 Fidely demos are hardcoded templates with Fidely branding.
+Each merchant creates their own PassTemplate. The 4 Kyro demos are hardcoded templates with Kyro branding.
 
 ## Apple Wallet (.pkpass) Generation
 
@@ -78,7 +78,7 @@ Each merchant creates their own PassTemplate. The 4 Fidely demos are hardcoded t
 
 **Certificate Setup (env vars):**
 ```
-APPLE_PASS_TYPE_ID=pass.com.fidely.loyalty
+APPLE_PASS_TYPE_ID=pass.com.kyro.loyalty
 APPLE_TEAM_ID=XXXXXXXXXX
 APPLE_PASS_CERT_PATH=./certs/pass.p12
 APPLE_PASS_CERT_PASSWORD=xxxxx
@@ -89,7 +89,7 @@ APPLE_WWDR_CERT_PATH=./certs/wwdr.pem
 - `formatVersion`: 2
 - `passTypeIdentifier`: from env
 - `teamIdentifier`: from env
-- `organizationName`: merchant name or "Fidely"
+- `organizationName`: merchant name or "Kyro"
 - `serialNumber`: unique per pass
 - `description`: pass description
 - `storeCard`: field structure varies by type
@@ -120,50 +120,50 @@ GOOGLE_WALLET_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----...
 
 ## Frontend: /wallet Preview Page
 
-Shows 4 pass cards in a grid, each matching the Boomerang screenshot style but Fidely-branded:
+Shows 4 pass cards in a grid, each matching the Boomerang screenshot style but Kyro-branded:
 - Purple background card with strip image
-- Fidely logo top-left
+- Kyro logo top-left
 - Type-specific fields (discount %, points balance, stamp grid, cashback %)
 - Barcode/QR at bottom
-- "Powered by Fidely" footer
+- "Powered by Kyro" footer
 - Two buttons: "Add to Apple Wallet" + "Add to Google Wallet"
 
 The `PassCard` component is reusable — takes a `PassTemplate` and renders the preview. Same component merchants will use in the dashboard to preview their custom designs.
 
-## Fidely Demo Branding
+## Kyro Demo Branding
 
 - **Primary color:** Purple (`rgb(168,85,247)` / `#a855f7`)
 - **Background:** Light lavender (`rgb(243,232,255)`)
 - **Text:** Dark (`rgb(11,5,29)`)
 - **Labels:** Purple (`rgb(147,51,234)`)
-- **Logo:** Fidely SVG logo
+- **Logo:** Kyro SVG logo
 - **Strip images:** Purple gradient banners with type-specific imagery (generated as static PNGs in `/public/wallet/`)
 - **Font:** System default (Apple/Google Wallet don't support custom fonts in passes)
 
 ## Demo Pass Data
 
 **Discount:**
-- Merchant: "Fidely Pharmacy"
+- Merchant: "Kyro Pharmacy"
 - Strip: "5% OFF FOR EVERYTHING IN OUR PHARMACY" + pill illustration
 - Discount Percentage: 5%
 - Discount Status: Bronze
 
 **Reward:**
-- Merchant: "Fidely Deli"
+- Merchant: "Kyro Deli"
 - Strip: "COLLECT POINTS GET REWARDS" + sandwich illustration
 - Balance: 23
 - Reward: $15 OFF
 - Till Next Reward: 17
 
 **Stamp:**
-- Merchant: "Fidely Coffee"
+- Merchant: "Kyro Coffee"
 - Strip: Coffee cup stamp grid (1 filled, 9 empty)
 - Valid Until: 04/12/2027
 - Stamps Until Reward: 9 stamps
 - Available Rewards: 0 rewards
 
 **Cashback:**
-- Merchant: "Fidely Sushi"
+- Merchant: "Kyro Sushi"
 - Strip: "SPEND MORE EARN MORE" + sushi illustration
 - Points: 0.00
 - Cashback Percentage: 5%
