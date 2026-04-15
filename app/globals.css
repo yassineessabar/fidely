@@ -51,6 +51,19 @@ html { scroll-behavior: smooth; }
   font-family: var(--font-sans), Arial, sans-serif;
 }
 
+/* ========== STATS GRID ========== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+@media (max-width: 768px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
+
 /* ========== ANIMATIONS ========== */
 @keyframes heroHeadline {
   0% { opacity: 0; transform: translateY(60px); }
@@ -233,11 +246,63 @@ html { scroll-behavior: smooth; }
   .dash-kpi-grid { grid-template-columns: 1fr !important; }
 }
 
+/* ========== DASHBOARD — Small mobile ========== */
+@media (max-width: 500px) {
+  .dash-main { padding: 0 !important; }
+  .dash-main > main { padding: 16px !important; }
+}
+
+/* ========== ADMIN PANEL ========== */
+@media (max-width: 900px) {
+  /* Card builder: stack vertically on mobile */
+  .card-builder-layout {
+    flex-direction: column !important;
+  }
+  .card-builder-form {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+  }
+  .card-builder-preview {
+    flex: 1 1 100% !important;
+    position: static !important;
+    display: flex !important;
+    justify-content: center !important;
+    padding-top: 0 !important;
+    margin-bottom: 24px !important;
+    order: -1 !important;
+  }
+  /* Admin tables scroll on mobile */
+  .admin-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .admin-table-wrap table {
+    min-width: 600px;
+  }
+}
+
+@media (max-width: 500px) {
+  .card-builder-preview {
+    transform: scale(0.85);
+    transform-origin: top center;
+  }
+}
+
 /* ========== SIGNUP PAGE ========== */
 @media (max-width: 1024px) {
   .signup-right { display: none !important; }
   .signup-left { max-width: 100% !important; }
   .signup-heading { font-size: 28px !important; line-height: 34px !important; }
+}
+@media (max-width: 640px) {
+  .signup-left {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  .signup-left > div {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
 }
 @media (max-width: 1280px) {
   .signup-hero-text { font-size: 56px !important; line-height: 58px !important; }

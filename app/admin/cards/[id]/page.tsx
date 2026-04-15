@@ -93,11 +93,11 @@ export default function EditCardPage() {
         </div>
       )}
 
-      <div style={{ display: "flex", gap: "32px", alignItems: "flex-start", minHeight: "calc(100vh - 140px)" }}>
-        <div style={{ flex: "0 0 58%", minWidth: 0 }}>
+      <div className="card-builder-layout" style={{ display: "flex", gap: "32px", alignItems: "flex-start", minHeight: "calc(100vh - 140px)" }}>
+        <div className="card-builder-form" style={{ flex: "0 0 58%", minWidth: 0 }}>
           <CardBuilderForm initialData={initialData} merchants={merchants} onChange={(data: any) => setPreviewData(data)} onSave={handleSave} onPublish={handlePublish} saving={saving} publishing={publishing} />
         </div>
-        <div style={{ flex: "0 0 38%", position: "sticky", top: "104px", display: "flex", justifyContent: "center", paddingTop: "16px" }}>
+        <div className="card-builder-preview" style={{ flex: "0 0 38%", position: "sticky", top: "104px", display: "flex", justifyContent: "center", paddingTop: "16px" }}>
           {previewData && <CardPreview type={previewData.type || "stamp"} businessDetails={previewData.businessDetails || {}} branding={previewData.branding || {}} logic={previewData.logic || {}} />}
         </div>
       </div>
