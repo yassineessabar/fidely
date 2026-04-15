@@ -491,7 +491,7 @@ export default function CardBuilderForm({
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
                     <div style={fieldWrap}>
                       <label style={labelStyle}>Total Stamps</label>
-                      <input type="number" min={1} max={50} value={l.totalStamps} onChange={(e) => setLogic({ totalStamps: parseInt(e.target.value) || 1 })} style={inputStyle} />
+                      <input type="number" min={3} max={20} value={l.totalStamps} onChange={(e) => { const v = parseInt(e.target.value) || 3; setLogic({ totalStamps: Math.min(20, Math.max(3, v)) }); }} style={inputStyle} />
                     </div>
                     <div style={fieldWrap}>
                       <label style={labelStyle}>Stamp Icon</label>
