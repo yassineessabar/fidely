@@ -13,6 +13,7 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
+  X,
 } from "lucide-react";
 
 const navItems = [
@@ -54,13 +55,13 @@ export default function Sidebar({
         overflow: "hidden",
       }}
     >
-      {/* Logo */}
+      {/* Logo + close button */}
       <div
         style={{
           padding: collapsed ? "20px 0" : "20px 24px",
           display: "flex",
           alignItems: "center",
-          justifyContent: collapsed ? "center" : "flex-start",
+          justifyContent: collapsed ? "center" : "space-between",
           height: "72px",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}
@@ -70,7 +71,26 @@ export default function Sidebar({
             <span className="font-display" style={{ color: "rgb(11,5,29)", fontWeight: 800, fontSize: "16px" }}>f</span>
           </div>
         ) : (
-          <KyroLogo color="white" height={22} />
+          <>
+            <KyroLogo color="white" height={22} />
+            {onNavClick && (
+              <button
+                onClick={onNavClick}
+                className="dash-close-btn"
+                style={{
+                  display: "none",
+                  background: "rgba(255,255,255,0.1)",
+                  border: "none",
+                  borderRadius: "8px",
+                  padding: "6px",
+                  cursor: "pointer",
+                  color: "rgba(255,255,255,0.6)",
+                }}
+              >
+                <X size={18} />
+              </button>
+            )}
+          </>
         )}
       </div>
 

@@ -11,6 +11,7 @@ import {
   CreditCard,
   ChevronLeft,
   ChevronRight,
+  X,
 } from "lucide-react";
 
 const navItems = [
@@ -55,7 +56,7 @@ export default function AdminSidebar({
           padding: collapsed ? "20px 0" : "20px 24px",
           display: "flex",
           alignItems: "center",
-          justifyContent: collapsed ? "center" : "flex-start",
+          justifyContent: collapsed ? "center" : "space-between",
           height: "72px",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}
@@ -80,6 +81,7 @@ export default function AdminSidebar({
             </span>
           </div>
         ) : (
+          <>
           <div>
             <KyroLogo color="white" height={22} />
             <span
@@ -96,6 +98,24 @@ export default function AdminSidebar({
               Admin
             </span>
           </div>
+          {onNavClick && (
+            <button
+              onClick={onNavClick}
+              className="dash-close-btn"
+              style={{
+                display: "none",
+                background: "rgba(255,255,255,0.1)",
+                border: "none",
+                borderRadius: "8px",
+                padding: "6px",
+                cursor: "pointer",
+                color: "rgba(255,255,255,0.6)",
+              }}
+            >
+              <X size={18} />
+            </button>
+          )}
+          </>
         )}
       </div>
 

@@ -310,6 +310,7 @@ html { scroll-behavior: smooth; }
   .dash-sidebar-mobile { display: block !important; }
   .dash-main { margin-left: 0 !important; }
   .dash-menu-btn { display: flex !important; }
+  .dash-close-btn { display: flex !important; }
   .dash-search { display: none !important; }
   .dash-kpi-grid { grid-template-columns: 1fr 1fr !important; }
   .dash-chart-grid { grid-template-columns: 1fr !important; }
