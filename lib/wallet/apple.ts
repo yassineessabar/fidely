@@ -22,54 +22,86 @@ function loadFileIfExists(path: string, envVar?: string): Buffer | null {
   return null;
 }
 
-function loadImageBuffers(template: PassTemplate): Record<string, Buffer> {
+function parseColor(color: string): [number, number, number] {
+  // Handle hex (#RRGGBB or #RGB)
+  const hex = color.replace("#", "");
+  if (hex.length === 6) {
+    return [parseInt(hex.slice(0, 2), 16), parseInt(hex.slice(2, 4), 16), parseInt(hex.slice(4, 6), 16)];
+  }
+  if (hex.length === 3) {
+    return [parseInt(hex[0] + hex[0], 16), parseInt(hex[1] + hex[1], 16), parseInt(hex[2] + hex[2], 16)];
+  }
+  // Handle rgb(r, g, b)
+  const match = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+  if (match) return [Number(match[1]), Number(match[2]), Number(match[3])];
+  return [108, 71, 255]; // fallback purple
+}
+
+async function fetchImageBuffer(url: string): Promise<Buffer | null> {
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+    if (!res.ok) return null;
+    const arrayBuf = await res.arrayBuffer();
+    return Buffer.from(arrayBuf);
+  } catch {
+    return null;
+  }
+}
+
+async function loadImageBuffers(template: PassTemplate): Promise<Record<string, Buffer>> {
   const buffers: Record<string, Buffer> = {};
   const walletDir = join(process.cwd(), "public", "wallet");
 
-  const imageFiles = [
-    "icon.png", "icon@2x.png", "icon@3x.png",
-    "logo.png", "logo@2x.png",
-  ];
-
-  let useFs = false;
-  const testPath = join(walletDir, "icon.png");
-  if (existsSync(testPath)) {
-    useFs = true;
+  // Icons — use filesystem if available, otherwise generate
+  const iconFiles = ["icon.png", "icon@2x.png", "icon@3x.png"];
+  const iconSizes = [29, 58, 87];
+  for (let i = 0; i < iconFiles.length; i++) {
+    const filePath = join(walletDir, iconFiles[i]);
+    if (existsSync(filePath)) {
+      buffers[iconFiles[i]] = readFileSync(filePath);
+    } else {
+      const color = parseColor(template.accentColor || template.backgroundColor);
+      buffers[iconFiles[i]] = createPlaceholderPng(iconSizes[i], iconSizes[i], color);
+    }
   }
 
-  if (useFs) {
-    for (const file of imageFiles) {
-      const filePath = join(walletDir, file);
-      if (existsSync(filePath)) {
-        buffers[file] = readFileSync(filePath);
-      }
+  // Logo — fetch from logoUrl if available
+  if (template.logoUrl) {
+    const logoBuf = await fetchImageBuffer(template.logoUrl);
+    if (logoBuf) {
+      buffers["logo.png"] = logoBuf;
+      buffers["logo@2x.png"] = logoBuf;
     }
-    const stripFile = template.stripImagePath.replace("/wallet/", "");
-    const stripPath = join(walletDir, stripFile);
-    if (existsSync(stripPath)) {
-      buffers["strip.png"] = readFileSync(stripPath);
-      buffers["strip@2x.png"] = readFileSync(stripPath);
+  }
+  if (!buffers["logo.png"]) {
+    const filePath = join(walletDir, "logo.png");
+    if (existsSync(filePath)) {
+      buffers["logo.png"] = readFileSync(filePath);
+      const file2x = join(walletDir, "logo@2x.png");
+      buffers["logo@2x.png"] = existsSync(file2x) ? readFileSync(file2x) : buffers["logo.png"];
+    } else {
+      const color = parseColor(template.accentColor || template.backgroundColor);
+      buffers["logo.png"] = createPlaceholderPng(160, 50, color);
+      buffers["logo@2x.png"] = buffers["logo.png"];
     }
-  } else {
-    const placeholder1x = createPlaceholderPng(29, 29);
-    const placeholder2x = createPlaceholderPng(58, 58);
-    const placeholder3x = createPlaceholderPng(87, 87);
-    const logoPlaceholder = createPlaceholderPng(160, 50);
-    const stripPlaceholder = createPlaceholderPng(375, 123);
+  }
 
-    buffers["icon.png"] = placeholder1x;
-    buffers["icon@2x.png"] = placeholder2x;
-    buffers["icon@3x.png"] = placeholder3x;
-    buffers["logo.png"] = logoPlaceholder;
-    buffers["logo@2x.png"] = logoPlaceholder;
-    buffers["strip.png"] = stripPlaceholder;
-    buffers["strip@2x.png"] = stripPlaceholder;
+  // Strip — generate a colored strip using accent color
+  const stripFile = template.stripImagePath.replace("/wallet/", "");
+  const stripPath = join(walletDir, stripFile);
+  if (existsSync(stripPath)) {
+    buffers["strip.png"] = readFileSync(stripPath);
+    buffers["strip@2x.png"] = readFileSync(stripPath);
+  } else {
+    const stripColor = parseColor(template.accentColor || template.backgroundColor);
+    buffers["strip.png"] = createPlaceholderPng(375, 123, stripColor);
+    buffers["strip@2x.png"] = createPlaceholderPng(750, 246, stripColor);
   }
 
   return buffers;
 }
 
-function createPlaceholderPng(width: number, height: number): Buffer {
+function createPlaceholderPng(width: number, height: number, rgb: [number, number, number] = [108, 71, 255]): Buffer {
   const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 
   const ihdrData = Buffer.alloc(13);
@@ -86,7 +118,7 @@ function createPlaceholderPng(width: number, height: number): Buffer {
   for (let y = 0; y < height; y++) {
     scanlines.push(0);
     for (let x = 0; x < width; x++) {
-      scanlines.push(108, 71, 255);
+      scanlines.push(rgb[0], rgb[1], rgb[2]);
     }
   }
   const rawData = Buffer.from(scanlines);
@@ -542,7 +574,7 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
 
   const passJsonBuffer = Buffer.from(JSON.stringify(passJson));
 
-  const imageBuffers = loadImageBuffers(template);
+  const imageBuffers = await loadImageBuffers(template);
   const allFiles: Record<string, Buffer> = {
     "pass.json": passJsonBuffer,
     ...imageBuffers,

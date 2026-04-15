@@ -25,6 +25,8 @@ export interface PassTemplate {
   barcodeFormat: BarcodeFormat;
   barcodeValue: string;
   stripImagePath: string;
+  logoUrl?: string;
+  accentColor?: string;
 }
 
 export interface GeneratePassOptions {

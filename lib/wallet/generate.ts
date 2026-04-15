@@ -92,5 +92,7 @@ export function cardToPassTemplate(card: CardRow): PassTemplate {
     barcodeFormat: "QR",
     barcodeValue: `KYRO-${card.id.slice(0, 8).toUpperCase()}`,
     stripImagePath: "/wallet/strip-reward.png",
+    logoUrl: br.logoUrl || undefined,
+    accentColor: br.accentColor || undefined,
   };
 }
