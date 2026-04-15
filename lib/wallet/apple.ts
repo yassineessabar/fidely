@@ -1,8 +1,6 @@
 import { createHash, createSign, X509Certificate } from "crypto";
-import { execSync } from "child_process";
-import { readFileSync, existsSync, writeFileSync, mkdtempSync, rmSync } from "fs";
+import { readFileSync, existsSync } from "fs";
 import { join } from "path";
-import { tmpdir } from "os";
 import { v4 as uuidv4 } from "uuid";
 import { PassTemplate } from "./types";
 
@@ -148,10 +146,163 @@ function sha1Hex(buffer: Buffer): string {
   return createHash("sha1").update(buffer).digest("hex");
 }
 
+// ---- ASN.1 DER builder ----
+
+function derLength(len: number): Buffer {
+  if (len < 0x80) return Buffer.from([len]);
+  if (len < 0x100) return Buffer.from([0x81, len]);
+  if (len < 0x10000) return Buffer.from([0x82, (len >> 8) & 0xff, len & 0xff]);
+  if (len < 0x1000000) return Buffer.from([0x83, (len >> 16) & 0xff, (len >> 8) & 0xff, len & 0xff]);
+  return Buffer.from([0x84, (len >> 24) & 0xff, (len >> 16) & 0xff, (len >> 8) & 0xff, len & 0xff]);
+}
+
+function derSequence(contents: Buffer): Buffer {
+  return Buffer.concat([Buffer.from([0x30]), derLength(contents.length), contents]);
+}
+
+function derSet(contents: Buffer): Buffer {
+  return Buffer.concat([Buffer.from([0x31]), derLength(contents.length), contents]);
+}
+
+function derOid(oid: string): Buffer {
+  const parts = oid.split(".").map(Number);
+  const bytes: number[] = [40 * parts[0] + parts[1]];
+  for (let i = 2; i < parts.length; i++) {
+    let val = parts[i];
+    if (val < 128) {
+      bytes.push(val);
+    } else {
+      const encoded: number[] = [];
+      encoded.push(val & 0x7f);
+      val >>= 7;
+      while (val > 0) {
+        encoded.push((val & 0x7f) | 0x80);
+        val >>= 7;
+      }
+      encoded.reverse();
+      bytes.push(...encoded);
+    }
+  }
+  const content = Buffer.from(bytes);
+  return Buffer.concat([Buffer.from([0x06]), derLength(content.length), content]);
+}
+
+function derOctetString(data: Buffer): Buffer {
+  return Buffer.concat([Buffer.from([0x04]), derLength(data.length), data]);
+}
+
+function derInteger(value: Buffer): Buffer {
+  // Ensure positive by prepending 0x00 if high bit is set
+  let v = value;
+  if (v[0] & 0x80) {
+    v = Buffer.concat([Buffer.from([0x00]), v]);
+  }
+  return Buffer.concat([Buffer.from([0x02]), derLength(v.length), v]);
+}
+
+function derExplicit(tag: number, content: Buffer): Buffer {
+  return Buffer.concat([Buffer.from([0xa0 | tag]), derLength(content.length), content]);
+}
+
+function derUtcTime(date: Date): Buffer {
+  const y = date.getUTCFullYear().toString().slice(-2);
+  const m = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+  const d = date.getUTCDate().toString().padStart(2, "0");
+  const h = date.getUTCHours().toString().padStart(2, "0");
+  const min = date.getUTCMinutes().toString().padStart(2, "0");
+  const s = date.getUTCSeconds().toString().padStart(2, "0");
+  const str = `${y}${m}${d}${h}${min}${s}Z`;
+  const buf = Buffer.from(str, "ascii");
+  return Buffer.concat([Buffer.from([0x17]), derLength(buf.length), buf]);
+}
+
+function derNull(): Buffer {
+  return Buffer.from([0x05, 0x00]);
+}
+
+function pemToDer(pem: string): Buffer {
+  const lines = pem.split("\n").filter(l => !l.startsWith("-----") && l.trim().length > 0);
+  return Buffer.from(lines.join(""), "base64");
+}
+
+// OID constants
+const OID_PKCS7_SIGNED_DATA = "1.2.840.113549.1.7.2";
+const OID_PKCS7_DATA = "1.2.840.113549.1.7.1";
+const OID_SHA1 = "1.3.14.3.2.26";
+const OID_RSA_ENCRYPTION = "1.2.840.113549.1.1.1";
+const OID_CONTENT_TYPE = "1.2.840.113549.1.9.3";
+const OID_MESSAGE_DIGEST = "1.2.840.113549.1.9.4";
+const OID_SIGNING_TIME = "1.2.840.113549.1.9.5";
+
 /**
- * Create PKCS#7 detached signature using openssl via child_process.
- * node-forge produces invalid signatures on Vercel's runtime, so we
- * shell out to openssl which is available on Vercel's Amazon Linux.
+ * Extract issuer and serial from a PEM certificate using Node's X509Certificate.
+ */
+function getCertInfo(certPem: string): { issuerDer: Buffer; serialDer: Buffer; certDer: Buffer } {
+  const certDer = pemToDer(certPem);
+  const x509 = new X509Certificate(certPem);
+
+  // Parse the certificate DER to extract issuer
+  // The certificate is: SEQUENCE { tbsCertificate, signatureAlgorithm, signature }
+  // tbsCertificate is: SEQUENCE { version, serialNumber, signature, issuer, ... }
+  const tbs = parseDerSequence(certDer);
+  const tbsContent = parseDerSequence(tbs.content);
+
+  // Skip version (explicit tag 0), then serial, then sigAlg, then issuer
+  let pos = 0;
+  const fields = parseDerFields(tbsContent.content);
+
+  // fields[0] = version (explicit tag [0]) or serial if no version
+  let idx = 0;
+  if (fields[idx].tag === 0xa0) idx++; // skip explicit version
+  const serialField = fields[idx]; idx++;
+  idx++; // skip signature algorithm
+  const issuerField = fields[idx];
+
+  return {
+    issuerDer: issuerField.raw,
+    serialDer: serialField.raw,
+    certDer,
+  };
+}
+
+function parseDerSequence(der: Buffer): { tag: number; content: Buffer; totalLength: number } {
+  const tag = der[0];
+  let pos = 1;
+  let len = der[pos]; pos++;
+  if (len & 0x80) {
+    const numBytes = len & 0x7f;
+    len = 0;
+    for (let i = 0; i < numBytes; i++) {
+      len = (len << 8) | der[pos]; pos++;
+    }
+  }
+  return { tag, content: der.subarray(pos, pos + len), totalLength: pos + len };
+}
+
+function parseDerFields(der: Buffer): { tag: number; raw: Buffer }[] {
+  const fields: { tag: number; raw: Buffer }[] = [];
+  let pos = 0;
+  while (pos < der.length) {
+    const tag = der[pos];
+    let lenPos = pos + 1;
+    let len = der[lenPos]; lenPos++;
+    if (len & 0x80) {
+      const numBytes = len & 0x7f;
+      len = 0;
+      for (let i = 0; i < numBytes; i++) {
+        len = (len << 8) | der[lenPos]; lenPos++;
+      }
+    }
+    const end = lenPos + len;
+    fields.push({ tag, raw: der.subarray(pos, end) });
+    pos = end;
+  }
+  return fields;
+}
+
+/**
+ * Create PKCS#7 detached signature using Node's native crypto.
+ * Builds the ASN.1 DER structure manually — no node-forge, no openssl binary.
  */
 function createPkcs7Signature(
   manifestBuffer: Buffer,
@@ -159,27 +310,101 @@ function createPkcs7Signature(
   signerKeyPem: string,
   wwdrCertPem: string,
 ): Buffer {
-  const tmp = mkdtempSync(join(tmpdir(), "pkpass-"));
-  try {
-    writeFileSync(join(tmp, "manifest.json"), manifestBuffer);
-    writeFileSync(join(tmp, "cert.pem"), signerCertPem);
-    writeFileSync(join(tmp, "key.pem"), signerKeyPem);
-    writeFileSync(join(tmp, "wwdr.pem"), wwdrCertPem);
+  const signerInfo = getCertInfo(signerCertPem);
+  const wwdrInfo = getCertInfo(wwdrCertPem);
 
-    execSync(
-      `openssl smime -sign -binary -in manifest.json -out signature -outform DER -signer cert.pem -inkey key.pem -certfile wwdr.pem -passin pass:`,
-      { cwd: tmp, stdio: "pipe" },
-    );
+  // SHA1 digest of manifest
+  const manifestDigest = createHash("sha1").update(manifestBuffer).digest();
 
-    return readFileSync(join(tmp, "signature"));
-  } finally {
-    rmSync(tmp, { recursive: true, force: true });
-  }
+  // Build authenticated attributes
+  const now = new Date();
+
+  const contentTypeAttr = derSequence(Buffer.concat([
+    derOid(OID_CONTENT_TYPE),
+    derSet(derOid(OID_PKCS7_DATA)),
+  ]));
+
+  const signingTimeAttr = derSequence(Buffer.concat([
+    derOid(OID_SIGNING_TIME),
+    derSet(derUtcTime(now)),
+  ]));
+
+  const messageDigestAttr = derSequence(Buffer.concat([
+    derOid(OID_MESSAGE_DIGEST),
+    derSet(derOctetString(manifestDigest)),
+  ]));
+
+  const authenticatedAttrs = Buffer.concat([contentTypeAttr, signingTimeAttr, messageDigestAttr]);
+
+  // Sign the authenticated attributes
+  // For signing, authenticated attributes are encoded as a SET (tag 0x31)
+  const attrsForSigning = derSet(authenticatedAttrs);
+
+  const signer = createSign("SHA1");
+  signer.update(attrsForSigning);
+  const rsaSignature = signer.sign({
+    key: signerKeyPem,
+    passphrase: KEY_PASSPHRASE || undefined,
+  });
+
+  // Build the SignerInfo
+  const digestAlgorithm = derSequence(Buffer.concat([derOid(OID_SHA1), derNull()]));
+  const digestEncryptionAlgorithm = derSequence(Buffer.concat([derOid(OID_RSA_ENCRYPTION), derNull()]));
+
+  const issuerAndSerial = derSequence(Buffer.concat([
+    signerInfo.issuerDer,
+    signerInfo.serialDer,
+  ]));
+
+  // Authenticated attributes with implicit tag [0]
+  const authAttrsImplicit = Buffer.concat([
+    Buffer.from([0xa0]),
+    derLength(authenticatedAttrs.length),
+    authenticatedAttrs,
+  ]);
+
+  const signerInfoValue = derSequence(Buffer.concat([
+    derInteger(Buffer.from([1])), // version
+    issuerAndSerial,
+    digestAlgorithm,
+    authAttrsImplicit,
+    digestEncryptionAlgorithm,
+    derOctetString(rsaSignature),
+  ]));
+
+  // Build the SignedData
+  const digestAlgorithms = derSet(digestAlgorithm);
+  const contentInfo = derSequence(Buffer.concat([derOid(OID_PKCS7_DATA)]));
+
+  // Certificates [0] IMPLICIT
+  const certsContent = Buffer.concat([signerInfo.certDer, wwdrInfo.certDer]);
+  const certificates = Buffer.concat([
+    Buffer.from([0xa0]),
+    derLength(certsContent.length),
+    certsContent,
+  ]);
+
+  const signerInfos = derSet(signerInfoValue);
+
+  const signedData = derSequence(Buffer.concat([
+    derInteger(Buffer.from([1])), // version
+    digestAlgorithms,
+    contentInfo,
+    certificates,
+    signerInfos,
+  ]));
+
+  // Wrap in ContentInfo
+  const pkcs7 = derSequence(Buffer.concat([
+    derOid(OID_PKCS7_SIGNED_DATA),
+    derExplicit(0, signedData),
+  ]));
+
+  return pkcs7;
 }
 
 /**
  * Create a minimal ZIP archive from a map of filename→buffer.
- * No compression (store only), which is what Apple expects.
  */
 function createZip(files: Record<string, Buffer>): Buffer {
   const entries: { name: Buffer; data: Buffer; offset: number }[] = [];
@@ -190,63 +415,60 @@ function createZip(files: Record<string, Buffer>): Buffer {
     const nameBuffer = Buffer.from(name, "utf-8");
     const crc = crc32(data);
 
-    // Local file header
     const header = Buffer.alloc(30);
-    header.writeUInt32LE(0x04034b50, 0);  // signature
-    header.writeUInt16LE(20, 4);           // version needed
-    header.writeUInt16LE(0, 6);            // flags
-    header.writeUInt16LE(0, 8);            // compression (store)
-    header.writeUInt16LE(0, 10);           // mod time
-    header.writeUInt16LE(0, 12);           // mod date
-    header.writeUInt32LE(crc, 14);         // crc32
-    header.writeUInt32LE(data.length, 18); // compressed size
-    header.writeUInt32LE(data.length, 22); // uncompressed size
-    header.writeUInt16LE(nameBuffer.length, 26); // name length
-    header.writeUInt16LE(0, 28);           // extra length
+    header.writeUInt32LE(0x04034b50, 0);
+    header.writeUInt16LE(20, 4);
+    header.writeUInt16LE(0, 6);
+    header.writeUInt16LE(0, 8);
+    header.writeUInt16LE(0, 10);
+    header.writeUInt16LE(0, 12);
+    header.writeUInt32LE(crc, 14);
+    header.writeUInt32LE(data.length, 18);
+    header.writeUInt32LE(data.length, 22);
+    header.writeUInt16LE(nameBuffer.length, 26);
+    header.writeUInt16LE(0, 28);
 
     entries.push({ name: nameBuffer, data, offset });
     parts.push(header, nameBuffer, data);
     offset += 30 + nameBuffer.length + data.length;
   }
 
-  // Central directory
   const centralStart = offset;
   for (const entry of entries) {
     const crc = crc32(entry.data);
     const cd = Buffer.alloc(46);
-    cd.writeUInt32LE(0x02014b50, 0);  // signature
-    cd.writeUInt16LE(20, 4);           // version made by
-    cd.writeUInt16LE(20, 6);           // version needed
-    cd.writeUInt16LE(0, 8);            // flags
-    cd.writeUInt16LE(0, 10);           // compression
-    cd.writeUInt16LE(0, 12);           // mod time
-    cd.writeUInt16LE(0, 14);           // mod date
-    cd.writeUInt32LE(crc, 16);         // crc32
-    cd.writeUInt32LE(entry.data.length, 20); // compressed size
-    cd.writeUInt32LE(entry.data.length, 24); // uncompressed size
-    cd.writeUInt16LE(entry.name.length, 28); // name length
-    cd.writeUInt16LE(0, 30);           // extra length
-    cd.writeUInt16LE(0, 32);           // comment length
-    cd.writeUInt16LE(0, 34);           // disk start
-    cd.writeUInt16LE(0, 36);           // internal attrs
-    cd.writeUInt32LE(0, 38);           // external attrs
-    cd.writeUInt32LE(entry.offset, 42); // local header offset
+    cd.writeUInt32LE(0x02014b50, 0);
+    cd.writeUInt16LE(20, 4);
+    cd.writeUInt16LE(20, 6);
+    cd.writeUInt16LE(0, 8);
+    cd.writeUInt16LE(0, 10);
+    cd.writeUInt16LE(0, 12);
+    cd.writeUInt16LE(0, 14);
+    cd.writeUInt32LE(crc, 16);
+    cd.writeUInt32LE(entry.data.length, 20);
+    cd.writeUInt32LE(entry.data.length, 24);
+    cd.writeUInt16LE(entry.name.length, 28);
+    cd.writeUInt16LE(0, 30);
+    cd.writeUInt16LE(0, 32);
+    cd.writeUInt16LE(0, 34);
+    cd.writeUInt16LE(0, 36);
+    cd.writeUInt32LE(0, 38);
+    cd.writeUInt32LE(entry.offset, 42);
     parts.push(cd, entry.name);
     offset += 46 + entry.name.length;
   }
 
   const centralSize = offset - centralStart;
 
-  // End of central directory
   const eocd = Buffer.alloc(22);
-  eocd.writeUInt32LE(0x06054b50, 0);  // signature
-  eocd.writeUInt16LE(0, 4);            // disk number
-  eocd.writeUInt16LE(0, 6);            // central dir disk
-  eocd.writeUInt16LE(entries.length, 8);  // entries on disk
-  eocd.writeUInt16LE(entries.length, 10); // total entries
-  eocd.writeUInt32LE(centralSize, 12);    // central dir size
-  eocd.writeUInt32LE(centralStart, 16);   // central dir offset
-  eocd.writeUInt16LE(0, 20);              // comment length
+  eocd.writeUInt32LE(0x06054b50, 0);
+  eocd.writeUInt16LE(0, 4);
+  eocd.writeUInt16LE(0, 6);
+  eocd.writeUInt16LE(entries.length, 8);
+  eocd.writeUInt16LE(entries.length, 10);
+  eocd.writeUInt32LE(centralSize, 12);
+  eocd.writeUInt32LE(centralStart, 16);
+  eocd.writeUInt16LE(0, 20);
   parts.push(eocd);
 
   return Buffer.concat(parts);
@@ -287,7 +509,6 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
     throw new Error("APPLE_TEAM_ID not set. See docs/wallet-setup.md for instructions.");
   }
 
-  // Build pass.json (no additionalInfoFields — we control the structure directly)
   const barcodeFormat = template.barcodeFormat === "QR"
     ? "PKBarcodeFormatQR"
     : "PKBarcodeFormatPDF417";
@@ -321,21 +542,18 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
 
   const passJsonBuffer = Buffer.from(JSON.stringify(passJson));
 
-  // Collect all files
   const imageBuffers = loadImageBuffers(template);
   const allFiles: Record<string, Buffer> = {
     "pass.json": passJsonBuffer,
     ...imageBuffers,
   };
 
-  // Create manifest.json (SHA1 hash of each file)
   const manifest: Record<string, string> = {};
   for (const [name, buffer] of Object.entries(allFiles)) {
     manifest[name] = sha1Hex(buffer);
   }
   const manifestBuffer = Buffer.from(JSON.stringify(manifest));
 
-  // Create PKCS#7 signature using openssl (node-forge is unreliable on Vercel)
   const signatureBuffer = createPkcs7Signature(
     manifestBuffer,
     signerCertBuf.toString("utf-8"),
@@ -343,7 +561,6 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
     wwdrBuf.toString("utf-8"),
   );
 
-  // Build ZIP
   const zipFiles: Record<string, Buffer> = {
     ...allFiles,
     "manifest.json": manifestBuffer,
