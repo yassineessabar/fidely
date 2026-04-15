@@ -101,6 +101,7 @@ export default function InvoicesPage() {
 
       {/* Table */}
       <div
+        className="admin-table-wrap"
         style={{
           backgroundColor: "white",
           borderRadius: "12px",

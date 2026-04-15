@@ -77,7 +77,7 @@ export default function CardsPage() {
         >Create Card</button>
       </div>
 
-      <div style={{ backgroundColor: "white", borderRadius: "12px", border: "1px solid rgba(0,0,0,0.06)", overflow: "hidden" }}>
+      <div className="admin-table-wrap" style={{ backgroundColor: "white", borderRadius: "12px", border: "1px solid rgba(0,0,0,0.06)", overflow: "hidden" }}>
         {loading ? (
           <div style={{ padding: "48px", textAlign: "center", color: "rgb(97,95,109)" }}>Loading...</div>
         ) : cards.length === 0 ? (

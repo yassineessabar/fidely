@@ -91,6 +91,7 @@ export default function AdminDashboard() {
 
       {/* Recent Pending Applications */}
       <div
+        className="admin-table-wrap"
         style={{
           backgroundColor: "white",
           borderRadius: "12px",
