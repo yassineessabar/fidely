@@ -53,7 +53,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
           transition: "transform 0.2s ease",
         }}
       >
-        <AdminSidebar collapsed={false} onToggle={() => setMobileOpen(false)} />
+        <AdminSidebar collapsed={false} onToggle={() => setMobileOpen(false)} onNavClick={() => setMobileOpen(false)} />
       </div>
 
       <div

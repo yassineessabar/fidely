@@ -24,9 +24,11 @@ const navItems = [
 export default function AdminSidebar({
   collapsed,
   onToggle,
+  onNavClick,
 }: {
   collapsed: boolean;
   onToggle: () => void;
+  onNavClick?: () => void;
 }) {
   const pathname = usePathname();
 
@@ -110,6 +112,7 @@ export default function AdminSidebar({
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavClick}
               style={{
                 display: "flex",
                 alignItems: "center",

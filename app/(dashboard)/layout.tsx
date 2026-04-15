@@ -47,7 +47,7 @@ export default function DashboardLayout({
           transition: "transform 0.2s ease",
         }}
       >
-        <Sidebar collapsed={false} onToggle={() => setMobileOpen(false)} />
+        <Sidebar collapsed={false} onToggle={() => setMobileOpen(false)} onNavClick={() => setMobileOpen(false)} />
       </div>
 
       {/* Main content */}
