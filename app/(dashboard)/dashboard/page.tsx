@@ -100,7 +100,7 @@ export default function DashboardPage() {
               </defs>
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "rgb(97,95,109)" }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "rgb(97,95,109)" }} tickFormatter={(v) => chartMode === "revenue" ? `$${(v / 1000).toFixed(0)}k` : v} />
-              <Tooltip contentStyle={{ borderRadius: "10px", border: "1px solid rgba(0,0,0,0.06)", fontSize: "13px" }} formatter={(v: number) => [chartMode === "revenue" ? `$${v.toLocaleString()}` : v, chartMode === "revenue" ? "Revenue" : "Visits"]} />
+              <Tooltip contentStyle={{ borderRadius: "10px", border: "1px solid rgba(0,0,0,0.06)", fontSize: "13px" }} formatter={(v) => [chartMode === "revenue" ? `$${Number(v).toLocaleString()}` : v, chartMode === "revenue" ? "Revenue" : "Visits"]} />
               <Area type="monotone" dataKey={chartMode} stroke="rgb(11,5,29)" strokeWidth={2} fill="url(#grad)" />
             </AreaChart>
           </ResponsiveContainer>

@@ -55,7 +55,7 @@ export default function AnalyticsPage() {
             <LineChart data={retentionData}>
               <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: "rgb(97,95,109)" }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: "rgb(97,95,109)" }} tickFormatter={(v) => `${v}%`} />
-              <Tooltip contentStyle={{ borderRadius: "8px", border: "1px solid rgba(0,0,0,0.06)", fontSize: "12px" }} formatter={(v: number) => [`${v}%`, "Retention"]} />
+              <Tooltip contentStyle={{ borderRadius: "8px", border: "1px solid rgba(0,0,0,0.06)", fontSize: "12px" }} formatter={(v) => [`${v}%`, "Retention"]} />
               <Line type="monotone" dataKey="rate" stroke="rgb(11,5,29)" strokeWidth={2} dot={{ r: 3, fill: "rgb(11,5,29)" }} />
             </LineChart>
           </ResponsiveContainer>
