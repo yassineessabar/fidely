@@ -36,12 +36,14 @@ export async function GET(
 
   try {
     const buffer = await generateApplePass(template);
-    return new NextResponse(buffer as unknown as BodyInit, {
+    const uint8 = new Uint8Array(buffer);
+    return new Response(uint8, {
       status: 200,
       headers: {
         "Content-Type": "application/vnd.apple.pkpass",
-        "Content-Disposition": `inline; filename="kyro-${type}.pkpass"`,
-        "Content-Transfer-Encoding": "binary",
+        "Content-Length": String(uint8.byteLength),
+        "Content-Disposition": `attachment; filename="kyro-${type}.pkpass"`,
+        "Cache-Control": "no-store",
       },
     });
   } catch (err) {

@@ -25,11 +25,14 @@ export async function GET(
 
   try {
     const buffer = await generateApplePass(template);
-    return new NextResponse(buffer as any, {
+    const uint8 = new Uint8Array(buffer);
+    return new Response(uint8, {
+      status: 200,
       headers: {
         "Content-Type": "application/vnd.apple.pkpass",
-        "Content-Disposition": `inline; filename="${template.merchantName.replace(/[^a-zA-Z0-9]/g, "_")}.pkpass"`,
-        "Content-Transfer-Encoding": "binary",
+        "Content-Length": String(uint8.byteLength),
+        "Content-Disposition": `attachment; filename="${template.merchantName.replace(/[^a-zA-Z0-9]/g, "_")}.pkpass"`,
+        "Cache-Control": "no-store",
       },
     });
   } catch (err: any) {
