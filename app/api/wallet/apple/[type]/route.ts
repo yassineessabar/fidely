@@ -42,7 +42,6 @@ export async function GET(
       headers: {
         "Content-Type": "application/vnd.apple.pkpass",
         "Content-Length": String(uint8.byteLength),
-        "Content-Disposition": `attachment; filename="kyro-${type}.pkpass"`,
         "Cache-Control": "no-store",
       },
     });

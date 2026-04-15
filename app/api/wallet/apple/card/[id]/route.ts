@@ -31,7 +31,6 @@ export async function GET(
       headers: {
         "Content-Type": "application/vnd.apple.pkpass",
         "Content-Length": String(uint8.byteLength),
-        "Content-Disposition": `attachment; filename="${template.merchantName.replace(/[^a-zA-Z0-9]/g, "_")}.pkpass"`,
         "Cache-Control": "no-store",
       },
     });
