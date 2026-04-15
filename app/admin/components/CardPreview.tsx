@@ -1,5 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import QRCode from "qrcode";
+
 type CardPreviewProps = {
   type: "coupon" | "stamp" | "points";
   businessDetails: {
@@ -27,6 +30,14 @@ export default function CardPreview({ type, businessDetails, branding, logic }: 
   const secondary = branding.secondaryColor || "#E6FFA9";
   const accent = branding.accentColor || "#6C47FF";
   const merchantName = businessDetails.name || "Business Name";
+
+  const [qrDataUrl, setQrDataUrl] = useState<string>("");
+  useEffect(() => {
+    const url = `https://kyro.com/c/${merchantName.toLowerCase().replace(/\s+/g, "-")}`;
+    QRCode.toDataURL(url, { width: 200, margin: 1, color: { dark: "#000000", light: "#ffffff" }, errorCorrectionLevel: "M" })
+      .then(setQrDataUrl)
+      .catch(() => {});
+  }, [merchantName]);
 
   const typeLabel: Record<string, string> = {
     coupon: "COUPON",
@@ -121,35 +132,19 @@ export default function CardPreview({ type, businessDetails, branding, logic }: 
       {/* Divider */}
       <div style={{ margin: "0 20px", height: "1px", background: `linear-gradient(90deg, transparent, ${primary}15, transparent)` }} />
 
-      {/* QR code */}
+      {/* QR code — real generated */}
       <div style={{ display: "flex", justifyContent: "center", padding: "14px 20px 10px" }}>
         <div style={{
-          width: "68px", height: "68px", borderRadius: "12px",
-          backgroundColor: "white", padding: "6px",
-          boxShadow: `0 2px 8px rgba(0,0,0,0.1)`,
+          width: "72px", height: "72px", borderRadius: "12px",
+          backgroundColor: "white", padding: "4px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          display: "flex", alignItems: "center", justifyContent: "center",
         }}>
-          <svg viewBox="0 0 29 29" width="56" height="56" style={{ display: "block" }}>
-            <rect x="0" y="0" width="7" height="7" fill="#000"/><rect x="1" y="1" width="5" height="5" fill="#fff"/><rect x="2" y="2" width="3" height="3" fill="#000"/>
-            <rect x="22" y="0" width="7" height="7" fill="#000"/><rect x="23" y="1" width="5" height="5" fill="#fff"/><rect x="24" y="2" width="3" height="3" fill="#000"/>
-            <rect x="0" y="22" width="7" height="7" fill="#000"/><rect x="1" y="23" width="5" height="5" fill="#fff"/><rect x="2" y="24" width="3" height="3" fill="#000"/>
-            <rect x="8" y="6" width="1" height="1" fill="#000"/><rect x="10" y="6" width="1" height="1" fill="#000"/><rect x="12" y="6" width="1" height="1" fill="#000"/>
-            <rect x="6" y="8" width="1" height="1" fill="#000"/><rect x="6" y="10" width="1" height="1" fill="#000"/><rect x="6" y="12" width="1" height="1" fill="#000"/>
-            <rect x="8" y="0" width="1" height="1" fill="#000"/><rect x="10" y="0" width="1" height="1" fill="#000"/><rect x="12" y="1" width="1" height="1" fill="#000"/>
-            <rect x="9" y="2" width="1" height="1" fill="#000"/><rect x="11" y="2" width="1" height="1" fill="#000"/><rect x="13" y="3" width="1" height="1" fill="#000"/>
-            <rect x="8" y="4" width="1" height="1" fill="#000"/><rect x="14" y="1" width="1" height="1" fill="#000"/><rect x="15" y="3" width="1" height="1" fill="#000"/>
-            <rect x="9" y="8" width="1" height="1" fill="#000"/><rect x="11" y="8" width="1" height="1" fill="#000"/><rect x="13" y="9" width="1" height="1" fill="#000"/>
-            <rect x="8" y="10" width="1" height="1" fill="#000"/><rect x="10" y="11" width="1" height="1" fill="#000"/><rect x="12" y="10" width="1" height="1" fill="#000"/>
-            <rect x="14" y="8" width="1" height="1" fill="#000"/><rect x="16" y="9" width="1" height="1" fill="#000"/><rect x="18" y="8" width="1" height="1" fill="#000"/>
-            <rect x="15" y="11" width="1" height="1" fill="#000"/><rect x="17" y="10" width="1" height="1" fill="#000"/><rect x="19" y="11" width="1" height="1" fill="#000"/>
-            <rect x="20" y="8" width="1" height="1" fill="#000"/><rect x="22" y="9" width="1" height="1" fill="#000"/><rect x="24" y="8" width="1" height="1" fill="#000"/>
-            <rect x="8" y="13" width="1" height="1" fill="#000"/><rect x="10" y="14" width="1" height="1" fill="#000"/><rect x="14" y="14" width="1" height="1" fill="#000"/>
-            <rect x="16" y="13" width="1" height="1" fill="#000"/><rect x="18" y="14" width="1" height="1" fill="#000"/><rect x="20" y="13" width="1" height="1" fill="#000"/>
-            <rect x="9" y="15" width="1" height="1" fill="#000"/><rect x="11" y="16" width="1" height="1" fill="#000"/><rect x="15" y="16" width="1" height="1" fill="#000"/>
-            <rect x="8" y="18" width="1" height="1" fill="#000"/><rect x="12" y="18" width="1" height="1" fill="#000"/><rect x="16" y="18" width="1" height="1" fill="#000"/>
-            <rect x="20" y="18" width="1" height="1" fill="#000"/><rect x="24" y="20" width="1" height="1" fill="#000"/><rect x="15" y="22" width="1" height="1" fill="#000"/>
-            <rect x="17" y="23" width="1" height="1" fill="#000"/><rect x="19" y="22" width="1" height="1" fill="#000"/><rect x="21" y="22" width="1" height="1" fill="#000"/>
-            <rect x="20" y="20" width="5" height="5" fill="#000"/><rect x="21" y="21" width="3" height="3" fill="#fff"/><rect x="22" y="22" width="1" height="1" fill="#000"/>
-          </svg>
+          {qrDataUrl ? (
+            <img src={qrDataUrl} alt="QR Code" style={{ width: "64px", height: "64px", borderRadius: "4px" }} />
+          ) : (
+            <div style={{ width: "64px", height: "64px", borderRadius: "4px", backgroundColor: "#f5f5f5" }} />
+          )}
         </div>
       </div>
 

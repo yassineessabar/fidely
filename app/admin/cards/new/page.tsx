@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import CardBuilderForm from "../../components/CardBuilderForm";
 import CardPreview from "../../components/CardPreview";
+import CardTemplates from "../../components/CardTemplates";
 
 type Merchant = { id: string; name: string };
 
@@ -18,6 +19,12 @@ export default function NewCardPage() {
   });
   const [saving, setSaving] = useState(false);
   const [publishing, setPublishing] = useState(false);
+  const [templateKey, setTemplateKey] = useState(0);
+
+  const handleTemplateSelect = (templateData: any) => {
+    setPreviewData(templateData);
+    setTemplateKey((k) => k + 1); // force form re-mount with new initialData
+  };
 
   useEffect(() => {
     fetch("/api/admin/merchants")
@@ -69,12 +76,18 @@ export default function NewCardPage() {
   };
 
   return (
-    <div className="card-builder-layout" style={{ display: "flex", gap: "32px", alignItems: "flex-start", minHeight: "calc(100vh - 140px)" }}>
-      <div className="card-builder-form" style={{ flex: "0 0 58%", minWidth: 0 }}>
-        <CardBuilderForm merchants={merchants} onChange={(data: any) => setPreviewData(data)} onSave={handleSave} onPublish={handlePublish} saving={saving} publishing={publishing} />
-      </div>
-      <div className="card-builder-preview" style={{ flex: "0 0 38%", position: "sticky", top: "104px", display: "flex", justifyContent: "center", paddingTop: "16px" }}>
-        <CardPreview type={previewData.type || "stamp"} businessDetails={previewData.businessDetails || {}} branding={previewData.branding || {}} logic={previewData.logic || {}} />
+    <div>
+      {/* Templates section */}
+      <CardTemplates onSelect={handleTemplateSelect} />
+
+      {/* Builder */}
+      <div className="card-builder-layout" style={{ display: "flex", gap: "32px", alignItems: "flex-start", minHeight: "calc(100vh - 140px)" }}>
+        <div className="card-builder-form" style={{ flex: "0 0 58%", minWidth: 0 }}>
+          <CardBuilderForm key={templateKey} initialData={templateKey > 0 ? previewData : undefined} merchants={merchants} onChange={(data: any) => setPreviewData(data)} onSave={handleSave} onPublish={handlePublish} saving={saving} publishing={publishing} />
+        </div>
+        <div className="card-builder-preview" style={{ flex: "0 0 38%", position: "sticky", top: "104px", display: "flex", justifyContent: "center", paddingTop: "16px" }}>
+          <CardPreview type={previewData.type || "stamp"} businessDetails={previewData.businessDetails || {}} branding={previewData.branding || {}} logic={previewData.logic || {}} />
+        </div>
       </div>
     </div>
   );
