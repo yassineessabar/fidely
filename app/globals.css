@@ -286,10 +286,13 @@ html { scroll-behavior: smooth; }
   .pricing-grid { grid-template-columns: 1fr !important; }
   .brands-grid > div:nth-child(n+3) { display: none; }
   .brands-h2 { font-size: 28px !important; line-height: 32px !important; }
-  .cta-grid { grid-template-columns: 1fr !important; text-align: center; }
+  .cta-grid { grid-template-columns: 1fr !important; text-align: center; gap: 32px !important; }
+  .cta-grid > div:first-child { max-width: 100% !important; }
+  .cta-grid > div:last-child { order: -1; }
+  .cta-grid > div:last-child > div { width: 100% !important; max-width: 320px !important; margin: 0 auto !important; }
   .mechanics-card { grid-template-columns: 1fr !important; }
   .mechanics-dots { display: none !important; }
-  .cta-h4 { font-size: 36px !important; line-height: 40px !important; }
+  .cta-h4 { font-size: 32px !important; line-height: 38px !important; word-break: break-word !important; }
 }
 
 @media (max-width: 640px) {

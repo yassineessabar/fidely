@@ -280,7 +280,24 @@ export default function Navbar() {
         <a href="/pricing" onClick={() => setMobileOpen(false)} style={{ fontSize: "16px", fontWeight: 500, color: "rgb(11,5,29)", textDecoration: "none", padding: "12px 0", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>Pricing</a>
         <a href="/blog" onClick={() => setMobileOpen(false)} style={{ fontSize: "16px", fontWeight: 500, color: "rgb(11,5,29)", textDecoration: "none", padding: "12px 0", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>Blog</a>
         <a href="/help" onClick={() => setMobileOpen(false)} style={{ fontSize: "16px", fontWeight: 500, color: "rgb(11,5,29)", textDecoration: "none", padding: "12px 0", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>Help</a>
-        <div style={{ marginTop: "auto", paddingTop: "24px" }}>
+        <div style={{ marginTop: "auto", paddingTop: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
+          <a
+            href="/signin"
+            onClick={() => setMobileOpen(false)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "48px",
+              fontSize: "16px",
+              fontWeight: 500,
+              color: "rgb(108,71,255)",
+              textDecoration: "none",
+              width: "100%",
+            }}
+          >
+            Sign in
+          </a>
           <a
             href="/signup"
             onClick={() => setMobileOpen(false)}
