@@ -31,7 +31,7 @@ const pricingJsonLd = {
     {
       "@type": "Offer",
       name: "Growth",
-      price: "79",
+      price: "499",
       priceCurrency: "USD",
       priceValidUntil: "2026-12-31",
       availability: "https://schema.org/InStock",

@@ -20,7 +20,7 @@ const plans = [
   },
   {
     name: "Growth",
-    price: "79",
+    price: "499",
     period: "/month",
     desc: "For growing businesses ready to scale their retention strategy.",
     features: [
