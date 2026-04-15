@@ -2,11 +2,11 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Pricing — Simple, Transparent Plans",
-  description: "Start free, grow as you scale. Kyro pricing starts at $29/month for one location. No hidden fees, no cost per message. Cancel anytime.",
+  description: "Start free, grow as you scale. Kyro pricing starts at $299/month for one location. No hidden fees, no cost per message. Cancel anytime.",
   alternates: { canonical: "/pricing" },
   openGraph: {
     title: "Kyro Pricing — Simple, Transparent Plans",
-    description: "Start free, grow as you scale. Kyro pricing starts at $29/month. No hidden fees.",
+    description: "Start free, grow as you scale. Kyro pricing starts at $299/month. No hidden fees.",
     url: "/pricing",
   },
 };
@@ -21,7 +21,7 @@ const pricingJsonLd = {
     {
       "@type": "Offer",
       name: "Starter",
-      price: "29",
+      price: "299",
       priceCurrency: "USD",
       priceValidUntil: "2026-12-31",
       availability: "https://schema.org/InStock",

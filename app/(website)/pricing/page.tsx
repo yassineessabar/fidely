@@ -4,7 +4,7 @@
 const plans = [
   {
     name: "Starter",
-    price: "29",
+    price: "299",
     period: "/month",
     desc: "Perfect for a single location getting started with digital loyalty.",
     features: [
