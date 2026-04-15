@@ -28,7 +28,8 @@ export async function GET(
     return new NextResponse(buffer as any, {
       headers: {
         "Content-Type": "application/vnd.apple.pkpass",
-        "Content-Disposition": `attachment; filename="${template.merchantName.replace(/[^a-zA-Z0-9]/g, "_")}.pkpass"`,
+        "Content-Disposition": `inline; filename="${template.merchantName.replace(/[^a-zA-Z0-9]/g, "_")}.pkpass"`,
+        "Content-Transfer-Encoding": "binary",
       },
     });
   } catch (err: any) {

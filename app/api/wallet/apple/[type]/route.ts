@@ -40,7 +40,8 @@ export async function GET(
       status: 200,
       headers: {
         "Content-Type": "application/vnd.apple.pkpass",
-        "Content-Disposition": `attachment; filename="kyro-${type}.pkpass"`,
+        "Content-Disposition": `inline; filename="kyro-${type}.pkpass"`,
+        "Content-Transfer-Encoding": "binary",
       },
     });
   } catch (err) {
