@@ -261,48 +261,39 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
   const manifestStr = JSON.stringify(manifest);
   zip.file("manifest.json", manifestStr);
 
-  // 3. Re-sign manifest using Node crypto (PKCS#7 detached signature)
-  const sign = crypto.createSign("SHA256");
-  sign.update(manifestStr);
-  const signatureRaw = sign.sign({ key: signerKey, passphrase: KEY_PASSPHRASE || undefined });
+  // 3. Re-sign manifest with node-forge (works on serverless, no openssl needed)
+  const forge = require("node-forge");
 
-  // Build PKCS#7 SignedData structure manually (DER format)
-  // Apple requires a proper PKCS#7 detached signature with the signing cert + WWDR cert
-  const { execSync } = await import("child_process");
-  const fs = await import("fs");
-  const os = await import("os");
-  const path = await import("path");
+  const certPem = signerCert.toString("utf8");
+  const keyPem = signerKey.toString("utf8");
+  const wwdrPem = wwdr.toString("utf8");
 
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "pkpass-"));
-  const manifestPath = path.join(tmpDir, "manifest.json");
-  const certPath = path.join(tmpDir, "cert.pem");
-  const keyPath = path.join(tmpDir, "key.pem");
-  const wwdrPath = path.join(tmpDir, "wwdr.pem");
-  const sigPath = path.join(tmpDir, "signature");
+  const p7 = forge.pkcs7.createSignedData();
+  p7.content = forge.util.createBuffer(manifestStr, "utf8");
 
-  fs.writeFileSync(manifestPath, manifestStr);
-  fs.writeFileSync(certPath, signerCert);
-  fs.writeFileSync(keyPath, signerKey);
-  fs.writeFileSync(wwdrPath, wwdr);
+  const signerCertForge = forge.pki.certificateFromPem(certPem);
+  const wwdrCertForge = forge.pki.certificateFromPem(wwdrPem);
+  const privateKey = forge.pki.privateKeyFromPem(keyPem);
 
-  try {
-    const cmd = `openssl smime -sign -signer "${certPath}" -inkey "${keyPath}"` +
-      (KEY_PASSPHRASE ? ` -passin pass:${KEY_PASSPHRASE}` : "") +
-      ` -certfile "${wwdrPath}" -in "${manifestPath}" -out "${sigPath}" -outform DER -binary`;
-    execSync(cmd, { stdio: "pipe" });
-    const signatureBuf = fs.readFileSync(sigPath);
-    zip.file("signature", signatureBuf);
-  } finally {
-    // Cleanup temp files
-    try {
-      fs.unlinkSync(manifestPath);
-      fs.unlinkSync(certPath);
-      fs.unlinkSync(keyPath);
-      fs.unlinkSync(wwdrPath);
-      fs.unlinkSync(sigPath);
-      fs.rmdirSync(tmpDir);
-    } catch {}
-  }
+  p7.addCertificate(signerCertForge);
+  p7.addCertificate(wwdrCertForge);
+  p7.addSigner({
+    key: privateKey,
+    certificate: signerCertForge,
+    digestAlgorithm: forge.pki.oids.sha256,
+    authenticatedAttributes: [
+      { type: forge.pki.oids.contentType, value: forge.pki.oids.data },
+      { type: forge.pki.oids.messageDigest },
+      { type: forge.pki.oids.signingTime, value: new Date() as any },
+    ],
+  });
+  p7.sign({ detached: true });
+
+  const signatureDer = Buffer.from(
+    forge.asn1.toDer(p7.toAsn1()).getBytes(),
+    "binary"
+  );
+  zip.file("signature", signatureDer);
 
   return Buffer.from(await zip.generateAsync({ type: "nodebuffer", compression: "STORE" }));
 }
