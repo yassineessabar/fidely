@@ -149,14 +149,14 @@ export default function AdminSidebar({
               }}
             >
               <Icon size={20} strokeWidth={isActive ? 2 : 1.5} />
-              {!collapsed && <span>{item.label}</span>}
+              {!collapsed && <span className="dash-nav-label">{item.label}</span>}
             </Link>
           );
         })}
       </nav>
 
       {/* Collapse toggle */}
-      <div style={{ padding: "16px 8px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+      <div className="dash-collapse-btn" style={{ padding: "16px 8px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <button
           onClick={onToggle}
           style={{

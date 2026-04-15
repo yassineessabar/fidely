@@ -306,11 +306,28 @@ html { scroll-behavior: smooth; }
 
 /* ========== DASHBOARD ========== */
 @media (max-width: 900px) {
-  .dash-sidebar-wrap { display: none !important; }
-  .dash-sidebar-mobile { display: block !important; }
-  .dash-main { margin-left: 0 !important; }
-  .dash-menu-btn { display: flex !important; }
-  .dash-close-btn { display: flex !important; }
+  /* Force sidebar to icon-only on mobile */
+  .dash-sidebar-wrap { display: block !important; }
+  .dash-sidebar-wrap aside {
+    width: 72px !important;
+    overflow: hidden !important;
+  }
+  .dash-sidebar-wrap .dash-nav-label,
+  .dash-sidebar-wrap .dash-collapse-btn,
+  .dash-sidebar-wrap .dash-close-btn {
+    display: none !important;
+  }
+  .dash-sidebar-wrap nav a {
+    justify-content: center !important;
+    padding: 10px 0 !important;
+  }
+  .dash-sidebar-wrap aside > div:first-child {
+    justify-content: center !important;
+    padding: 20px 0 !important;
+  }
+  .dash-sidebar-mobile { display: none !important; }
+  .dash-main { margin-left: 72px !important; }
+  .dash-menu-btn { display: none !important; }
   .dash-search { display: none !important; }
   .dash-kpi-grid { grid-template-columns: 1fr 1fr !important; }
   .dash-chart-grid { grid-template-columns: 1fr !important; }
