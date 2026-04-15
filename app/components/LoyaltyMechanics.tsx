@@ -393,7 +393,7 @@ export default function LoyaltyMechanics() {
                           <div style={{ width: "280px", background: "rgba(255,255,255,0.12)", borderRadius: "20px", padding: "28px", backdropFilter: "blur(10px)", border: "1px solid rgba(255,255,255,0.15)", position: "relative", zIndex: 1 }}>
                             <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px" }}>
                               <div style={{ width: "44px", height: "44px", borderRadius: "12px", backgroundColor: "rgba(255,255,255,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "24px" }}>
-                                {card.icon}
+                                {(card as any).icon}
                               </div>
                               <div>
                                 <p style={{ margin: 0, color: "white", fontSize: "16px", fontWeight: 600 }}>{card.title}</p>
