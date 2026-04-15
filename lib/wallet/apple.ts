@@ -235,65 +235,24 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
   });
 
   // passkit-generator adds "additionalInfoFields" to storeCard which iOS rejects.
-  // Fix: get buffer, unpack, fix pass.json, recompute manifest, re-sign with openssl-compatible method.
-  const rawBuffer = pass.getAsBuffer();
+  // Fix: temporarily patch JSON.stringify to filter it out DURING getAsBuffer().
+  // This way passkit-generator's own signing covers the clean pass.json.
+  const origStringify = JSON.stringify;
+  JSON.stringify = function (value: any, replacer?: any, space?: any) {
+    if (value && typeof value === "object" && value.storeCard && value.passTypeIdentifier) {
+      const cleaned = { ...value };
+      if (cleaned.storeCard) {
+        const { additionalInfoFields, ...rest } = cleaned.storeCard;
+        cleaned.storeCard = rest;
+      }
+      return origStringify.call(JSON, cleaned, replacer, space);
+    }
+    return origStringify.call(JSON, value, replacer, space);
+  } as typeof JSON.stringify;
 
-  const { default: JSZip } = await import("jszip");
-  const crypto = await import("crypto");
-  const zip = await JSZip.loadAsync(rawBuffer);
-
-  // 1. Fix pass.json
-  const passJsonStr = await zip.file("pass.json")!.async("string");
-  const passJson = JSON.parse(passJsonStr);
-  if (passJson.storeCard?.additionalInfoFields !== undefined) {
-    delete passJson.storeCard.additionalInfoFields;
+  try {
+    return pass.getAsBuffer();
+  } finally {
+    JSON.stringify = origStringify;
   }
-  const fixedPassJson = JSON.stringify(passJson);
-  zip.file("pass.json", fixedPassJson);
-
-  // 2. Recompute manifest
-  const manifest: Record<string, string> = {};
-  for (const name of Object.keys(zip.files)) {
-    if (name === "manifest.json" || name === "signature" || zip.files[name].dir) continue;
-    const content = await zip.file(name)!.async("nodebuffer");
-    manifest[name] = crypto.createHash("sha1").update(content).digest("hex");
-  }
-  const manifestStr = JSON.stringify(manifest);
-  zip.file("manifest.json", manifestStr);
-
-  // 3. Re-sign manifest with node-forge (works on serverless, no openssl needed)
-  const forge = require("node-forge");
-
-  const certPem = signerCert.toString("utf8");
-  const keyPem = signerKey.toString("utf8");
-  const wwdrPem = wwdr.toString("utf8");
-
-  const p7 = forge.pkcs7.createSignedData();
-  p7.content = forge.util.createBuffer(manifestStr, "utf8");
-
-  const signerCertForge = forge.pki.certificateFromPem(certPem);
-  const wwdrCertForge = forge.pki.certificateFromPem(wwdrPem);
-  const privateKey = forge.pki.privateKeyFromPem(keyPem);
-
-  p7.addCertificate(signerCertForge);
-  p7.addCertificate(wwdrCertForge);
-  p7.addSigner({
-    key: privateKey,
-    certificate: signerCertForge,
-    digestAlgorithm: forge.pki.oids.sha256,
-    authenticatedAttributes: [
-      { type: forge.pki.oids.contentType, value: forge.pki.oids.data },
-      { type: forge.pki.oids.messageDigest },
-      { type: forge.pki.oids.signingTime, value: new Date() as any },
-    ],
-  });
-  p7.sign({ detached: true });
-
-  const signatureDer = Buffer.from(
-    forge.asn1.toDer(p7.toAsn1()).getBytes(),
-    "binary"
-  );
-  zip.file("signature", signatureDer);
-
-  return Buffer.from(await zip.generateAsync({ type: "nodebuffer", compression: "STORE" }));
 }
