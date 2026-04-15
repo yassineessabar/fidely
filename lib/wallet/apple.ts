@@ -234,5 +234,64 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
     messageEncoding: "iso-8859-1",
   });
 
-  return pass.getAsBuffer();
+  // Get the raw buffer
+  const rawBuffer = pass.getAsBuffer();
+
+  // The passkit-generator library adds "additionalInfoFields" to storeCard
+  // which is only valid for eventTicket. iOS rejects passes with unknown keys.
+  // We need to strip it by unpacking, fixing pass.json, and re-packing.
+  const JSZip = (await import("jszip")).default;
+  const zip = await JSZip.loadAsync(rawBuffer);
+
+  const passJsonStr = await zip.file("pass.json")!.async("string");
+  const passJson = JSON.parse(passJsonStr);
+
+  // Remove invalid key from storeCard
+  if (passJson.storeCard?.additionalInfoFields !== undefined) {
+    delete passJson.storeCard.additionalInfoFields;
+  }
+
+  // Update pass.json in zip
+  const fixedPassJson = JSON.stringify(passJson);
+  zip.file("pass.json", fixedPassJson);
+
+  // Recalculate manifest (SHA1 hashes of all files except manifest.json and signature)
+  const crypto = await import("crypto");
+  const manifest: Record<string, string> = {};
+  const filesToHash = Object.keys(zip.files).filter(
+    (name) => name !== "manifest.json" && name !== "signature" && !zip.files[name].dir
+  );
+  for (const name of filesToHash) {
+    const content = await zip.file(name)!.async("nodebuffer");
+    manifest[name] = crypto.createHash("sha1").update(content).digest("hex");
+  }
+  zip.file("manifest.json", JSON.stringify(manifest));
+
+  // Re-sign the manifest
+  const manifestBuffer = Buffer.from(JSON.stringify(manifest));
+  const forgeModule = await import("node-forge");
+  const forge = forgeModule.default || forgeModule;
+  const certPem = signerCert.toString("utf8");
+  const keyPem = signerKey.toString("utf8");
+  const wwdrPem = wwdr.toString("utf8");
+
+  const p7 = forge.pkcs7.createSignedData();
+  p7.content = forge.util.createBuffer(manifestBuffer.toString("binary"));
+  p7.addCertificate(forge.pki.certificateFromPem(certPem));
+  p7.addCertificate(forge.pki.certificateFromPem(wwdrPem));
+  p7.addSigner({
+    key: forge.pki.privateKeyFromPem(keyPem),
+    certificate: forge.pki.certificateFromPem(certPem),
+    digestAlgorithm: forge.pki.oids.sha256,
+    authenticatedAttributes: [
+      { type: forge.pki.oids.contentType, value: forge.pki.oids.data },
+      { type: forge.pki.oids.messageDigest },
+      { type: forge.pki.oids.signingTime, value: new Date().toISOString() },
+    ],
+  });
+  p7.sign({ detached: true });
+  const signatureDer = Buffer.from(forge.asn1.toDer(p7.toAsn1()).getBytes(), "binary");
+  zip.file("signature", signatureDer);
+
+  return Buffer.from(await zip.generateAsync({ type: "nodebuffer", compression: "STORE" }));
 }
