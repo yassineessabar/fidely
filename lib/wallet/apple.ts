@@ -1,4 +1,5 @@
 import { createHash, createSign, X509Certificate } from "crypto";
+import sharp from "sharp";
 import { readFileSync, existsSync } from "fs";
 import { join } from "path";
 import { v4 as uuidv4 } from "uuid";
@@ -80,18 +81,20 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
     buffers["logo@2x.png"] = transparentPng;
   }
 
-  // Strip — use hero/banner if available, then stamp grid, then gradient fallback
-  if (template.heroImageUrl) {
+  // Strip — composite banner + dark overlay + stamp circles (Boomerang style)
+  const stripW = 750;
+  const stripH = 246;
+  if (template.totalStamps && template.stampsCollected !== undefined) {
+    const heroBuf = template.heroImageUrl ? await fetchImageBuffer(template.heroImageUrl) : null;
+    const strip = await createStampStripWithSharp(stripW, stripH, template.accentColor || template.backgroundColor, template.stampsCollected, template.totalStamps, heroBuf);
+    buffers["strip.png"] = strip;
+    buffers["strip@2x.png"] = strip;
+  } else if (template.heroImageUrl) {
     const heroBuf = await fetchImageBuffer(template.heroImageUrl);
     if (heroBuf) {
       buffers["strip.png"] = heroBuf;
       buffers["strip@2x.png"] = heroBuf;
     }
-  }
-  if (!buffers["strip.png"] && template.totalStamps && template.stampsCollected !== undefined) {
-    const accentRgb = parseColor(template.accentColor || template.backgroundColor);
-    buffers["strip.png"] = createStampStripPng(375, 123, accentRgb, template.stampsCollected, template.totalStamps);
-    buffers["strip@2x.png"] = buffers["strip.png"];
   }
   if (!buffers["strip.png"]) {
     const accentRgb = parseColor(template.accentColor || template.backgroundColor);
@@ -188,6 +191,81 @@ function createTransparentPng(): Buffer {
   const iend = createPngChunk("IEND", Buffer.alloc(0));
 
   return Buffer.concat([signature, ihdr, idat, iend]);
+}
+
+/**
+ * Creates a Boomerang-style stamp strip using sharp:
+ * Banner image with dark overlay + 2 rows of large stamp circles.
+ */
+async function createStampStripWithSharp(
+  width: number,
+  height: number,
+  accentColor: string,
+  collected: number,
+  total: number,
+  bannerBuf: Buffer | null,
+): Promise<Buffer> {
+  const accent = parseColor(accentColor);
+
+  // Start with banner or solid accent background
+  let base: sharp.Sharp;
+  if (bannerBuf) {
+    base = sharp(bannerBuf).resize(width, height, { fit: "cover" });
+    // Add dark overlay by compositing a semi-transparent black rectangle
+    const overlay = await sharp({
+      create: { width, height, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0.45 } },
+    }).png().toBuffer();
+    base = sharp(await base.png().toBuffer()).composite([{ input: overlay, blend: "over" }]);
+  } else {
+    base = sharp({
+      create: { width, height, channels: 4, background: { r: accent[0], g: accent[1], b: accent[2], alpha: 1 } },
+    });
+  }
+
+  // Generate SVG circles for stamps
+  const cols = Math.ceil(total / 2);
+  const nRows = total > cols ? 2 : 1;
+  const padding = 24;
+  const gap = 12;
+  const availW = width - padding * 2;
+  const availH = height - padding * 2;
+  const stampSize = Math.min(
+    Math.floor((availW - gap * (cols - 1)) / cols),
+    Math.floor((availH - gap * (nRows - 1)) / nRows)
+  );
+  const r = Math.floor(stampSize / 2);
+
+  const gridW = cols * stampSize + (cols - 1) * gap;
+  const gridH = nRows * stampSize + (nRows - 1) * gap;
+  const offsetX = Math.floor((width - gridW) / 2);
+  const offsetY = Math.floor((height - gridH) / 2);
+
+  let circles = "";
+  for (let idx = 0; idx < total; idx++) {
+    const row = Math.floor(idx / cols);
+    const col = idx % cols;
+    const cx = offsetX + col * (stampSize + gap) + r;
+    const cy = offsetY + row * (stampSize + gap) + r;
+
+    if (idx < collected) {
+      // Filled stamp: white circle with dark center
+      circles += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="rgba(255,255,255,0.9)" />`;
+      circles += `<circle cx="${cx}" cy="${cy}" r="${Math.floor(r * 0.4)}" fill="rgba(0,0,0,0.5)" />`;
+      circles += `<circle cx="${cx}" cy="${cy}" r="${Math.floor(r * 0.15)}" fill="rgba(255,255,255,0.7)" />`;
+    } else {
+      // Unfilled stamp: semi-transparent outline
+      circles += `<circle cx="${cx}" cy="${cy}" r="${r - 2}" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.4)" stroke-width="3" />`;
+    }
+  }
+
+  const svgOverlay = Buffer.from(`<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">${circles}</svg>`);
+
+  const result = await sharp(await base.png().toBuffer())
+    .composite([{ input: svgOverlay, blend: "over" }])
+    .png()
+    .toBuffer();
+
+  return result;
 }
 
 /**
