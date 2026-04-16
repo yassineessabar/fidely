@@ -1,27 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
+import { sendEmail, ADMIN_EMAIL } from "@/lib/email";
 import { NextResponse } from "next/server";
-
-const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "withkyro@gmail.com";
-
-async function sendEmail(to: string, subject: string, html: string) {
-  if (!process.env.RESEND_API_KEY) {
-    console.log(`[EMAIL] To: ${to}, Subject: ${subject}`);
-    return;
-  }
-  await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-    },
-    body: JSON.stringify({
-      from: "Kyro <noreply@fidely.com.au>",
-      to: [to],
-      subject,
-      html,
-    }),
-  }).catch((err) => console.error("Email send failed:", err));
-}
 
 export async function POST(
   request: Request,
@@ -102,10 +81,10 @@ export async function POST(
   const customerName = name.trim();
 
   // 1. Admin notification
-  sendEmail(
-    ADMIN_EMAIL,
-    `New customer signup: ${customerName} → ${merchantName}`,
-    `
+  sendEmail({
+    to: ADMIN_EMAIL,
+    subject: `New customer signup: ${customerName} → ${merchantName}`,
+    html: `
     <div style="font-family:sans-serif;max-width:500px;">
       <h2 style="color:#0b051d;">New Customer Enrollment</h2>
       <table style="border-collapse:collapse;">
@@ -119,13 +98,13 @@ export async function POST(
       </table>
     </div>
     `,
-  );
+  });
 
   // 2. Welcome email to customer
-  sendEmail(
-    customerEmail,
-    `Welcome to ${merchantName}! Your loyalty card is ready`,
-    `
+  sendEmail({
+    to: customerEmail,
+    subject: `Welcome to ${merchantName}! Your loyalty card is ready`,
+    html: `
     <div style="font-family:sans-serif;max-width:500px;">
       <h2 style="color:#0b051d;">Welcome, ${customerName}!</h2>
       <p>You've been enrolled in <strong>${merchantName}</strong>'s loyalty program.</p>
@@ -134,7 +113,7 @@ export async function POST(
       <p style="color:#61605f;font-size:13px;margin-top:32px;">— The Kyro Team</p>
     </div>
     `,
-  );
+  });
 
   return NextResponse.json({ membership_code: membershipCode });
 }
