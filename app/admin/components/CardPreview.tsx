@@ -5,6 +5,7 @@ import QRCode from "qrcode";
 
 type CardPreviewProps = {
   type: "coupon" | "stamp" | "points";
+  cardName?: string;
   businessDetails: {
     name: string;
     category: string;
@@ -35,12 +36,12 @@ const CATEGORY_STAMP_ICONS: Record<string, string> = {
   other: "\u2B50",
 };
 
-export default function CardPreview({ type, businessDetails, branding, logic }: CardPreviewProps) {
+export default function CardPreview({ type, cardName, businessDetails, branding, logic }: CardPreviewProps) {
   const bg = branding.backgroundColor || "#0B051D";
   const primary = branding.primaryColor || "#FFFFFF";
   const secondary = branding.secondaryColor || "#E6FFA9";
   const accent = branding.accentColor || "#6C47FF";
-  const merchantName = businessDetails.name || "Business Name";
+  const merchantName = businessDetails.name || cardName || "Business Name";
 
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
   useEffect(() => {
