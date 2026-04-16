@@ -152,14 +152,15 @@ export function enrollmentToPassTemplate(
     const total = logic.totalStamps || 10;
     const collected = enrollment.stamps_collected;
     const remaining = total - collected;
+    const rewards = collected >= total ? Math.floor(collected / total) : 0;
     headerFields = [
-      { key: "stamps", label: "STAMPS", value: `${collected}/${total}` },
+      { key: "validUntil", label: "VALID UNTIL", value: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }) },
     ];
     secondaryFields = [
-      { key: "remaining", label: "STAMPS UNTIL REWARD", value: `${remaining} stamps` },
+      { key: "remaining", label: "STAMPS UNTIL THE REWARD", value: `${remaining} stamps` },
     ];
     auxiliaryFields = [
-      { key: "member", label: "MEMBER", value: enrollment.customer_name },
+      { key: "rewards", label: "AVAILABLE REWARDS", value: `${rewards} rewards` },
     ];
   } else if (card.type === "points") {
     headerFields = [
@@ -180,6 +181,7 @@ export function enrollmentToPassTemplate(
   }
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://fidely-beta.vercel.app";
+  backFields.push({ key: "member", label: "MEMBER", value: enrollment.customer_name });
   backFields.push({ key: "progress", label: "CHECK YOUR PROGRESS", value: `Visit ${appUrl}/my/${enrollment.membership_code}` });
   if (bd.description) {
     backFields.push({ key: "about", label: "ABOUT", value: bd.description });

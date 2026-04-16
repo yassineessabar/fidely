@@ -203,51 +203,77 @@ function createStampStripPng(
   ihdrData[9] = 2;
   const ihdr = createPngChunk("IHDR", ihdrData);
 
+  // Layout: 2 rows, evenly spaced
   const cols = Math.ceil(total / 2);
-  const rows = total > cols ? 2 : 1;
-  const stampSize = Math.min(Math.floor((width - 40) / cols) - 8, Math.floor((height - 20) / rows) - 8);
+  const nRows = total > cols ? 2 : 1;
+  const padding = 12;
+  const gap = 6;
+  const availW = width - padding * 2;
+  const availH = height - padding * 2;
+  const stampSize = Math.min(
+    Math.floor((availW - gap * (cols - 1)) / cols),
+    Math.floor((availH - gap * (nRows - 1)) / nRows)
+  );
   const radius = Math.floor(stampSize / 2);
 
-  const gridW = cols * (stampSize + 8) - 8;
-  const gridH = rows * (stampSize + 8) - 8;
+  const gridW = cols * stampSize + (cols - 1) * gap;
+  const gridH = nRows * stampSize + (nRows - 1) * gap;
   const offsetX = Math.floor((width - gridW) / 2);
   const offsetY = Math.floor((height - gridH) / 2);
 
-  const lighter: [number, number, number] = [
-    Math.min(255, accent[0] + 40), Math.min(255, accent[1] + 40), Math.min(255, accent[2] + 40),
-  ];
-  const darker: [number, number, number] = [
-    Math.max(0, accent[0] - 25), Math.max(0, accent[1] - 25), Math.max(0, accent[2] - 25),
-  ];
+  // Filled stamp: slightly lighter than accent, unfilled: slightly darker with outline
+  const filledR = Math.min(255, accent[0] + 60);
+  const filledG = Math.min(255, accent[1] + 60);
+  const filledB = Math.min(255, accent[2] + 60);
+  const darkR = Math.max(0, accent[0] - 30);
+  const darkG = Math.max(0, accent[1] - 30);
+  const darkB = Math.max(0, accent[2] - 30);
 
   const scanlines: number[] = [];
   for (let y = 0; y < height; y++) {
     scanlines.push(0);
     for (let x = 0; x < width; x++) {
-      let r = accent[0] + Math.round((lighter[0] - accent[0]) * (y / height) * 0.15);
-      let g = accent[1] + Math.round((lighter[1] - accent[1]) * (y / height) * 0.15);
-      let b = accent[2] + Math.round((lighter[2] - accent[2]) * (y / height) * 0.15);
+      // Base: accent color
+      let r = accent[0], g = accent[1], b = accent[2];
 
       for (let idx = 0; idx < total; idx++) {
         const row = Math.floor(idx / cols);
         const col = idx % cols;
-        const cx = offsetX + col * (stampSize + 8) + radius;
-        const cy = offsetY + row * (stampSize + 8) + radius;
+        const cx = offsetX + col * (stampSize + gap) + radius;
+        const cy = offsetY + row * (stampSize + gap) + radius;
         const dx = x - cx;
         const dy = y - cy;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         if (idx < collected) {
+          // Filled: lighter circle with dark center dot + ring
           if (dist <= radius) {
-            r = 255; g = 255; b = 255;
-            if (dist > radius - 2) { r = lighter[0]; g = lighter[1]; b = lighter[2]; }
-            if (dist < radius * 0.35) { r = darker[0]; g = darker[1]; b = darker[2]; }
+            r = filledR; g = filledG; b = filledB;
+            // Outer ring (3px)
+            if (dist > radius - 3) {
+              r = Math.min(255, filledR + 30); g = Math.min(255, filledG + 30); b = Math.min(255, filledB + 30);
+            }
+            // Inner dark circle (coffee cup center)
+            if (dist < radius * 0.45) {
+              r = darkR; g = darkG; b = darkB;
+              // Hole in center
+              if (dist < radius * 0.18) {
+                r = filledR; g = filledG; b = filledB;
+              }
+            }
           }
         } else {
-          if (dist <= radius && dist > radius - 2) {
-            r = Math.round(r + (255 - r) * 0.35);
-            g = Math.round(g + (255 - g) * 0.35);
-            b = Math.round(b + (255 - b) * 0.35);
+          // Unfilled: semi-transparent outline circle
+          if (dist <= radius && dist > radius - 2.5) {
+            const blend = 0.3;
+            r = Math.round(accent[0] + (255 - accent[0]) * blend);
+            g = Math.round(accent[1] + (255 - accent[1]) * blend);
+            b = Math.round(accent[2] + (255 - accent[2]) * blend);
+          } else if (dist <= radius) {
+            // Very subtle fill
+            r = Math.round(accent[0] * 0.92 + 255 * 0.08);
+            g = Math.round(accent[1] * 0.92 + 255 * 0.08);
+            b = Math.round(accent[2] * 0.92 + 255 * 0.08);
           }
         }
       }
