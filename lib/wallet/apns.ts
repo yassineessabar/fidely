@@ -89,9 +89,14 @@ export async function notifyPassUpdate(serialNumber: string, supabase: any): Pro
     .select("push_token")
     .eq("serial_number", serialNumber);
 
-  if (!registrations || registrations.length === 0) return;
+  if (!registrations || registrations.length === 0) {
+    console.log(`[APNs] No device registrations found for serial=${serialNumber}`);
+    return;
+  }
 
+  console.log(`[APNs] Sending push to ${registrations.length} device(s) for serial=${serialNumber}`);
   for (const reg of registrations) {
-    await sendPassUpdatePush(reg.push_token);
+    const ok = await sendPassUpdatePush(reg.push_token);
+    console.log(`[APNs] Push to ${reg.push_token.slice(0, 20)}... result: ${ok}`);
   }
 }

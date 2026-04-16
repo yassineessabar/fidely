@@ -24,19 +24,27 @@ export async function POST(
     const deviceId = path[1];
     const serialNumber = path[4];
 
+    console.log(`[APNs] Device registration: device=${deviceId}, serial=${serialNumber}`);
+
     const authToken = getAuthToken(request);
     if (!authToken) {
+      console.log("[APNs] No auth token");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Verify auth token matches enrollment
-    const { data: enrollment } = await supabase
+    const { data: enrollment, error: enrollErr } = await supabase
       .from("card_enrollments" as any)
       .select("id, auth_token")
       .eq("id", serialNumber)
       .single();
 
+    if (enrollErr) {
+      console.log("[APNs] Enrollment lookup error:", enrollErr.message);
+    }
+
     if (!enrollment || (enrollment as any).auth_token !== authToken) {
+      console.log("[APNs] Auth mismatch. enrollment:", !!enrollment, "token match:", enrollment && (enrollment as any).auth_token === authToken);
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -46,11 +54,14 @@ export async function POST(
     } catch {}
 
     if (!body.pushToken) {
+      console.log("[APNs] No pushToken in body");
       return NextResponse.json({ error: "Missing pushToken" }, { status: 400 });
     }
 
+    console.log(`[APNs] Registering pushToken=${body.pushToken.slice(0, 20)}...`);
+
     // Upsert registration
-    await supabase
+    const { error: upsertErr } = await supabase
       .from("pass_registrations" as any)
       .upsert({
         device_library_identifier: deviceId,
@@ -58,6 +69,12 @@ export async function POST(
         pass_type_identifier: PASS_TYPE_ID,
         serial_number: serialNumber,
       }, { onConflict: "device_library_identifier,pass_type_identifier,serial_number" });
+
+    if (upsertErr) {
+      console.error("[APNs] Upsert error:", upsertErr);
+    } else {
+      console.log("[APNs] Registration saved successfully");
+    }
 
     return new Response(null, { status: 201 });
   }
