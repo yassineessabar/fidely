@@ -136,20 +136,6 @@ export default async function PublicCardPage({ params }: { params: { id: string 
         )}
       </div>
 
-      {/* Welcome offer */}
-      {bd.welcomeOffer && (
-        <div
-          style={{
-            width: "100%", maxWidth: "400px", padding: "16px 20px", borderRadius: "12px",
-            backgroundColor: `${secondary}15`, border: `1px solid ${secondary}30`, marginBottom: "24px",
-            textAlign: "center",
-          }}
-        >
-          <div style={{ fontSize: "11px", fontWeight: 700, color: secondary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "4px" }}>Welcome Offer</div>
-          <div style={{ fontSize: "16px", fontWeight: 600, color: primary }}>{bd.welcomeOffer}</div>
-        </div>
-      )}
-
       {/* Sign-up form */}
       <div style={{ width: "100%", maxWidth: "400px" }}>
         <div style={{ fontSize: "13px", fontWeight: 600, color: secondary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "16px", textAlign: "center" }}>
