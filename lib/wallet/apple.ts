@@ -74,8 +74,12 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
     buffers["logo@2x.png"] = transparentPng;
   }
 
-  // Strip — use hero image if available, otherwise generate gradient
-  if (template.heroImageUrl) {
+  // Strip — for stamp cards, generate a visual stamp grid; otherwise use hero/gradient
+  if (template.totalStamps && template.stampsCollected !== undefined) {
+    const accentRgb = parseColor(template.accentColor || template.backgroundColor);
+    buffers["strip.png"] = createStampStripPng(375, 123, accentRgb, template.stampsCollected, template.totalStamps);
+    buffers["strip@2x.png"] = buffers["strip.png"];
+  } else if (template.heroImageUrl) {
     const heroBuf = await fetchImageBuffer(template.heroImageUrl);
     if (heroBuf) {
       buffers["strip.png"] = heroBuf;
@@ -86,7 +90,7 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
     const accentRgb = parseColor(template.accentColor || template.backgroundColor);
     const bgRgb = parseColor(template.backgroundColor);
     buffers["strip.png"] = createGradientPng(375, 123, accentRgb, bgRgb);
-    buffers["strip@2x.png"] = createGradientPng(375, 123, accentRgb, bgRgb);
+    buffers["strip@2x.png"] = buffers["strip.png"];
   }
 
   return buffers;
@@ -176,6 +180,105 @@ function createTransparentPng(): Buffer {
   const idat = createPngChunk("IDAT", Buffer.concat([zlibHeader, blockHeader, raw, adler]));
   const iend = createPngChunk("IEND", Buffer.alloc(0));
 
+  return Buffer.concat([signature, ihdr, idat, iend]);
+}
+
+/**
+ * Creates a stamp grid strip PNG — 2 rows of circular stamps on accent color background.
+ * Filled stamps are bright white circles, unfilled are semi-transparent outlines.
+ */
+function createStampStripPng(
+  width: number,
+  height: number,
+  accent: [number, number, number],
+  collected: number,
+  total: number,
+): Buffer {
+  const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+
+  const ihdrData = Buffer.alloc(13);
+  ihdrData.writeUInt32BE(width, 0);
+  ihdrData.writeUInt32BE(height, 4);
+  ihdrData[8] = 8;
+  ihdrData[9] = 2;
+  const ihdr = createPngChunk("IHDR", ihdrData);
+
+  const cols = Math.ceil(total / 2);
+  const rows = total > cols ? 2 : 1;
+  const stampSize = Math.min(Math.floor((width - 40) / cols) - 8, Math.floor((height - 20) / rows) - 8);
+  const radius = Math.floor(stampSize / 2);
+
+  const gridW = cols * (stampSize + 8) - 8;
+  const gridH = rows * (stampSize + 8) - 8;
+  const offsetX = Math.floor((width - gridW) / 2);
+  const offsetY = Math.floor((height - gridH) / 2);
+
+  const lighter: [number, number, number] = [
+    Math.min(255, accent[0] + 40), Math.min(255, accent[1] + 40), Math.min(255, accent[2] + 40),
+  ];
+  const darker: [number, number, number] = [
+    Math.max(0, accent[0] - 25), Math.max(0, accent[1] - 25), Math.max(0, accent[2] - 25),
+  ];
+
+  const scanlines: number[] = [];
+  for (let y = 0; y < height; y++) {
+    scanlines.push(0);
+    for (let x = 0; x < width; x++) {
+      let r = accent[0] + Math.round((lighter[0] - accent[0]) * (y / height) * 0.15);
+      let g = accent[1] + Math.round((lighter[1] - accent[1]) * (y / height) * 0.15);
+      let b = accent[2] + Math.round((lighter[2] - accent[2]) * (y / height) * 0.15);
+
+      for (let idx = 0; idx < total; idx++) {
+        const row = Math.floor(idx / cols);
+        const col = idx % cols;
+        const cx = offsetX + col * (stampSize + 8) + radius;
+        const cy = offsetY + row * (stampSize + 8) + radius;
+        const dx = x - cx;
+        const dy = y - cy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (idx < collected) {
+          if (dist <= radius) {
+            r = 255; g = 255; b = 255;
+            if (dist > radius - 2) { r = lighter[0]; g = lighter[1]; b = lighter[2]; }
+            if (dist < radius * 0.35) { r = darker[0]; g = darker[1]; b = darker[2]; }
+          }
+        } else {
+          if (dist <= radius && dist > radius - 2) {
+            r = Math.round(r + (255 - r) * 0.35);
+            g = Math.round(g + (255 - g) * 0.35);
+            b = Math.round(b + (255 - b) * 0.35);
+          }
+        }
+      }
+
+      scanlines.push(Math.max(0, Math.min(255, r)), Math.max(0, Math.min(255, g)), Math.max(0, Math.min(255, b)));
+    }
+  }
+
+  const rawData = Buffer.from(scanlines);
+  const zlibHeader = Buffer.from([0x78, 0x01]);
+  const blocks: Buffer[] = [zlibHeader];
+  let offset = 0;
+  while (offset < rawData.length) {
+    const remaining = rawData.length - offset;
+    const blockSize = Math.min(remaining, 65535);
+    const isLast = offset + blockSize >= rawData.length;
+    const bh = Buffer.alloc(5);
+    bh[0] = isLast ? 1 : 0;
+    bh.writeUInt16LE(blockSize, 1);
+    bh.writeUInt16LE(~blockSize & 0xffff, 3);
+    blocks.push(bh, rawData.subarray(offset, offset + blockSize));
+    offset += blockSize;
+  }
+  let a2 = 1, b2 = 0;
+  for (let i = 0; i < rawData.length; i++) { a2 = (a2 + rawData[i]) % 65521; b2 = (b2 + a2) % 65521; }
+  const adler2 = Buffer.alloc(4);
+  adler2.writeUInt32BE(((b2 << 16) | a2) >>> 0, 0);
+  blocks.push(adler2);
+
+  const idat = createPngChunk("IDAT", Buffer.concat(blocks));
+  const iend = createPngChunk("IEND", Buffer.alloc(0));
   return Buffer.concat([signature, ihdr, idat, iend]);
 }
 

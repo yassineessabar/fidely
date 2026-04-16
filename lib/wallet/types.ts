@@ -30,6 +30,8 @@ export interface PassTemplate {
   accentColor?: string;
   serialNumber?: string;
   authToken?: string;
+  stampsCollected?: number;
+  totalStamps?: number;
 }
 
 export interface GeneratePassOptions {

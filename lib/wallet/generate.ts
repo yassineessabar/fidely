@@ -211,5 +211,7 @@ export function enrollmentToPassTemplate(
     accentColor: br.accentColor || undefined,
     serialNumber: enrollment.id,
     authToken: enrollment.auth_token,
+    stampsCollected: card.type === "stamp" ? enrollment.stamps_collected : undefined,
+    totalStamps: card.type === "stamp" ? (logic.totalStamps || 10) : undefined,
   };
 }
