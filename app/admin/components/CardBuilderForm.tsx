@@ -382,13 +382,13 @@ export default function CardBuilderForm({
         )}
       </div>
 
-      {/* ── Section 3: Business Details ── */}
+      {/* ── Section 3: Category ── */}
       <div style={{ marginBottom: "4px" }}>
-        <SectionHeader title="3. Business Details" open={open.details} onToggle={() => toggle("details")} />
+        <SectionHeader title="3. Category" open={open.details} onToggle={() => toggle("details")} />
         {open.details && (
           <div style={{ paddingTop: "18px", paddingBottom: "8px" }}>
             <div style={fieldWrap}>
-              <label style={labelStyle}>Category</label>
+              <label style={labelStyle}>Business Category</label>
               <select
                 value={cardData.businessDetails.category}
                 onChange={(e) => setDetails({ category: e.target.value })}
@@ -401,48 +401,9 @@ export default function CardBuilderForm({
                   </option>
                 ))}
               </select>
-            </div>
-            <div style={fieldWrap}>
-              <label style={labelStyle}>Address</label>
-              <input
-                type="text"
-                value={cardData.businessDetails.address}
-                onChange={(e) => setDetails({ address: e.target.value })}
-                placeholder="123 Main St, Sydney NSW 2000"
-                style={inputStyle}
-              />
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-              <div style={fieldWrap}>
-                <label style={labelStyle}>Phone</label>
-                <input
-                  type="tel"
-                  value={cardData.businessDetails.phone}
-                  onChange={(e) => setDetails({ phone: e.target.value })}
-                  placeholder="+61 2 0000 0000"
-                  style={inputStyle}
-                />
-              </div>
-              <div style={fieldWrap}>
-                <label style={labelStyle}>Website</label>
-                <input
-                  type="url"
-                  value={cardData.businessDetails.website}
-                  onChange={(e) => setDetails({ website: e.target.value })}
-                  placeholder="https://example.com"
-                  style={inputStyle}
-                />
-              </div>
-            </div>
-            <div style={fieldWrap}>
-              <label style={labelStyle}>Description</label>
-              <textarea
-                value={cardData.businessDetails.description}
-                onChange={(e) => setDetails({ description: e.target.value })}
-                placeholder="Brief description shown on the card…"
-                rows={3}
-                style={{ ...inputStyle, resize: "vertical" }}
-              />
+              <p style={{ fontSize: "12px", color: "rgb(97,95,109)", marginTop: "4px" }}>
+                Used to auto-select the stamp icon on the card.
+              </p>
             </div>
           </div>
         )}
