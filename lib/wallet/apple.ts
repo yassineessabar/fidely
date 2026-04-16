@@ -39,6 +39,12 @@ function parseColor(color: string): [number, number, number] {
 
 async function fetchImageBuffer(url: string): Promise<Buffer | null> {
   try {
+    // Handle base64 data URLs directly
+    if (url.startsWith("data:")) {
+      const match = url.match(/^data:[^;]+;base64,(.+)$/);
+      if (match) return Buffer.from(match[1], "base64");
+      return null;
+    }
     const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
     if (!res.ok) return null;
     const arrayBuf = await res.arrayBuffer();
