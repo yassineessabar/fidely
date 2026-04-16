@@ -297,20 +297,21 @@ export default function ScanActions({
         <div>
           {card.type === "stamp" && (
             <>
-              <button
-                onClick={() => performAction("stamp")}
-                disabled={loading}
-                style={buttonStyle}
-              >
-                {loading ? "Adding..." : "Add Stamp"}
-              </button>
-              {enrollment.stamps_collected >= (logic.totalStamps || 10) && (
+              {enrollment.stamps_collected < (logic.totalStamps || 10) ? (
+                <button
+                  onClick={() => performAction("stamp")}
+                  disabled={loading}
+                  style={buttonStyle}
+                >
+                  {loading ? "Adding..." : "Add Stamp"}
+                </button>
+              ) : (
                 <button
                   onClick={() => performAction("redeem")}
                   disabled={loading}
-                  style={{ ...buttonStyle, backgroundColor: secondary, color: bg }}
+                  style={{ ...buttonStyle, backgroundColor: "#22c55e", marginTop: "12px" }}
                 >
-                  {loading ? "Redeeming..." : `Redeem: ${logic.reward || "Free item"}`}
+                  {loading ? "Redeeming..." : `🎁 Redeem: ${logic.reward || "Free item"}`}
                 </button>
               )}
             </>
