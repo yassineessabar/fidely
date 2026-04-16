@@ -218,7 +218,7 @@ export default function SigninPage() {
                   Password
                 </label>
                 <a
-                  href="#"
+                  href="/forgot-password"
                   style={{
                     fontSize: "13px",
                     color: "rgb(147,51,234)",
