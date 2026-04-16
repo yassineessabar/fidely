@@ -87,15 +87,16 @@ export async function POST(
     return NextResponse.json({ error: "Enrollment is not active" }, { status: 400 });
   }
 
-  const { data: cardRaw } = await supabase
+  const { data: cardRaw, error: cardError } = await supabase
     .from("loyalty_cards")
-    .select("type, logic, merchant_pin" as any)
+    .select("*")
     .eq("id", enrollment.card_id)
     .single();
 
   const card = cardRaw as any;
 
-  if (!card) {
+  if (cardError || !card) {
+    console.error("Card lookup failed:", cardError);
     return NextResponse.json({ error: "Card not found" }, { status: 404 });
   }
 
