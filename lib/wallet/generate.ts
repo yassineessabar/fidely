@@ -180,6 +180,8 @@ export function enrollmentToPassTemplate(
     auxiliaryFields = [{ key: "member", label: "MEMBER", value: enrollment.customer_name }];
   }
 
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://fidely-beta.vercel.app";
+  backFields.push({ key: "progress", label: "CHECK YOUR PROGRESS", value: `Visit ${appUrl}/my/${enrollment.membership_code}` });
   if (bd.description) {
     backFields.push({ key: "about", label: "ABOUT", value: bd.description });
   }
