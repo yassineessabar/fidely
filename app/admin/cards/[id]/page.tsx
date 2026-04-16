@@ -27,7 +27,7 @@ export default function EditCardPage() {
       setMerchants((merchantsData.merchants ?? []).map((m: any) => ({ id: m.id, name: m.name })));
       if (cardData.card) {
         const card = cardData.card;
-        const formData = { businessId: card.business_id, type: card.type, name: card.name, businessDetails: card.business_details || {}, branding: card.branding || {}, logic: card.logic || {} };
+        const formData = { businessId: card.business_id, type: card.type, name: card.name, merchantPin: card.merchant_pin || "0000", businessDetails: card.business_details || {}, branding: card.branding || {}, logic: card.logic || {} };
         setInitialData(formData);
         setPreviewData(formData);
         if (card.status === "active" && card.share_url) {
@@ -44,7 +44,7 @@ export default function EditCardPage() {
       const res = await fetch(`/api/admin/cards/${cardId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
+        body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, merchant_pin: data.merchantPin || "0000", business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
       });
       if (!res.ok) { const r = await res.json(); alert(r.error || "Failed to save"); }
     } finally { setSaving(false); }
@@ -56,7 +56,7 @@ export default function EditCardPage() {
       const saveRes = await fetch(`/api/admin/cards/${cardId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
+        body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, merchant_pin: data.merchantPin || "0000", business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
       });
       if (!saveRes.ok) { const r = await saveRes.json(); alert(r.error || "Failed to save"); return; }
       const publishRes = await fetch(`/api/admin/cards/${cardId}/publish`, { method: "POST" });

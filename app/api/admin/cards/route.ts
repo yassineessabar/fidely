@@ -48,7 +48,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { business_id, type, name, business_details, branding, logic } = body;
+  const { business_id, type, name, merchant_pin, business_details, branding, logic } = body;
 
   if (!business_id || !type || !name) {
     return NextResponse.json(
@@ -69,10 +69,11 @@ export async function POST(request: Request) {
       business_id,
       type,
       name,
+      merchant_pin: merchant_pin || "0000",
       business_details: business_details ?? {},
       branding: branding ?? {},
       logic: logic ?? {},
-    })
+    } as any)
     .select()
     .single();
 

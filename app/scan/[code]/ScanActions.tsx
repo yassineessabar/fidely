@@ -33,6 +33,19 @@ export default function ScanActions({
   const [message, setMessage] = useState("");
   const [pointsAmount, setPointsAmount] = useState("");
   const [redeemPoints, setRedeemPoints] = useState("");
+  const [pin, setPin] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(`merchant-pin-${card.id}`) || "";
+    }
+    return "";
+  });
+  const [pinVerified, setPinVerified] = useState(() => {
+    if (typeof window !== "undefined") {
+      return !!localStorage.getItem(`merchant-pin-${card.id}`);
+    }
+    return false;
+  });
+  const [pinError, setPinError] = useState("");
 
   const br = card.branding || {};
   const logic = card.logic || {};
@@ -49,16 +62,29 @@ export default function ScanActions({
       const res = await fetch(`/api/scan/${enrollment.membership_code}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ action, amount }),
+        body: JSON.stringify({ action, amount, pin }),
       });
 
       const data = await res.json();
+
+      if (res.status === 403) {
+        localStorage.removeItem(`merchant-pin-${card.id}`);
+        setPinVerified(false);
+        setPin("");
+        setPinError("Invalid PIN");
+        setLoading(false);
+        return;
+      }
 
       if (!res.ok) {
         setMessage(data.error || "Action failed");
         setLoading(false);
         return;
       }
+
+      // PIN was correct — save it
+      localStorage.setItem(`merchant-pin-${card.id}`, pin);
+      setPinVerified(true);
 
       if (data.stamps_collected !== undefined) {
         setEnrollment((prev) => ({ ...prev, stamps_collected: data.stamps_collected }));
@@ -112,6 +138,70 @@ export default function ScanActions({
     boxSizing: "border-box" as const,
     marginBottom: "8px",
   };
+
+  if (!pinVerified) {
+    return (
+      <div style={{ width: "100%", maxWidth: "400px", textAlign: "center" }}>
+        <div
+          style={{
+            padding: "20px",
+            borderRadius: "16px",
+            backgroundColor: `${primary}10`,
+            border: `1px solid ${primary}20`,
+            marginBottom: "24px",
+          }}
+        >
+          <div style={{ fontSize: "22px", fontWeight: 700, color: primary, marginBottom: "4px" }}>
+            {enrollment.customer_name}
+          </div>
+          <div style={{ fontSize: "14px", color: primary, opacity: 0.5, marginBottom: "12px" }}>
+            {enrollment.customer_email}
+          </div>
+          <div style={{ fontSize: "12px", color: secondary, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            {enrollment.membership_code}
+          </div>
+        </div>
+        <div style={{ marginTop: "24px", marginBottom: "16px", fontSize: "15px", fontWeight: 600, color: primary }}>
+          Enter merchant PIN to continue
+        </div>
+        <input
+          type="password"
+          inputMode="numeric"
+          maxLength={4}
+          pattern="[0-9]*"
+          value={pin}
+          onChange={(e) => {
+            const v = e.target.value.replace(/\D/g, "").slice(0, 4);
+            setPin(v);
+            setPinError("");
+          }}
+          placeholder="••••"
+          style={{
+            width: "120px", padding: "16px", borderRadius: "12px",
+            border: `1px solid ${pinError ? "#ff6b6b" : primary + "30"}`,
+            backgroundColor: `${primary}08`, color: primary,
+            fontSize: "24px", fontFamily: "inherit", textAlign: "center",
+            outline: "none", letterSpacing: "8px",
+          }}
+        />
+        {pinError && (
+          <div style={{ marginTop: "12px", color: "#ff6b6b", fontSize: "14px" }}>{pinError}</div>
+        )}
+        <button
+          onClick={() => setPinVerified(true)}
+          disabled={pin.length !== 4}
+          style={{
+            display: "block", width: "100%", marginTop: "20px", padding: "16px",
+            borderRadius: "12px", backgroundColor: pin.length === 4 ? accent : `${primary}20`,
+            color: "#fff", fontSize: "16px", fontWeight: 700, border: "none",
+            cursor: pin.length === 4 ? "pointer" : "not-allowed", fontFamily: "inherit",
+          }}
+        >
+          Unlock
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div style={{ width: "100%" }}>

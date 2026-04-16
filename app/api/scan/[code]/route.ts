@@ -58,14 +58,14 @@ export async function POST(
   const supabase = createAdminClient();
   const { code } = params;
 
-  let body: { action: string; amount?: number };
+  let body: { action: string; amount?: number; pin?: string };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { action, amount } = body;
+  const { action, amount, pin } = body;
 
   if (!action) {
     return NextResponse.json({ error: "action is required" }, { status: 400 });
@@ -87,17 +87,25 @@ export async function POST(
     return NextResponse.json({ error: "Enrollment is not active" }, { status: 400 });
   }
 
-  const { data: card } = await supabase
+  const { data: cardRaw } = await supabase
     .from("loyalty_cards")
-    .select("type, logic")
+    .select("type, logic, merchant_pin" as any)
     .eq("id", enrollment.card_id)
     .single();
+
+  const card = cardRaw as any;
 
   if (!card) {
     return NextResponse.json({ error: "Card not found" }, { status: 404 });
   }
 
-  const logic = (card as any).logic || {};
+  // Verify merchant PIN
+  const merchantPin = card.merchant_pin || "0000";
+  if (pin !== merchantPin) {
+    return NextResponse.json({ error: "Invalid PIN" }, { status: 403 });
+  }
+
+  const logic = card.logic || {};
 
   if (action === "stamp" && card.type === "stamp") {
     const stampsToAdd = amount || 1;

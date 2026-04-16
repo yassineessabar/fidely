@@ -48,7 +48,7 @@ export default function NewCardPage() {
       const res = await fetch("/api/admin/cards", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
+        body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, merchant_pin: data.merchantPin || "0000", business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
       });
       const result = await res.json();
       if (!res.ok) { alert(result.error || "Failed to save"); return; }
@@ -64,7 +64,7 @@ export default function NewCardPage() {
       const createRes = await fetch("/api/admin/cards", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
+        body: JSON.stringify({ business_id: data.businessId, type: data.type, name: data.name, merchant_pin: data.merchantPin || "0000", business_details: data.businessDetails, branding: data.branding, logic: data.logic }),
       });
       const createResult = await createRes.json();
       if (!createRes.ok) { alert(createResult.error || "Failed to save card"); return; }

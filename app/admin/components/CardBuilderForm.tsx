@@ -48,6 +48,7 @@ type CardData = {
   businessId: string;
   type: CardType;
   name: string;
+  merchantPin: string;
   businessDetails: BusinessDetails;
   branding: Branding;
   logic: CouponLogic | StampLogic | PointsLogic;
@@ -209,6 +210,7 @@ export default function CardBuilderForm({
       businessId: initialData?.businessId ?? "",
       type,
       name: initialData?.name ?? "",
+      merchantPin: initialData?.merchantPin ?? "0000",
       businessDetails: { ...DEFAULT_BUSINESS_DETAILS, ...(initialData?.businessDetails ?? {}) },
       branding: { ...DEFAULT_BRANDING, ...(initialData?.branding ?? {}) },
       logic: initialData?.logic ?? DEFAULT_LOGIC[type],
@@ -323,6 +325,25 @@ export default function CardBuilderForm({
                 placeholder="e.g. VIP Rewards Card"
                 style={inputStyle}
               />
+            </div>
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Merchant PIN</label>
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={4}
+                pattern="[0-9]{4}"
+                value={cardData.merchantPin}
+                onChange={(e) => {
+                  const v = e.target.value.replace(/\D/g, "").slice(0, 4);
+                  set("merchantPin", v);
+                }}
+                placeholder="0000"
+                style={{ ...inputStyle, width: "120px", letterSpacing: "4px", textAlign: "center" }}
+              />
+              <p style={{ fontSize: "12px", color: "rgb(97,95,109)", marginTop: "4px" }}>
+                4-digit PIN required by merchants to perform scan actions.
+              </p>
             </div>
           </div>
         )}
