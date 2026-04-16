@@ -310,14 +310,21 @@ export default function CardBuilderForm({
         {open.merchant && (
           <div style={{ paddingTop: "18px", paddingBottom: "8px" }}>
             <div style={fieldWrap}>
-              <label style={labelStyle}>Merchant Name</label>
-              <input
-                type="text"
-                value={cardData.businessDetails?.name || ""}
-                onChange={(e) => setDetails({ name: e.target.value })}
-                placeholder="e.g. Sonoma Bakery"
+              <label style={labelStyle}>Merchant</label>
+              <select
+                value={cardData.businessId}
+                onChange={(e) => {
+                  const selected = merchants.find(m => m.id === e.target.value);
+                  set("businessId", e.target.value);
+                  if (selected) setDetails({ name: selected.name });
+                }}
                 style={inputStyle}
-              />
+              >
+                <option value="">Select a merchant…</option>
+                {merchants.map((m) => (
+                  <option key={m.id} value={m.id}>{m.name}</option>
+                ))}
+              </select>
               <p style={{ fontSize: "12px", color: "rgb(97,95,109)", marginTop: "4px" }}>
                 Shown at the top of the card in the customer's wallet.
               </p>
@@ -382,36 +389,9 @@ export default function CardBuilderForm({
         )}
       </div>
 
-      {/* ── Section 3: Category ── */}
+      {/* ── Section 3: Branding ── */}
       <div style={{ marginBottom: "4px" }}>
-        <SectionHeader title="3. Category" open={open.details} onToggle={() => toggle("details")} />
-        {open.details && (
-          <div style={{ paddingTop: "18px", paddingBottom: "8px" }}>
-            <div style={fieldWrap}>
-              <label style={labelStyle}>Business Category</label>
-              <select
-                value={cardData.businessDetails.category}
-                onChange={(e) => setDetails({ category: e.target.value })}
-                style={inputStyle}
-              >
-                <option value="">Select category…</option>
-                {CATEGORIES.map((c) => (
-                  <option key={c} value={c} style={{ textTransform: "capitalize" }}>
-                    {c.charAt(0).toUpperCase() + c.slice(1)}
-                  </option>
-                ))}
-              </select>
-              <p style={{ fontSize: "12px", color: "rgb(97,95,109)", marginTop: "4px" }}>
-                Used to auto-select the stamp icon on the card.
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* ── Section 4: Branding ── */}
-      <div style={{ marginBottom: "4px" }}>
-        <SectionHeader title="4. Branding" open={open.branding} onToggle={() => toggle("branding")} />
+        <SectionHeader title="3. Branding" open={open.branding} onToggle={() => toggle("branding")} />
         {open.branding && (
           <div style={{ paddingTop: "18px", paddingBottom: "8px" }}>
             {/* Logo upload */}
@@ -495,27 +475,13 @@ export default function CardBuilderForm({
               <ColorRow label="Secondary" value={cardData.branding.secondaryColor} onChange={(v) => setBranding({ secondaryColor: v })} />
               <ColorRow label="Accent" value={cardData.branding.accentColor} onChange={(v) => setBranding({ accentColor: v })} />
             </div>
-            <div style={fieldWrap}>
-              <label style={labelStyle}>Card Style</label>
-              <select
-                value={cardData.branding.cardStyle}
-                onChange={(e) => setBranding({ cardStyle: e.target.value })}
-                style={inputStyle}
-              >
-                {["premium", "minimal", "bold", "gradient"].map((s) => (
-                  <option key={s} value={s} style={{ textTransform: "capitalize" }}>
-                    {s.charAt(0).toUpperCase() + s.slice(1)}
-                  </option>
-                ))}
-              </select>
-            </div>
           </div>
         )}
       </div>
 
       {/* ── Section 5: Card Logic ── */}
       <div style={{ marginBottom: "4px" }}>
-        <SectionHeader title="5. Card Logic" open={open.logic} onToggle={() => toggle("logic")} />
+        <SectionHeader title="4. Card Logic" open={open.logic} onToggle={() => toggle("logic")} />
         {open.logic && (
           <div style={{ paddingTop: "18px", paddingBottom: "8px" }}>
 
