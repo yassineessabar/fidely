@@ -308,17 +308,17 @@ export default function CardBuilderForm({
         {open.merchant && (
           <div style={{ paddingTop: "18px", paddingBottom: "8px" }}>
             <div style={fieldWrap}>
-              <label style={labelStyle}>Merchant</label>
-              <select
-                value={cardData.businessId}
-                onChange={(e) => set("businessId", e.target.value)}
+              <label style={labelStyle}>Merchant Name</label>
+              <input
+                type="text"
+                value={cardData.businessDetails?.name || ""}
+                onChange={(e) => setDetails({ name: e.target.value })}
+                placeholder="e.g. Sonoma Bakery"
                 style={inputStyle}
-              >
-                <option value="">Select a merchant…</option>
-                {merchants.map((m) => (
-                  <option key={m.id} value={m.id}>{m.name}</option>
-                ))}
-              </select>
+              />
+              <p style={{ fontSize: "12px", color: "rgb(97,95,109)", marginTop: "4px" }}>
+                Shown at the top of the card in the customer's wallet.
+              </p>
             </div>
             <div style={fieldWrap}>
               <label style={labelStyle}>Card Name</label>
@@ -599,14 +599,6 @@ export default function CardBuilderForm({
                         Auto-selected based on category: <span style={{ fontSize: "20px", marginLeft: "8px" }}>{{ cafe: "☕", restaurant: "🍽", salon: "💇", barber: "✂️", gym: "💪", bakery: "🧁", retail: "🛍", other: "⭐" }[cardData.businessDetails.category] || "⭐"}</span>
                       </div>
                     </div>
-                  </div>
-                  <div style={fieldWrap}>
-                    <label style={labelStyle}>Reward</label>
-                    <input type="text" value={l.reward} onChange={(e) => setLogic({ reward: e.target.value })} placeholder="e.g. Free coffee" style={inputStyle} />
-                  </div>
-                  <div style={fieldWrap}>
-                    <label style={labelStyle}>Progress Label</label>
-                    <input type="text" value={l.progressLabel} onChange={(e) => setLogic({ progressLabel: e.target.value })} placeholder="e.g. collected" style={inputStyle} />
                   </div>
                 </>
               );
