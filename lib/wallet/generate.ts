@@ -104,6 +104,7 @@ export function cardToPassTemplate(card: CardRow): PassTemplate {
     barcodeValue: `KYRO-${card.id.slice(0, 8).toUpperCase()}`,
     stripImagePath: "/wallet/strip-reward.png",
     logoUrl: br.logoUrl || undefined,
+    heroImageUrl: br.heroImageUrl || undefined,
     accentColor: br.accentColor || undefined,
   };
 }
@@ -202,6 +203,7 @@ export function enrollmentToPassTemplate(
     barcodeValue: `${process.env.NEXT_PUBLIC_APP_URL || "https://fidely-beta.vercel.app"}/scan/${enrollment.membership_code}`,
     stripImagePath: "/wallet/strip-reward.png",
     logoUrl: br.logoUrl || undefined,
+    heroImageUrl: br.heroImageUrl || undefined,
     accentColor: br.accentColor || undefined,
   };
 }

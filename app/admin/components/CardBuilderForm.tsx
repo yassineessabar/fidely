@@ -488,6 +488,44 @@ export default function CardBuilderForm({
                 )}
               </div>
             </div>
+            {/* Hero/Banner image upload */}
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Banner Image</label>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                {cardData.branding.heroImageUrl && (
+                  <img
+                    src={cardData.branding.heroImageUrl}
+                    alt="Banner"
+                    style={{ width: "120px", height: "40px", borderRadius: "8px", objectFit: "cover", border: "1px solid rgb(228,227,223)" }}
+                  />
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    if (file.size > 1000000) { alert("Banner must be under 1MB"); return; }
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                      setBranding({ heroImageUrl: ev.target?.result as string });
+                    };
+                    reader.readAsDataURL(file);
+                  }}
+                  style={{ fontSize: "13px", color: "rgb(97,95,109)" }}
+                />
+                {cardData.branding.heroImageUrl && (
+                  <button
+                    type="button"
+                    onClick={() => setBranding({ heroImageUrl: "" })}
+                    style={{ fontSize: "12px", color: "#ff6b6b", background: "none", border: "none", cursor: "pointer", padding: "4px 8px" }}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+              <div style={{ fontSize: "11px", color: "rgb(97,95,109)", marginTop: "4px" }}>This image appears as the banner strip on the wallet pass</div>
+            </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <ColorRow label="Background" value={cardData.branding.backgroundColor} onChange={(v) => setBranding({ backgroundColor: v })} />
               <ColorRow label="Primary" value={cardData.branding.primaryColor} onChange={(v) => setBranding({ primaryColor: v })} />

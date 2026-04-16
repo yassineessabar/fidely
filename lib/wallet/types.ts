@@ -26,6 +26,7 @@ export interface PassTemplate {
   barcodeValue: string;
   stripImagePath: string;
   logoUrl?: string;
+  heroImageUrl?: string;
   accentColor?: string;
 }
 

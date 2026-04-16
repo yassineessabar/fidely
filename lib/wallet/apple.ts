@@ -74,11 +74,20 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
     buffers["logo@2x.png"] = transparentPng;
   }
 
-  // Strip — generate gradient matching admin card preview
-  const accentRgb = parseColor(template.accentColor || template.backgroundColor);
-  const bgRgb = parseColor(template.backgroundColor);
-  buffers["strip.png"] = createGradientPng(375, 123, accentRgb, bgRgb);
-  buffers["strip@2x.png"] = createGradientPng(375, 123, accentRgb, bgRgb);
+  // Strip — use hero image if available, otherwise generate gradient
+  if (template.heroImageUrl) {
+    const heroBuf = await fetchImageBuffer(template.heroImageUrl);
+    if (heroBuf) {
+      buffers["strip.png"] = heroBuf;
+      buffers["strip@2x.png"] = heroBuf;
+    }
+  }
+  if (!buffers["strip.png"]) {
+    const accentRgb = parseColor(template.accentColor || template.backgroundColor);
+    const bgRgb = parseColor(template.backgroundColor);
+    buffers["strip.png"] = createGradientPng(375, 123, accentRgb, bgRgb);
+    buffers["strip@2x.png"] = createGradientPng(375, 123, accentRgb, bgRgb);
+  }
 
   return buffers;
 }
