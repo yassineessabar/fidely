@@ -35,3 +35,41 @@ export async function GET(request: Request) {
 
   return NextResponse.json({ merchants: data });
 }
+
+export async function POST(request: Request) {
+  const admin = await verifyAdmin();
+  if (!admin) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  let body: { name: string; email?: string; phone?: string; city?: string; plan?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  if (!body.name?.trim()) {
+    return NextResponse.json({ error: "Name is required" }, { status: 400 });
+  }
+
+  const supabase = createAdminClient();
+
+  const { data, error } = await supabase
+    .from("businesses")
+    .insert({
+      name: body.name.trim(),
+      email: body.email?.trim() || null,
+      phone: body.phone?.trim() || null,
+      city: body.city?.trim() || null,
+      plan: (body.plan || "starter") as any,
+    })
+    .select("id, name, email, phone, city, plan, created_at")
+    .single();
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ merchant: data }, { status: 201 });
+}

@@ -39,6 +39,7 @@ type Branding = {
 };
 
 type BusinessDetails = {
+  name: string;
   category: string;
   address: string;
   phone: string;
@@ -95,6 +96,7 @@ const DEFAULT_LOGIC: Record<CardType, CouponLogic | StampLogic | PointsLogic> = 
 };
 
 const DEFAULT_BUSINESS_DETAILS: BusinessDetails = {
+  name: "",
   category: "",
   address: "",
   phone: "",
