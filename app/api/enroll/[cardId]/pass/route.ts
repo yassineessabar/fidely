@@ -18,7 +18,7 @@ export async function GET(
   // Fetch enrollment
   const { data: enrollment, error: enrollError } = await supabase
     .from("card_enrollments" as any)
-    .select("id, membership_code, customer_name, stamps_collected, points_balance")
+    .select("id, membership_code, customer_name, stamps_collected, points_balance, auth_token")
     .eq("membership_code", code)
     .eq("card_id", cardId)
     .single();

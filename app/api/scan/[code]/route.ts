@@ -1,4 +1,5 @@
 import { createAdminClient } from "@/lib/supabase/admin";
+import { notifyPassUpdate } from "@/lib/wallet/apns";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -122,6 +123,9 @@ export async function POST(
       return NextResponse.json({ error: "Failed to update stamps" }, { status: 500 });
     }
 
+    // Notify Apple Wallet to update the pass
+    notifyPassUpdate(enrollment.id, supabase).catch(console.error);
+
     return NextResponse.json({
       success: true,
       action: "stamp",
@@ -143,6 +147,9 @@ export async function POST(
     if (updateError) {
       return NextResponse.json({ error: "Failed to update points" }, { status: 500 });
     }
+
+    // Notify Apple Wallet to update the pass
+    notifyPassUpdate(enrollment.id, supabase).catch(console.error);
 
     return NextResponse.json({
       success: true,
@@ -169,6 +176,9 @@ export async function POST(
       if (updateError) {
         return NextResponse.json({ error: "Failed to redeem" }, { status: 500 });
       }
+
+      // Notify Apple Wallet to update the pass
+      notifyPassUpdate(enrollment.id, supabase).catch(console.error);
 
       return NextResponse.json({
         success: true,
@@ -200,6 +210,9 @@ export async function POST(
         return NextResponse.json({ error: "Failed to redeem" }, { status: 500 });
       }
 
+      // Notify Apple Wallet to update the pass
+      notifyPassUpdate(enrollment.id, supabase).catch(console.error);
+
       return NextResponse.json({
         success: true,
         action: "redeem",
@@ -217,6 +230,9 @@ export async function POST(
       if (updateError) {
         return NextResponse.json({ error: "Failed to redeem" }, { status: 500 });
       }
+
+      // Notify Apple Wallet to update the pass
+      notifyPassUpdate(enrollment.id, supabase).catch(console.error);
 
       return NextResponse.json({
         success: true,

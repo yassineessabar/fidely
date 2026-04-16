@@ -59,8 +59,9 @@ export async function POST(
       stamps_collected: 0,
       points_balance: 0,
       status: "active",
+      auth_token: crypto.randomUUID(),
     })
-    .select("membership_code")
+    .select("membership_code, auth_token")
     .single();
 
   if (insertError || !newEnrollment) {

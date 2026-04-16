@@ -28,6 +28,8 @@ export interface PassTemplate {
   logoUrl?: string;
   heroImageUrl?: string;
   accentColor?: string;
+  serialNumber?: string;
+  authToken?: string;
 }
 
 export interface GeneratePassOptions {

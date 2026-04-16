@@ -117,6 +117,7 @@ export function enrollmentToPassTemplate(
     customer_name: string;
     stamps_collected: number;
     points_balance: number;
+    auth_token: string;
   }
 ): PassTemplate {
   const bd = card.business_details || {};
@@ -207,5 +208,7 @@ export function enrollmentToPassTemplate(
     logoUrl: br.logoUrl || undefined,
     heroImageUrl: br.heroImageUrl || undefined,
     accentColor: br.accentColor || undefined,
+    serialNumber: enrollment.id,
+    authToken: enrollment.auth_token,
   };
 }
