@@ -162,6 +162,7 @@ export default function EnrollForm({
           required
           value={dob}
           onChange={(e) => setDob(e.target.value)}
+          max={new Date().toISOString().split("T")[0]}
           style={{
             ...inputStyle,
             colorScheme: "dark",
