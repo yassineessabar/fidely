@@ -135,14 +135,19 @@ export function enrollmentToPassTemplate(
     auxiliaryFields = [{ key: "member", label: "MEMBER", value: enrollment.customer_name }];
     description = logic.offerDescription || description;
   } else if (card.type === "stamp") {
+    const icon = logic.stampIcon || "⭐";
+    const total = logic.totalStamps || 10;
+    const collected = enrollment.stamps_collected;
+    // Show stamp icons: filled for collected, empty circles for remaining
+    const stampVisual = Array.from({ length: total }, (_, i) => i < collected ? icon : "○").join("");
     headerFields = [
-      { key: "stamps", label: "STAMPS", value: `${enrollment.stamps_collected}/${logic.totalStamps || 10}` },
+      { key: "stamps", label: "STAMPS", value: `${collected}/${total}` },
     ];
     primaryFields = [
       { key: "reward", label: "REWARD", value: logic.reward || "Free item" },
     ];
     secondaryFields = [
-      { key: "progress", label: "PROGRESS", value: `${enrollment.stamps_collected} ${logic.progressLabel || "collected"}` },
+      { key: "progress", label: "PROGRESS", value: stampVisual },
     ];
     auxiliaryFields = [{ key: "member", label: "MEMBER", value: enrollment.customer_name }];
   } else if (card.type === "points") {

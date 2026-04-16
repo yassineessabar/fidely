@@ -51,12 +51,13 @@ export default function CardPreview({ type, businessDetails, branding, logic }: 
 
   if (type === "stamp") {
     const total = logic?.totalStamps || 10;
+    const icon = logic?.stampIcon || "⭐";
     headerLabel = "STAMPS";
     headerValue = `0/${total}`;
     primaryLabel = "REWARD";
     primaryValue = logic?.reward || "Free item";
     secondaryLabel = "PROGRESS";
-    secondaryValue = `0 ${logic?.progressLabel || "collected"}`;
+    secondaryValue = Array.from({ length: total }, () => "○").join("");
   } else if (type === "points") {
     headerLabel = logic?.pointsLabel || "POINTS";
     headerValue = "0";

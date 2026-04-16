@@ -58,7 +58,7 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
   buffers["icon@2x.png"] = createPlaceholderPng(58, 58, iconColor);
   buffers["icon@3x.png"] = createPlaceholderPng(87, 87, iconColor);
 
-  // Logo — fetch from logoUrl if available
+  // Logo — fetch from logoUrl if available, otherwise generate with accent color
   if (template.logoUrl) {
     const logoBuf = await fetchImageBuffer(template.logoUrl);
     if (logoBuf) {
@@ -67,16 +67,9 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
     }
   }
   if (!buffers["logo.png"]) {
-    const filePath = join(walletDir, "logo.png");
-    if (existsSync(filePath)) {
-      buffers["logo.png"] = readFileSync(filePath);
-      const file2x = join(walletDir, "logo@2x.png");
-      buffers["logo@2x.png"] = existsSync(file2x) ? readFileSync(file2x) : buffers["logo.png"];
-    } else {
-      const color = parseColor(template.accentColor || template.backgroundColor);
-      buffers["logo.png"] = createPlaceholderPng(160, 50, color);
-      buffers["logo@2x.png"] = buffers["logo.png"];
-    }
+    const logoColor = parseColor(template.accentColor || template.backgroundColor);
+    buffers["logo.png"] = createPlaceholderPng(160, 50, logoColor);
+    buffers["logo@2x.png"] = buffers["logo.png"];
   }
 
   // Strip — generate gradient matching admin card preview
