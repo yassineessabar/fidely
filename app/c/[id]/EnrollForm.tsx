@@ -102,49 +102,14 @@ export default function EnrollForm({
       </div>
       <div style={{ marginBottom: "16px" }}>
         <label style={labelStyle}>Phone</label>
-        <div
-          style={{
-            ...inputStyle,
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            padding: "0",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              padding: "0 0 0 14px",
-              opacity: 0.6,
-              flexShrink: 0,
-            }}
-          >
-            <span style={{ fontSize: "18px", lineHeight: 1 }}>🇦🇺</span>
-            <span style={{ fontSize: "14px", color: primaryColor }}>+61</span>
-          </div>
-          <div style={{ width: "1px", height: "24px", backgroundColor: `${primaryColor}20`, flexShrink: 0 }} />
-          <input
-            type="tel"
-            required
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="400 000 000"
-            style={{
-              flex: 1,
-              height: "100%",
-              border: "none",
-              background: "transparent",
-              color: primaryColor,
-              fontSize: "16px",
-              fontFamily: "inherit",
-              outline: "none",
-              padding: "0 14px 0 0",
-            }}
-          />
-        </div>
+        <input
+          type="tel"
+          required
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          placeholder="+61 400 000 000"
+          style={inputStyle}
+        />
       </div>
       <div style={{ marginBottom: "16px" }}>
         <label style={labelStyle}>Date of Birth</label>
