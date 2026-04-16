@@ -255,37 +255,40 @@ async function createStampStripWithSharp(
   const offsetX = Math.floor((width - gridW) / 2);
   const offsetY = Math.floor((height - gridH) / 2);
 
-  // Build SVG with coffee cup shapes
-  let shapes = "";
+  // Load pre-rendered coffee cup icons
+  const cupFilledPath = join(process.cwd(), "public", "wallet", "cup-filled.png");
+  const cupDimPath = join(process.cwd(), "public", "wallet", "cup-dim.png");
+
+  let filledCup: Buffer;
+  let dimCup: Buffer;
+
+  if (existsSync(cupFilledPath) && existsSync(cupDimPath)) {
+    filledCup = readFileSync(cupFilledPath);
+    dimCup = readFileSync(cupDimPath);
+  } else {
+    // Generate on-the-fly if files don't exist (serverless)
+    const filledSvg = `<svg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'><ellipse cx='28' cy='56' rx='24' ry='6' fill='#d4a574' opacity='0.8'/><ellipse cx='28' cy='55' rx='22' ry='5' fill='#e8c9a0'/><path d='M10,22 L10,44 Q10,52 20,52 L36,52 Q46,52 46,44 L46,22 Z' fill='#f5f0e8' stroke='#d4a574' stroke-width='1.5'/><path d='M12,28 L12,43 Q12,50 21,50 L35,50 Q44,50 44,43 L44,28 Z' fill='#6B3A2A'/><path d='M12,28 L44,28 Q42,32 28,32 Q14,32 12,28 Z' fill='#8B5A3A' opacity='0.6'/><path d='M46,26 Q56,26 56,36 Q56,44 46,44' fill='none' stroke='#e8c9a0' stroke-width='5' stroke-linecap='round'/><path d='M46,28 Q53,28 53,36 Q53,42 46,42' fill='none' stroke='#f5f0e8' stroke-width='3' stroke-linecap='round'/><path d='M22,18 Q20,12 22,8' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.7'/><path d='M28,16 Q26,10 28,5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.5'/><path d='M34,18 Q32,12 34,8' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.6'/></svg>`;
+    const dimSvg = `<svg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'><ellipse cx='28' cy='56' rx='24' ry='6' fill='white' opacity='0.15'/><path d='M10,22 L10,44 Q10,52 20,52 L36,52 Q46,52 46,44 L46,22 Z' fill='white' fill-opacity='0.1' stroke='white' stroke-width='1.5' stroke-opacity='0.3'/><path d='M46,26 Q56,26 56,36 Q56,44 46,44' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' opacity='0.2'/></svg>`;
+    filledCup = await sharp(Buffer.from(filledSvg)).png().toBuffer();
+    dimCup = await sharp(Buffer.from(dimSvg)).png().toBuffer();
+  }
+  const iconSize = Math.min(stampSize, 64);
+
+  // Composite each cup icon onto the base
+  const composites: sharp.OverlayOptions[] = [];
   for (let idx = 0; idx < total; idx++) {
     const row = Math.floor(idx / cols);
     const col = idx % cols;
-    const cx = offsetX + col * (stampSize + gap) + r;
-    const cy = offsetY + row * (stampSize + gap) + r;
-    const s = r * 0.7; // cup scale
+    const x = offsetX + col * (stampSize + gap) + Math.floor((stampSize - iconSize) / 2);
+    const y = offsetY + row * (stampSize + gap) + Math.floor((stampSize - iconSize) / 2);
 
-    if (idx < collected) {
-      // Filled: bright coffee cup
-      // Cup body (rounded rect)
-      shapes += `<rect x="${cx - s}" y="${cy - s * 0.6}" width="${s * 1.6}" height="${s * 1.4}" rx="${s * 0.25}" fill="rgba(255,255,255,0.95)" />`;
-      // Cup handle
-      shapes += `<path d="M${cx + s * 0.6},${cy - s * 0.15} Q${cx + s * 1.1},${cy - s * 0.15} ${cx + s * 1.1},${cy + s * 0.25} Q${cx + s * 1.1},${cy + s * 0.6} ${cx + s * 0.6},${cy + s * 0.55}" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="${s * 0.18}" />`;
-      // Coffee inside (dark)
-      shapes += `<rect x="${cx - s * 0.7}" y="${cy - s * 0.2}" width="${s * 1.2}" height="${s * 0.7}" rx="${s * 0.1}" fill="rgba(80,50,20,0.7)" />`;
-      // Steam lines
-      shapes += `<path d="M${cx - s * 0.3},${cy - s * 0.7} Q${cx - s * 0.15},${cy - s * 1} ${cx - s * 0.3},${cy - s * 1.15}" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" />`;
-      shapes += `<path d="M${cx + s * 0.1},${cy - s * 0.75} Q${cx + s * 0.25},${cy - s * 1.05} ${cx + s * 0.1},${cy - s * 1.2}" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" />`;
-    } else {
-      // Unfilled: dim outline cup
-      shapes += `<rect x="${cx - s}" y="${cy - s * 0.6}" width="${s * 1.6}" height="${s * 1.4}" rx="${s * 0.25}" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />`;
-      shapes += `<path d="M${cx + s * 0.6},${cy - s * 0.15} Q${cx + s * 1.1},${cy - s * 0.15} ${cx + s * 1.1},${cy + s * 0.25} Q${cx + s * 1.1},${cy + s * 0.6} ${cx + s * 0.6},${cy + s * 0.55}" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" />`;
-    }
+    const icon = idx < collected ? filledCup : dimCup;
+    const resized = await sharp(icon).resize(iconSize, iconSize).png().toBuffer();
+    composites.push({ input: resized, left: x, top: y });
   }
 
-  const svgOverlay = Buffer.from(`<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">${shapes}</svg>`);
-
   const result = await sharp(baseBuf)
-    .composite([{ input: svgOverlay, blend: "over" }])
+    .composite(composites)
     .png()
     .toBuffer();
 
