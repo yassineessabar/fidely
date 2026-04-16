@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useRef, FormEvent } from "react";
 
 export default function EnrollForm({
   cardId,
@@ -19,6 +19,7 @@ export default function EnrollForm({
   const [dob, setDob] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const formRef = useRef<HTMLFormElement>(null);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -26,6 +27,7 @@ export default function EnrollForm({
     setError("");
 
     try {
+      // First call: create enrollment and get membership code back
       const res = await fetch(`/api/enroll/${cardId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -39,10 +41,10 @@ export default function EnrollForm({
         return;
       }
 
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      // Navigate directly to pkpass — Safari opens "Add to Wallet" immediately
-      window.location.href = url;
+      // Redirect to the direct pass download URL
+      // This lets Safari handle the pkpass MIME type natively
+      const data = await res.json();
+      window.location.href = `/api/enroll/${cardId}/pass?code=${data.membership_code}`;
     } catch {
       setError("Network error. Please try again.");
       setLoading(false);
@@ -74,7 +76,7 @@ export default function EnrollForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ width: "100%" }}>
+    <form ref={formRef} onSubmit={handleSubmit} style={{ width: "100%" }}>
       <div style={{ marginBottom: "16px" }}>
         <label style={labelStyle}>Full Name</label>
         <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Smith" style={inputStyle} />
@@ -89,7 +91,7 @@ export default function EnrollForm({
       </div>
       <div style={{ marginBottom: "24px" }}>
         <label style={labelStyle}>Date of Birth</label>
-        <input type="date" required value={dob} onChange={(e) => setDob(e.target.value)} style={{ ...inputStyle, colorScheme: "dark", WebkitAppearance: "none" as any, appearance: "none" as any }} />
+        <input type="date" required value={dob} onChange={(e) => setDob(e.target.value)} style={{ ...inputStyle, colorScheme: "dark" }} />
       </div>
       {error && (
         <div style={{ padding: "12px 16px", borderRadius: "10px", backgroundColor: "#ff000020", color: "#ff6b6b", fontSize: "14px", marginBottom: "16px" }}>
