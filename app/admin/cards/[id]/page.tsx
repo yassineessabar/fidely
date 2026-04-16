@@ -81,7 +81,10 @@ export default function EditCardPage() {
           <div style={{ display: "flex", gap: "24px", alignItems: "flex-start", flexWrap: "wrap" }}>
             <div>
               <div style={{ fontSize: "12px", fontWeight: 600, color: "rgb(22,101,52)", marginBottom: "4px" }}>Share URL</div>
-              <div style={{ fontSize: "13px", color: "rgb(11,5,29)", backgroundColor: "white", padding: "8px 12px", borderRadius: "6px", fontFamily: "monospace", wordBreak: "break-all" }}>{publishResult.shareUrl}</div>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", backgroundColor: "white", padding: "8px 12px", borderRadius: "6px" }}>
+                <a href={publishResult.shareUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: "13px", color: "rgb(108,71,255)", fontFamily: "monospace", wordBreak: "break-all", textDecoration: "underline" }}>{publishResult.shareUrl}</a>
+                <button onClick={() => { navigator.clipboard.writeText(publishResult.shareUrl); }} style={{ flexShrink: 0, padding: "4px 10px", fontSize: "11px", fontWeight: 600, backgroundColor: "rgb(243,242,238)", border: "1px solid rgb(228,227,223)", borderRadius: "6px", cursor: "pointer", color: "rgb(97,95,109)", fontFamily: "inherit" }}>Copy</button>
+              </div>
             </div>
             {publishResult.qrCodeData && (
               <div>
