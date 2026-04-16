@@ -63,13 +63,10 @@ export default function CardPreview({ type, cardName, businessDetails, branding,
 
   if (type === "stamp") {
     const total = logic?.totalStamps || 10;
-    const stampIcon = CATEGORY_STAMP_ICONS[businessDetails.category] || logic?.stampIcon || "\u2B50";
     headerLabel = "STAMPS";
     headerValue = `0/${total}`;
-    primaryLabel = "REWARD";
-    primaryValue = logic?.reward || "Free item";
-    secondaryLabel = `PROGRESS (${stampIcon})`;
-    secondaryValue = Array.from({ length: total }, () => "\u25CB").join("");
+    secondaryLabel = "STAMPS UNTIL REWARD";
+    secondaryValue = `${total} stamps`;
   } else if (type === "points") {
     headerLabel = logic?.pointsLabel || "POINTS";
     headerValue = "0";
