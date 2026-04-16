@@ -111,9 +111,13 @@ export async function POST(
   const logic = card.logic || {};
 
   if (action === "stamp" && card.type === "stamp") {
-    const stampsToAdd = amount || 1;
-    const newStamps = enrollment.stamps_collected + stampsToAdd;
     const totalStamps = logic.totalStamps || 10;
+
+    if (enrollment.stamps_collected >= totalStamps) {
+      return NextResponse.json({ error: "All stamps collected. Redeem the reward first." }, { status: 400 });
+    }
+
+    const newStamps = Math.min(enrollment.stamps_collected + 1, totalStamps);
 
     const { error: updateError } = await supabase
       .from("card_enrollments" as any)
