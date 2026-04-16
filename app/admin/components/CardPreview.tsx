@@ -123,32 +123,61 @@ export default function CardPreview({ type, cardName, businessDetails, branding,
         )}
       </div>
 
-      {/* ── Strip with gradient + primary field overlay ── */}
-      <div style={{
-        position: "relative", width: "100%", height: "100px",
-        background: branding.heroImageUrl
-          ? `url(${branding.heroImageUrl}) center/cover`
-          : `linear-gradient(135deg, ${accent}dd 0%, ${bg} 60%, ${accent}44 100%)`,
-        display: "flex", flexDirection: "column", justifyContent: "center",
-        padding: "0 16px",
-      }}>
-        {/* Subtle pattern overlay */}
-        {!branding.heroImageUrl && (
-          <div style={{
-            position: "absolute", inset: 0, opacity: 0.05,
-            backgroundImage: `radial-gradient(circle at 20% 50%, ${primary} 1px, transparent 1px), radial-gradient(circle at 80% 30%, ${primary} 1px, transparent 1px)`,
-            backgroundSize: "20px 20px, 30px 30px",
-          }} />
-        )}
-        <div style={{ position: "relative" }}>
-          <div style={{ fontSize: "28px", fontWeight: 800, color: primary, lineHeight: 1.15, letterSpacing: "-0.3px" }}>
-            {primaryValue}
-          </div>
-          <div style={{ fontSize: "11px", fontWeight: 600, color: secondary, marginTop: "4px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-            {primaryLabel}
+      {/* ── Strip ── */}
+      {type === "stamp" ? (
+        /* Stamp grid strip */
+        <div style={{
+          width: "100%", padding: "12px 16px",
+          backgroundColor: accent,
+          display: "flex", flexDirection: "column", gap: "6px",
+        }}>
+          {(() => {
+            const total = logic?.totalStamps || 10;
+            const cols = Math.ceil(total / 2);
+            const rows = [];
+            for (let r = 0; r < 2; r++) {
+              const items = [];
+              for (let c = 0; c < cols; c++) {
+                const idx = r * cols + c;
+                if (idx >= total) break;
+                items.push(
+                  <div key={idx} style={{
+                    width: "100%", aspectRatio: "1", borderRadius: "50%",
+                    backgroundColor: idx < 1 ? `${primary}ee` : "transparent",
+                    border: idx < 1 ? "none" : `2px solid ${primary}40`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                  }}>
+                    {idx < 1 && <div style={{ width: "35%", height: "35%", borderRadius: "50%", backgroundColor: accent }} />}
+                  </div>
+                );
+              }
+              rows.push(<div key={r} style={{ display: "flex", gap: "6px" }}>{items}</div>);
+            }
+            return rows;
+          })()}
+        </div>
+      ) : (
+        /* Hero image or gradient for non-stamp cards */
+        <div style={{
+          position: "relative", width: "100%", height: "100px",
+          background: branding.heroImageUrl
+            ? `url(${branding.heroImageUrl}) center/cover`
+            : `linear-gradient(135deg, ${accent}dd 0%, ${bg} 60%, ${accent}44 100%)`,
+          display: "flex", flexDirection: "column", justifyContent: "center",
+          padding: "0 16px",
+        }}>
+          <div style={{ position: "relative" }}>
+            <div style={{ fontSize: "28px", fontWeight: 800, color: primary, lineHeight: 1.15 }}>
+              {primaryValue}
+            </div>
+            {primaryLabel && (
+              <div style={{ fontSize: "11px", fontWeight: 600, color: secondary, marginTop: "4px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                {primaryLabel}
+              </div>
+            )}
           </div>
         </div>
-      </div>
+      )}
 
       {/* ── Secondary + Auxiliary fields ── */}
       <div style={{ padding: "12px 16px" }}>
