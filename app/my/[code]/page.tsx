@@ -1,6 +1,8 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 const CATEGORY_STAMP_ICONS: Record<string, string> = {
   cafe: "☕", restaurant: "🍽", salon: "💇", barber: "✂️",
   gym: "💪", bakery: "🧁", retail: "🛍", other: "⭐",

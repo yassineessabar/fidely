@@ -3,6 +3,8 @@ import { generateApplePass } from "@/lib/wallet/apple";
 import { enrollmentToPassTemplate } from "@/lib/wallet/generate";
 import { NextRequest, NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 const PASS_TYPE_ID = process.env.APPLE_PASS_TYPE_ID || "pass.com.kyro.loyalty";
 
 function getAuthToken(request: NextRequest): string | null {

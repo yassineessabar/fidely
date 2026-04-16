@@ -160,7 +160,7 @@ export function enrollmentToPassTemplate(
       { key: "remaining", label: "STAMPS UNTIL THE REWARD", value: `${remaining} stamps` },
     ];
     auxiliaryFields = [
-      { key: "rewards", label: "AVAILABLE REWARDS", value: `${rewards} rewards` },
+      { key: "member", label: "MEMBER", value: enrollment.customer_name },
     ];
   } else if (card.type === "points") {
     headerFields = [

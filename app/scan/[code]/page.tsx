@@ -2,6 +2,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import ScanActions from "./ScanActions";
 
+export const dynamic = "force-dynamic";
+
 export default async function ScanPage({ params }: { params: { code: string } }) {
   const supabase = createAdminClient();
 

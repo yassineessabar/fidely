@@ -75,7 +75,7 @@ export const templates: Record<PassType, PassTemplate> = {
       { key: "stampsLeft", label: "STAMPS UNTIL THE REWARD", value: "9 stamps" },
     ],
     secondaryFields: [
-      { key: "rewards", label: "AVAILABLE REWARDS", value: "0 rewards" },
+      { key: "member", label: "MEMBER", value: "Jane Smith" },
     ],
     auxiliaryFields: [],
     backFields: [

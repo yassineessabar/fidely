@@ -67,8 +67,8 @@ export default function CardPreview({ type, cardName, businessDetails, branding,
     headerValue = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" });
     secondaryLabel = "STAMPS UNTIL THE REWARD";
     secondaryValue = `${total} stamps`;
-    auxiliaryLabel = "AVAILABLE REWARDS";
-    auxiliaryValue = "0 rewards";
+    auxiliaryLabel = "MEMBER";
+    auxiliaryValue = "Jane Smith";
   } else if (type === "points") {
     headerLabel = logic?.pointsLabel || "POINTS";
     headerValue = "0";
