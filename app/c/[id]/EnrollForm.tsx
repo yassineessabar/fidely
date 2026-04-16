@@ -127,14 +127,33 @@ export default function EnrollForm({
       </div>
       <div style={{ marginBottom: "16px" }}>
         <label style={labelStyle}>Phone</label>
-        <input
-          type="tel"
-          required
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="+61 400 000 000"
-          style={inputStyle}
-        />
+        <div style={{ position: "relative" }}>
+          <span
+            style={{
+              position: "absolute",
+              left: "14px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              fontSize: "16px",
+              color: primaryColor,
+              opacity: 0.5,
+              pointerEvents: "none",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+            }}
+          >
+            🇦🇺
+          </span>
+          <input
+            type="tel"
+            required
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="+61 400 000 000"
+            style={{ ...inputStyle, paddingLeft: "42px" }}
+          />
+        </div>
       </div>
       <div style={{ marginBottom: "16px" }}>
         <label style={labelStyle}>Date of Birth</label>
@@ -146,6 +165,9 @@ export default function EnrollForm({
           style={{
             ...inputStyle,
             colorScheme: "dark",
+            paddingTop: "14px",
+            paddingBottom: "14px",
+            lineHeight: "24px",
           }}
         />
       </div>
