@@ -96,3 +96,96 @@ export function cardToPassTemplate(card: CardRow): PassTemplate {
     accentColor: br.accentColor || undefined,
   };
 }
+
+export function enrollmentToPassTemplate(
+  card: CardRow,
+  enrollment: {
+    id: string;
+    membership_code: string;
+    customer_name: string;
+    stamps_collected: number;
+    points_balance: number;
+  }
+): PassTemplate {
+  const bd = card.business_details || {};
+  const br = card.branding || {};
+  const logic = card.logic || {};
+  const merchantName = bd.name || "Merchant";
+
+  const typeMap: Record<string, "discount" | "reward" | "stamp" | "cashback"> = {
+    coupon: "discount",
+    stamp: "stamp",
+    points: "reward",
+  };
+
+  let headerFields: PassField[] = [];
+  let primaryFields: PassField[] = [];
+  let secondaryFields: PassField[] = [];
+  let auxiliaryFields: PassField[] = [];
+  let backFields: PassField[] = [];
+  let description = bd.description || `${merchantName} Loyalty Card`;
+
+  if (card.type === "coupon") {
+    primaryFields = [
+      { key: "offer", label: "OFFER", value: logic.offerTitle || "Special Offer" },
+    ];
+    if (logic.expiryDate) {
+      secondaryFields.push({ key: "expires", label: "EXPIRES", value: logic.expiryDate });
+    }
+    auxiliaryFields = [{ key: "member", label: "MEMBER", value: enrollment.customer_name }];
+    description = logic.offerDescription || description;
+  } else if (card.type === "stamp") {
+    headerFields = [
+      { key: "stamps", label: "STAMPS", value: `${enrollment.stamps_collected}/${logic.totalStamps || 10}` },
+    ];
+    primaryFields = [
+      { key: "reward", label: "REWARD", value: logic.reward || "Free item" },
+    ];
+    secondaryFields = [
+      { key: "progress", label: "PROGRESS", value: `${enrollment.stamps_collected} ${logic.progressLabel || "collected"}` },
+    ];
+    auxiliaryFields = [{ key: "member", label: "MEMBER", value: enrollment.customer_name }];
+  } else if (card.type === "points") {
+    headerFields = [
+      { key: "points", label: logic.pointsLabel || "POINTS", value: String(enrollment.points_balance) },
+    ];
+    primaryFields = [
+      { key: "earn", label: "EARN RATE", value: `${logic.pointsPerDollar || 10} pts per $1` },
+    ];
+    const tiers = logic.rewardTiers || [];
+    if (tiers.length > 0) {
+      secondaryFields.push({
+        key: "nextReward",
+        label: "NEXT REWARD",
+        value: `${tiers[0].reward} (${tiers[0].points} pts)`,
+      });
+    }
+    auxiliaryFields = [{ key: "member", label: "MEMBER", value: enrollment.customer_name }];
+  }
+
+  if (bd.description) {
+    backFields.push({ key: "about", label: "ABOUT", value: bd.description });
+  }
+  backFields.push({ key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" });
+
+  return {
+    type: typeMap[card.type] || "reward",
+    merchantName,
+    merchantId: card.id,
+    logoText: merchantName,
+    description,
+    backgroundColor: br.backgroundColor || "rgb(11,5,29)",
+    foregroundColor: br.primaryColor || "rgb(255,255,255)",
+    labelColor: br.secondaryColor || "rgb(230,255,169)",
+    headerFields,
+    primaryFields,
+    secondaryFields,
+    auxiliaryFields,
+    backFields,
+    barcodeFormat: "QR",
+    barcodeValue: `${process.env.NEXT_PUBLIC_APP_URL || "https://fidely-beta.vercel.app"}/scan/${enrollment.membership_code}`,
+    stripImagePath: "/wallet/strip-reward.png",
+    logoUrl: br.logoUrl || undefined,
+    accentColor: br.accentColor || undefined,
+  };
+}

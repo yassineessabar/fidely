@@ -1,6 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
-import WalletButton from "./WalletButton";
+import EnrollForm from "./EnrollForm";
 
 type Card = {
   id: string;
@@ -89,12 +89,12 @@ export default async function PublicCardPage({ params }: { params: { id: string 
         {typeLabels[c.type] || c.type}
       </div>
 
-      {/* Card content */}
+      {/* Card details */}
       <div
         style={{
           width: "100%", maxWidth: "400px", borderRadius: "16px",
           backgroundColor: `${primary}10`, border: `1px solid ${primary}20`,
-          padding: "24px", marginBottom: "32px",
+          padding: "24px", marginBottom: "24px",
         }}
       >
         {c.type === "coupon" && (
@@ -103,47 +103,27 @@ export default async function PublicCardPage({ params }: { params: { id: string 
               {logic.offerTitle || "Special Offer"}
             </div>
             {logic.offerDescription && (
-              <p style={{ fontSize: "15px", color: primary, opacity: 0.7, margin: "0 0 12px" }}>{logic.offerDescription}</p>
-            )}
-            {logic.expiryDate && (
-              <div style={{ fontSize: "13px", color: secondary, fontWeight: 600 }}>
-                Valid until {new Date(logic.expiryDate).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" })}
-              </div>
+              <p style={{ fontSize: "15px", color: primary, opacity: 0.7, margin: 0 }}>{logic.offerDescription}</p>
             )}
           </>
         )}
         {c.type === "stamp" && (
           <>
-            <div style={{ fontSize: "14px", fontWeight: 600, color: secondary, marginBottom: "12px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-              Collect {logic.totalStamps || 10} {logic.progressLabel || "stamps"}
+            <div style={{ fontSize: "14px", fontWeight: 600, color: secondary, marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              Collect {logic.totalStamps || 10} {logic.progressLabel || "stamps"} to earn
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(logic.totalStamps || 10, 5)}, 1fr)`, gap: "8px", marginBottom: "16px" }}>
-              {Array.from({ length: logic.totalStamps || 10 }).map((_, i) => (
-                <div key={i} style={{
-                  aspectRatio: "1", borderRadius: "50%", border: `2px dashed ${primary}30`,
-                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px",
-                }}>
-                  {logic.stampIcon || "\u2615"}
-                </div>
-              ))}
-            </div>
-            <div style={{ fontSize: "14px", color: primary, opacity: 0.7 }}>
-              Reward: {logic.reward || "Free item"}
+            <div style={{ fontSize: "22px", fontWeight: 800, color: primary }}>
+              {logic.reward || "Free item"}
             </div>
           </>
         )}
         {c.type === "points" && (
           <>
-            <div style={{ fontSize: "12px", fontWeight: 600, color: secondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>
-              {logic.pointsLabel || "Kyro Points"}
-            </div>
-            <div style={{ fontSize: "40px", fontWeight: 800, color: primary, margin: "8px 0" }}>0</div>
-            <div style={{ fontSize: "14px", color: primary, opacity: 0.5, marginBottom: "16px" }}>
+            <div style={{ fontSize: "14px", fontWeight: 600, color: secondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>
               Earn {logic.pointsPerDollar || 10} points per $1 spent
             </div>
             {(logic.rewardTiers || []).length > 0 && (
-              <div>
-                <div style={{ fontSize: "12px", fontWeight: 600, color: secondary, marginBottom: "8px", textTransform: "uppercase" }}>Rewards</div>
+              <div style={{ marginTop: "12px" }}>
                 {(logic.rewardTiers || []).map((tier: any, i: number) => (
                   <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: `1px solid ${primary}10` }}>
                     <span style={{ fontSize: "14px", color: primary, opacity: 0.7 }}>{tier.reward}</span>
@@ -161,7 +141,7 @@ export default async function PublicCardPage({ params }: { params: { id: string 
         <div
           style={{
             width: "100%", maxWidth: "400px", padding: "16px 20px", borderRadius: "12px",
-            backgroundColor: `${secondary}15`, border: `1px solid ${secondary}30`, marginBottom: "32px",
+            backgroundColor: `${secondary}15`, border: `1px solid ${secondary}30`, marginBottom: "24px",
             textAlign: "center",
           }}
         >
@@ -170,9 +150,12 @@ export default async function PublicCardPage({ params }: { params: { id: string 
         </div>
       )}
 
-      {/* Add to Wallet — auto-detects Apple vs Google */}
+      {/* Sign-up form */}
       <div style={{ width: "100%", maxWidth: "400px" }}>
-        <WalletButton cardId={c.id} backgroundColor={bg} primaryColor={primary} />
+        <div style={{ fontSize: "13px", fontWeight: 600, color: secondary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "16px", textAlign: "center" }}>
+          Sign up to get your card
+        </div>
+        <EnrollForm cardId={c.id} backgroundColor={bg} primaryColor={primary} accentColor={accent} />
       </div>
 
       {/* Footer */}
