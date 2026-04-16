@@ -1,6 +1,28 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { NextResponse } from "next/server";
 
+const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "withkyro@gmail.com";
+
+async function sendEmail(to: string, subject: string, html: string) {
+  if (!process.env.RESEND_API_KEY) {
+    console.log(`[EMAIL] To: ${to}, Subject: ${subject}`);
+    return;
+  }
+  await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+    },
+    body: JSON.stringify({
+      from: "Kyro <noreply@fidely.com.au>",
+      to: [to],
+      subject,
+      html,
+    }),
+  }).catch((err) => console.error("Email send failed:", err));
+}
+
 export async function POST(
   request: Request,
   { params }: { params: { cardId: string } }
@@ -25,7 +47,7 @@ export async function POST(
 
   const { data: card, error: cardError } = await supabase
     .from("loyalty_cards")
-    .select("id")
+    .select("id, name, type, business_details")
     .eq("id", cardId)
     .eq("status", "active" as any)
     .single();
@@ -33,6 +55,10 @@ export async function POST(
   if (cardError || !card) {
     return NextResponse.json({ error: "Card not found or not active" }, { status: 404 });
   }
+
+  const bd = (card as any).business_details || {};
+  const merchantName = bd.name || (card as any).name || "Merchant";
+  const cardType = (card as any).type || "loyalty";
 
   // Check if already enrolled
   const { data: existing } = await supabase
@@ -69,5 +95,46 @@ export async function POST(
     return NextResponse.json({ error: "Failed to create enrollment" }, { status: 500 });
   }
 
-  return NextResponse.json({ membership_code: (newEnrollment as any).membership_code });
+  const membershipCode = (newEnrollment as any).membership_code;
+
+  // Send emails (non-blocking)
+  const customerEmail = email.toLowerCase().trim();
+  const customerName = name.trim();
+
+  // 1. Admin notification
+  sendEmail(
+    ADMIN_EMAIL,
+    `New customer signup: ${customerName} → ${merchantName}`,
+    `
+    <div style="font-family:sans-serif;max-width:500px;">
+      <h2 style="color:#0b051d;">New Customer Enrollment</h2>
+      <table style="border-collapse:collapse;">
+        <tr><td style="padding:8px;font-weight:bold;">Customer</td><td style="padding:8px;">${customerName}</td></tr>
+        <tr><td style="padding:8px;font-weight:bold;">Email</td><td style="padding:8px;">${customerEmail}</td></tr>
+        <tr><td style="padding:8px;font-weight:bold;">Phone</td><td style="padding:8px;">${phone}</td></tr>
+        <tr><td style="padding:8px;font-weight:bold;">DOB</td><td style="padding:8px;">${dob}</td></tr>
+        <tr><td style="padding:8px;font-weight:bold;">Merchant</td><td style="padding:8px;">${merchantName}</td></tr>
+        <tr><td style="padding:8px;font-weight:bold;">Card Type</td><td style="padding:8px;">${cardType}</td></tr>
+        <tr><td style="padding:8px;font-weight:bold;">Membership</td><td style="padding:8px;">${membershipCode}</td></tr>
+      </table>
+    </div>
+    `,
+  );
+
+  // 2. Welcome email to customer
+  sendEmail(
+    customerEmail,
+    `Welcome to ${merchantName}! Your loyalty card is ready`,
+    `
+    <div style="font-family:sans-serif;max-width:500px;">
+      <h2 style="color:#0b051d;">Welcome, ${customerName}!</h2>
+      <p>You've been enrolled in <strong>${merchantName}</strong>'s loyalty program.</p>
+      <p>Your membership code is: <strong>${membershipCode}</strong></p>
+      <p>Add the card to your Apple Wallet and start earning rewards on every visit.</p>
+      <p style="color:#61605f;font-size:13px;margin-top:32px;">— The Kyro Team</p>
+    </div>
+    `,
+  );
+
+  return NextResponse.json({ membership_code: membershipCode });
 }
