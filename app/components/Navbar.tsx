@@ -168,7 +168,7 @@ export default function Navbar() {
                   whiteSpace: "nowrap",
                 }}
               >
-                Sign in
+                Log in
               </a>
               <a
                 href="/signup"
@@ -188,35 +188,7 @@ export default function Navbar() {
                   whiteSpace: "nowrap",
                 }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <circle cx="12" cy="7" r="4" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                Get started
-              </a>
-              <a
-                href="https://calendly.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "6px",
-                  padding: "0 16px",
-                  height: "40px",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  color: "rgb(11,5,29)",
-                  backgroundColor: "white",
-                  border: "1.5px solid rgb(11,5,29)",
-                  borderRadius: "999px",
-                  textDecoration: "none",
-                  transition: "background-color 0.2s",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Book demo
+                Sign up free
               </a>
             </div>
           </div>
@@ -296,7 +268,7 @@ export default function Navbar() {
               width: "100%",
             }}
           >
-            Sign in
+            Log in
           </a>
           <a
             href="/signup"
@@ -317,31 +289,7 @@ export default function Navbar() {
               width: "100%",
             }}
           >
-            Get started
-          </a>
-          <a
-            href="https://calendly.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => setMobileOpen(false)}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "8px",
-              padding: "0 20px",
-              height: "48px",
-              fontSize: "16px",
-              fontWeight: 500,
-              color: "rgb(11,5,29)",
-              backgroundColor: "white",
-              border: "1.5px solid rgb(11,5,29)",
-              borderRadius: "999px",
-              textDecoration: "none",
-              width: "100%",
-            }}
-          >
-            Book demo
+            Sign up free
           </a>
         </div>
       </div>
