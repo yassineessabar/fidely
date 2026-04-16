@@ -166,9 +166,6 @@ export default function EnrollForm({
           style={{
             ...inputStyle,
             colorScheme: "dark",
-            paddingTop: "14px",
-            paddingBottom: "14px",
-            lineHeight: "24px",
           }}
         />
       </div>
