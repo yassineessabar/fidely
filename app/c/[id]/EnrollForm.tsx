@@ -99,31 +99,47 @@ export default function EnrollForm({
           style={inputStyle}
         />
       </div>
-      <div style={{ display: "flex", gap: "12px", marginBottom: "16px" }}>
-        <div style={{ flex: 1 }}>
-          <label style={labelStyle}>Phone</label>
+      <div style={{ marginBottom: "16px" }}>
+        <label style={labelStyle}>Phone</label>
+        <div style={{ display: "flex", gap: "8px" }}>
+          <div
+            style={{
+              ...inputStyle,
+              width: "auto",
+              flex: "0 0 auto",
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              padding: "14px 12px",
+              opacity: 0.7,
+            }}
+          >
+            <span style={{ fontSize: "18px" }}>🇦🇺</span>
+            <span style={{ fontSize: "14px", color: primaryColor }}>+61</span>
+          </div>
           <input
             type="tel"
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="+61 400 000 000"
-            style={inputStyle}
+            placeholder="400 000 000"
+            style={{ ...inputStyle, flex: 1 }}
           />
         </div>
-        <div style={{ flex: 1 }}>
-          <label style={labelStyle}>Date of Birth</label>
-          <input
-            type="date"
-            required
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
-            style={{
-              ...inputStyle,
-              colorScheme: "dark",
-            }}
-          />
-        </div>
+      </div>
+      <div style={{ marginBottom: "16px" }}>
+        <label style={labelStyle}>Date of Birth</label>
+        <input
+          type="date"
+          required
+          value={dob}
+          onChange={(e) => setDob(e.target.value)}
+          style={{
+            ...inputStyle,
+            colorScheme: "dark",
+            minHeight: "52px",
+          }}
+        />
       </div>
 
       {error && (
