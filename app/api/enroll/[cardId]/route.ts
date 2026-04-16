@@ -24,6 +24,13 @@ export async function POST(
     );
   }
 
+  if (dob > new Date().toISOString().split("T")[0]) {
+    return NextResponse.json(
+      { error: "Date of birth cannot be in the future" },
+      { status: 400 }
+    );
+  }
+
   const { data: card, error: cardError } = await supabase
     .from("loyalty_cards")
     .select("id, name, type, business_details")

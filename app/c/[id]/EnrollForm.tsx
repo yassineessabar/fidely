@@ -161,7 +161,11 @@ export default function EnrollForm({
           type="date"
           required
           value={dob}
-          onChange={(e) => setDob(e.target.value)}
+          onChange={(e) => {
+            const today = new Date().toISOString().split("T")[0];
+            if (e.target.value > today) return;
+            setDob(e.target.value);
+          }}
           max={new Date().toISOString().split("T")[0]}
           style={{
             ...inputStyle,
