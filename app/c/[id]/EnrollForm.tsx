@@ -52,7 +52,8 @@ export default function EnrollForm({
 
   const inputStyle = {
     width: "100%",
-    padding: "14px 16px",
+    padding: "0 16px",
+    height: "52px",
     borderRadius: "12px",
     border: `1px solid ${primaryColor}15`,
     backgroundColor: `${primaryColor}06`,
@@ -110,7 +111,7 @@ export default function EnrollForm({
               display: "flex",
               alignItems: "center",
               gap: "6px",
-              padding: "14px 12px",
+              padding: "0 12px",
               opacity: 0.7,
             }}
           >
@@ -137,7 +138,6 @@ export default function EnrollForm({
           style={{
             ...inputStyle,
             colorScheme: "dark",
-            minHeight: "52px",
           }}
         />
       </div>
