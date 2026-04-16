@@ -255,25 +255,34 @@ async function createStampStripWithSharp(
   const offsetX = Math.floor((width - gridW) / 2);
   const offsetY = Math.floor((height - gridH) / 2);
 
-  let circles = "";
+  // Build SVG with coffee cup shapes
+  let shapes = "";
   for (let idx = 0; idx < total; idx++) {
     const row = Math.floor(idx / cols);
     const col = idx % cols;
     const cx = offsetX + col * (stampSize + gap) + r;
     const cy = offsetY + row * (stampSize + gap) + r;
+    const s = r * 0.7; // cup scale
 
     if (idx < collected) {
-      // Filled stamp: white circle with dark center
-      circles += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="rgba(255,255,255,0.9)" />`;
-      circles += `<circle cx="${cx}" cy="${cy}" r="${Math.floor(r * 0.4)}" fill="rgba(0,0,0,0.5)" />`;
-      circles += `<circle cx="${cx}" cy="${cy}" r="${Math.floor(r * 0.15)}" fill="rgba(255,255,255,0.7)" />`;
+      // Filled: bright coffee cup
+      // Cup body (rounded rect)
+      shapes += `<rect x="${cx - s}" y="${cy - s * 0.6}" width="${s * 1.6}" height="${s * 1.4}" rx="${s * 0.25}" fill="rgba(255,255,255,0.95)" />`;
+      // Cup handle
+      shapes += `<path d="M${cx + s * 0.6},${cy - s * 0.15} Q${cx + s * 1.1},${cy - s * 0.15} ${cx + s * 1.1},${cy + s * 0.25} Q${cx + s * 1.1},${cy + s * 0.6} ${cx + s * 0.6},${cy + s * 0.55}" fill="none" stroke="rgba(255,255,255,0.95)" stroke-width="${s * 0.18}" />`;
+      // Coffee inside (dark)
+      shapes += `<rect x="${cx - s * 0.7}" y="${cy - s * 0.2}" width="${s * 1.2}" height="${s * 0.7}" rx="${s * 0.1}" fill="rgba(80,50,20,0.7)" />`;
+      // Steam lines
+      shapes += `<path d="M${cx - s * 0.3},${cy - s * 0.7} Q${cx - s * 0.15},${cy - s * 1} ${cx - s * 0.3},${cy - s * 1.15}" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" />`;
+      shapes += `<path d="M${cx + s * 0.1},${cy - s * 0.75} Q${cx + s * 0.25},${cy - s * 1.05} ${cx + s * 0.1},${cy - s * 1.2}" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2" />`;
     } else {
-      // Unfilled stamp: semi-transparent outline
-      circles += `<circle cx="${cx}" cy="${cy}" r="${r - 2}" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.4)" stroke-width="3" />`;
+      // Unfilled: dim outline cup
+      shapes += `<rect x="${cx - s}" y="${cy - s * 0.6}" width="${s * 1.6}" height="${s * 1.4}" rx="${s * 0.25}" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.3)" stroke-width="2" />`;
+      shapes += `<path d="M${cx + s * 0.6},${cy - s * 0.15} Q${cx + s * 1.1},${cy - s * 0.15} ${cx + s * 1.1},${cy + s * 0.25} Q${cx + s * 1.1},${cy + s * 0.6} ${cx + s * 0.6},${cy + s * 0.55}" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2" />`;
     }
   }
 
-  const svgOverlay = Buffer.from(`<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">${circles}</svg>`);
+  const svgOverlay = Buffer.from(`<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">${shapes}</svg>`);
 
   const result = await sharp(baseBuf)
     .composite([{ input: svgOverlay, blend: "over" }])
