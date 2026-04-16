@@ -225,7 +225,7 @@ async function createStampStripWithSharp(
       .toBuffer();
     // Darken by compositing semi-transparent black overlay
     const darkOverlay = Buffer.from(
-      `<svg width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="rgba(0,0,0,0.5)"/></svg>`
+      `<svg width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="rgba(0,0,0,0.65)"/></svg>`
     );
     baseBuf = await sharp(resized)
       .composite([{ input: darkOverlay, blend: "over" }])
@@ -237,11 +237,11 @@ async function createStampStripWithSharp(
     }).png().toBuffer();
   }
 
-  // Generate SVG circles for stamps
+  // Generate stamp grid layout
   const cols = Math.ceil(total / 2);
   const nRows = total > cols ? 2 : 1;
-  const padding = 24;
-  const gap = 12;
+  const padding = 10;
+  const gap = 6;
   const availW = width - padding * 2;
   const availH = height - padding * 2;
   const stampSize = Math.min(
@@ -272,7 +272,7 @@ async function createStampStripWithSharp(
     filledCup = await sharp(Buffer.from(filledSvg)).png().toBuffer();
     dimCup = await sharp(Buffer.from(dimSvg)).png().toBuffer();
   }
-  const iconSize = Math.min(stampSize, 64);
+  const iconSize = stampSize;
 
   // Composite each cup icon onto the base
   const composites: sharp.OverlayOptions[] = [];
