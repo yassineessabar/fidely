@@ -166,6 +166,11 @@ export default function EnrollForm({
           style={{
             ...inputStyle,
             colorScheme: "dark",
+            display: "block",
+            WebkitAppearance: "none" as any,
+            MozAppearance: "none" as any,
+            appearance: "none" as any,
+            minWidth: 0,
           }}
         />
       </div>
