@@ -19,7 +19,6 @@ export default function EnrollForm({
   const [dob, setDob] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -42,27 +41,12 @@ export default function EnrollForm({
 
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
-      setSuccess(true);
+      // Navigate directly to pkpass — Safari opens "Add to Wallet" immediately
       window.location.href = url;
     } catch {
       setError("Network error. Please try again.");
-    } finally {
       setLoading(false);
     }
-  }
-
-  if (success) {
-    return (
-      <div style={{ textAlign: "center", padding: "32px 0" }}>
-        <div style={{ fontSize: "48px", marginBottom: "16px" }}>&#x2705;</div>
-        <div style={{ fontSize: "20px", fontWeight: 700, color: primaryColor, marginBottom: "8px" }}>
-          You're all set!
-        </div>
-        <div style={{ fontSize: "14px", color: primaryColor, opacity: 0.7 }}>
-          Your loyalty card should be opening now. Add it to your wallet to start collecting rewards.
-        </div>
-      </div>
-    );
   }
 
   const inputStyle = {
