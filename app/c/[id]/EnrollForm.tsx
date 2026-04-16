@@ -150,7 +150,7 @@ export default function EnrollForm({
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="+61 400 000 000"
+            placeholder="0400 000 000"
             style={{ ...inputStyle, paddingLeft: "42px" }}
           />
         </div>
