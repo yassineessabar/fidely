@@ -91,7 +91,7 @@ export default function EnrollForm({
       </div>
       <div style={{ marginBottom: "24px" }}>
         <label style={labelStyle}>Date of Birth</label>
-        <input type="date" required value={dob} onChange={(e) => setDob(e.target.value)} style={{ ...inputStyle, colorScheme: "dark", minHeight: "50px" }} />
+        <input type="date" required value={dob} onChange={(e) => setDob(e.target.value)} style={{ ...inputStyle, colorScheme: "dark", height: "52px", lineHeight: "52px" }} />
       </div>
       {error && (
         <div style={{ padding: "12px 16px", borderRadius: "10px", backgroundColor: "#ff000020", color: "#ff6b6b", fontSize: "14px", marginBottom: "16px" }}>
