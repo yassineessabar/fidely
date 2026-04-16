@@ -58,7 +58,8 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
   buffers["icon@2x.png"] = createPlaceholderPng(58, 58, iconColor);
   buffers["icon@3x.png"] = createPlaceholderPng(87, 87, iconColor);
 
-  // Logo — fetch from logoUrl if available, otherwise generate with accent color
+  // Logo — fetch from logoUrl if available, otherwise use a tiny transparent PNG
+  // so Apple Wallet only shows logoText (merchant name)
   if (template.logoUrl) {
     const logoBuf = await fetchImageBuffer(template.logoUrl);
     if (logoBuf) {
@@ -67,9 +68,10 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
     }
   }
   if (!buffers["logo.png"]) {
-    const logoColor = parseColor(template.accentColor || template.backgroundColor);
-    buffers["logo.png"] = createPlaceholderPng(160, 50, logoColor);
-    buffers["logo@2x.png"] = buffers["logo.png"];
+    // 1x1 transparent PNG — hides the logo area, logoText still shows
+    const transparentPng = createTransparentPng();
+    buffers["logo.png"] = transparentPng;
+    buffers["logo@2x.png"] = transparentPng;
   }
 
   // Strip — generate gradient matching admin card preview
@@ -139,6 +141,35 @@ function createPlaceholderPng(width: number, height: number, rgb: [number, numbe
  * Creates a gradient PNG matching the admin card preview style:
  * diagonal gradient from accent → bg → accent with subtle dot pattern overlay
  */
+/** Minimal 1x1 transparent PNG */
+function createTransparentPng(): Buffer {
+  const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+
+  const ihdrData = Buffer.alloc(13);
+  ihdrData.writeUInt32BE(1, 0);  // width
+  ihdrData.writeUInt32BE(1, 4);  // height
+  ihdrData[8] = 8;   // bit depth
+  ihdrData[9] = 6;   // color type: RGBA
+  const ihdr = createPngChunk("IHDR", ihdrData);
+
+  // Single transparent pixel: filter=0, R=0, G=0, B=0, A=0
+  const raw = Buffer.from([0, 0, 0, 0, 0]);
+  const zlibHeader = Buffer.from([0x78, 0x01]);
+  const blockHeader = Buffer.alloc(5);
+  blockHeader[0] = 1; // final block
+  blockHeader.writeUInt16LE(raw.length, 1);
+  blockHeader.writeUInt16LE(~raw.length & 0xffff, 3);
+  let a = 1, b = 0;
+  for (let i = 0; i < raw.length; i++) { a = (a + raw[i]) % 65521; b = (b + a) % 65521; }
+  const adler = Buffer.alloc(4);
+  adler.writeUInt32BE(((b << 16) | a) >>> 0, 0);
+
+  const idat = createPngChunk("IDAT", Buffer.concat([zlibHeader, blockHeader, raw, adler]));
+  const iend = createPngChunk("IEND", Buffer.alloc(0));
+
+  return Buffer.concat([signature, ihdr, idat, iend]);
+}
+
 function createGradientPng(
   width: number,
   height: number,
