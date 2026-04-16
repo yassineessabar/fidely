@@ -79,10 +79,11 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
     }
   }
 
-  // Strip — always generate using accent/background color for merchant branding
-  const stripColor = parseColor(template.accentColor || template.backgroundColor);
-  buffers["strip.png"] = createPlaceholderPng(375, 123, stripColor);
-  buffers["strip@2x.png"] = createPlaceholderPng(375, 123, stripColor);
+  // Strip — generate gradient matching admin card preview
+  const accentRgb = parseColor(template.accentColor || template.backgroundColor);
+  const bgRgb = parseColor(template.backgroundColor);
+  buffers["strip.png"] = createGradientPng(375, 123, accentRgb, bgRgb);
+  buffers["strip@2x.png"] = createGradientPng(375, 123, accentRgb, bgRgb);
 
   return buffers;
 }
@@ -132,6 +133,97 @@ function createPlaceholderPng(width: number, height: number, rgb: [number, numbe
   }
   const adler = Buffer.alloc(4);
   adler.writeUInt32BE(((b << 16) | a) >>> 0, 0);
+  blocks.push(adler);
+
+  const compressedData = Buffer.concat(blocks);
+  const idat = createPngChunk("IDAT", compressedData);
+  const iend = createPngChunk("IEND", Buffer.alloc(0));
+
+  return Buffer.concat([signature, ihdr, idat, iend]);
+}
+
+/**
+ * Creates a gradient PNG matching the admin card preview style:
+ * diagonal gradient from accent → bg → accent with subtle dot pattern overlay
+ */
+function createGradientPng(
+  width: number,
+  height: number,
+  accent: [number, number, number],
+  bg: [number, number, number],
+): Buffer {
+  const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+
+  const ihdrData = Buffer.alloc(13);
+  ihdrData.writeUInt32BE(width, 0);
+  ihdrData.writeUInt32BE(height, 4);
+  ihdrData[8] = 8;
+  ihdrData[9] = 2;
+  ihdrData[10] = 0;
+  ihdrData[11] = 0;
+  ihdrData[12] = 0;
+  const ihdr = createPngChunk("IHDR", ihdrData);
+
+  // Build pixel data with 135deg gradient: accent(0%) → bg(60%) → accent(100%)
+  const scanlines: number[] = [];
+  for (let y = 0; y < height; y++) {
+    scanlines.push(0); // filter: none
+    for (let x = 0; x < width; x++) {
+      // 135deg diagonal: progress based on (x + y) / (width + height)
+      const t = (x / width * 0.7 + y / height * 0.3);
+
+      let r: number, g: number, b: number;
+      if (t < 0.45) {
+        // accent → bg (0% to 60%)
+        const p = t / 0.45;
+        const ease = p * p; // ease-in for smoother blend
+        r = Math.round(accent[0] + (bg[0] - accent[0]) * ease);
+        g = Math.round(accent[1] + (bg[1] - accent[1]) * ease);
+        b = Math.round(accent[2] + (bg[2] - accent[2]) * ease);
+      } else {
+        // bg → accent (60% to 100%)
+        const p = (t - 0.45) / 0.55;
+        const ease = p * p;
+        r = Math.round(bg[0] + (accent[0] - bg[0]) * ease);
+        g = Math.round(bg[1] + (accent[1] - bg[1]) * ease);
+        b = Math.round(bg[2] + (accent[2] - bg[2]) * ease);
+      }
+
+      // Subtle noise for texture (±3)
+      const noise = ((x * 17 + y * 31) % 7) - 3;
+      r = Math.max(0, Math.min(255, r + noise));
+      g = Math.max(0, Math.min(255, g + noise));
+      b = Math.max(0, Math.min(255, b + noise));
+
+      scanlines.push(r, g, b);
+    }
+  }
+
+  const rawData = Buffer.from(scanlines);
+
+  const zlibHeader = Buffer.from([0x78, 0x01]);
+  const blocks: Buffer[] = [zlibHeader];
+
+  let offset = 0;
+  while (offset < rawData.length) {
+    const remaining = rawData.length - offset;
+    const blockSize = Math.min(remaining, 65535);
+    const isLast = offset + blockSize >= rawData.length;
+    const blockHeader = Buffer.alloc(5);
+    blockHeader[0] = isLast ? 1 : 0;
+    blockHeader.writeUInt16LE(blockSize, 1);
+    blockHeader.writeUInt16LE(~blockSize & 0xffff, 3);
+    blocks.push(blockHeader, rawData.subarray(offset, offset + blockSize));
+    offset += blockSize;
+  }
+
+  let a = 1, b2 = 0;
+  for (let i = 0; i < rawData.length; i++) {
+    a = (a + rawData[i]) % 65521;
+    b2 = (b2 + a) % 65521;
+  }
+  const adler = Buffer.alloc(4);
+  adler.writeUInt32BE(((b2 << 16) | a) >>> 0, 0);
   blocks.push(adler);
 
   const compressedData = Buffer.concat(blocks);
