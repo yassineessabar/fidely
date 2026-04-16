@@ -86,9 +86,17 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
   const stripH = 246;
   if (template.totalStamps && template.stampsCollected !== undefined) {
     const heroBuf = template.heroImageUrl ? await fetchImageBuffer(template.heroImageUrl) : null;
-    const strip = await createStampStripWithSharp(stripW, stripH, template.accentColor || template.backgroundColor, template.stampsCollected, template.totalStamps, heroBuf);
-    buffers["strip.png"] = strip;
-    buffers["strip@2x.png"] = strip;
+    try {
+      const strip = await createStampStripWithSharp(stripW, stripH, template.accentColor || template.backgroundColor, template.stampsCollected, template.totalStamps, heroBuf);
+      buffers["strip.png"] = strip;
+      buffers["strip@2x.png"] = strip;
+    } catch (err) {
+      console.error("Sharp strip failed, using fallback:", err);
+    }
+    if (!buffers["strip.png"] && heroBuf) {
+      buffers["strip.png"] = heroBuf;
+      buffers["strip@2x.png"] = heroBuf;
+    }
   } else if (template.heroImageUrl) {
     const heroBuf = await fetchImageBuffer(template.heroImageUrl);
     if (heroBuf) {
@@ -207,19 +215,26 @@ async function createStampStripWithSharp(
 ): Promise<Buffer> {
   const accent = parseColor(accentColor);
 
-  // Start with banner or solid accent background
-  let base: sharp.Sharp;
+  // Create base image: banner resized + darkened, or solid accent
+  let baseBuf: Buffer;
   if (bannerBuf) {
-    base = sharp(bannerBuf).resize(width, height, { fit: "cover" });
-    // Add dark overlay by compositing a semi-transparent black rectangle
-    const overlay = await sharp({
-      create: { width, height, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0.45 } },
-    }).png().toBuffer();
-    base = sharp(await base.png().toBuffer()).composite([{ input: overlay, blend: "over" }]);
+    // Resize banner to strip dimensions
+    const resized = await sharp(bannerBuf)
+      .resize(width, height, { fit: "cover" })
+      .png()
+      .toBuffer();
+    // Darken by compositing semi-transparent black overlay
+    const darkOverlay = Buffer.from(
+      `<svg width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="rgba(0,0,0,0.5)"/></svg>`
+    );
+    baseBuf = await sharp(resized)
+      .composite([{ input: darkOverlay, blend: "over" }])
+      .png()
+      .toBuffer();
   } else {
-    base = sharp({
-      create: { width, height, channels: 4, background: { r: accent[0], g: accent[1], b: accent[2], alpha: 1 } },
-    });
+    baseBuf = await sharp({
+      create: { width, height, channels: 4, background: { r: accent[0], g: accent[1], b: accent[2], alpha: 255 } },
+    }).png().toBuffer();
   }
 
   // Generate SVG circles for stamps
@@ -260,7 +275,7 @@ async function createStampStripWithSharp(
 
   const svgOverlay = Buffer.from(`<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">${circles}</svg>`);
 
-  const result = await sharp(await base.png().toBuffer())
+  const result = await sharp(baseBuf)
     .composite([{ input: svgOverlay, blend: "over" }])
     .png()
     .toBuffer();
