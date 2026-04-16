@@ -227,7 +227,7 @@ export default function CardBuilderForm({
     merchant: true,
     type: true,
     details: true,
-    branding: false,
+    branding: true,
     logic: true,
     preview: false,
   });
@@ -595,29 +595,8 @@ export default function CardBuilderForm({
                     </div>
                     <div style={fieldWrap}>
                       <label style={labelStyle}>Stamp Icon</label>
-                      <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: "6px" }}>
-                        {["☕", "🍕", "🍔", "🍩", "🧁", "🍺", "🍷", "🥤", "🍣", "💇", "💅", "✨", "⭐", "🎁", "💎", "🔥", "❤️", "🌸", "🏋️", "🧖", "💆", "🍦", "🥐", "🌮"].map((emoji) => (
-                          <button
-                            key={emoji}
-                            type="button"
-                            onClick={() => setLogic({ stampIcon: emoji })}
-                            style={{
-                              width: "100%",
-                              aspectRatio: "1",
-                              borderRadius: "8px",
-                              border: l.stampIcon === emoji ? "2px solid rgb(108,71,255)" : "1px solid rgb(228,227,223)",
-                              backgroundColor: l.stampIcon === emoji ? "rgb(237,233,254)" : "white",
-                              fontSize: "20px",
-                              cursor: "pointer",
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              transition: "all 0.15s",
-                            }}
-                          >
-                            {emoji}
-                          </button>
-                        ))}
+                      <div style={{ padding: "10px 14px", borderRadius: "8px", backgroundColor: "rgb(243,242,238)", fontSize: "13px", color: "rgb(97,95,109)" }}>
+                        Auto-selected based on category: <span style={{ fontSize: "20px", marginLeft: "8px" }}>{{ cafe: "☕", restaurant: "🍽", salon: "💇", barber: "✂️", gym: "💪", bakery: "🧁", retail: "🛍", other: "⭐" }[cardData.businessDetails.category] || "⭐"}</span>
                       </div>
                     </div>
                   </div>
