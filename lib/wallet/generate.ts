@@ -157,9 +157,6 @@ export function enrollmentToPassTemplate(
     headerFields = [
       { key: "stamps", label: "STAMPS", value: `${collected}/${total}` },
     ];
-    primaryFields = [
-      { key: "reward", label: "REWARD", value: logic.reward || "Free item" },
-    ];
     secondaryFields = [
       { key: "progress", label: "PROGRESS", value: stampVisual },
     ];
