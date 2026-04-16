@@ -74,17 +74,18 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
     buffers["logo@2x.png"] = transparentPng;
   }
 
-  // Strip — for stamp cards, generate a visual stamp grid; otherwise use hero/gradient
-  if (template.totalStamps && template.stampsCollected !== undefined) {
-    const accentRgb = parseColor(template.accentColor || template.backgroundColor);
-    buffers["strip.png"] = createStampStripPng(375, 123, accentRgb, template.stampsCollected, template.totalStamps);
-    buffers["strip@2x.png"] = buffers["strip.png"];
-  } else if (template.heroImageUrl) {
+  // Strip — use hero/banner if available, then stamp grid, then gradient fallback
+  if (template.heroImageUrl) {
     const heroBuf = await fetchImageBuffer(template.heroImageUrl);
     if (heroBuf) {
       buffers["strip.png"] = heroBuf;
       buffers["strip@2x.png"] = heroBuf;
     }
+  }
+  if (!buffers["strip.png"] && template.totalStamps && template.stampsCollected !== undefined) {
+    const accentRgb = parseColor(template.accentColor || template.backgroundColor);
+    buffers["strip.png"] = createStampStripPng(375, 123, accentRgb, template.stampsCollected, template.totalStamps);
+    buffers["strip@2x.png"] = buffers["strip.png"];
   }
   if (!buffers["strip.png"]) {
     const accentRgb = parseColor(template.accentColor || template.backgroundColor);
