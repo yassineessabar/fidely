@@ -52,18 +52,11 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
   const buffers: Record<string, Buffer> = {};
   const walletDir = join(process.cwd(), "public", "wallet");
 
-  // Icons — use filesystem if available, otherwise generate
-  const iconFiles = ["icon.png", "icon@2x.png", "icon@3x.png"];
-  const iconSizes = [29, 58, 87];
-  for (let i = 0; i < iconFiles.length; i++) {
-    const filePath = join(walletDir, iconFiles[i]);
-    if (existsSync(filePath)) {
-      buffers[iconFiles[i]] = readFileSync(filePath);
-    } else {
-      const color = parseColor(template.accentColor || template.backgroundColor);
-      buffers[iconFiles[i]] = createPlaceholderPng(iconSizes[i], iconSizes[i], color);
-    }
-  }
+  // Icons — generate using accent color for consistent branding
+  const iconColor = parseColor(template.accentColor || template.backgroundColor);
+  buffers["icon.png"] = createPlaceholderPng(29, 29, iconColor);
+  buffers["icon@2x.png"] = createPlaceholderPng(58, 58, iconColor);
+  buffers["icon@3x.png"] = createPlaceholderPng(87, 87, iconColor);
 
   // Logo — fetch from logoUrl if available
   if (template.logoUrl) {
@@ -86,17 +79,10 @@ async function loadImageBuffers(template: PassTemplate): Promise<Record<string, 
     }
   }
 
-  // Strip — generate a colored strip using accent color
-  const stripFile = template.stripImagePath.replace("/wallet/", "");
-  const stripPath = join(walletDir, stripFile);
-  if (existsSync(stripPath)) {
-    buffers["strip.png"] = readFileSync(stripPath);
-    buffers["strip@2x.png"] = readFileSync(stripPath);
-  } else {
-    const stripColor = parseColor(template.accentColor || template.backgroundColor);
-    buffers["strip.png"] = createPlaceholderPng(375, 123, stripColor);
-    buffers["strip@2x.png"] = createPlaceholderPng(750, 246, stripColor);
-  }
+  // Strip — always generate using accent/background color for merchant branding
+  const stripColor = parseColor(template.accentColor || template.backgroundColor);
+  buffers["strip.png"] = createPlaceholderPng(375, 123, stripColor);
+  buffers["strip@2x.png"] = createPlaceholderPng(375, 123, stripColor);
 
   return buffers;
 }
@@ -145,7 +131,7 @@ function createPlaceholderPng(width: number, height: number, rgb: [number, numbe
     b = (b + a) % 65521;
   }
   const adler = Buffer.alloc(4);
-  adler.writeUInt32BE((b << 16) | a, 0);
+  adler.writeUInt32BE(((b << 16) | a) >>> 0, 0);
   blocks.push(adler);
 
   const compressedData = Buffer.concat(blocks);
