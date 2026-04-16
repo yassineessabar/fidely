@@ -2,6 +2,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { notFound } from "next/navigation";
 import EnrollForm from "./EnrollForm";
 
+export const dynamic = "force-dynamic";
+
 type Card = {
   id: string;
   type: "coupon" | "stamp" | "points";
@@ -33,6 +35,8 @@ export default async function PublicCardPage({ params }: { params: { id: string 
   const secondary = br.secondaryColor || "#E6FFA9";
   const accent = br.accentColor || "#6C47FF";
   const merchantName = bd.name || (c as any).name || "Merchant";
+  const bannerUrl = br.heroImageUrl || null;
+  const logoUrl = br.logoUrl || null;
 
   const typeLabels: Record<string, string> = {
     coupon: "Coupon",
@@ -40,67 +44,204 @@ export default async function PublicCardPage({ params }: { params: { id: string 
     points: "Points Card",
   };
 
+  const totalStamps = logic.totalStamps || 10;
+  const reward = logic.reward || "Free item";
+
   return (
     <div
       style={{
         minHeight: "100vh",
         backgroundColor: bg,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "40px 20px",
         fontFamily: "system-ui, -apple-system, sans-serif",
       }}
     >
-      {/* Logo + merchant name */}
-      <div style={{ textAlign: "center", marginBottom: "32px" }}>
-        {br.logoUrl ? (
+      {/* Banner hero section */}
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          height: bannerUrl ? "220px" : "140px",
+          overflow: "hidden",
+        }}
+      >
+        {bannerUrl ? (
+          <>
+            <img
+              src={bannerUrl}
+              alt=""
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+            {/* Gradient overlay */}
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: `linear-gradient(to bottom, ${bg}00 0%, ${bg}40 40%, ${bg}CC 80%, ${bg} 100%)`,
+              }}
+            />
+          </>
+        ) : (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              background: `linear-gradient(135deg, ${accent}40 0%, ${bg} 100%)`,
+            }}
+          />
+        )}
+      </div>
+
+      {/* Content */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "0 20px 40px",
+          marginTop: bannerUrl ? "-60px" : "-40px",
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
+        {/* Logo */}
+        {logoUrl ? (
           <img
-            src={br.logoUrl}
+            src={logoUrl}
             alt={merchantName}
-            style={{ width: "64px", height: "64px", borderRadius: "16px", objectFit: "cover", marginBottom: "16px" }}
+            style={{
+              width: "80px",
+              height: "80px",
+              borderRadius: "20px",
+              objectFit: "cover",
+              border: `3px solid ${bg}`,
+              boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+              marginBottom: "16px",
+              backgroundColor: bg,
+            }}
           />
         ) : (
           <div
             style={{
-              width: "64px", height: "64px", borderRadius: "16px", backgroundColor: accent,
-              display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: "28px", fontWeight: 800, color: primary, margin: "0 auto 16px",
+              width: "80px",
+              height: "80px",
+              borderRadius: "20px",
+              backgroundColor: accent,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "32px",
+              fontWeight: 800,
+              color: "#fff",
+              border: `3px solid ${bg}`,
+              boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
+              marginBottom: "16px",
             }}
           >
             {merchantName.charAt(0).toUpperCase()}
           </div>
         )}
-        <h1 style={{ margin: 0, fontSize: "28px", fontWeight: 700, color: primary }}>{merchantName}</h1>
+
+        {/* Merchant name + tagline */}
+        <h1
+          style={{
+            margin: 0,
+            fontSize: "26px",
+            fontWeight: 700,
+            color: primary,
+            textAlign: "center",
+          }}
+        >
+          {merchantName}
+        </h1>
         {bd.tagline && (
-          <p style={{ margin: "8px 0 0", fontSize: "16px", color: secondary, opacity: 0.8 }}>{bd.tagline}</p>
+          <p
+            style={{
+              margin: "6px 0 0",
+              fontSize: "15px",
+              color: secondary,
+              opacity: 0.8,
+              textAlign: "center",
+            }}
+          >
+            {bd.tagline}
+          </p>
         )}
-      </div>
 
-      {/* Card type badge */}
-      <div
-        style={{
-          display: "inline-block", padding: "6px 16px", borderRadius: "100px",
-          backgroundColor: `${accent}33`, color: secondary,
-          fontSize: "13px", fontWeight: 600, marginBottom: "24px",
-          textTransform: "uppercase", letterSpacing: "0.5px",
-        }}
-      >
-        {typeLabels[c.type] || c.type}
-      </div>
-
-
-      {/* Sign-up form */}
-      <div style={{ width: "100%", maxWidth: "400px" }}>
-        <div style={{ fontSize: "13px", fontWeight: 600, color: secondary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "16px", textAlign: "center" }}>
-          Sign up to get your card
+        {/* Value proposition */}
+        <div
+          style={{
+            marginTop: "20px",
+            padding: "14px 24px",
+            borderRadius: "14px",
+            backgroundColor: `${accent}18`,
+            border: `1px solid ${accent}30`,
+            textAlign: "center",
+            maxWidth: "360px",
+            width: "100%",
+          }}
+        >
+          {c.type === "stamp" && (
+            <div style={{ fontSize: "14px", color: primary, lineHeight: 1.5 }}>
+              <span style={{ fontWeight: 700, color: secondary }}>Collect {totalStamps} stamps</span>
+              {" "}and earn{" "}
+              <span style={{ fontWeight: 700, color: secondary }}>{reward}</span>
+            </div>
+          )}
+          {c.type === "points" && (
+            <div style={{ fontSize: "14px", color: primary, lineHeight: 1.5 }}>
+              <span style={{ fontWeight: 700, color: secondary }}>Earn {logic.pointsPerDollar || 10} points</span>
+              {" "}for every $1 you spend
+            </div>
+          )}
+          {c.type === "coupon" && (
+            <div style={{ fontSize: "14px", color: primary, lineHeight: 1.5 }}>
+              <span style={{ fontWeight: 700, color: secondary }}>{logic.offerTitle || "Special Offer"}</span>
+            </div>
+          )}
         </div>
-        <EnrollForm cardId={c.id} backgroundColor={bg} primaryColor={primary} accentColor={accent} />
-      </div>
 
-      {/* Footer */}
-      <div style={{ marginTop: "48px", fontSize: "12px", color: primary, opacity: 0.25 }}>
-        Powered by Kyro
+        {/* Form card */}
+        <div
+          style={{
+            marginTop: "28px",
+            width: "100%",
+            maxWidth: "400px",
+            borderRadius: "20px",
+            backgroundColor: `${primary}08`,
+            border: `1px solid ${primary}12`,
+            padding: "28px 24px",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "13px",
+              fontWeight: 600,
+              color: secondary,
+              textTransform: "uppercase",
+              letterSpacing: "0.5px",
+              marginBottom: "20px",
+              textAlign: "center",
+            }}
+          >
+            Join the loyalty program
+          </div>
+          <EnrollForm
+            cardId={c.id}
+            backgroundColor={bg}
+            primaryColor={primary}
+            secondaryColor={secondary}
+            accentColor={accent}
+          />
+        </div>
+
+        {/* Footer */}
+        <div style={{ marginTop: "40px", fontSize: "12px", color: primary, opacity: 0.2 }}>
+          Powered by Kyro
+        </div>
       </div>
     </div>
   );
