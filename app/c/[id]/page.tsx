@@ -89,52 +89,6 @@ export default async function PublicCardPage({ params }: { params: { id: string 
         {typeLabels[c.type] || c.type}
       </div>
 
-      {/* Card details */}
-      <div
-        style={{
-          width: "100%", maxWidth: "400px", borderRadius: "16px",
-          backgroundColor: `${primary}10`, border: `1px solid ${primary}20`,
-          padding: "24px", marginBottom: "24px",
-        }}
-      >
-        {c.type === "coupon" && (
-          <>
-            <div style={{ fontSize: "24px", fontWeight: 800, color: primary, marginBottom: "8px" }}>
-              {logic.offerTitle || "Special Offer"}
-            </div>
-            {logic.offerDescription && (
-              <p style={{ fontSize: "15px", color: primary, opacity: 0.7, margin: 0 }}>{logic.offerDescription}</p>
-            )}
-          </>
-        )}
-        {c.type === "stamp" && (
-          <>
-            <div style={{ fontSize: "14px", fontWeight: 600, color: secondary, marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-              Collect {logic.totalStamps || 10} {logic.progressLabel || "stamps"} to earn
-            </div>
-            <div style={{ fontSize: "22px", fontWeight: 800, color: primary }}>
-              {logic.reward || "Free item"}
-            </div>
-          </>
-        )}
-        {c.type === "points" && (
-          <>
-            <div style={{ fontSize: "14px", fontWeight: 600, color: secondary, textTransform: "uppercase", letterSpacing: "0.5px" }}>
-              Earn {logic.pointsPerDollar || 10} points per $1 spent
-            </div>
-            {(logic.rewardTiers || []).length > 0 && (
-              <div style={{ marginTop: "12px" }}>
-                {(logic.rewardTiers || []).map((tier: any, i: number) => (
-                  <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderBottom: `1px solid ${primary}10` }}>
-                    <span style={{ fontSize: "14px", color: primary, opacity: 0.7 }}>{tier.reward}</span>
-                    <span style={{ fontSize: "13px", fontWeight: 700, color: accent }}>{tier.points} pts</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-      </div>
 
       {/* Sign-up form */}
       <div style={{ width: "100%", maxWidth: "400px" }}>
