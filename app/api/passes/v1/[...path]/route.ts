@@ -98,7 +98,7 @@ export async function GET(
     // Fetch card
     const { data: card } = await supabase
       .from("loyalty_cards")
-      .select("id, type, business_details, branding, logic")
+      .select("id, name, type, business_details, branding, logic")
       .eq("id", e.card_id)
       .single();
 

@@ -30,7 +30,7 @@ export async function GET(
   // Fetch card
   const { data: card, error: cardError } = await supabase
     .from("loyalty_cards")
-    .select("id, type, business_details, branding, logic")
+    .select("id, name, type, business_details, branding, logic")
     .eq("id", cardId)
     .eq("status", "active" as any)
     .single();

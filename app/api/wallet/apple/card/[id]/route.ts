@@ -12,7 +12,7 @@ export async function GET(
 
   const { data: card, error } = await supabase
     .from("loyalty_cards")
-    .select("id, type, business_details, branding, logic")
+    .select("id, name, type, business_details, branding, logic")
     .eq("id", id)
     .eq("status", "active" as any)
     .single();

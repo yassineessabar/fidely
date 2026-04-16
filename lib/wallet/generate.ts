@@ -13,6 +13,7 @@ const CATEGORY_STAMP_ICONS: Record<string, string> = {
 
 type CardRow = {
   id: string;
+  name?: string;
   type: "coupon" | "stamp" | "points";
   business_details: any;
   branding: any;
@@ -23,7 +24,7 @@ export function cardToPassTemplate(card: CardRow): PassTemplate {
   const bd = card.business_details || {};
   const br = card.branding || {};
   const logic = card.logic || {};
-  const merchantName = bd.name || "Merchant";
+  const merchantName = bd.name || card.name || "Merchant";
 
   // Map card type to existing PassType
   const typeMap: Record<string, "discount" | "reward" | "stamp" | "cashback"> = {
@@ -123,7 +124,7 @@ export function enrollmentToPassTemplate(
   const bd = card.business_details || {};
   const br = card.branding || {};
   const logic = card.logic || {};
-  const merchantName = bd.name || "Merchant";
+  const merchantName = bd.name || card.name || "Merchant";
 
   const typeMap: Record<string, "discount" | "reward" | "stamp" | "cashback"> = {
     coupon: "discount",

@@ -15,7 +15,7 @@ export default async function PublicCardPage({ params }: { params: { id: string 
   const supabase = createAdminClient();
   const { data: card, error } = await supabase
     .from("loyalty_cards")
-    .select("id, type, status, business_details, branding, logic")
+    .select("id, type, name, status, business_details, branding, logic")
     .eq("id", params.id)
     .eq("status", "active" as any)
     .single();
@@ -32,7 +32,7 @@ export default async function PublicCardPage({ params }: { params: { id: string 
   const primary = br.primaryColor || "#FFFFFF";
   const secondary = br.secondaryColor || "#E6FFA9";
   const accent = br.accentColor || "#6C47FF";
-  const merchantName = bd.name || "Merchant";
+  const merchantName = bd.name || (c as any).name || "Merchant";
 
   const typeLabels: Record<string, string> = {
     coupon: "Coupon",

@@ -19,7 +19,7 @@ export default async function ScanPage({ params }: { params: { code: string } })
 
   const { data: card } = await supabase
     .from("loyalty_cards")
-    .select("id, type, business_details, branding, logic")
+    .select("id, name, type, business_details, branding, logic")
     .eq("id", enrollment.card_id)
     .single();
 
@@ -33,7 +33,7 @@ export default async function ScanPage({ params }: { params: { code: string } })
   const primary = br.primaryColor || "#FFFFFF";
   const secondary = br.secondaryColor || "#E6FFA9";
   const accent = br.accentColor || "#6C47FF";
-  const merchantName = bd.name || "Merchant";
+  const merchantName = bd.name || (card as any).name || "Merchant";
 
   return (
     <div

@@ -35,7 +35,7 @@ export default async function MyCardPage({ params }: { params: { code: string } 
   const primary = br.primaryColor || "#FFFFFF";
   const secondary = br.secondaryColor || "#E6FFA9";
   const accent = br.accentColor || "#6C47FF";
-  const merchantName = bd.name || "Merchant";
+  const merchantName = bd.name || (card as any).name || "Merchant";
   const stampIcon = CATEGORY_STAMP_ICONS[bd.category] || logic.stampIcon || "⭐";
 
   return (
