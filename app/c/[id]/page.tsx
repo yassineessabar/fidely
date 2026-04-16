@@ -171,39 +171,6 @@ export default async function PublicCardPage({ params }: { params: { id: string 
           </p>
         )}
 
-        {/* Value proposition */}
-        <div
-          style={{
-            marginTop: "20px",
-            padding: "14px 24px",
-            borderRadius: "14px",
-            backgroundColor: `${accent}18`,
-            border: `1px solid ${accent}30`,
-            textAlign: "center",
-            maxWidth: "360px",
-            width: "100%",
-          }}
-        >
-          {c.type === "stamp" && (
-            <div style={{ fontSize: "14px", color: primary, lineHeight: 1.5 }}>
-              <span style={{ fontWeight: 700, color: secondary }}>Collect {totalStamps} stamps</span>
-              {" "}and earn{" "}
-              <span style={{ fontWeight: 700, color: secondary }}>{reward}</span>
-            </div>
-          )}
-          {c.type === "points" && (
-            <div style={{ fontSize: "14px", color: primary, lineHeight: 1.5 }}>
-              <span style={{ fontWeight: 700, color: secondary }}>Earn {logic.pointsPerDollar || 10} points</span>
-              {" "}for every $1 you spend
-            </div>
-          )}
-          {c.type === "coupon" && (
-            <div style={{ fontSize: "14px", color: primary, lineHeight: 1.5 }}>
-              <span style={{ fontWeight: 700, color: secondary }}>{logic.offerTitle || "Special Offer"}</span>
-            </div>
-          )}
-        </div>
-
         {/* Form card */}
         <div
           style={{
