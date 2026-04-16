@@ -2,55 +2,55 @@
 
 const templates = [
   {
-    id: "cafe-stamps",
-    name: "Coffee Loyalty",
-    category: "Café / Bakery",
-    type: "stamp" as const,
-    preview: { bg: "#1a0f0a", accent: "#8b5e3c", primary: "#faf5f0", secondary: "#d4a574", icon: "☕" },
-    data: {
-      type: "stamp",
-      businessDetails: { name: "", category: "cafe", tagline: "Your daily brew", description: "Specialty coffee and homemade pastries every morning.", welcomeOffer: "First coffee on us!" },
-      branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#1a0f0a", primaryColor: "#faf5f0", secondaryColor: "#d4a574", accentColor: "#8b5e3c", cardStyle: "premium" },
-      logic: { totalStamps: 8, stampIcon: "☕", reward: "Free coffee of your choice", progressLabel: "coffees collected" },
-    },
-  },
-  {
-    id: "barber-points",
-    name: "Grooming Rewards",
-    category: "Barber / Salon",
+    id: "beauty-points",
+    name: "Studio Glow",
+    category: "Salon / Beauty",
     type: "points" as const,
-    preview: { bg: "#0B051D", accent: "#6C47FF", primary: "#FFFFFF", secondary: "#E6FFA9", icon: "💈" },
+    preview: { bg: "#f5a0a0", accent: "#e86b6b", primary: "#ffffff", secondary: "#fff0f0", icon: "💇" },
     data: {
       type: "points",
-      businessDetails: { name: "", category: "barber", tagline: "Look sharp. Feel sharp.", description: "Premium grooming for the modern gentleman.", welcomeOffer: "50 bonus points on your first visit" },
-      branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#0B051D", primaryColor: "#FFFFFF", secondaryColor: "#E6FFA9", accentColor: "#6C47FF", cardStyle: "premium" },
-      logic: { pointsPerDollar: 10, pointsLabel: "Club Points", rewardTiers: [{ points: 200, reward: "Free beard trim" }, { points: 500, reward: "Free haircut" }, { points: 1000, reward: "Full grooming package" }], redemptionRules: "Points expire after 12 months of inactivity." },
+      businessDetails: { name: "", category: "salon", tagline: "Glow from within", description: "Premium beauty treatments. Facials, lashes, brows, and nails in a serene space.", welcomeOffer: "Free brow wax with your first facial" },
+      branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#f5a0a0", primaryColor: "#ffffff", secondaryColor: "#fff0f0", accentColor: "#e86b6b", cardStyle: "premium" },
+      logic: { pointsPerDollar: 1, pointsLabel: "Points", rewardTiers: [{ points: 100, reward: "Free brow wax" }, { points: 250, reward: "Free express facial" }, { points: 500, reward: "Full pamper package" }], redemptionRules: "Earn 1 point per dollar spent on treatments." },
     },
   },
   {
-    id: "restaurant-coupon",
-    name: "Grand Opening",
-    category: "Restaurant / Bar",
+    id: "burger-coupon",
+    name: "Honest Burgers",
+    category: "Restaurant / Fast Food",
     type: "coupon" as const,
-    preview: { bg: "#1a0505", accent: "#cc2936", primary: "#fff5e6", secondary: "#ffd700", icon: "🍽️" },
+    preview: { bg: "#1a2332", accent: "#c9a96e", primary: "#f5f0e8", secondary: "#c9a96e", icon: "🍔" },
     data: {
       type: "coupon",
-      businessDetails: { name: "", category: "restaurant", tagline: "Fresh from kitchen to table", description: "Authentic cuisine in a warm and welcoming atmosphere.", welcomeOffer: "" },
-      branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#1a0505", primaryColor: "#fff5e6", secondaryColor: "#ffd700", accentColor: "#cc2936", cardStyle: "premium" },
-      logic: { offerTitle: "20% Off Your First Visit", offerDescription: "Valid on your entire bill when you dine with us for the first time.", expiryDate: "2026-12-31", conditions: "One per customer. Dine-in only. Min spend $30." },
+      businessDetails: { name: "", category: "restaurant", tagline: "Smashed to perfection", description: "Hand-smashed burgers with premium ingredients, served with crispy fries.", welcomeOffer: "Free drink with any burger" },
+      branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#1a2332", primaryColor: "#f5f0e8", secondaryColor: "#c9a96e", accentColor: "#c9a96e", cardStyle: "premium" },
+      logic: { offerTitle: "Free drink with any burger", offerDescription: "Choose any soft drink or house beer when you order a burger.", expiryDate: "2027-06-30", conditions: "One per customer. Dine-in only." },
     },
   },
   {
-    id: "beauty-stamps",
-    name: "Beauty Pass",
-    category: "Salon / Spa",
+    id: "cafe-stamps",
+    name: "Bean & Grind",
+    category: "Café / Coffee",
     type: "stamp" as const,
-    preview: { bg: "#1c1018", accent: "#b76e79", primary: "#fff0f5", secondary: "#e8b4b8", icon: "✨" },
+    preview: { bg: "#f2e8dc", accent: "#c67a2e", primary: "#2c1810", secondary: "#c67a2e", icon: "☕" },
     data: {
       type: "stamp",
-      businessDetails: { name: "", category: "salon", tagline: "Your glow-up starts here", description: "Premium beauty and wellness treatments in a serene space.", welcomeOffer: "Free brow wax with your first facial" },
-      branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#1c1018", primaryColor: "#fff0f5", secondaryColor: "#e8b4b8", accentColor: "#b76e79", cardStyle: "premium" },
-      logic: { totalStamps: 6, stampIcon: "✨", reward: "Free express facial", progressLabel: "treatments completed" },
+      businessDetails: { name: "", category: "cafe", tagline: "Artisan coffee, every morning", description: "Specialty single-origin roasts, house-baked pastries, and a warm welcome.", welcomeOffer: "Your first coffee is on us!" },
+      branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#f2e8dc", primaryColor: "#2c1810", secondaryColor: "#c67a2e", accentColor: "#c67a2e", cardStyle: "premium" },
+      logic: { totalStamps: 10, stampIcon: "☕", reward: "Free coffee", progressLabel: "coffees collected" },
+    },
+  },
+  {
+    id: "barber-stamps",
+    name: "The Barber Club",
+    category: "Barber",
+    type: "stamp" as const,
+    preview: { bg: "#0B051D", accent: "#6C47FF", primary: "#FFFFFF", secondary: "#E6FFA9", icon: "✂️" },
+    data: {
+      type: "stamp",
+      businessDetails: { name: "", category: "barber", tagline: "Look sharp. Feel sharp.", description: "Premium grooming for the modern gentleman. Cuts, fades, and hot towel shaves.", welcomeOffer: "50% off your first cut" },
+      branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#0B051D", primaryColor: "#FFFFFF", secondaryColor: "#E6FFA9", accentColor: "#6C47FF", cardStyle: "premium" },
+      logic: { totalStamps: 8, stampIcon: "✂️", reward: "Free haircut", progressLabel: "cuts completed" },
     },
   },
   {
@@ -58,12 +58,25 @@ const templates = [
     name: "Fitness Rewards",
     category: "Gym / Wellness",
     type: "points" as const,
-    preview: { bg: "#0a1628", accent: "#22c55e", primary: "#f0fdf4", secondary: "#86efac", icon: "🏋️" },
+    preview: { bg: "#0a1628", accent: "#22c55e", primary: "#f0fdf4", secondary: "#86efac", icon: "💪" },
     data: {
       type: "points",
       businessDetails: { name: "", category: "gym", tagline: "Push your limits", description: "State-of-the-art equipment, expert trainers, and a motivating community.", welcomeOffer: "Free personal training session" },
       branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#0a1628", primaryColor: "#f0fdf4", secondaryColor: "#86efac", accentColor: "#22c55e", cardStyle: "premium" },
       logic: { pointsPerDollar: 5, pointsLabel: "Fit Points", rewardTiers: [{ points: 100, reward: "Free smoothie" }, { points: 300, reward: "Free PT session" }, { points: 500, reward: "1 month free" }], redemptionRules: "Earn points per class attended or purchase." },
+    },
+  },
+  {
+    id: "bakery-stamps",
+    name: "Sweet Treats",
+    category: "Bakery / Patisserie",
+    type: "stamp" as const,
+    preview: { bg: "#fef3e2", accent: "#e87c2f", primary: "#3d1f0a", secondary: "#e87c2f", icon: "🧁" },
+    data: {
+      type: "stamp",
+      businessDetails: { name: "", category: "bakery", tagline: "Freshly baked, daily", description: "Artisan breads, pastries, and cakes baked fresh every morning.", welcomeOffer: "Free pastry with your first purchase" },
+      branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#fef3e2", primaryColor: "#3d1f0a", secondaryColor: "#e87c2f", accentColor: "#e87c2f", cardStyle: "premium" },
+      logic: { totalStamps: 8, stampIcon: "🧁", reward: "Free cake slice", progressLabel: "treats bought" },
     },
   },
   {
@@ -77,6 +90,19 @@ const templates = [
       businessDetails: { name: "", category: "restaurant", tagline: "Every slice counts", description: "Hand-tossed pizza with fresh ingredients, baked to perfection.", welcomeOffer: "Free garlic bread with first order" },
       branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#1a1006", primaryColor: "#fffbeb", secondaryColor: "#fcd34d", accentColor: "#f59e0b", cardStyle: "premium" },
       logic: { totalStamps: 10, stampIcon: "🍕", reward: "Free large pizza", progressLabel: "slices ordered" },
+    },
+  },
+  {
+    id: "retail-points",
+    name: "Shop & Save",
+    category: "Retail / Fashion",
+    type: "points" as const,
+    preview: { bg: "#1a1a1a", accent: "#e0c097", primary: "#f5f0e8", secondary: "#e0c097", icon: "🛍" },
+    data: {
+      type: "points",
+      businessDetails: { name: "", category: "retail", tagline: "Style that rewards", description: "Curated fashion and accessories with exclusive member benefits.", welcomeOffer: "10% off your first purchase" },
+      branding: { logoUrl: "", heroImageUrl: "", backgroundColor: "#1a1a1a", primaryColor: "#f5f0e8", secondaryColor: "#e0c097", accentColor: "#e0c097", cardStyle: "premium" },
+      logic: { pointsPerDollar: 10, pointsLabel: "Style Points", rewardTiers: [{ points: 200, reward: "10% off next purchase" }, { points: 500, reward: "$25 store credit" }, { points: 1000, reward: "$50 store credit" }], redemptionRules: "Earn 10 points per dollar spent." },
     },
   },
 ];
@@ -128,7 +154,6 @@ export default function CardTemplates({ onSelect }: { onSelect: (data: any) => v
               height: "120px", position: "relative", overflow: "hidden",
               background: `linear-gradient(135deg, ${t.preview.bg}, ${t.preview.accent}60)`,
             }}>
-              {/* Decorative elements */}
               <div style={{ position: "absolute", top: "12px", right: "12px", width: "60px", height: "60px", borderRadius: "50%", background: `radial-gradient(circle, ${t.preview.accent}40, transparent 70%)` }} />
               <div style={{ position: "absolute", bottom: "-10px", left: "-10px", width: "80px", height: "80px", borderRadius: "50%", background: `radial-gradient(circle, ${t.preview.secondary}20, transparent 70%)` }} />
 
@@ -168,13 +193,13 @@ export default function CardTemplates({ onSelect }: { onSelect: (data: any) => v
                 )}
                 {t.type === "points" && (
                   <div>
-                    <div style={{ fontSize: "8px", color: t.preview.secondary, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>{t.data.logic.pointsLabel}</div>
+                    <div style={{ fontSize: "8px", color: t.preview.secondary, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>{(t.data.logic as any).pointsLabel}</div>
                     <div style={{ fontSize: "18px", fontWeight: 800, color: t.preview.primary, lineHeight: 1 }}>0</div>
                   </div>
                 )}
                 {t.type === "coupon" && (
                   <div style={{ fontSize: "11px", fontWeight: 700, color: t.preview.primary, lineHeight: 1.2 }}>
-                    {t.data.logic.offerTitle}
+                    {(t.data.logic as any).offerTitle}
                   </div>
                 )}
               </div>
