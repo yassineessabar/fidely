@@ -24,6 +24,17 @@ type CardPreviewProps = {
   logic: any;
 };
 
+const CATEGORY_STAMP_ICONS: Record<string, string> = {
+  cafe: "\u2615",
+  restaurant: "\uD83C\uDF7D",
+  salon: "\uD83D\uDC87",
+  barber: "\u2702\uFE0F",
+  gym: "\uD83D\uDCAA",
+  bakery: "\uD83E\uDDC1",
+  retail: "\uD83D\uDECD",
+  other: "\u2B50",
+};
+
 export default function CardPreview({ type, businessDetails, branding, logic }: CardPreviewProps) {
   const bg = branding.backgroundColor || "#0B051D";
   const primary = branding.primaryColor || "#FFFFFF";
@@ -51,13 +62,13 @@ export default function CardPreview({ type, businessDetails, branding, logic }: 
 
   if (type === "stamp") {
     const total = logic?.totalStamps || 10;
-    const icon = logic?.stampIcon || "⭐";
+    const stampIcon = CATEGORY_STAMP_ICONS[businessDetails.category] || logic?.stampIcon || "\u2B50";
     headerLabel = "STAMPS";
     headerValue = `0/${total}`;
     primaryLabel = "REWARD";
     primaryValue = logic?.reward || "Free item";
-    secondaryLabel = "PROGRESS";
-    secondaryValue = Array.from({ length: total }, () => "○").join("");
+    secondaryLabel = `PROGRESS (${stampIcon})`;
+    secondaryValue = Array.from({ length: total }, () => "\u25CB").join("");
   } else if (type === "points") {
     headerLabel = logic?.pointsLabel || "POINTS";
     headerValue = "0";

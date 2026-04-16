@@ -29,6 +29,8 @@ type PointsLogic = {
 };
 
 type Branding = {
+  logoUrl: string;
+  heroImageUrl: string;
   backgroundColor: string;
   primaryColor: string;
   secondaryColor: string;
@@ -77,6 +79,8 @@ const CATEGORIES = [
 ];
 
 const DEFAULT_BRANDING: Branding = {
+  logoUrl: "",
+  heroImageUrl: "",
   backgroundColor: "#0B051D",
   primaryColor: "#FFFFFF",
   secondaryColor: "#E6FFA9",
@@ -447,6 +451,43 @@ export default function CardBuilderForm({
         <SectionHeader title="4. Branding" open={open.branding} onToggle={() => toggle("branding")} />
         {open.branding && (
           <div style={{ paddingTop: "18px", paddingBottom: "8px" }}>
+            {/* Logo upload */}
+            <div style={fieldWrap}>
+              <label style={labelStyle}>Business Logo</label>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                {cardData.branding.logoUrl && (
+                  <img
+                    src={cardData.branding.logoUrl}
+                    alt="Logo"
+                    style={{ width: "48px", height: "48px", borderRadius: "10px", objectFit: "cover", border: "1px solid rgb(228,227,223)" }}
+                  />
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    if (file.size > 500000) { alert("Logo must be under 500KB"); return; }
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                      setBranding({ logoUrl: ev.target?.result as string });
+                    };
+                    reader.readAsDataURL(file);
+                  }}
+                  style={{ fontSize: "13px", color: "rgb(97,95,109)" }}
+                />
+                {cardData.branding.logoUrl && (
+                  <button
+                    type="button"
+                    onClick={() => setBranding({ logoUrl: "" })}
+                    style={{ fontSize: "12px", color: "#ff6b6b", background: "none", border: "none", cursor: "pointer", padding: "4px 8px" }}
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
               <ColorRow label="Background" value={cardData.branding.backgroundColor} onChange={(v) => setBranding({ backgroundColor: v })} />
               <ColorRow label="Primary" value={cardData.branding.primaryColor} onChange={(v) => setBranding({ primaryColor: v })} />

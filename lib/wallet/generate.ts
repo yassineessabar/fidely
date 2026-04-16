@@ -1,5 +1,16 @@
 import { PassTemplate, PassField } from "./types";
 
+const CATEGORY_STAMP_ICONS: Record<string, string> = {
+  cafe: "\u2615",
+  restaurant: "\uD83C\uDF7D",
+  salon: "\uD83D\uDC87",
+  barber: "\u2702\uFE0F",
+  gym: "\uD83D\uDCAA",
+  bakery: "\uD83E\uDDC1",
+  retail: "\uD83D\uDECD",
+  other: "\u2B50",
+};
+
 type CardRow = {
   id: string;
   type: "coupon" | "stamp" | "points";
@@ -135,7 +146,7 @@ export function enrollmentToPassTemplate(
     auxiliaryFields = [{ key: "member", label: "MEMBER", value: enrollment.customer_name }];
     description = logic.offerDescription || description;
   } else if (card.type === "stamp") {
-    const icon = logic.stampIcon || "⭐";
+    const icon = CATEGORY_STAMP_ICONS[bd.category] || logic.stampIcon || "\u2B50";
     const total = logic.totalStamps || 10;
     const collected = enrollment.stamps_collected;
     // Show stamp icons: filled for collected, empty circles for remaining
