@@ -15,6 +15,21 @@ export default function DashHeader({
   const router = useRouter();
   const [profileOpen, setProfileOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const [bizName, setBizName] = useState("");
+  const [bizEmail, setBizEmail] = useState("");
+
+  useEffect(() => {
+    fetch("/api/merchant/cards")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.cards && d.cards.length > 0) {
+          const bd = d.cards[0].business_details || {};
+          if (bd.name) setBizName(bd.name);
+          if (bd.email) setBizEmail(bd.email);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const handleLogout = async () => {
     await fetch("/api/auth/signout", { method: "POST" });
@@ -154,7 +169,7 @@ export default function DashHeader({
               boxShadow: profileOpen ? "0 0 0 2px rgb(230,255,169)" : "none",
             }}
           >
-            <span style={{ color: "white", fontSize: "14px", fontWeight: 600 }}>CB</span>
+            <span style={{ color: "white", fontSize: "14px", fontWeight: 600 }}>{bizName ? bizName.slice(0, 2).toUpperCase() : "–"}</span>
           </div>
 
           {/* Dropdown menu */}
@@ -175,8 +190,8 @@ export default function DashHeader({
             >
               {/* User info */}
               <div style={{ padding: "16px", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
-                <p style={{ margin: 0, fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)" }}>Café Bloom</p>
-                <p style={{ margin: "2px 0 0", fontSize: "12px", color: "rgb(97,95,109)" }}>hello@cafebloom.com</p>
+                <p style={{ margin: 0, fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)" }}>{bizName || "My Business"}</p>
+                {bizEmail && <p style={{ margin: "2px 0 0", fontSize: "12px", color: "rgb(97,95,109)" }}>{bizEmail}</p>}
               </div>
 
               {/* Menu items */}
