@@ -26,7 +26,7 @@ const pricingJsonLd = {
       priceValidUntil: "2026-12-31",
       availability: "https://schema.org/InStock",
       description: "Perfect for a single location. 1 location, up to 500 customers, unlimited push notifications.",
-      url: "https://kyro.com/pricing",
+      url: "https://wearekyro.com/pricing",
     },
     {
       "@type": "Offer",
@@ -36,7 +36,7 @@ const pricingJsonLd = {
       priceValidUntil: "2026-12-31",
       availability: "https://schema.org/InStock",
       description: "For growing businesses. Up to 3 locations, unlimited customers, advanced analytics.",
-      url: "https://kyro.com/pricing",
+      url: "https://wearekyro.com/pricing",
     },
     {
       "@type": "Offer",
@@ -46,7 +46,7 @@ const pricingJsonLd = {
       priceValidUntil: "2026-12-31",
       availability: "https://schema.org/InStock",
       description: "For multi-location businesses. Unlimited locations, unlimited customers, dedicated support.",
-      url: "https://kyro.com/pricing",
+      url: "https://wearekyro.com/pricing",
     },
   ],
 };
@@ -55,8 +55,8 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
-    { "@type": "ListItem", position: 2, name: "Pricing", item: "https://kyro.com/pricing" },
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://wearekyro.com" },
+    { "@type": "ListItem", position: 2, name: "Pricing", item: "https://wearekyro.com/pricing" },
   ],
 };
 

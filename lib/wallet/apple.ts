@@ -912,7 +912,7 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
     organizationName: template.merchantName,
     serialNumber: template.serialNumber || uuidv4(),
     description: template.description,
-    webServiceURL: `${process.env.NEXT_PUBLIC_APP_URL || "https://fidely-beta.vercel.app"}/api/passes/`,
+    webServiceURL: `${process.env.NEXT_PUBLIC_APP_URL || "https://wearekyro.com"}/api/passes/`,
     authenticationToken: template.authToken || uuidv4(),
     backgroundColor: template.backgroundColor,
     foregroundColor: template.foregroundColor,

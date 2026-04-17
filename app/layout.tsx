@@ -47,7 +47,7 @@ const klarnaTitle = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://kyro.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://wearekyro.com"),
   title: {
     default: "Kyro — Digital Loyalty Cards for Apple & Google Wallet",
     template: "%s | Kyro",
@@ -122,12 +122,12 @@ export default function RootLayout({
               "@graph": [
                 {
                   "@type": "Organization",
-                  "@id": "https://kyro.com/#organization",
+                  "@id": "https://wearekyro.com/#organization",
                   name: "Kyro",
-                  url: "https://kyro.com",
+                  url: "https://wearekyro.com",
                   logo: {
                     "@type": "ImageObject",
-                    url: "https://kyro.com/favicon.svg",
+                    url: "https://wearekyro.com/favicon.svg",
                   },
                   description:
                     "Digital loyalty cards for Apple Wallet & Google Wallet. Help local businesses bring customers back automatically.",
@@ -136,34 +136,34 @@ export default function RootLayout({
                 },
                 {
                   "@type": "WebSite",
-                  "@id": "https://kyro.com/#website",
-                  url: "https://kyro.com",
+                  "@id": "https://wearekyro.com/#website",
+                  url: "https://wearekyro.com",
                   name: "Kyro",
                   publisher: {
-                    "@id": "https://kyro.com/#organization",
+                    "@id": "https://wearekyro.com/#organization",
                   },
                   potentialAction: {
                     "@type": "SearchAction",
                     target: {
                       "@type": "EntryPoint",
-                      urlTemplate: "https://kyro.com/help?q={search_term_string}",
+                      urlTemplate: "https://wearekyro.com/help?q={search_term_string}",
                     },
                     "query-input": "required name=search_term_string",
                   },
                 },
                 {
                   "@type": "SiteNavigationElement",
-                  "@id": "https://kyro.com/#navigation",
+                  "@id": "https://wearekyro.com/#navigation",
                   name: ["Home", "Business", "Pricing", "Customers", "About", "Blog", "Help", "Contact"],
                   url: [
-                    "https://kyro.com",
-                    "https://kyro.com/business",
-                    "https://kyro.com/pricing",
-                    "https://kyro.com/customers",
-                    "https://kyro.com/about",
-                    "https://kyro.com/blog",
-                    "https://kyro.com/help",
-                    "https://kyro.com/contact",
+                    "https://wearekyro.com",
+                    "https://wearekyro.com/business",
+                    "https://wearekyro.com/pricing",
+                    "https://wearekyro.com/customers",
+                    "https://wearekyro.com/about",
+                    "https://wearekyro.com/blog",
+                    "https://wearekyro.com/help",
+                    "https://wearekyro.com/contact",
                   ],
                 },
               ],

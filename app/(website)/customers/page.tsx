@@ -118,8 +118,8 @@ export default function CustomersPage() {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
-          { "@type": "ListItem", position: 2, name: "For Customers", item: "https://kyro.com/customers" },
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://wearekyro.com" },
+          { "@type": "ListItem", position: 2, name: "For Customers", item: "https://wearekyro.com/customers" },
         ],
       }) }} />
 

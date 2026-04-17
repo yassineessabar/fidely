@@ -19,8 +19,8 @@ export default function PressPage() {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
-          { "@type": "ListItem", position: 2, name: "Press", item: "https://kyro.com/press" },
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://wearekyro.com" },
+          { "@type": "ListItem", position: 2, name: "Press", item: "https://wearekyro.com/press" },
         ],
       }) }} />
       <section style={{ backgroundColor: "white", padding: "80px 0" }}>

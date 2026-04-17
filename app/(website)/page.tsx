@@ -96,7 +96,7 @@ const breadcrumbData = {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://kyro.com",
+      item: "https://wearekyro.com",
     },
   ],
 };

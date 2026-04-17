@@ -26,8 +26,8 @@ export default function CareersPage() {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
-          { "@type": "ListItem", position: 2, name: "Careers", item: "https://kyro.com/careers" },
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://wearekyro.com" },
+          { "@type": "ListItem", position: 2, name: "Careers", item: "https://wearekyro.com/careers" },
         ],
       }) }} />
       {/* Hero */}

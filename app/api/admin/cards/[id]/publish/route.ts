@@ -27,7 +27,7 @@ export async function POST(
   }
 
   // Generate share URL
-  const origin = new URL(request.url).origin;
+  const origin = process.env.NEXT_PUBLIC_APP_URL || new URL(request.url).origin;
   const shareUrl = `${origin}/c/${id}`;
 
   // Generate QR code as data URL

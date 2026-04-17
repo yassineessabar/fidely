@@ -47,8 +47,8 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
-    { "@type": "ListItem", position: 2, name: "Help Center", item: "https://kyro.com/help" },
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://wearekyro.com" },
+    { "@type": "ListItem", position: 2, name: "Help Center", item: "https://wearekyro.com/help" },
   ],
 };
 

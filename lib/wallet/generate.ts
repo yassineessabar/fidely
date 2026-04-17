@@ -85,7 +85,7 @@ export function cardToPassTemplate(card: CardRow): PassTemplate {
   if (bd.description) {
     backFields.push({ key: "about", label: "ABOUT", value: bd.description });
   }
-  backFields.push({ key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" });
+  backFields.push({ key: "powered", label: "POWERED BY", value: "Kyro - https://wearekyro.com" });
 
   return {
     type: typeMap[card.type] || "reward",
@@ -203,13 +203,13 @@ export function enrollmentToPassTemplate(
     }
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://fidely-beta.vercel.app";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://wearekyro.com";
   backFields.push({ key: "member", label: "MEMBER", value: enrollment.customer_name });
   backFields.push({ key: "progress", label: "CHECK YOUR PROGRESS", value: `Visit ${appUrl}/my/${enrollment.membership_code}` });
   if (bd.description) {
     backFields.push({ key: "about", label: "ABOUT", value: bd.description });
   }
-  backFields.push({ key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" });
+  backFields.push({ key: "powered", label: "POWERED BY", value: "Kyro - https://wearekyro.com" });
 
   return {
     type: typeMap[card.type] || "reward",
@@ -226,7 +226,7 @@ export function enrollmentToPassTemplate(
     auxiliaryFields,
     backFields,
     barcodeFormat: "QR",
-    barcodeValue: `${process.env.NEXT_PUBLIC_APP_URL || "https://fidely-beta.vercel.app"}/scan/${enrollment.membership_code}`,
+    barcodeValue: `${process.env.NEXT_PUBLIC_APP_URL || "https://wearekyro.com"}/scan/${enrollment.membership_code}`,
     stripImagePath: "/wallet/strip-reward.png",
     logoUrl: br.logoUrl || undefined,
     heroImageUrl: br.heroImageUrl || undefined,

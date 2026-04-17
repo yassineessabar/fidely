@@ -26,12 +26,12 @@ export default function IndustryPage({ params }: { params: { industry: string } 
     "@type": "WebPage",
     name: ind.metaTitle,
     description: ind.metaDescription,
-    url: `https://kyro.com/for/${ind.slug}`,
+    url: `https://wearekyro.com/for/${ind.slug}`,
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
-        { "@type": "ListItem", position: 2, name: ind.name, item: `https://kyro.com/for/${ind.slug}` },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://wearekyro.com" },
+        { "@type": "ListItem", position: 2, name: ind.name, item: `https://wearekyro.com/for/${ind.slug}` },
       ],
     },
   };

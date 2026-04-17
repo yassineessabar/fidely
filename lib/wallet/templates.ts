@@ -24,7 +24,7 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "ABOUT", value: "Present this card at checkout to receive your discount. Your tier upgrades automatically as you spend more." },
-      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://wearekyro.com" },
     ],
     barcodeFormat: "PDF417",
     barcodeValue: "KYRO-DISCOUNT-DEMO-001",
@@ -52,7 +52,7 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "HOW IT WORKS", value: "Earn 1 point per $1 spent. Redeem points for exclusive rewards at any time." },
-      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://wearekyro.com" },
     ],
     barcodeFormat: "PDF417",
     barcodeValue: "KYRO-REWARD-DEMO-001",
@@ -80,7 +80,7 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "HOW IT WORKS", value: "Collect 1 stamp per visit. After 10 stamps, redeem your free reward. Card resets after redemption." },
-      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://wearekyro.com" },
     ],
     barcodeFormat: "QR",
     barcodeValue: "KYRO-STAMP-DEMO-001",
@@ -108,7 +108,7 @@ export const templates: Record<PassType, PassTemplate> = {
     auxiliaryFields: [],
     backFields: [
       { key: "info", label: "HOW IT WORKS", value: "Earn 5% cashback on every purchase. Cashback is credited to your points balance instantly." },
-      { key: "powered", label: "POWERED BY", value: "Kyro - https://kyro.com" },
+      { key: "powered", label: "POWERED BY", value: "Kyro - https://wearekyro.com" },
     ],
     barcodeFormat: "PDF417",
     barcodeValue: "KYRO-CASHBACK-DEMO-001",

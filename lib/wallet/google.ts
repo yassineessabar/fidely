@@ -23,7 +23,7 @@ export function areGoogleCredentialsAvailable(): boolean {
 
 export function generateGoogleWalletUrl(
   template: PassTemplate,
-  baseUrl: string = "https://kyro.com"
+  baseUrl: string = "https://wearekyro.com"
 ): string {
   if (!ISSUER_ID || !SERVICE_ACCOUNT_EMAIL || !PRIVATE_KEY) {
     throw new Error(

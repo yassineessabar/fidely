@@ -26,13 +26,13 @@ export default function FeaturePage({ params }: { params: { feature: string } })
     "@type": "WebPage",
     name: feat.metaTitle,
     description: feat.metaDescription,
-    url: `https://kyro.com/features/${feat.slug}`,
+    url: `https://wearekyro.com/features/${feat.slug}`,
     breadcrumb: {
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
-        { "@type": "ListItem", position: 2, name: "Features", item: "https://kyro.com/features" },
-        { "@type": "ListItem", position: 3, name: feat.name, item: `https://kyro.com/features/${feat.slug}` },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://wearekyro.com" },
+        { "@type": "ListItem", position: 2, name: "Features", item: "https://wearekyro.com/features" },
+        { "@type": "ListItem", position: 3, name: feat.name, item: `https://wearekyro.com/features/${feat.slug}` },
       ],
     },
   };

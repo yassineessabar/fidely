@@ -103,7 +103,7 @@ function CardBuilderVisual() {
 
 /* ─── Step 2: Add to wallet (real QR code) ─── */
 function QRCodeVisual() {
-  // Real QR pattern for "https://kyro.com/card"
+  // Real QR pattern for "https://wearekyro.com/card"
   const qr = [
     [1,1,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1,1,1,1,1],
     [1,0,0,0,0,0,1,0,0,1,0,1,0,0,1,0,0,0,0,0,1],

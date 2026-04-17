@@ -19,8 +19,8 @@ export default function BusinessPage() {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
-          { "@type": "ListItem", position: 2, name: "For Business", item: "https://kyro.com/business" },
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://wearekyro.com" },
+          { "@type": "ListItem", position: 2, name: "For Business", item: "https://wearekyro.com/business" },
         ],
       }) }} />
       {/* Hero */}

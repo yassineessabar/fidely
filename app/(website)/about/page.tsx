@@ -19,8 +19,8 @@ export default function AboutPage() {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
-          { "@type": "ListItem", position: 2, name: "About", item: "https://kyro.com/about" },
+          { "@type": "ListItem", position: 1, name: "Home", item: "https://wearekyro.com" },
+          { "@type": "ListItem", position: 2, name: "About", item: "https://wearekyro.com/about" },
         ],
       }) }} />
       {/* Hero */}

@@ -66,23 +66,23 @@ export default function BlogPostPage({
     description: post.desc,
     datePublished: post.dateISO,
     dateModified: post.dateISO,
-    author: { "@type": "Organization", name: "Kyro", url: "https://kyro.com" },
+    author: { "@type": "Organization", name: "Kyro", url: "https://wearekyro.com" },
     publisher: {
       "@type": "Organization",
       name: "Kyro",
-      url: "https://kyro.com",
-      logo: { "@type": "ImageObject", url: "https://kyro.com/favicon.svg" },
+      url: "https://wearekyro.com",
+      logo: { "@type": "ImageObject", url: "https://wearekyro.com/favicon.svg" },
     },
-    mainEntityOfPage: { "@type": "WebPage", "@id": `https://kyro.com/blog/${post.slug}` },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `https://wearekyro.com/blog/${post.slug}` },
   };
 
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
-      { "@type": "ListItem", position: 2, name: "Blog", item: "https://kyro.com/blog" },
-      { "@type": "ListItem", position: 3, name: post.title, item: `https://kyro.com/blog/${post.slug}` },
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://wearekyro.com" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://wearekyro.com/blog" },
+      { "@type": "ListItem", position: 3, name: post.title, item: `https://wearekyro.com/blog/${post.slug}` },
     ],
   };
 

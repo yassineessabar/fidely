@@ -45,7 +45,7 @@ export default function CardPreview({ type, cardName, businessDetails, branding,
 
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
   useEffect(() => {
-    const url = `https://kyro.com/c/${merchantName.toLowerCase().replace(/\s+/g, "-")}`;
+    const url = `https://wearekyro.com/c/${merchantName.toLowerCase().replace(/\s+/g, "-")}`;
     QRCode.toDataURL(url, { width: 200, margin: 1, color: { dark: "#000000", light: "#ffffff" }, errorCorrectionLevel: "M" })
       .then(setQrDataUrl)
       .catch(() => {});

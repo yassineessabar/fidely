@@ -18,11 +18,11 @@ const localBusinessJsonLd = {
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web, iOS (Apple Wallet), Android (Google Wallet)",
   description: "Digital loyalty cards for Apple Wallet & Google Wallet. Help local businesses bring customers back automatically.",
-  url: "https://kyro.com",
+  url: "https://wearekyro.com",
   author: {
     "@type": "Organization",
     name: "Kyro",
-    url: "https://kyro.com",
+    url: "https://wearekyro.com",
     email: "help@kyro.com",
     address: {
       "@type": "PostalAddress",
@@ -54,8 +54,8 @@ const breadcrumbJsonLd = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: "https://kyro.com" },
-    { "@type": "ListItem", position: 2, name: "Contact", item: "https://kyro.com/contact" },
+    { "@type": "ListItem", position: 1, name: "Home", item: "https://wearekyro.com" },
+    { "@type": "ListItem", position: 2, name: "Contact", item: "https://wearekyro.com/contact" },
   ],
 };
 
