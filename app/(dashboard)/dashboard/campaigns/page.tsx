@@ -125,7 +125,7 @@ export default function CampaignsPage() {
                     style={{
                       padding: "16px 12px",
                       borderRadius: "12px",
-                      border: campaignType === t.id ? "2px solid #0a0a0a" : "1px solid rgb(228,227,223)",
+                      border: campaignType === t.id ? "2px solid #0b051d" : "1px solid rgb(228,227,223)",
                       backgroundColor: campaignType === t.id ? "rgba(10,10,10,0.04)" : "white",
                       cursor: "pointer",
                       textAlign: "center",
@@ -199,7 +199,7 @@ export default function CampaignsPage() {
               disabled={sending || !title.trim()}
               style={{
                 padding: "12px 28px", borderRadius: "10px",
-                backgroundColor: title.trim() ? "#0a0a0a" : "rgb(228,227,223)",
+                backgroundColor: title.trim() ? "#0b051d" : "rgb(228,227,223)",
                 color: "white", fontSize: "14px", fontWeight: 600,
                 border: "none", cursor: sending || !title.trim() ? "not-allowed" : "pointer",
                 fontFamily: "inherit", opacity: sending ? 0.7 : 1,

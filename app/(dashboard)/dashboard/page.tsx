@@ -104,7 +104,7 @@ export default function DashboardPage() {
                     <div style={{ fontSize: "11px", fontWeight: 600, color: "rgb(11,5,29)" }}>{m.count}</div>
                     <div style={{
                       width: "100%", borderRadius: "6px 6px 0 0",
-                      backgroundColor: m.count > 0 ? "#0a0a0a" : "rgb(243,242,238)",
+                      backgroundColor: m.count > 0 ? "#0b051d" : "rgb(243,242,238)",
                       height: `${Math.max((m.count / maxMonthCount) * 100, 4)}%`,
                       minHeight: "4px",
                     }} />
@@ -123,7 +123,7 @@ export default function DashboardPage() {
                     <div key={s.label} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                       <div style={{ fontSize: "12px", color: "rgb(97,95,109)", width: "80px", flexShrink: 0 }}>{s.label}</div>
                       <div style={{ flex: 1, height: "20px", backgroundColor: "rgb(243,242,238)", borderRadius: "4px", overflow: "hidden" }}>
-                        <div style={{ height: "100%", borderRadius: "4px", backgroundColor: "#0a0a0a", width: `${(s.count / maxStampCount) * 100}%`, minWidth: s.count > 0 ? "4px" : "0" }} />
+                        <div style={{ height: "100%", borderRadius: "4px", backgroundColor: "#0b051d", width: `${(s.count / maxStampCount) * 100}%`, minWidth: s.count > 0 ? "4px" : "0" }} />
                       </div>
                       <div style={{ fontSize: "12px", fontWeight: 600, color: "rgb(11,5,29)", width: "30px", textAlign: "right" }}>{s.count}</div>
                     </div>

@@ -67,14 +67,14 @@ export default function BillingPage() {
             style={{
               display: "flex", alignItems: "center", justifyContent: "space-between",
               padding: "18px 20px", borderRadius: 14, cursor: "pointer", transition: "all 0.15s",
-              border: `1.5px solid ${cycle === "monthly" ? "#0a0a0a" : "rgba(10,10,10,0.08)"}`,
+              border: `1.5px solid ${cycle === "monthly" ? "#0b051d" : "rgba(10,10,10,0.08)"}`,
               backgroundColor: cycle === "monthly" ? "rgba(10,10,10,0.03)" : "transparent",
             }}
             onClick={() => setCycle("monthly")}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ width: 18, height: 18, borderRadius: "50%", border: `2px solid ${cycle === "monthly" ? "#0a0a0a" : "rgba(10,10,10,0.2)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                {cycle === "monthly" && <div style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#0a0a0a" }} />}
+              <div style={{ width: 18, height: 18, borderRadius: "50%", border: `2px solid ${cycle === "monthly" ? "#0b051d" : "rgba(10,10,10,0.2)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                {cycle === "monthly" && <div style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#0b051d" }} />}
               </div>
               <span style={{ fontSize: 14, fontWeight: 500, color: "rgba(10,10,10,0.9)" }}>Monthly</span>
             </div>
@@ -88,14 +88,14 @@ export default function BillingPage() {
             style={{
               display: "flex", alignItems: "center", justifyContent: "space-between",
               padding: "18px 20px", borderRadius: 14, cursor: "pointer", transition: "all 0.15s",
-              border: `1.5px solid ${cycle === "yearly" ? "#0a0a0a" : "rgba(10,10,10,0.08)"}`,
+              border: `1.5px solid ${cycle === "yearly" ? "#0b051d" : "rgba(10,10,10,0.08)"}`,
               backgroundColor: cycle === "yearly" ? "rgba(10,10,10,0.03)" : "transparent",
             }}
             onClick={() => setCycle("yearly")}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div style={{ width: 18, height: 18, borderRadius: "50%", border: `2px solid ${cycle === "yearly" ? "#0a0a0a" : "rgba(10,10,10,0.2)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                {cycle === "yearly" && <div style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#0a0a0a" }} />}
+              <div style={{ width: 18, height: 18, borderRadius: "50%", border: `2px solid ${cycle === "yearly" ? "#0b051d" : "rgba(10,10,10,0.2)"}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                {cycle === "yearly" && <div style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: "#0b051d" }} />}
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <span style={{ fontSize: 14, fontWeight: 500, color: "rgba(10,10,10,0.9)" }}>Yearly</span>
@@ -149,7 +149,7 @@ export default function BillingPage() {
           disabled={checkingOut}
           style={{
             flex: 1, padding: "14px", borderRadius: 14, border: "none",
-            backgroundColor: "#0a0a0a", color: "white", fontSize: 15, fontWeight: 600,
+            backgroundColor: "#0b051d", color: "white", fontSize: 15, fontWeight: 600,
             cursor: checkingOut ? "not-allowed" : "pointer", opacity: checkingOut ? 0.7 : 1,
             fontFamily: "inherit",
           }}

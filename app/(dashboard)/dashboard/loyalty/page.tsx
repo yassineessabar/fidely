@@ -64,7 +64,7 @@ export default function LoyaltyPage() {
           href="/dashboard/loyalty/new"
           style={{
             padding: "10px 20px", borderRadius: "10px",
-            backgroundColor: "#0a0a0a", color: "white",
+            backgroundColor: "#0b051d", color: "white",
             fontSize: "14px", fontWeight: 600, textDecoration: "none",
             fontFamily: "inherit",
           }}
@@ -79,7 +79,7 @@ export default function LoyaltyPage() {
           <p style={{ fontSize: "14px", color: "rgb(97,95,109)", maxWidth: "400px", margin: "0 auto 20px", lineHeight: "20px" }}>
             Create your first loyalty card to start enrolling customers and building repeat visits.
           </p>
-          <a href="/dashboard/loyalty/new" style={{ display: "inline-block", padding: "12px 24px", borderRadius: "10px", backgroundColor: "#0a0a0a", color: "white", fontSize: "14px", fontWeight: 600, textDecoration: "none" }}>
+          <a href="/dashboard/loyalty/new" style={{ display: "inline-block", padding: "12px 24px", borderRadius: "10px", backgroundColor: "#0b051d", color: "white", fontSize: "14px", fontWeight: 600, textDecoration: "none" }}>
             Create Your First Card
           </a>
         </div>
