@@ -264,16 +264,21 @@ async function createStampStripWithSharp(
     filledCup = readFileSync(cupFilledPath);
     dimCup = readFileSync(cupDimPath);
   } else {
-    // Render ☕ emoji as SVG text
-    const emojiSize = 52;
-    const filledSvg = `<svg width='64' height='64' xmlns='http://www.w3.org/2000/svg'>
-      <text x='32' y='48' font-size='${emojiSize}' text-anchor='middle' dominant-baseline='auto'>☕</text>
-    </svg>`;
-    const dimSvg = `<svg width='64' height='64' xmlns='http://www.w3.org/2000/svg'>
-      <text x='32' y='48' font-size='${emojiSize}' text-anchor='middle' dominant-baseline='auto' opacity='0.3'>☕</text>
-    </svg>`;
-    filledCup = await sharp(Buffer.from(filledSvg)).png().toBuffer();
-    dimCup = await sharp(Buffer.from(dimSvg)).png().toBuffer();
+    // Render ☕ emoji using sharp's text API (librsvg can't render emoji in SVG)
+    const emojiImg = await sharp({
+      text: { text: "☕", font: "Apple Color Emoji, Noto Color Emoji, Segoe UI Emoji", dpi: 200, rgba: true },
+    }).png().toBuffer();
+    filledCup = emojiImg;
+    // Dim version: same emoji with reduced opacity
+    dimCup = await sharp(emojiImg)
+      .ensureAlpha()
+      .linear(1, 0)  // keep colors
+      .composite([{
+        input: Buffer.from(`<svg><rect width="999" height="999" fill="white" opacity="0.7"/></svg>`),
+        blend: "dest-out",
+      }])
+      .png()
+      .toBuffer();
   }
   const iconSize = stampSize;
 
