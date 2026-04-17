@@ -9,6 +9,7 @@ function getInitials(name: string): string {
 
 export default function ProfilePage() {
   const [business, setBusiness] = useState<any>(null);
+  const [branding, setBranding] = useState<any>(null);
   const [stats, setStats] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"overview" | "account" | "billing">("overview");
@@ -18,7 +19,10 @@ export default function ProfilePage() {
       fetch("/api/merchant/cards").then((r) => r.json()).catch(() => ({})),
       fetch("/api/merchant/stats").then((r) => r.json()).catch(() => ({})),
     ]).then(([cardsData, statsData]) => {
-      if (cardsData?.cards?.length > 0) setBusiness(cardsData.cards[0].business_details || {});
+      if (cardsData?.cards?.length > 0) {
+        setBusiness(cardsData.cards[0].business_details || {});
+        setBranding(cardsData.cards[0].branding || {});
+      }
       setStats(statsData || {});
       setLoading(false);
     });
@@ -26,6 +30,8 @@ export default function ProfilePage() {
 
   const businessName = business?.name || "Your Business";
   const initials = getInitials(businessName);
+  const logoUrl = branding?.logoUrl;
+  const bannerUrl = branding?.heroImageUrl;
 
   const tabStyle = (id: string): React.CSSProperties => ({
     padding: "10px 0",
@@ -78,9 +84,20 @@ export default function ProfilePage() {
       {/* Cover */}
       <div style={{
         height: "180px",
-        background: "linear-gradient(135deg, rgba(245,158,11,0.15) 0%, rgba(249,115,22,0.1) 50%, rgba(16,185,129,0.08) 100%)",
         borderRadius: "16px 16px 0 0",
-      }} />
+        overflow: "hidden",
+        position: "relative",
+        background: bannerUrl
+          ? undefined
+          : `linear-gradient(135deg, ${branding?.backgroundColor || "rgba(10,10,10,0.04)"}, ${branding?.accentColor || "rgba(10,10,10,0.08)"})`,
+      }}>
+        {bannerUrl && (
+          <>
+            <img src={bannerUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(transparent 40%, rgba(0,0,0,0.3))" }} />
+          </>
+        )}
+      </div>
 
       {/* Profile header */}
       <div style={{
@@ -91,16 +108,25 @@ export default function ProfilePage() {
         padding: "0 32px 24px",
         marginBottom: "24px",
       }}>
-        <div style={{
-          width: "88px", height: "88px", borderRadius: "50%",
-          background: "linear-gradient(135deg, #f59e0b, #f97316)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-          color: "white", fontSize: "26px", fontWeight: 700,
-          border: "4px solid white", marginTop: "-44px", marginBottom: "14px",
-          boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
-        }}>
-          {initials}
-        </div>
+        {logoUrl ? (
+          <img src={logoUrl} alt={businessName} style={{
+            width: "88px", height: "88px", borderRadius: "50%",
+            objectFit: "cover",
+            border: "4px solid white", marginTop: "-44px", marginBottom: "14px",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+          }} />
+        ) : (
+          <div style={{
+            width: "88px", height: "88px", borderRadius: "50%",
+            background: `linear-gradient(135deg, ${branding?.backgroundColor || "#f59e0b"}, ${branding?.accentColor || "#f97316"})`,
+            display: "flex", alignItems: "center", justifyContent: "center",
+            color: branding?.primaryColor || "white", fontSize: "26px", fontWeight: 700,
+            border: "4px solid white", marginTop: "-44px", marginBottom: "14px",
+            boxShadow: "0 2px 10px rgba(0,0,0,0.08)",
+          }}>
+            {initials}
+          </div>
+        )}
 
         <h1 style={{ fontSize: "20px", fontWeight: 700, color: "rgba(10,10,10,0.85)", margin: "0 0 6px" }}>
           {businessName}
