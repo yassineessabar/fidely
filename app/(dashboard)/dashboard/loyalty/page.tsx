@@ -240,64 +240,33 @@ export default function LinksPage() {
         {/* Left */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {cards.length === 0 ? (
-            <div style={{ backgroundColor: "white", borderRadius: 20, border: "1px solid rgba(10,10,10,0.06)", boxShadow: "0 1px 3px rgba(0,0,0,0.02)", overflow: "hidden" }}>
-              {/* Preview card mockup */}
-              <div style={{
-                padding: "28px 24px 20px", display: "flex", justifyContent: "center",
-                background: "linear-gradient(135deg, #f8f8f8, #eee)",
-              }}>
-                <div style={{
-                  width: 220, borderRadius: 14, overflow: "hidden",
-                  backgroundColor: "#0B051D", boxShadow: "0 12px 32px rgba(0,0,0,0.15)",
-                }}>
-                  {/* Mini card header */}
-                  <div style={{ padding: "10px 12px 6px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <div style={{ width: 20, height: 20, borderRadius: 5, backgroundColor: "#6C47FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <span style={{ fontSize: 8, fontWeight: 900, color: "white" }}>K</span>
-                      </div>
-                      <span style={{ fontSize: 9, fontWeight: 700, color: "white" }}>Your Business</span>
-                    </div>
-                    <span style={{ fontSize: 7, fontWeight: 600, color: "#E6FFA9" }}>2027</span>
-                  </div>
-                  {/* Banner */}
-                  <div style={{ height: 55, background: "linear-gradient(135deg, rgba(108,71,255,0.3), #0B051D)", position: "relative" }}>
-                    <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", alignItems: "center", justifyItems: "center", padding: "4px 8px" }}>
-                      {["☕","☕","☕","☕","☕","☕","☕","☕"].map((e, i) => (
-                        <span key={i} style={{ fontSize: 16, opacity: i < 3 ? 1 : 0.15, filter: i >= 3 ? "grayscale(1)" : "none" }}>{e}</span>
-                      ))}
-                    </div>
-                  </div>
-                  {/* Fields */}
-                  <div style={{ padding: "6px 12px", display: "flex", justifyContent: "space-between" }}>
-                    <div>
-                      <div style={{ fontSize: 5, fontWeight: 600, color: "#E6FFA9", textTransform: "uppercase" }}>STAMPS</div>
-                      <div style={{ fontSize: 9, fontWeight: 600, color: "white" }}>10 stamps</div>
-                    </div>
-                    <div style={{ textAlign: "right" }}>
-                      <div style={{ fontSize: 5, fontWeight: 600, color: "#E6FFA9", textTransform: "uppercase" }}>MEMBER</div>
-                      <div style={{ fontSize: 9, fontWeight: 600, color: "white" }}>John</div>
-                    </div>
-                  </div>
-                  {/* QR placeholder */}
-                  <div style={{ padding: "4px 0 8px", display: "flex", justifyContent: "center" }}>
-                    <div style={{ width: 30, height: 30, borderRadius: 4, backgroundColor: "white" }} />
-                  </div>
-                </div>
-              </div>
-              {/* Text + CTA */}
-              <div style={{ padding: "24px 32px 32px", textAlign: "center" }}>
-                <h2 style={{ fontSize: 20, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 6px" }}>Create your first loyalty card</h2>
-                <p style={{ fontSize: 14, color: "rgba(10,10,10,0.4)", marginBottom: 20, maxWidth: 320, marginLeft: "auto", marginRight: "auto", lineHeight: 1.5 }}>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", minHeight: 400 }}>
+              <div style={{ marginBottom: 8 }}>
+                <h2 style={{ fontSize: 24, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 10px", letterSpacing: "-0.3px" }}>
+                  Create your first loyalty card
+                </h2>
+                <p style={{ fontSize: 15, color: "rgba(10,10,10,0.45)", margin: "0 0 24px", lineHeight: 1.6, maxWidth: 360 }}>
                   Design a digital card your customers can add to Apple & Google Wallet. Start rewarding loyalty in minutes.
                 </p>
-                <a href="/dashboard/loyalty/new" style={{
-                  display: "inline-flex", alignItems: "center", gap: 6, padding: "12px 28px",
-                  borderRadius: 12, backgroundColor: "#111", color: "white",
-                  fontSize: 14, fontWeight: 600, textDecoration: "none",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-                }}><Plus size={16} /> Create Card</a>
               </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 28 }}>
+                {[
+                  "Choose from beautiful themes",
+                  "Works with Apple & Google Wallet",
+                  "Track customer engagement",
+                ].map((text) => (
+                  <div key={text} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <Check size={15} style={{ color: "#111", flexShrink: 0 }} />
+                    <span style={{ fontSize: 14, color: "rgba(10,10,10,0.6)" }}>{text}</span>
+                  </div>
+                ))}
+              </div>
+              <a href="/dashboard/loyalty/new" style={{
+                display: "inline-flex", alignItems: "center", gap: 6, padding: "14px 32px",
+                borderRadius: 12, backgroundColor: "#111", color: "white",
+                fontSize: 15, fontWeight: 600, textDecoration: "none",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.15)", width: "fit-content",
+              }}><Plus size={16} /> Get Started</a>
             </div>
           ) : (
             <>
@@ -698,7 +667,69 @@ export default function LinksPage() {
                 </div>
               </div>
             ) : (
-              <div style={{ padding: 40, textAlign: "center", color: "rgba(10,10,10,0.3)", fontSize: 14 }}>Select a card to preview</div>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                {/* Sample iPhone mockup */}
+                <div style={{
+                  width: 260, border: "10px solid #1a1a1a", borderRadius: 52,
+                  overflow: "hidden", backgroundColor: "#000",
+                  boxShadow: "0 24px 60px rgba(0,0,0,0.25), inset 0 0 0 2px #333",
+                }}>
+                  <div style={{ height: 54, backgroundColor: "#000", padding: "14px 24px 0", display: "flex", justifyContent: "space-between", alignItems: "flex-start", position: "relative" }}>
+                    <span style={{ fontSize: 15, fontWeight: 600, color: "white" }}>9:41</span>
+                    <div style={{ position: "absolute", top: 12, left: "50%", transform: "translateX(-50%)", width: 120, height: 34, borderRadius: 20, backgroundColor: "#000" }} />
+                    <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                      <svg width="17" height="12" viewBox="0 0 17 12" fill="none"><rect x="0" y="9" width="3" height="3" rx="0.5" fill="white"/><rect x="4.5" y="6" width="3" height="6" rx="0.5" fill="white"/><rect x="9" y="3" width="3" height="9" rx="0.5" fill="white"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="white"/></svg>
+                      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 11.5a1.2 1.2 0 100-2.4 1.2 1.2 0 000 2.4z" fill="white"/><path d="M4.7 7.8a4.7 4.7 0 016.6 0" stroke="white" strokeWidth="1.3" strokeLinecap="round"/><path d="M2.3 5.3a8 8 0 0111.4 0" stroke="white" strokeWidth="1.3" strokeLinecap="round"/></svg>
+                      <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="white" strokeOpacity="0.35"/><rect x="2" y="2" width="18" height="9" rx="2" fill="white"/><path d="M25 4.5v4a2 2 0 000-4z" fill="white" fillOpacity="0.4"/></svg>
+                    </div>
+                  </div>
+                  <div style={{ padding: "4px 16px 8px", backgroundColor: "#000", display: "flex", justifyContent: "space-between" }}>
+                    <span style={{ fontSize: 11, color: "#007AFF", fontWeight: 500 }}>Cancel</span>
+                    <span style={{ fontSize: 11, color: "white", fontWeight: 600, opacity: 0.5 }}>Loyalty Card</span>
+                    <span style={{ fontSize: 11, color: "#007AFF", fontWeight: 600 }}>Add</span>
+                  </div>
+                  <div style={{ backgroundColor: "#000", padding: "8px 12px 0" }}>
+                    <div style={{ backgroundColor: "#0B051D", borderRadius: 14, overflow: "hidden" }}>
+                      <div style={{ padding: "12px 14px 8px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <div style={{ width: 26, height: 26, borderRadius: 6, backgroundColor: "#6C47FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                            <span style={{ fontSize: 9, fontWeight: 900, color: "white" }}>K</span>
+                          </div>
+                          <span style={{ fontSize: 11, fontWeight: 700, color: "white" }}>Your Business</span>
+                        </div>
+                        <div style={{ textAlign: "right" }}>
+                          <div style={{ fontSize: 6, fontWeight: 600, color: "#E6FFA9", textTransform: "uppercase" }}>VALID UNTIL</div>
+                          <div style={{ fontSize: 10, fontWeight: 700, color: "white" }}>2027</div>
+                        </div>
+                      </div>
+                      <div style={{ height: 80, background: "linear-gradient(135deg, rgba(108,71,255,0.3), #0B051D)", position: "relative" }}>
+                        <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", alignItems: "center", justifyItems: "center", alignContent: "center", padding: "6px 12px", gap: "2px 0" }}>
+                          {Array.from({ length: 8 }).map((_, i) => (
+                            <span key={i} style={{ fontSize: 22, lineHeight: 1, opacity: i < 3 ? 1 : 0.15, filter: i >= 3 ? "grayscale(1)" : "none" }}>☕</span>
+                          ))}
+                        </div>
+                      </div>
+                      <div style={{ padding: "8px 14px", display: "flex", justifyContent: "space-between" }}>
+                        <div>
+                          <div style={{ fontSize: 6, fontWeight: 600, color: "#E6FFA9", textTransform: "uppercase" }}>STAMPS UNTIL REWARD</div>
+                          <div style={{ fontSize: 11, fontWeight: 600, color: "white" }}>10 stamps</div>
+                        </div>
+                        <div style={{ textAlign: "right" }}>
+                          <div style={{ fontSize: 6, fontWeight: 600, color: "#E6FFA9", textTransform: "uppercase" }}>MEMBER</div>
+                          <div style={{ fontSize: 11, fontWeight: 500, color: "white" }}>Jane Smith</div>
+                        </div>
+                      </div>
+                      <div style={{ padding: "6px 14px 10px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <QrCode size={70} />
+                        <div style={{ fontSize: 6, color: "#E6FFA9", marginTop: 3, opacity: 0.4 }}>Powered by Kyro</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ height: 28, backgroundColor: "#000", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <div style={{ width: 120, height: 5, borderRadius: 3, backgroundColor: "#555" }} />
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>
