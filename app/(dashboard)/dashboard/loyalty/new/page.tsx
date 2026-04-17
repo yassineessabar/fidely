@@ -72,11 +72,11 @@ export default function NewCardPage() {
   const [saving, setSaving] = useState(false);
   const [step, setStep] = useState(1); // 1=type, 2=theme, 3=customize, 4=colors
   const [businessType, setBusinessType] = useState("cafe");
+  const [businessName, setBusinessName] = useState("");
 
   // Card data
   const [cardType, setCardType] = useState("stamp");
   const [selectedTheme, setSelectedTheme] = useState<OnboardingTheme | null>(null);
-  const [name, setName] = useState("");
   const [cardName, setCardName] = useState("");
   const [emoji, setEmoji] = useState("☕");
   const [logoUrl, setLogoUrl] = useState("");
@@ -88,6 +88,17 @@ export default function NewCardPage() {
   const [totalStamps, setTotalStamps] = useState(10);
   const [reward, setReward] = useState("Free item");
 
+  useEffect(() => {
+    fetch("/api/merchant/cards").then((r) => r.json()).then((d) => {
+      if (d.cards?.length > 0) {
+        const biz = d.cards[0].business_details?.name;
+        if (biz) setBusinessName(biz);
+        const cat = d.cards[0].business_details?.category;
+        if (cat) setBusinessType(cat);
+      }
+    }).catch(() => {});
+  }, []);
+
   function handleFile(e: React.ChangeEvent<HTMLInputElement>, setter: (v: string) => void) {
     const file = e.target.files?.[0];
     if (file) {
@@ -98,7 +109,7 @@ export default function NewCardPage() {
   }
 
   async function handleCreate() {
-    if (!name.trim()) return;
+    if (!businessName.trim()) return;
     setSaving(true);
     try {
       const dbType = cardType === "vip" ? "points" : cardType;
@@ -107,9 +118,9 @@ export default function NewCardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: dbType,
-          name: cardName || `${name} Loyalty Card`,
+          name: cardName || `${businessName} Loyalty Card`,
           business_details: {
-            name,
+            name: businessName,
             category: "",
             cardVariant: cardType,
           },
@@ -135,7 +146,7 @@ export default function NewCardPage() {
     } finally { setSaving(false); }
   }
 
-  const canContinue = step === 1 ? true : step === 2 ? !!selectedTheme : step === 3 ? !!name.trim() : true;
+  const canContinue = step === 1 ? true : step === 2 ? !!selectedTheme : true;
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -317,15 +328,7 @@ export default function NewCardPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               <div>
                 <h2 style={{ fontSize: 18, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 4px" }}>Customize your card</h2>
-                <p style={{ fontSize: 14, color: "rgba(10,10,10,0.45)", margin: "0 0 16px" }}>Add your business details</p>
-              </div>
-
-              {/* Business Name */}
-              <div>
-                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>Business Name</label>
-                <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Bean & Grind"
-                  style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: "1.5px solid rgba(10,10,10,0.1)", fontSize: 15, fontFamily: "inherit", color: "rgba(10,10,10,0.9)", outline: "none", boxSizing: "border-box" }}
-                />
+                <p style={{ fontSize: 14, color: "rgba(10,10,10,0.45)", margin: "0 0 16px" }}>Add details for your new card</p>
               </div>
 
               {/* Card Name */}
@@ -333,7 +336,7 @@ export default function NewCardPage() {
                 <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>
                   Card Name <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "rgba(10,10,10,0.3)" }}>(optional)</span>
                 </label>
-                <input value={cardName} onChange={(e) => setCardName(e.target.value)} placeholder={`e.g. ${name || "My"} Rewards`}
+                <input value={cardName} onChange={(e) => setCardName(e.target.value)} placeholder={`e.g. ${businessName || "My"} Rewards`}
                   style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: "1.5px solid rgba(10,10,10,0.1)", fontSize: 15, fontFamily: "inherit", color: "rgba(10,10,10,0.9)", outline: "none", boxSizing: "border-box" }}
                 />
               </div>
@@ -506,7 +509,7 @@ export default function NewCardPage() {
               {/* Wallet bar */}
               <div style={{ padding: "4px 16px 8px", backgroundColor: "#000", display: "flex", justifyContent: "space-between" }}>
                 <span style={{ fontSize: 11, color: "#007AFF", fontWeight: 500 }}>Cancel</span>
-                <span style={{ fontSize: 11, color: "white", fontWeight: 600, opacity: 0.5, maxWidth: 130, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{name || "Loyalty Card"}</span>
+                <span style={{ fontSize: 11, color: "white", fontWeight: 600, opacity: 0.5, maxWidth: 130, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{cardName || businessName || "Loyalty Card"}</span>
                 <span style={{ fontSize: 11, color: "#007AFF", fontWeight: 600 }}>Add</span>
               </div>
 
@@ -519,10 +522,10 @@ export default function NewCardPage() {
                         <img src={logoUrl} alt="" style={{ width: 28, height: 28, borderRadius: 7, objectFit: "cover" }} />
                       ) : (
                         <div style={{ width: 28, height: 28, borderRadius: 7, backgroundColor: accentColor, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                          <span style={{ fontSize: 10, fontWeight: 900, color: primaryColor }}>{(name || "K").charAt(0)}</span>
+                          <span style={{ fontSize: 10, fontWeight: 900, color: primaryColor }}>{(businessName || "K").charAt(0)}</span>
                         </div>
                       )}
-                      <span style={{ fontSize: 12, fontWeight: 700, color: primaryColor }}>{name || "Your Business"}</span>
+                      <span style={{ fontSize: 12, fontWeight: 700, color: primaryColor }}>{businessName || "Your Business"}</span>
                     </div>
                     <div style={{ textAlign: "right" }}>
                       <div style={{ fontSize: 7, fontWeight: 600, color: secondaryColor, textTransform: "uppercase" }}>VALID UNTIL</div>
