@@ -107,69 +107,76 @@ export default async function PublicCardPage({ params }: { params: { id: string 
           zIndex: 1,
         }}
       >
-        {/* Logo */}
-        {logoUrl ? (
-          <img
-            src={logoUrl}
-            alt={merchantName}
-            style={{
-              width: "80px",
-              height: "80px",
-              borderRadius: "20px",
-              objectFit: "cover",
-              border: `3px solid ${bg}`,
-              boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
-              marginBottom: "16px",
-              backgroundColor: bg,
-            }}
-          />
-        ) : (
-          <div
-            style={{
-              width: "80px",
-              height: "80px",
-              borderRadius: "20px",
-              backgroundColor: accent,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "32px",
-              fontWeight: 800,
-              color: "#fff",
-              border: `3px solid ${bg}`,
-              boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
-              marginBottom: "16px",
-            }}
-          >
-            {merchantName.charAt(0).toUpperCase()}
-          </div>
-        )}
-
-        {/* Merchant name + tagline */}
-        <h1
+        {/* Logo + name row */}
+        <div
           style={{
-            margin: 0,
-            fontSize: "26px",
-            fontWeight: 700,
-            color: primary,
-            textAlign: "center",
+            display: "flex",
+            alignItems: "center",
+            gap: "14px",
+            marginBottom: "4px",
           }}
         >
-          {merchantName}
-        </h1>
-        {bd.tagline && (
-          <p
-            style={{
-              margin: "6px 0 0",
-              fontSize: "15px",
-              color: secondary,
-              opacity: 0.8,
-              textAlign: "center",
-            }}
-          >
-            {bd.tagline}
-          </p>
-        )}
+          {logoUrl ? (
+            <img
+              src={logoUrl}
+              alt={merchantName}
+              style={{
+                width: "56px",
+                height: "56px",
+                borderRadius: "14px",
+                objectFit: "cover",
+                border: `3px solid ${bg}`,
+                boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+                backgroundColor: bg,
+                flexShrink: 0,
+              }}
+            />
+          ) : (
+            <div
+              style={{
+                width: "56px",
+                height: "56px",
+                borderRadius: "14px",
+                backgroundColor: accent,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "24px",
+                fontWeight: 800,
+                color: "#fff",
+                border: `3px solid ${bg}`,
+                boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+                flexShrink: 0,
+              }}
+            >
+              {merchantName.charAt(0).toUpperCase()}
+            </div>
+          )}
+          <div>
+            <h1
+              style={{
+                margin: 0,
+                fontSize: "24px",
+                fontWeight: 700,
+                color: primary,
+              }}
+            >
+              {merchantName}
+            </h1>
+            {bd.tagline && (
+              <p
+                style={{
+                  margin: "2px 0 0",
+                  fontSize: "14px",
+                  color: secondary,
+                  opacity: 0.8,
+                }}
+              >
+                {bd.tagline}
+              </p>
+            )}
+          </div>
+        </div>
 
         {/* Form card */}
         <div
