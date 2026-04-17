@@ -23,6 +23,7 @@ export default function CampaignsPage() {
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const [result, setResult] = useState("");
+  const [campaignType, setCampaignType] = useState<"promo" | "birthday" | "location">("promo");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [cardId, setCardId] = useState("all");
@@ -46,7 +47,7 @@ export default function CampaignsPage() {
     setSending(true);
     setResult("");
     try {
-      const body: any = { title: title.trim() };
+      const body: any = { title: title.trim(), campaign_type: campaignType };
       if (message.trim()) body.message = message.trim();
       if (cardId !== "all") body.card_id = cardId;
       if (scheduledAt) body.scheduled_at = new Date(scheduledAt).toISOString();
@@ -102,6 +103,44 @@ export default function CampaignsPage() {
           </p>
         ) : (
           <>
+            {/* Campaign type selector */}
+            <div style={{ marginBottom: "20px" }}>
+              <label style={{ display: "block", fontSize: "12px", fontWeight: 600, color: "rgb(97,95,109)", marginBottom: "8px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                Campaign Type
+              </label>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
+                {([
+                  { id: "promo" as const, emoji: "📣", label: "Promo", desc: "Special offers & announcements" },
+                  { id: "birthday" as const, emoji: "🎂", label: "Birthday", desc: "Birthday rewards for members" },
+                  { id: "location" as const, emoji: "📍", label: "Location", desc: "Nearby visit reminders" },
+                ]).map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => {
+                      setCampaignType(t.id);
+                      if (t.id === "birthday" && !title) setTitle("Happy Birthday! 🎂");
+                      if (t.id === "location" && !title) setTitle("We're nearby! Come visit us");
+                    }}
+                    style={{
+                      padding: "16px 12px",
+                      borderRadius: "12px",
+                      border: campaignType === t.id ? "2px solid rgb(108,71,255)" : "1px solid rgb(228,227,223)",
+                      backgroundColor: campaignType === t.id ? "rgba(108,71,255,0.04)" : "white",
+                      cursor: "pointer",
+                      textAlign: "center",
+                      fontFamily: "inherit",
+                      transition: "border-color 0.15s",
+                    }}
+                  >
+                    <div style={{ fontSize: "24px", marginBottom: "6px" }}>{t.emoji}</div>
+                    <div style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)", marginBottom: "2px" }}>{t.label}</div>
+                    <div style={{ fontSize: "11px", color: "rgb(97,95,109)", lineHeight: "14px" }}>{t.desc}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div style={{ marginBottom: "16px" }}>
               <label style={{ display: "block", fontSize: "12px", fontWeight: 600, color: "rgb(97,95,109)", marginBottom: "6px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
                 Title
@@ -109,7 +148,7 @@ export default function CampaignsPage() {
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="Double stamps this weekend!"
+                placeholder={campaignType === "birthday" ? "Happy Birthday! 🎂" : campaignType === "location" ? "We're nearby! Come visit us" : "Double stamps this weekend!"}
                 style={{ width: "100%", padding: "10px 14px", borderRadius: "8px", border: "1px solid rgb(228,227,223)", fontSize: "14px", fontFamily: "inherit", outline: "none", boxSizing: "border-box" }}
               />
             </div>
@@ -121,7 +160,7 @@ export default function CampaignsPage() {
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Visit us this Saturday and Sunday to earn double stamps on every purchase!"
+                placeholder={campaignType === "birthday" ? "Enjoy a special treat on us — show this to redeem your birthday reward!" : campaignType === "location" ? "You're near our store! Pop in today for a stamp on your loyalty card." : "Visit us this Saturday and Sunday to earn double stamps on every purchase!"}
                 rows={3}
                 style={{ width: "100%", padding: "10px 14px", borderRadius: "8px", border: "1px solid rgb(228,227,223)", fontSize: "14px", fontFamily: "inherit", outline: "none", boxSizing: "border-box", resize: "vertical" }}
               />
@@ -188,7 +227,12 @@ export default function CampaignsPage() {
           {notifications.map((n) => (
             <div key={n.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 0", borderBottom: "1px solid rgb(243,242,238)" }}>
               <div>
-                <div style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)" }}>{n.title}</div>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <div style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)" }}>{n.title}</div>
+                  <span style={{ fontSize: "10px", padding: "2px 6px", borderRadius: "4px", backgroundColor: "rgb(243,242,238)", color: "rgb(97,95,109)", fontWeight: 600 }}>
+                    {n.type === "birthday" ? "🎂 Birthday" : n.type === "custom" ? "📣 Promo" : n.type}
+                  </span>
+                </div>
                 <div style={{ fontSize: "12px", color: "rgb(97,95,109)", marginTop: "3px" }}>
                   {n.card_name} · {n.recipients} recipient{n.recipients !== 1 ? "s" : ""} · {new Date(n.sent_at || n.scheduled_at || n.created_at).toLocaleDateString("en-AU", { day: "2-digit", month: "short", year: "numeric" })}
                 </div>
