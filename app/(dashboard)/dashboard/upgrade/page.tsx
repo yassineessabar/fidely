@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Check, ChevronDown, Puzzle, Users, Headphones, ShieldCheck } from "lucide-react";
 
@@ -64,6 +64,14 @@ const faqs = [
 export default function UpgradePage() {
   const router = useRouter();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [currentPlan, setCurrentPlan] = useState("free");
+
+  useEffect(() => {
+    fetch("/api/merchant/plan")
+      .then((r) => r.json())
+      .then((d) => { if (d?.plan) setCurrentPlan(d.plan); })
+      .catch(() => {});
+  }, []);
 
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto" }}>
@@ -79,20 +87,30 @@ export default function UpgradePage() {
 
       {/* Plan cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16, alignItems: "stretch", marginBottom: 40 }}>
-        {plans.map((plan) => (
+        {plans.map((plan) => {
+          const isCurrent = currentPlan === plan.id;
+          return (
           <div key={plan.id} style={{ display: "flex", flexDirection: "column" }}>
             <div style={{
               flex: 1, display: "flex", flexDirection: "column",
               borderRadius: 20, backgroundColor: "white", padding: 28,
-              border: plan.recommended ? "2px solid #111" : "1px solid rgba(10,10,10,0.06)",
-              boxShadow: plan.recommended ? "0 8px 30px rgba(0,0,0,0.08)" : "0 1px 3px rgba(0,0,0,0.02)",
+              border: isCurrent ? "2px solid rgb(16,185,129)" : plan.recommended ? "2px solid #111" : "1px solid rgba(10,10,10,0.06)",
+              boxShadow: isCurrent ? "0 8px 30px rgba(16,185,129,0.1)" : plan.recommended ? "0 8px 30px rgba(0,0,0,0.08)" : "0 1px 3px rgba(0,0,0,0.02)",
               position: "relative",
             }}>
               {/* Name + badge */}
               <div style={{ marginBottom: 20 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
                   <span style={{ fontSize: 20, fontWeight: 700, color: "rgba(10,10,10,0.9)", letterSpacing: "-0.2px" }}>{plan.name}</span>
-                  {plan.recommended && (
+                  {isCurrent && (
+                    <span style={{
+                      fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 99,
+                      backgroundColor: "rgba(16,185,129,0.1)", color: "rgb(5,150,105)",
+                    }}>
+                      Current Plan
+                    </span>
+                  )}
+                  {!isCurrent && plan.recommended && (
                     <span style={{
                       fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 99,
                       backgroundColor: "#111", color: "white",
@@ -112,19 +130,32 @@ export default function UpgradePage() {
               <p style={{ fontSize: 13, color: "rgba(10,10,10,0.45)", margin: "0 0 20px", lineHeight: 1.5 }}>{plan.desc}</p>
 
               {/* CTA */}
-              <button
-                onClick={() => router.push(`/dashboard/billing?plan=${plan.id}`)}
-                style={{
-                  width: "100%", padding: "12px 0", borderRadius: 12, border: "none",
-                  fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+              {isCurrent ? (
+                <div style={{
+                  width: "100%", padding: "12px 0", borderRadius: 12,
+                  fontSize: 14, fontWeight: 600, textAlign: "center",
                   marginBottom: 20,
-                  backgroundColor: plan.recommended ? "#111" : "rgba(10,10,10,0.04)",
-                  color: plan.recommended ? "white" : "rgba(10,10,10,0.7)",
-                  transition: "all 0.15s",
-                }}
-              >
-                {plan.cta}
-              </button>
+                  backgroundColor: "rgba(16,185,129,0.08)",
+                  color: "rgb(5,150,105)",
+                  border: "1px solid rgba(16,185,129,0.15)",
+                }}>
+                  ✓ Active
+                </div>
+              ) : (
+                <button
+                  onClick={() => router.push(`/dashboard/billing?plan=${plan.id}`)}
+                  style={{
+                    width: "100%", padding: "12px 0", borderRadius: 12, border: "none",
+                    fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+                    marginBottom: 20,
+                    backgroundColor: plan.recommended ? "#111" : "rgba(10,10,10,0.04)",
+                    color: plan.recommended ? "white" : "rgba(10,10,10,0.7)",
+                    transition: "all 0.15s",
+                  }}
+                >
+                  {plan.cta}
+                </button>
+              )}
 
               {/* Divider */}
               <div style={{ height: 1, backgroundColor: "rgba(10,10,10,0.06)", marginBottom: 16 }} />
@@ -143,7 +174,8 @@ export default function UpgradePage() {
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Enterprise banner */}
