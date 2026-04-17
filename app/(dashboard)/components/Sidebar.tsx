@@ -18,6 +18,9 @@ import {
   User,
   HelpCircle,
   CreditCard,
+  Sun,
+  Moon,
+  Monitor,
 } from "lucide-react";
 
 const navItems = [
@@ -30,6 +33,7 @@ const navItems = [
 function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
   const router = useRouter();
   const [profileOpen, setProfileOpen] = useState(false);
+  const [theme, setTheme] = useState("system");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [bizName, setBizName] = useState("");
 
@@ -138,6 +142,39 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}>
                   <Gift size={15} style={{ color: "rgba(10,10,10,0.4)" }} /> Send a Gift Card
                 </Link>
+
+                <div style={{ height: "1px", backgroundColor: "rgba(10,10,10,0.06)", margin: "2px 0" }} />
+
+                {/* Theme toggle */}
+                <div style={{ padding: "6px 12px" }}>
+                  <p style={{ margin: "0 0 6px", fontSize: "11px", fontWeight: 600, color: "rgba(10,10,10,0.35)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Theme</p>
+                  <div style={{ display: "flex", gap: "4px", backgroundColor: "rgba(10,10,10,0.04)", borderRadius: "8px", padding: "3px" }}>
+                    {([
+                      { id: "system", icon: Monitor, label: "System" },
+                      { id: "light", icon: Sun, label: "Light" },
+                      { id: "dark", icon: Moon, label: "Dark" },
+                    ] as const).map((t) => {
+                      const Icon = t.icon;
+                      return (
+                        <button
+                          key={t.id}
+                          onClick={() => setTheme(t.id)}
+                          style={{
+                            flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
+                            gap: "4px", padding: "5px 8px", borderRadius: "6px", border: "none",
+                            fontSize: "11px", fontWeight: 500, cursor: "pointer", fontFamily: "inherit",
+                            backgroundColor: theme === t.id ? "white" : "transparent",
+                            color: theme === t.id ? "rgba(10,10,10,0.9)" : "rgba(10,10,10,0.4)",
+                            boxShadow: theme === t.id ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
+                            transition: "all 0.15s",
+                          }}
+                        >
+                          <Icon size={12} /> {t.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
                 <div style={{ height: "1px", backgroundColor: "rgba(10,10,10,0.06)", margin: "2px 0" }} />
 

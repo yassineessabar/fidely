@@ -125,7 +125,7 @@ export default function EditCardPage() {
             <div>
               <div style={{ fontSize: "12px", fontWeight: 600, color: "rgb(22,101,52)", marginBottom: "4px" }}>Share URL</div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", backgroundColor: "white", padding: "8px 12px", borderRadius: "6px" }}>
-                <a href={publishResult.shareUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: "13px", color: "rgb(108,71,255)", fontFamily: "monospace", wordBreak: "break-all", textDecoration: "underline" }}>{publishResult.shareUrl}</a>
+                <a href={publishResult.shareUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: "13px", color: "rgba(10,10,10,0.9)", fontFamily: "monospace", wordBreak: "break-all", textDecoration: "underline" }}>{publishResult.shareUrl}</a>
                 <button onClick={() => navigator.clipboard.writeText(publishResult.shareUrl)} style={{ flexShrink: 0, padding: "4px 10px", fontSize: "11px", fontWeight: 600, backgroundColor: "rgb(243,242,238)", border: "1px solid rgb(228,227,223)", borderRadius: "6px", cursor: "pointer", color: "rgb(97,95,109)", fontFamily: "inherit" }}>Copy</button>
               </div>
             </div>

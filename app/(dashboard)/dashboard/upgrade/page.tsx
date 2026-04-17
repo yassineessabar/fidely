@@ -274,7 +274,7 @@ export default function UpgradePage() {
                   padding: "12px",
                   borderRadius: 12,
                   border: "none",
-                  backgroundColor: "rgb(108,71,255)",
+                  backgroundColor: "#0a0a0a",
                   color: "#fff",
                   fontSize: 14,
                   fontWeight: 600,

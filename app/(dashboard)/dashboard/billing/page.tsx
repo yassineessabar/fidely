@@ -88,8 +88,8 @@ export default function BillingPage() {
               borderRadius: 99,
               fontSize: 11,
               fontWeight: 600,
-              backgroundColor: "rgba(108,71,255,0.1)",
-              color: "rgb(108,71,255)",
+              backgroundColor: "rgba(10,10,10,0.08)",
+              color: "rgba(10,10,10,0.9)",
               letterSpacing: "0.02em",
             }}
           >
@@ -202,7 +202,7 @@ export default function BillingPage() {
                       width: 8,
                       height: 8,
                       borderRadius: "50%",
-                      backgroundColor: "rgb(108,71,255)",
+                      backgroundColor: "#0a0a0a",
                     }}
                   />
                 )}
@@ -274,7 +274,7 @@ export default function BillingPage() {
                       width: 8,
                       height: 8,
                       borderRadius: "50%",
-                      backgroundColor: "rgb(108,71,255)",
+                      backgroundColor: "#0a0a0a",
                     }}
                   />
                 )}
