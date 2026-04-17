@@ -262,33 +262,24 @@ export default function OnboardingPage() {
                                 position: "absolute", inset: 0,
                                 background: `linear-gradient(transparent 20%, ${t.backgroundColor}cc 100%)`,
                               }} />
-                              {/* Stamp emojis with checkmarks */}
+                              {/* Stamp emojis — big, no background, like real wallet */}
                               <div style={{
-                                position: "absolute", bottom: 4, left: 0, right: 0,
-                                display: "flex", justifyContent: "center", gap: 2, padding: "0 6px", flexWrap: "wrap",
+                                position: "absolute", bottom: 2, left: 0, right: 0,
+                                display: "flex", justifyContent: "center", gap: 1, padding: "0 4px", flexWrap: "wrap",
                               }}>
                                 {Array.from({ length: Math.min(t.mockStamps, 10) }).map((_, i) => (
                                   <div key={i} style={{
-                                    width: 16, height: 16, borderRadius: 4,
-                                    backgroundColor: i < 3 ? `${t.accentColor}cc` : `${t.primaryColor}10`,
+                                    width: 18, height: 18,
                                     display: "flex", alignItems: "center", justifyContent: "center",
-                                    position: "relative", fontSize: 8,
+                                    position: "relative",
                                   }}>
-                                    {i < 3 ? (
-                                      <>
-                                        <span style={{ fontSize: 9 }}>{t.stampEmoji}</span>
-                                        <div style={{
-                                          position: "absolute", bottom: -2, right: -2,
-                                          width: 7, height: 7, borderRadius: "50%",
-                                          backgroundColor: "rgb(16,185,129)",
-                                          display: "flex", alignItems: "center", justifyContent: "center",
-                                        }}>
-                                          <span style={{ fontSize: 5, color: "white", fontWeight: 900 }}>✓</span>
-                                        </div>
-                                      </>
-                                    ) : (
-                                      <span style={{ fontSize: 9, opacity: 0.3 }}>{t.stampEmoji}</span>
-                                    )}
+                                    <span style={{
+                                      fontSize: 14, lineHeight: 1,
+                                      opacity: i < 3 ? 1 : 0.2,
+                                      filter: i >= 3 ? "grayscale(1)" : "none",
+                                    }}>
+                                      {t.stampEmoji}
+                                    </span>
                                   </div>
                                 ))}
                               </div>
