@@ -13,6 +13,10 @@ const pageTitles: Record<string, string> = {
   "/dashboard/notifications": "Notifications",
   "/dashboard/billing": "Billing",
   "/dashboard/settings": "Settings",
+  "/dashboard/profile": "Profile",
+  "/dashboard/upgrade": "Upgrade",
+  "/dashboard/help": "Help & Support",
+  "/dashboard/gift": "Gift Cards",
 };
 
 export default function DashboardLayout({

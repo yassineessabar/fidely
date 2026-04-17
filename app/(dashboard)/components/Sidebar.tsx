@@ -118,26 +118,26 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
 
                 <div style={{ height: "1px", backgroundColor: "rgba(10,10,10,0.06)", margin: "2px 0" }} />
 
-                <Link href="/dashboard/settings" onClick={() => { setProfileOpen(false); onNavClick?.(); }} style={menuItem}
+                <Link href="/dashboard/profile" onClick={() => { setProfileOpen(false); onNavClick?.(); }} style={menuItem}
                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.04)"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}>
                   <User size={15} style={{ color: "rgba(10,10,10,0.4)" }} /> Profile
                 </Link>
-                <Link href="/dashboard/billing" onClick={() => { setProfileOpen(false); onNavClick?.(); }} style={menuItem}
+                <Link href="/dashboard/upgrade" onClick={() => { setProfileOpen(false); onNavClick?.(); }} style={menuItem}
                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.04)"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}>
                   <Gem size={15} style={{ color: "rgba(10,10,10,0.4)" }} /> Upgrade Plan
                 </Link>
-                <Link href="/help" onClick={() => { setProfileOpen(false); onNavClick?.(); }} style={menuItem}
+                <Link href="/dashboard/help" onClick={() => { setProfileOpen(false); onNavClick?.(); }} style={menuItem}
                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.04)"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}>
                   <HelpCircle size={15} style={{ color: "rgba(10,10,10,0.4)" }} /> Help
                 </Link>
-                <button style={menuItem}
+                <Link href="/dashboard/gift" onClick={() => { setProfileOpen(false); onNavClick?.(); }} style={menuItem}
                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.04)"; }}
                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}>
                   <Gift size={15} style={{ color: "rgba(10,10,10,0.4)" }} /> Send a Gift Card
-                </button>
+                </Link>
 
                 <div style={{ height: "1px", backgroundColor: "rgba(10,10,10,0.06)", margin: "2px 0" }} />
 
@@ -282,7 +282,7 @@ export default function Sidebar({
       {/* Upgrade banner */}
       <div style={{ padding: "8px 14px 0", minWidth: "260px" }}>
         <Link
-          href="/dashboard/billing"
+          href="/dashboard/upgrade"
           onClick={onNavClick}
           style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",
