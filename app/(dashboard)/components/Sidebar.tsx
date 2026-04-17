@@ -424,13 +424,21 @@ export default function Sidebar({
             onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)"; }}
           >
-            <div>
+            <div style={{ flex: 1 }}>
               <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.8)" }}>
                 {plan.charAt(0).toUpperCase() + plan.slice(1)} Plan
               </p>
-              <p style={{ margin: "3px 0 0", fontSize: "11px", color: "rgba(16,185,129,0.8)", fontWeight: 500 }}>Active</p>
+              {plan === "starter" ? (
+                <p style={{ margin: "3px 0 0", fontSize: "11px", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>Upgrade to Growth</p>
+              ) : (
+                <p style={{ margin: "3px 0 0", fontSize: "11px", color: "rgba(16,185,129,0.8)", fontWeight: 500 }}>Active</p>
+              )}
             </div>
-            <div style={{ width: 8, height: 8, borderRadius: 99, backgroundColor: "rgb(16,185,129)" }} />
+            {plan === "starter" ? (
+              <Gem size={16} style={{ color: "rgba(255,255,255,0.25)" }} />
+            ) : (
+              <div style={{ width: 8, height: 8, borderRadius: 99, backgroundColor: "rgb(16,185,129)" }} />
+            )}
           </Link>
         )}
       </div>
