@@ -315,6 +315,10 @@ html { scroll-behavior: smooth; }
   .dash-sidebar-wrap .dash-nav-label,
   .dash-sidebar-wrap .dash-upgrade-banner,
   .dash-sidebar-wrap .dash-bottom-name { display: none !important; }
+  /* Override minWidth on inner elements */
+  .dash-sidebar-wrap .dash-logo-area,
+  .dash-sidebar-wrap nav,
+  .dash-sidebar-wrap .dash-bottom-bar { min-width: 0 !important; }
   /* Center nav icons */
   .dash-sidebar-wrap nav a {
     justify-content: center !important;
