@@ -305,6 +305,58 @@ html { scroll-behavior: smooth; }
   .footer-grid { grid-template-columns: 1fr !important; }
 }
 
+/* ========== DASHBOARD DARK MODE ========== */
+html.dark .dash-main {
+  background-color: #0a0a0a !important;
+  color: #fafafa !important;
+}
+html.dark .dash-main header {
+  background-color: #0a0a0a !important;
+  border-bottom-color: rgba(255,255,255,0.06) !important;
+}
+html.dark .dash-main header h1 {
+  color: rgba(255,255,255,0.8) !important;
+}
+html.dark .dash-main main {
+  background-color: #0a0a0a !important;
+}
+html.dark .dash-main main > div {
+  color: #fafafa !important;
+}
+/* Dark mode cards */
+html.dark .dash-main [style*="backgroundColor: \"#fff\""],
+html.dark .dash-main [style*="backgroundColor: \"white\""] {
+  background-color: #141414 !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+/* Generic dark overrides via data attribute */
+html.dark .dash-main h1,
+html.dark .dash-main h2,
+html.dark .dash-main h3 {
+  color: rgba(255,255,255,0.9) !important;
+}
+html.dark .dash-main p,
+html.dark .dash-main span,
+html.dark .dash-main div,
+html.dark .dash-main label,
+html.dark .dash-main td,
+html.dark .dash-main th {
+  color: inherit;
+}
+html.dark .dash-main table {
+  color: rgba(255,255,255,0.7) !important;
+}
+html.dark .dash-main input,
+html.dark .dash-main textarea,
+html.dark .dash-main select {
+  background-color: rgba(255,255,255,0.04) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+html.dark .dash-main button {
+  color: inherit;
+}
+
 /* ========== DASHBOARD ========== */
 @media (max-width: 768px) {
   /* Force sidebar to icon-only on mobile */

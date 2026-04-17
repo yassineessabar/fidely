@@ -32,7 +32,15 @@ const navItems = [
 function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
   const router = useRouter();
   const [profileOpen, setProfileOpen] = useState(false);
-  const [theme, setTheme] = useState("system");
+  const [theme, setTheme] = useState("light");
+
+  useEffect(() => {
+    const saved = localStorage.getItem("kyro-theme");
+    if (saved === "dark") {
+      setTheme("dark");
+      document.documentElement.classList.add("dark");
+    }
+  }, []);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [bizName, setBizName] = useState("");
 
@@ -150,6 +158,7 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
                     const next = theme === "dark" ? "light" : "dark";
                     setTheme(next);
                     document.documentElement.classList.toggle("dark", next === "dark");
+                    localStorage.setItem("kyro-theme", next);
                   }}
                   style={menuItem}
                   onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.04)"; }}
