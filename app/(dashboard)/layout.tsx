@@ -51,10 +51,6 @@ export default function DashboardLayout({
     pathname.startsWith("/dashboard/loyalty/") ? "Edit Card" : "Dashboard"
   );
 
-  if (!ready) {
-    return <div style={{ minHeight: "100vh", backgroundColor: "white" }} />;
-  }
-
   return (
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "white", fontFamily: "var(--font-geist-sans), Arial, sans-serif" }}>
       {/* Mobile overlay */}
@@ -97,7 +93,9 @@ export default function DashboardLayout({
         className="dash-main"
       >
         <DashHeader title={title} onMenuClick={() => setMobileOpen(true)} />
-        <main style={{ flex: 1, padding: "28px 32px", backgroundColor: "#fafafa", minHeight: 0 }}>{children}</main>
+        <main style={{ flex: 1, padding: "28px 32px", backgroundColor: "#fafafa", minHeight: 0 }}>
+          {ready ? children : null}
+        </main>
       </div>
     </div>
   );
