@@ -125,6 +125,25 @@ export async function GET(
       return NextResponse.json({ error: "Card not found" }, { status: 404 });
     }
 
+    // Check for birthday offer
+    let birthdayOffer: string | undefined;
+    let relevantDate: string | undefined;
+    const today = new Date();
+    if (e.customer_dob) {
+      const dob = new Date(e.customer_dob);
+      const logic = (card as any).logic || {};
+      if (
+        logic.birthdayEnabled &&
+        dob.getMonth() === today.getMonth() &&
+        dob.getDate() === today.getDate()
+      ) {
+        birthdayOffer = logic.birthdayOffer || "Happy Birthday!";
+        relevantDate = new Date(
+          today.getFullYear(), today.getMonth(), today.getDate(), 7, 0, 0
+        ).toISOString();
+      }
+    }
+
     const template = enrollmentToPassTemplate(card as any, {
       id: e.id,
       membership_code: e.membership_code,
@@ -132,7 +151,7 @@ export async function GET(
       stamps_collected: e.stamps_collected,
       points_balance: e.points_balance,
       auth_token: e.auth_token,
-    });
+    }, { birthdayOffer, relevantDate });
 
     try {
       const buffer = await generateApplePass(template);
