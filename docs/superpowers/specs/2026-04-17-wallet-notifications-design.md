@@ -12,11 +12,15 @@ Add three notification mechanisms to Apple Wallet passes: location-based geo-fen
 - Pass appears on lock screen with `relevantText` message (e.g., "Welcome back to Sonoma! ☕")
 - Requires merchant to enter shop address in card builder → auto-geocoded to coordinates
 
-### 2. Birthday
-- Daily cron checks `card_enrollments.customer_dob` against today's date
-- On match: regenerate pass with `relevantDate` set to 7am that day, change auxiliary field to "HAPPY BIRTHDAY 🎂", send APNs push
-- Pass surfaces on lock screen that morning
-- Field reverts to normal the next day (next pass refresh)
+### 2. Birthday Campaign (merchant-configured, not automatic)
+- Merchant enables birthday offers in card settings and configures:
+  - Offer text (e.g., "Free coffee on your birthday!")
+  - Whether it's a free stamp, bonus points, or just a message
+- Daily cron checks enrollments where `customer_dob` month+day = today AND the card has a birthday campaign enabled
+- Only sends if the merchant has configured a birthday offer — no generic "Happy Birthday" spam
+- On match: regenerate pass with `relevantDate` + offer shown on pass, send APNs push
+- Pass surfaces on lock screen that morning with the actual offer visible
+- Member sees the offer, visits the shop to redeem
 
 ### 3. Expiry Reminder
 - Daily cron checks passes expiring in 7 days
@@ -56,7 +60,7 @@ CREATE INDEX idx_notifications_pending ON public.card_notifications(status, sche
 
 ### Modified: `loyalty_cards.business_details` JSONB
 
-Add fields (no migration needed — JSONB is flexible):
+Add location fields (no migration needed — JSONB is flexible):
 ```json
 {
   "address": "123 Main St, Sydney NSW 2000",
@@ -64,6 +68,18 @@ Add fields (no migration needed — JSONB is flexible):
   "longitude": 151.2093
 }
 ```
+
+### Modified: `loyalty_cards.logic` JSONB
+
+Add birthday campaign config:
+```json
+{
+  "birthdayEnabled": true,
+  "birthdayOffer": "Free coffee on your birthday!",
+  "birthdayRewardType": "message"
+}
+```
+`birthdayRewardType` options: `"message"` (just show offer text), `"stamp"` (auto-add a free stamp), `"points"` (auto-add bonus points with `birthdayPointsAmount`).
 
 ### No changes to existing tables
 - `card_enrollments` — birthday from existing `customer_dob`
@@ -84,13 +100,13 @@ Add fields (no migration needed — JSONB is flexible):
 }
 ```
 
-### Birthday (temporary, day-of only)
+### Birthday Campaign (temporary, day-of only, only if merchant enabled)
 ```json
 {
   "relevantDate": "2026-04-17T07:00+10:00"
 }
 ```
-Auxiliary field changes from `{ label: "MEMBER", value: "Jane" }` to `{ label: "HAPPY BIRTHDAY 🎂", value: "Jane" }`.
+Auxiliary field changes from `{ label: "MEMBER", value: "Jane" }` to `{ label: "🎂 BIRTHDAY OFFER", value: "Free coffee on your birthday!" }`. Reverts the next day.
 
 ### Expiry (7 days before)
 ```json
@@ -105,7 +121,7 @@ Auxiliary field changes from `{ label: "MEMBER", value: "Jane" }` to `{ label: "
 - `GET /api/cron/notifications` — secured with `CRON_SECRET` header
 - Runs daily at 7am AEST via Vercel Cron
 - Steps:
-  1. Find enrollments with birthday today → regenerate pass + APNs push
+  1. Find enrollments where birthday = today AND card has `logic.birthdayEnabled = true` → apply birthday offer to pass + APNs push. If `birthdayRewardType` is `"stamp"` or `"points"`, auto-credit the reward.
   2. Find enrollments with pass expiring in 7 days → set relevantDate + APNs push
   3. Find pending `card_notifications` where `scheduled_at <= now()` → update passes + APNs push + mark sent
 
@@ -130,8 +146,9 @@ Auxiliary field changes from `{ label: "MEMBER", value: "Jane" }` to `{ label: "
 ### Card Builder
 - New "Shop Address" text input field
 - On blur/submit: auto-geocode via `/api/admin/geocode`
-- Show confirmation: "📍 Location set: Sydney NSW" or error
+- Show confirmation: "Location set: Sydney NSW" or error
 - Coordinates saved in `business_details.latitude` / `business_details.longitude`
+- New "Birthday Campaign" toggle + offer text field + reward type selector (Message only / Free stamp / Bonus points)
 
 ### Card Dashboard — Notification Section
 - "Send Notification" card with:
