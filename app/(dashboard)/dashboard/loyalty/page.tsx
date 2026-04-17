@@ -248,14 +248,21 @@ export default function LinksPage() {
                     {/* Card info row */}
                     <div style={{ padding: "16px 18px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                        <div style={{
-                          width: 46, height: 46, borderRadius: 12, flexShrink: 0,
-                          background: `linear-gradient(135deg, ${br.backgroundColor || "#111"}, ${br.accentColor || "#6C47FF"})`,
-                          display: "flex", alignItems: "center", justifyContent: "center",
-                          boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-                        }}>
-                          <span style={{ fontSize: 20 }}>{br.stampEmoji || "☕"}</span>
-                        </div>
+                        {br.logoUrl ? (
+                          <img src={br.logoUrl} alt="" style={{
+                            width: 46, height: 46, borderRadius: 12, flexShrink: 0,
+                            objectFit: "cover", boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                          }} />
+                        ) : (
+                          <div style={{
+                            width: 46, height: 46, borderRadius: 12, flexShrink: 0,
+                            background: `linear-gradient(135deg, ${br.backgroundColor || "#111"}, ${br.accentColor || "#6C47FF"})`,
+                            display: "flex", alignItems: "center", justifyContent: "center",
+                            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                          }}>
+                            <span style={{ fontSize: 20 }}>{br.stampEmoji || "☕"}</span>
+                          </div>
+                        )}
                         <div>
                           <div style={{ fontSize: 15, fontWeight: 600, color: "rgba(10,10,10,0.9)", marginBottom: 2 }}>{card.business_details?.name || card.name}</div>
                           <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "rgba(10,10,10,0.4)" }}>
