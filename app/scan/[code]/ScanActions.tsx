@@ -101,7 +101,7 @@ export default function ScanActions({
       } else if (action === "points") {
         setMessage(`+${data.points_added} points added!`);
       } else if (action === "redeem") {
-        setMessage(data.reward ? `Redeemed: ${data.reward}` : "Redeemed successfully!");
+        setMessage(data.reward ? `✅ Redeemed: ${data.reward} — Card reset to 0` : "Redeemed successfully!");
       }
     } catch {
       setMessage("Network error");
