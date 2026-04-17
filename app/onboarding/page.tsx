@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { businessTypes, getThemesForType, OnboardingTheme } from "@/lib/onboarding-themes";
 import { Coffee, UtensilsCrossed, Cake, Scissors, Sparkles, Dumbbell, ShoppingBag, Store, ArrowLeft, ArrowRight, Check, CreditCard, Palette } from "lucide-react";
 
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 6;
 
 // Realistic 25x25 QR code pattern
 const QR_PATTERN = [
@@ -99,10 +99,11 @@ export default function OnboardingPage() {
   const progress = step / TOTAL_STEPS;
 
   const canContinue = () => {
-    if (step === 1) return !!data.businessType;
-    if (step === 2) return !!data.cardType;
-    if (step === 3) return !!data.theme;
-    if (step === 4) return !!data.name;
+    if (step === 1) return !!data.name.trim();
+    if (step === 2) return !!data.businessType;
+    if (step === 3) return !!data.cardType;
+    if (step === 4) return !!data.theme;
+    if (step === 5) return true;
     return true;
   };
 
@@ -177,10 +178,78 @@ export default function OnboardingPage() {
 
       {/* Content */}
       <div style={{ flex: 1, display: "flex", justifyContent: "center", padding: "40px 24px 120px" }}>
-        <div style={{ width: "100%", maxWidth: step === 3 ? 800 : step === 4 ? 900 : 640 }}>
+        <div style={{ width: "100%", maxWidth: step === 4 ? 800 : step === 5 ? 900 : 640 }}>
 
-          {/* Step 1: Business Type */}
-          {step === 1 && (() => {
+          {/* Step 1: Business Name + Logo */}
+          {step === 1 && (
+            <div style={{ animation: "fadeInUp 0.5s ease" }}>
+              <h1 style={{ fontSize: 30, fontWeight: 800, color: "rgba(0,0,0,0.9)", margin: "0 0 16px", textAlign: "center", letterSpacing: "-0.45px" }}>
+                What&apos;s your business called?
+              </h1>
+              <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)", textAlign: "center", margin: "0 0 36px", letterSpacing: "0.16px" }}>
+                This will appear on your loyalty card
+              </p>
+              <div style={{ maxWidth: 440, margin: "0 auto", display: "flex", flexDirection: "column", gap: 28 }}>
+                <div>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                    Business Name
+                  </label>
+                  <input
+                    value={data.name}
+                    onChange={(e) => setData({ ...data, name: e.target.value })}
+                    placeholder="e.g. Bean & Grind"
+                    autoFocus
+                    style={{
+                      width: "100%", padding: "16px 18px", borderRadius: 14,
+                      border: "1.5px solid rgba(10,10,10,0.1)", fontSize: 17, fontFamily: "inherit",
+                      color: "rgba(10,10,10,0.9)", outline: "none", boxSizing: "border-box",
+                      textAlign: "center", fontWeight: 600,
+                    }}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                    Logo <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "rgba(10,10,10,0.3)" }}>(optional)</span>
+                  </label>
+                  <div style={{ display: "flex", alignItems: "center", gap: 16, justifyContent: "center" }}>
+                    <div style={{
+                      width: 80, height: 80, borderRadius: 20, overflow: "hidden",
+                      backgroundColor: "rgba(10,10,10,0.04)", border: "1.5px dashed rgba(10,10,10,0.15)",
+                      display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                    }}>
+                      {data.logoUrl ? (
+                        <img src={data.logoUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      ) : (
+                        <span style={{ fontSize: 28, color: "rgba(10,10,10,0.15)" }}>+</span>
+                      )}
+                    </div>
+                    <div>
+                      <label style={{
+                        display: "inline-block", padding: "10px 20px", borderRadius: 10,
+                        border: "1px solid rgba(10,10,10,0.1)", backgroundColor: "white",
+                        fontSize: 13, fontWeight: 500, color: "rgba(10,10,10,0.7)",
+                        cursor: "pointer", fontFamily: "inherit",
+                      }}>
+                        Upload logo
+                        <input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            const reader = new FileReader();
+                            reader.onload = (ev) => setData({ ...data, logoUrl: ev.target?.result as string });
+                            reader.readAsDataURL(file);
+                          }
+                        }} />
+                      </label>
+                      <p style={{ fontSize: 11, color: "rgba(10,10,10,0.3)", margin: "4px 0 0" }}>Square, 200x200px+</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Step 2: Business Type */}
+          {step === 2 && (() => {
             const bizImages: Record<string, string> = {
               cafe: "/images/brands/biz-cafe.png",
               restaurant: "/images/brands/biz-sushi.png",
@@ -261,8 +330,8 @@ export default function OnboardingPage() {
             );
           })()}
 
-          {/* Step 3: Theme — tall phone-shaped card previews */}
-          {step === 3 && (
+          {/* Step 4: Theme — tall phone-shaped card previews */}
+          {step === 4 && (
             <div style={{ animation: "fadeInUp 0.5s ease" }}>
               <div style={{ textAlign: "center", marginBottom: 32 }}>
                 <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 56, height: 56, borderRadius: 16, backgroundColor: "rgba(10,10,10,0.03)", marginBottom: 16 }}>
@@ -433,8 +502,8 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          {/* Step 2: Card Type */}
-          {step === 2 && (
+          {/* Step 3: Card Type */}
+          {step === 3 && (
             <div style={{ animation: "fadeInUp 0.5s ease" }}>
               <h1 style={{ fontSize: 30, fontWeight: 800, color: "rgba(0,0,0,0.9)", margin: "0 0 16px", textAlign: "center", letterSpacing: "-0.45px" }}>
                 What are your goals?
@@ -482,33 +551,17 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          {/* Step 4: Business Details — name, logo, banner + iPhone preview */}
-          {step === 4 && (
+          {/* Step 5: Card Details — card name, emoji, banner + iPhone preview */}
+          {step === 5 && (
             <div className="onboard-step4-layout" style={{ animation: "fadeInUp 0.5s ease", display: "flex", gap: 48 }}>
               <div style={{ flex: 1, minWidth: 0 }}>
                 <h1 style={{ fontSize: 30, fontWeight: 800, color: "rgba(0,0,0,0.9)", margin: "0 0 16px", letterSpacing: "-0.45px" }}>
                   Customize your card
                 </h1>
                 <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)", margin: "0 0 32px" }}>
-                  Add your business name, logo, and banner image
+                  Add a banner image and fine-tune your card
                 </p>
                 <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-                  <div>
-                    <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                      Business Name
-                    </label>
-                    <input
-                      value={data.name}
-                      onChange={(e) => setData({ ...data, name: e.target.value })}
-                      placeholder="e.g. Bean & Grind"
-                      style={{
-                        width: "100%", padding: "14px 16px", borderRadius: 12,
-                        border: "1.5px solid rgba(10,10,10,0.1)", fontSize: 15, fontFamily: "inherit",
-                        color: "rgba(10,10,10,0.9)", outline: "none", boxSizing: "border-box",
-                      }}
-                    />
-                  </div>
-
                   {/* Card Name */}
                   <div>
                     <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>
@@ -549,45 +602,6 @@ export default function OnboardingPage() {
                       </div>
                     </div>
                   )}
-
-                  {/* Logo upload */}
-                  <div>
-                    <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                      Logo
-                    </label>
-                    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                      <div style={{
-                        width: 72, height: 72, borderRadius: 14, overflow: "hidden",
-                        backgroundColor: "rgba(10,10,10,0.04)", border: "1.5px dashed rgba(10,10,10,0.15)",
-                        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-                      }}>
-                        {data.logoUrl ? (
-                          <img src={data.logoUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                        ) : (
-                          <span style={{ fontSize: 24, color: "rgba(10,10,10,0.2)" }}>+</span>
-                        )}
-                      </div>
-                      <div>
-                        <label style={{
-                          display: "inline-block", padding: "8px 16px", borderRadius: 8,
-                          border: "1px solid rgba(10,10,10,0.1)", backgroundColor: "white",
-                          fontSize: 13, fontWeight: 500, color: "rgba(10,10,10,0.7)",
-                          cursor: "pointer", fontFamily: "inherit",
-                        }}>
-                          Upload logo
-                          <input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                              const reader = new FileReader();
-                              reader.onload = (ev) => setData({ ...data, logoUrl: ev.target?.result as string });
-                              reader.readAsDataURL(file);
-                            }
-                          }} />
-                        </label>
-                        <p style={{ fontSize: 11, color: "rgba(10,10,10,0.3)", margin: "4px 0 0" }}>Square image, 200x200px or larger</p>
-                      </div>
-                    </div>
-                  </div>
 
                   {/* Banner upload */}
                   <div>
@@ -746,8 +760,8 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          {/* Step 5: Success — iPhone mockup with confetti */}
-          {step === 5 && (() => {
+          {/* Step 6: Success — iPhone mockup with confetti */}
+          {step === 6 && (() => {
             const t = data.theme;
             return (
             <div style={{ animation: "fadeInUp 0.5s ease", position: "relative" }}>
@@ -890,8 +904,8 @@ export default function OnboardingPage() {
       </div>
 
       {/* Bottom navigation */}
-      {/* Step 5: auto-redirects after 4s, no button needed */}
-      {step < 5 && (
+      {/* Step 6: auto-redirects after 4s, no button needed */}
+      {step < 6 && (
         <div style={{
           position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 10,
           background: "linear-gradient(transparent, white 30%)", padding: "40px 24px 24px",
@@ -914,10 +928,10 @@ export default function OnboardingPage() {
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <button
                 onClick={() => {
-                  if (step === 4) {
+                  if (step === 5) {
                     handleFinish().then((ok) => {
                       if (ok) {
-                        setStep(5);
+                        setStep(6);
                         setTimeout(() => router.push("/dashboard/loyalty"), 4000);
                       }
                     });
@@ -935,7 +949,7 @@ export default function OnboardingPage() {
                   fontFamily: "inherit", opacity: creating ? 0.7 : 1,
                 }}
               >
-                {creating ? "Creating..." : step === 4 ? "Create Card" : "Continue"} {!creating && step < 4 && <ArrowRight size={16} />}
+                {creating ? "Creating..." : step === 5 ? "Create Card" : "Continue"} {!creating && step < 5 && <ArrowRight size={16} />}
               </button>
             </div>
           </div>
