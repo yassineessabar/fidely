@@ -73,16 +73,28 @@ export default function UpgradePage() {
       .catch(() => {});
   }, []);
 
+  const hasActivePlan = currentPlan !== "free";
+
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto" }}>
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: 40 }}>
         <h1 style={{ fontSize: 28, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 8px", letterSpacing: "-0.3px" }}>
-          Choose the plan that&apos;s right for you
+          {hasActivePlan ? "Manage your plan" : "Choose the plan that\u0027s right for you"}
         </h1>
         <p style={{ fontSize: 15, color: "rgba(10,10,10,0.4)", margin: 0 }}>
-          Start free, upgrade when you&apos;re ready
+          {hasActivePlan ? `You\u0027re on the ${currentPlan.charAt(0).toUpperCase() + currentPlan.slice(1)} plan` : "Start free, upgrade when you\u0027re ready"}
         </p>
+        {hasActivePlan && (
+          <button onClick={() => router.push("/dashboard/billing")} style={{
+            marginTop: 16, padding: "10px 24px", borderRadius: 12,
+            border: "1px solid rgba(10,10,10,0.1)", backgroundColor: "white",
+            fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+            color: "rgba(10,10,10,0.7)",
+          }}>
+            Manage Subscription
+          </button>
+        )}
       </div>
 
       {/* Plan cards */}
