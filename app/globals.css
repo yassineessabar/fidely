@@ -305,42 +305,24 @@ html { scroll-behavior: smooth; }
 }
 
 /* ========== DASHBOARD ========== */
-@media (max-width: 900px) {
-  /* Force sidebar to icon-only on mobile */
-  .dash-sidebar-wrap { display: block !important; }
-  .dash-sidebar-wrap aside {
-    width: 72px !important;
-    overflow: hidden !important;
-  }
-  .dash-sidebar-wrap .dash-nav-label,
-  .dash-sidebar-wrap .dash-collapse-btn,
-  .dash-sidebar-wrap .dash-close-btn {
-    display: none !important;
-  }
-  .dash-sidebar-wrap nav a {
-    justify-content: center !important;
-    padding: 10px 0 !important;
-  }
-  .dash-sidebar-wrap aside > div:first-child {
-    justify-content: center !important;
-    padding: 20px 0 !important;
-  }
-  .dash-sidebar-mobile { display: none !important; }
-  .dash-main { margin-left: 72px !important; }
-  .dash-menu-btn { display: none !important; }
-  .dash-search { display: none !important; }
-  .dash-kpi-grid { grid-template-columns: 1fr 1fr !important; }
-  .dash-chart-grid { grid-template-columns: 1fr !important; }
-  .dash-table-wrap { overflow-x: auto; }
-}
-@media (max-width: 500px) {
-  .dash-kpi-grid { grid-template-columns: 1fr !important; }
+@media (max-width: 768px) {
+  /* Hide desktop sidebar on mobile */
+  .dash-sidebar-wrap { display: none !important; }
+  /* Show mobile drawer */
+  .dash-sidebar-mobile { display: block !important; }
+  /* Show close button inside mobile drawer */
+  .dash-sidebar-mobile .dash-close-btn { display: flex !important; }
+  /* Reset margin since sidebar is hidden */
+  .dash-main { margin-left: 0 !important; }
+  /* Show hamburger menu button */
+  .dash-menu-btn { display: flex !important; }
 }
 
-/* ========== DASHBOARD — Small mobile ========== */
-@media (max-width: 500px) {
-  .dash-main { padding: 0 !important; }
+@media (max-width: 640px) {
   .dash-main > main { padding: 16px !important; }
+  .dash-grid-responsive { grid-template-columns: 1fr !important; }
+  .dash-flex-responsive { flex-direction: column !important; }
+  .dash-hide-mobile { display: none !important; }
 }
 
 /* ========== ADMIN PANEL ========== */

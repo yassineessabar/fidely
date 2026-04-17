@@ -95,7 +95,7 @@ export default function GiftPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "1fr 360px",
+              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
               gap: 24,
               alignItems: "start",
             }}

@@ -205,7 +205,7 @@ export default function ProfilePage() {
       {activeTab === "overview" && (
         <div style={{ display: "flex", flexDirection: "column" as const, gap: "20px" }}>
           {/* Quick Stats */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "16px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "16px" }}>
             {[
               { label: "Active Cards", value: stats?.active_cards ?? stats?.totalCards ?? "—" },
               { label: "Total Members", value: stats?.total_members ?? stats?.totalMembers ?? stats?.totalCustomers ?? "—" },
@@ -250,7 +250,7 @@ export default function ProfilePage() {
             >
               Business Information
             </h2>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
               <div>
                 <label style={labelStyle}>Business Name</label>
                 <input style={inputStyle} value={business?.name || ""} readOnly />
@@ -360,7 +360,7 @@ export default function ProfilePage() {
                 borderRadius: "10px",
                 padding: "16px",
                 display: "grid",
-                gridTemplateColumns: "1fr 1fr",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
                 gap: "12px",
                 marginBottom: "20px",
               }}
