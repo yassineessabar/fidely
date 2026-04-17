@@ -25,20 +25,12 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Persist sidebar state
+  // Clear any stale localStorage that hides the sidebar
   useEffect(() => {
-    const saved = localStorage.getItem("kyro-sidebar-open");
-    if (saved === "false") setCollapsed(true);
+    localStorage.removeItem("kyro-sidebar-open");
   }, []);
-
-  const handleToggle = () => {
-    const next = !collapsed;
-    setCollapsed(next);
-    localStorage.setItem("kyro-sidebar-open", next ? "false" : "true");
-  };
 
   const title = pageTitles[pathname] || (pathname.startsWith("/dashboard/loyalty/") ? "Edit Card" : "Dashboard");
 
@@ -55,7 +47,7 @@ export default function DashboardLayout({
 
       {/* Sidebar — desktop */}
       <div className="dash-sidebar-wrap">
-        <Sidebar collapsed={collapsed} onToggle={handleToggle} />
+        <Sidebar collapsed={false} onToggle={() => {}} />
       </div>
 
       {/* Sidebar — mobile drawer */}
@@ -75,7 +67,7 @@ export default function DashboardLayout({
       <div
         style={{
           flex: 1,
-          marginLeft: collapsed ? "0px" : "260px",
+          marginLeft: "260px",
           transition: "margin-left 260ms cubic-bezier(0.31, 0.1, 0.08, 0.96)",
           display: "flex",
           flexDirection: "column",
@@ -83,7 +75,7 @@ export default function DashboardLayout({
         }}
         className="dash-main"
       >
-        <DashHeader title={title} onMenuClick={() => { if (collapsed) { setCollapsed(false); localStorage.setItem("kyro-sidebar-open", "true"); } else { setMobileOpen(true); } }} />
+        <DashHeader title={title} onMenuClick={() => setMobileOpen(true)} />
         <main style={{ flex: 1, padding: "24px 28px", backgroundColor: "white" }}>{children}</main>
       </div>
     </div>
