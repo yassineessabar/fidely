@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useRef, useEffect, FormEvent } from "react";
+import { DayPicker } from "react-day-picker";
+import { format } from "date-fns";
 
 function useIsApple() {
   const [isApple, setIsApple] = useState(true);
@@ -42,12 +44,28 @@ export default function EnrollForm({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [dob, setDob] = useState("");
+  const [dob, setDob] = useState<Date | undefined>(undefined);
+  const [dobOpen, setDobOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [dobError, setDobError] = useState("");
   const isApple = useIsApple();
   const formRef = useRef<HTMLFormElement>(null);
+  const dobRef = useRef<HTMLDivElement>(null);
+
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dobRef.current && !dobRef.current.contains(e.target as Node)) {
+        setDobOpen(false);
+      }
+    }
+    if (dobOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [dobOpen]);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -60,18 +78,19 @@ export default function EnrollForm({
       return;
     }
 
-    const today = new Date().toISOString().split("T")[0];
-    if (dob >= today) {
-      setError("Date of birth must be in the past");
+    if (!dob) {
+      setError("Date of birth is required");
       setLoading(false);
       return;
     }
+
+    const dobStr = format(dob, "yyyy-MM-dd");
 
     try {
       const res = await fetch(`/api/enroll/${cardId}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, dob }),
+        body: JSON.stringify({ name, email, phone, dob: dobStr }),
       });
 
       if (!res.ok) {
@@ -175,32 +194,133 @@ export default function EnrollForm({
           />
         </div>
       </div>
-      <div style={{ marginBottom: "16px" }}>
+      <div style={{ marginBottom: "16px", position: "relative" }} ref={dobRef}>
         <label style={labelStyle}>Date of Birth</label>
-        <input
-          type="date"
-          required
-          value={dob}
-          onChange={(e) => {
-            const today = new Date().toISOString().split("T")[0];
-            if (e.target.value >= today) {
-              setDobError("Please select a date in the past");
-              setDob("");
-              return;
-            }
-            setDobError("");
-            setDob(e.target.value);
-          }}
-          max={new Date(Date.now() - 86400000).toISOString().split("T")[0]}
-          min="1920-01-01"
+        <button
+          type="button"
+          onClick={() => setDobOpen(!dobOpen)}
           style={{
             ...inputStyle,
-            colorScheme: "dark",
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+            textAlign: "left",
+            opacity: dob ? 1 : 0.5,
           }}
-        />
-        {dobError && (
-          <div style={{ marginTop: "6px", fontSize: "13px", color: "#ff6b6b" }}>
-            {dobError}
+        >
+          {dob ? format(dob, "dd MMM yyyy") : "Select date"}
+        </button>
+        {dobOpen && (
+          <div
+            style={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              zIndex: 50,
+              marginTop: "4px",
+              borderRadius: "16px",
+              overflow: "hidden",
+              boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
+            }}
+          >
+            <style>{`
+              .dob-picker {
+                --rdp-accent-color: ${accentColor};
+                --rdp-background-color: ${accentColor}20;
+                background: ${backgroundColor};
+                border: 1px solid ${primaryColor}20;
+                border-radius: 16px;
+                padding: 12px;
+                width: 100%;
+                box-sizing: border-box;
+                font-family: inherit;
+              }
+              .dob-picker .rdp-month_caption {
+                color: ${primaryColor};
+                font-weight: 700;
+                font-size: 15px;
+                padding: 4px 8px 8px;
+              }
+              .dob-picker .rdp-weekday {
+                color: ${secondaryColor};
+                font-size: 12px;
+                font-weight: 600;
+                opacity: 0.7;
+              }
+              .dob-picker .rdp-day button {
+                color: ${primaryColor};
+                font-size: 14px;
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+                border: none;
+                background: transparent;
+                cursor: pointer;
+                font-family: inherit;
+              }
+              .dob-picker .rdp-day button:hover {
+                background: ${primaryColor}15;
+              }
+              .dob-picker .rdp-selected .rdp-day_button {
+                background: ${accentColor} !important;
+                color: #fff !important;
+                font-weight: 700;
+              }
+              .dob-picker .rdp-disabled .rdp-day_button {
+                color: ${primaryColor}30 !important;
+                cursor: not-allowed;
+                pointer-events: none;
+              }
+              .dob-picker .rdp-today .rdp-day_button {
+                color: ${primaryColor}30;
+              }
+              .dob-picker .rdp-nav button {
+                color: ${primaryColor};
+                background: transparent;
+                border: none;
+                cursor: pointer;
+                padding: 4px 8px;
+                border-radius: 8px;
+              }
+              .dob-picker .rdp-nav button:hover {
+                background: ${primaryColor}15;
+              }
+              .dob-picker .rdp-chevron {
+                fill: ${primaryColor};
+              }
+              .dob-picker .rdp-month_grid {
+                width: 100%;
+              }
+              .dob-picker .rdp-weeks {
+                width: 100%;
+              }
+              .dob-picker .rdp-week {
+                width: 100%;
+              }
+              .dob-picker .rdp-root {
+                width: 100%;
+              }
+              .dob-picker .rdp-month {
+                width: 100%;
+              }
+            `}</style>
+            <DayPicker
+              className="dob-picker"
+              mode="single"
+              selected={dob}
+              onSelect={(day) => {
+                if (day) {
+                  setDob(day);
+                  setDobOpen(false);
+                }
+              }}
+              disabled={{ after: yesterday }}
+              defaultMonth={dob || new Date(2000, 0)}
+              fromYear={1920}
+              toDate={yesterday}
+              captionLayout="dropdown"
+            />
           </div>
         )}
       </div>
