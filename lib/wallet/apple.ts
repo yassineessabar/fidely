@@ -223,7 +223,7 @@ async function createStampStripWithSharp(
       .png()
       .toBuffer();
     const darkOverlay = Buffer.from(
-      `<svg width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="rgba(0,0,0,0.55)"/></svg>`
+      `<svg width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="rgba(0,0,0,0.75)"/></svg>`
     );
     baseBuf = await sharp(resized)
       .composite([{ input: darkOverlay, blend: "over" }])
