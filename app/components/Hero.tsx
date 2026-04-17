@@ -199,7 +199,7 @@ export default function Hero() {
                 maxWidth: "580px",
               }}
             >
-              Every tap builds loyalty. Every loyalty builds revenue.
+              Digital loyalty cards that live in your customers' wallet. No app to download.
             </p>
 
             {/* Star rating row */}
@@ -270,22 +270,18 @@ export default function Hero() {
             <span>Get Kyro</span>
           </a>
 
-          {/* No app needed — wallet icons */}
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "4px" }}>
-            {/* Apple Wallet icon */}
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <rect x="2" y="4" width="20" height="16" rx="3" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"/>
-              <rect x="2" y="4" width="20" height="5" rx="3" fill="rgba(255,255,255,0.15)" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"/>
-              <rect x="2" y="8" width="20" height="4" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"/>
-            </svg>
-            {/* Google Wallet icon */}
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <rect x="2" y="5" width="20" height="14" rx="2.5" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"/>
-              <path d="M2 9h20" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5"/>
-              <rect x="5" y="14" width="6" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
-            </svg>
-            <span style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", fontWeight: 400 }}>
-              No app needed — lives in Apple & Google Wallet
+          {/* No app needed badge */}
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: "10px",
+            padding: "10px 18px", borderRadius: "100px",
+            backgroundColor: "rgba(255,255,255,0.08)",
+            border: "1px solid rgba(255,255,255,0.15)",
+          }}>
+            <span style={{ fontSize: "14px", color: "#E6FFA9", fontWeight: 600 }}>
+              No app needed
+            </span>
+            <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.6)" }}>
+              Lives in Apple & Google Wallet
             </span>
           </div>
         </div>
