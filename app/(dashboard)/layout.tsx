@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Sidebar from "./components/Sidebar";
 import DashHeader from "./components/DashHeader";
 
@@ -25,14 +25,30 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [ready, setReady] = useState(false);
 
-  // Clear any stale localStorage that hides the sidebar
+  // Check if merchant needs onboarding (no cards yet)
   useEffect(() => {
     localStorage.removeItem("kyro-sidebar-open");
-  }, []);
+    fetch("/api/merchant/cards")
+      .then((r) => r.json())
+      .then((d) => {
+        if (!d.cards || d.cards.length === 0) {
+          router.replace("/onboarding");
+        } else {
+          setReady(true);
+        }
+      })
+      .catch(() => setReady(true));
+  }, [router]);
 
   const title = pageTitles[pathname] || (pathname.startsWith("/dashboard/loyalty/") ? "Edit Card" : "Dashboard");
+
+  if (!ready) {
+    return <div style={{ minHeight: "100vh", backgroundColor: "white" }} />;
+  }
 
   return (
     <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "white", fontFamily: "var(--font-geist-sans), Arial, sans-serif" }}>
