@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Check, ChevronDown, Puzzle, Users, Headphones, ShieldCheck } from "lucide-react";
+import { fetchPlan, getCachedPlan } from "@/lib/plan-cache";
 
 const plans = [
   {
@@ -64,13 +65,10 @@ const faqs = [
 export default function UpgradePage() {
   const router = useRouter();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [currentPlan, setCurrentPlan] = useState("free");
+  const [currentPlan, setCurrentPlan] = useState(getCachedPlan() || "free");
 
   useEffect(() => {
-    fetch("/api/merchant/plan")
-      .then((r) => r.json())
-      .then((d) => { if (d?.plan) setCurrentPlan(d.plan); })
-      .catch(() => {});
+    fetchPlan().then(setCurrentPlan);
   }, []);
 
   const hasActivePlan = currentPlan !== "free";

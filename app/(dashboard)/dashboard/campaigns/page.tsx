@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { LockedOverlay } from "../../../(dashboard)/components/UpgradeModal";
-import { UpgradeModal } from "../../../(dashboard)/components/UpgradeModal";
+import { LockedOverlay, UpgradeModal } from "../../../(dashboard)/components/UpgradeModal";
+import { fetchPlan, getCachedPlan } from "@/lib/plan-cache";
 
 type CardOption = { id: string; name: string };
 type Notification = {
@@ -23,7 +23,7 @@ export default function CampaignsPage() {
   const [cards, setCards] = useState<CardOption[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
-  const [plan, setPlan] = useState("free");
+  const [plan, setPlan] = useState(getCachedPlan() || "free");
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [result, setResult] = useState("");
@@ -46,7 +46,7 @@ export default function CampaignsPage() {
 
   useEffect(() => {
     loadData();
-    fetch("/api/merchant/plan").then((r) => r.json()).then((d) => { if (d?.plan) setPlan(d.plan); }).catch(() => {});
+    fetchPlan().then(setPlan);
   }, []);
 
   async function handleSend() {

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Check, Copy, ExternalLink, Globe } from "lucide-react";
 import { UpgradeModal } from "../../components/UpgradeModal";
+import { fetchPlan, getCachedPlan } from "@/lib/plan-cache";
 
 const EMOJI_OPTIONS = ["☕", "🍵", "🧁", "🍕", "🍣", "🍽️", "🎂", "🍞", "🍫", "✂️", "💈", "👑", "💅", "💆", "💇", "✨", "💪", "🔥", "🏋️", "🧘", "👜", "🌸", "🎁", "📚", "⭐", "🍦", "🍷", "🐾", "🎵", "🎮", "🏆", "❤️", "🌟", "🎯", "🛍️"];
 
@@ -81,7 +82,7 @@ export default function LinksPage() {
   const [deleteTarget, setDeleteTarget] = useState<Card | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
-  const [plan, setPlan] = useState("free");
+  const [plan, setPlan] = useState(getCachedPlan() || "free");
   const [upgradeOpen, setUpgradeOpen] = useState(false);
 
   // Appearance editing (inline)
@@ -126,7 +127,7 @@ export default function LinksPage() {
 
   useEffect(() => {
     loadCards();
-    fetch("/api/merchant/plan").then((r) => r.json()).then((d) => { if (d?.plan) setPlan(d.plan); }).catch(() => {});
+    fetchPlan().then(setPlan);
   }, []);
 
   function selectCard(card: Card) {

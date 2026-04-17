@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { fetchPlan, getCachedPlan } from "@/lib/plan-cache";
 
 function getInitials(name: string): string {
   if (!name) return "?";
@@ -11,7 +12,7 @@ export default function ProfilePage() {
   const [business, setBusiness] = useState<any>(null);
   const [branding, setBranding] = useState<any>(null);
   const [stats, setStats] = useState<any>(null);
-  const [plan, setPlan] = useState("free");
+  const [plan, setPlan] = useState(getCachedPlan() || "free");
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"overview" | "account" | "billing">("overview");
 
@@ -19,14 +20,14 @@ export default function ProfilePage() {
     Promise.all([
       fetch("/api/merchant/cards").then((r) => r.json()).catch(() => ({})),
       fetch("/api/merchant/stats").then((r) => r.json()).catch(() => ({})),
-      fetch("/api/merchant/plan").then((r) => r.json()).catch(() => ({})),
-    ]).then(([cardsData, statsData, planData]) => {
+      fetchPlan(),
+    ]).then(([cardsData, statsData, planValue]) => {
       if (cardsData?.cards?.length > 0) {
         setBusiness(cardsData.cards[0].business_details || {});
         setBranding(cardsData.cards[0].branding || {});
       }
       setStats(statsData || {});
-      if (planData?.plan) setPlan(planData.plan);
+      if (planValue) setPlan(planValue);
       setLoading(false);
     });
   }, []);

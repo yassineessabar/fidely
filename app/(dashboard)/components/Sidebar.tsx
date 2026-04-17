@@ -5,6 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import KyroLogo from "../../components/KyroLogo";
 import { UpgradeModal } from "./UpgradeModal";
+import { fetchPlan, getCachedPlan } from "@/lib/plan-cache";
 import {
   LayoutDashboard,
   Lock,
@@ -54,7 +55,7 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [bizName, setBizName] = useState("");
   const [bizLogo, setBizLogo] = useState("");
-  const [plan, setPlan] = useState("free");
+  const [plan, setPlan] = useState(getCachedPlan() || "free");
   const planLabels: Record<string, string> = { free: "Free Plan", starter: "Starter", growth: "Growth", enterprise: "Enterprise" };
 
   useEffect(() => {
@@ -69,9 +70,7 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
         }
       })
       .catch(() => {});
-    fetch("/api/merchant/plan")
-      .then((r) => r.json())
-      .then((d) => { if (d?.plan) setPlan(d.plan); })
+    fetchPlan().then(setPlan)
       .catch(() => {});
   }, []);
 
@@ -240,15 +239,12 @@ export default function Sidebar({
   onNavClick?: () => void;
 }) {
   const pathname = usePathname();
-  const [plan, setPlan] = useState("free");
+  const [plan, setPlan] = useState(getCachedPlan() || "free");
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const isLocked = plan === "starter" || plan === "free";
 
   useEffect(() => {
-    fetch("/api/merchant/plan")
-      .then((r) => r.json())
-      .then((d) => { if (d?.plan) setPlan(d.plan); })
-      .catch(() => {});
+    fetchPlan().then(setPlan);
   }, []);
 
   return (
