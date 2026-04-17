@@ -112,13 +112,14 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
           {/* Profile dropdown */}
           {profileOpen && (
             <>
-              <div style={{ position: "fixed", inset: 0, zIndex: 90 }} onClick={() => setProfileOpen(false)} />
-              <div style={{
-                position: "absolute", bottom: "calc(100% + 8px)", left: 0, width: "224px",
-                backgroundColor: "white", borderRadius: "12px",
+              <div style={{ position: "fixed", inset: 0, zIndex: 90, backgroundColor: "rgba(0,0,0,0.3)" }} onClick={() => setProfileOpen(false)} />
+              <div className="profile-dropdown" style={{
+                position: "fixed", bottom: 80, left: 16, width: "232px",
+                backgroundColor: "white", borderRadius: "16px",
                 border: "1px solid rgba(10,10,10,0.08)",
-                boxShadow: "0 8px 30px rgba(0,0,0,0.12)",
+                boxShadow: "0 12px 40px rgba(0,0,0,0.18)",
                 zIndex: 100, padding: "6px",
+                maxHeight: "calc(100vh - 120px)", overflowY: "auto",
               }}>
                 {/* User info */}
                 <div style={{ padding: "10px 12px", marginBottom: "4px" }}>
