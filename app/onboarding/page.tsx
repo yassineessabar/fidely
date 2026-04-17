@@ -231,17 +231,16 @@ export default function OnboardingPage() {
                             display: "flex", flexDirection: "column",
                             overflow: "hidden", position: "relative",
                           }}>
-                            {/* Top bar: logo + business name */}
+                            {/* Top bar: logo image + business name */}
                             <div style={{ padding: "12px 12px 6px", display: "flex", alignItems: "center", gap: 6 }}>
-                              <div style={{
-                                width: 22, height: 22, borderRadius: 5,
-                                backgroundColor: t.accentColor, display: "flex",
-                                alignItems: "center", justifyContent: "center", flexShrink: 0,
-                              }}>
-                                <span style={{ fontSize: 7, fontWeight: 900, color: t.primaryColor }}>
-                                  {t.mockBusiness.charAt(0)}
-                                </span>
-                              </div>
+                              <img
+                                src={t.logoImage}
+                                alt=""
+                                style={{
+                                  width: 22, height: 22, borderRadius: 5,
+                                  objectFit: "cover", flexShrink: 0,
+                                }}
+                              />
                               <span style={{ fontSize: 8, fontWeight: 700, color: t.primaryColor, opacity: 0.9 }}>
                                 {t.mockBusiness}
                               </span>
@@ -263,17 +262,34 @@ export default function OnboardingPage() {
                                 position: "absolute", inset: 0,
                                 background: `linear-gradient(transparent 20%, ${t.backgroundColor}cc 100%)`,
                               }} />
-                              {/* Stamp dots overlay */}
+                              {/* Stamp emojis with checkmarks */}
                               <div style={{
-                                position: "absolute", bottom: 6, left: 0, right: 0,
-                                display: "flex", justifyContent: "center", gap: 3, padding: "0 8px",
+                                position: "absolute", bottom: 4, left: 0, right: 0,
+                                display: "flex", justifyContent: "center", gap: 2, padding: "0 6px", flexWrap: "wrap",
                               }}>
                                 {Array.from({ length: Math.min(t.mockStamps, 10) }).map((_, i) => (
                                   <div key={i} style={{
-                                    width: 8, height: 8, borderRadius: "50%",
-                                    backgroundColor: i < 3 ? t.accentColor : `${t.primaryColor}20`,
-                                    border: i >= 3 ? `0.5px solid ${t.primaryColor}30` : "none",
-                                  }} />
+                                    width: 16, height: 16, borderRadius: 4,
+                                    backgroundColor: i < 3 ? `${t.accentColor}cc` : `${t.primaryColor}10`,
+                                    display: "flex", alignItems: "center", justifyContent: "center",
+                                    position: "relative", fontSize: 8,
+                                  }}>
+                                    {i < 3 ? (
+                                      <>
+                                        <span style={{ fontSize: 9 }}>{t.stampEmoji}</span>
+                                        <div style={{
+                                          position: "absolute", bottom: -2, right: -2,
+                                          width: 7, height: 7, borderRadius: "50%",
+                                          backgroundColor: "rgb(16,185,129)",
+                                          display: "flex", alignItems: "center", justifyContent: "center",
+                                        }}>
+                                          <span style={{ fontSize: 5, color: "white", fontWeight: 900 }}>✓</span>
+                                        </div>
+                                      </>
+                                    ) : (
+                                      <span style={{ fontSize: 9, opacity: 0.3 }}>{t.stampEmoji}</span>
+                                    )}
+                                  </div>
                                 ))}
                               </div>
                             </div>
@@ -294,12 +310,18 @@ export default function OnboardingPage() {
                               </div>
                             </div>
 
-                            {/* QR placeholder */}
+                            {/* QR code */}
                             <div style={{ padding: "0 12px 8px", display: "flex", justifyContent: "center" }}>
                               <div style={{
-                                width: 36, height: 36, borderRadius: 5,
-                                backgroundColor: "white", opacity: 0.85,
-                              }} />
+                                width: 40, height: 40, borderRadius: 5,
+                                backgroundColor: "white", padding: 3,
+                                display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gridTemplateRows: "repeat(7, 1fr)", gap: 0.5,
+                              }}>
+                                {/* Simplified QR pattern */}
+                                {[1,1,1,0,1,1,1, 1,0,1,0,1,0,1, 1,1,1,0,1,1,1, 0,0,0,0,0,0,0, 1,0,1,1,0,1,0, 0,1,0,0,1,0,1, 1,0,1,0,1,1,1].map((v, i) => (
+                                  <div key={i} style={{ backgroundColor: v ? "#0b051d" : "white", borderRadius: 0.5 }} />
+                                ))}
+                              </div>
                             </div>
 
                             {/* Powered by */}
