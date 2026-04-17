@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Search, Download, Users, UserPlus } from "lucide-react";
 
 type Customer = {
   id: string;
@@ -15,10 +16,16 @@ type Customer = {
   joinedAt: string;
 };
 
-export default function CustomersPage() {
+const card = (extra?: React.CSSProperties): React.CSSProperties => ({
+  backgroundColor: "white", borderRadius: 14,
+  border: "1px solid rgba(10,10,10,0.06)", ...extra,
+});
+
+export default function AudiencePage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   useEffect(() => {
     fetch("/api/merchant/customers")
@@ -28,124 +35,127 @@ export default function CustomersPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const filtered = customers.filter(
-    (c) =>
-      c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.email.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = customers.filter((c) => {
+    const matchSearch = c.name.toLowerCase().includes(search.toLowerCase()) || c.email.toLowerCase().includes(search.toLowerCase());
+    const matchStatus = statusFilter === "all" || c.status === statusFilter;
+    return matchSearch && matchStatus;
+  });
 
-  if (loading) {
-    return (
-      <div style={{ padding: "48px", textAlign: "center", color: "rgb(97,95,109)" }}>
-        Loading customers...
-      </div>
-    );
-  }
+  const activeCount = customers.filter((c) => c.status === "active").length;
+
+  if (loading) return <div style={{ padding: 48, textAlign: "center", color: "rgba(10,10,10,0.4)" }}>Loading audience...</div>;
 
   return (
-    <div>
-      <div style={{ marginBottom: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
-        <div>
-          <h1 style={{ fontSize: "24px", fontWeight: 700, color: "rgb(11,5,29)", margin: 0 }}>
-            Customers
-          </h1>
-          <p style={{ fontSize: "14px", color: "rgb(97,95,109)", marginTop: "4px" }}>
-            {customers.length} total customer{customers.length !== 1 ? "s" : ""}
-          </p>
-        </div>
-        <input
-          placeholder="Search by name or email..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{
-            padding: "10px 16px",
-            borderRadius: "10px",
-            border: "1px solid rgb(228,227,223)",
-            fontSize: "14px",
-            fontFamily: "inherit",
-            width: "260px",
-            outline: "none",
-          }}
-        />
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      {/* Stats row */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 14 }} className="audience-stats-grid">
+        {[
+          { label: "Total Audience", value: customers.length.toLocaleString(), icon: Users, color: "#6C47FF" },
+          { label: "Active", value: activeCount.toLocaleString(), icon: UserPlus, color: "#10b981" },
+          { label: "Inactive", value: (customers.length - activeCount).toLocaleString(), icon: Users, color: "#f59e0b" },
+        ].map((s) => {
+          const Icon = s.icon;
+          return (
+            <div key={s.label} style={card({ padding: 20 })}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+                <span style={{ fontSize: 12, fontWeight: 500, color: "rgba(10,10,10,0.45)" }}>{s.label}</span>
+                <div style={{ width: 30, height: 30, borderRadius: 8, backgroundColor: `${s.color}10`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Icon size={14} style={{ color: s.color }} />
+                </div>
+              </div>
+              <div style={{ fontSize: 26, fontWeight: 700, color: "rgba(10,10,10,0.9)", lineHeight: 1 }}>{s.value}</div>
+            </div>
+          );
+        })}
       </div>
 
+      {/* Search + filters bar */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flex: 1, maxWidth: 320 }}>
+          <div style={{
+            display: "flex", alignItems: "center", gap: 8, flex: 1,
+            padding: "8px 14px", borderRadius: 10,
+            backgroundColor: "white", border: "1px solid rgba(10,10,10,0.08)",
+          }}>
+            <Search size={16} style={{ color: "rgba(10,10,10,0.3)" }} />
+            <input
+              placeholder="Search by name or email..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              style={{ border: "none", outline: "none", fontSize: 13, color: "rgba(10,10,10,0.8)", width: "100%", fontFamily: "inherit", backgroundColor: "transparent" }}
+            />
+          </div>
+        </div>
+        <div style={{ display: "flex", gap: 6 }}>
+          {["all", "active", "redeemed"].map((f) => (
+            <button key={f} onClick={() => setStatusFilter(f)} style={{
+              padding: "6px 14px", borderRadius: 99, border: "none", fontSize: 12, fontWeight: 600,
+              backgroundColor: statusFilter === f ? "#0b051d" : "white", color: statusFilter === f ? "white" : "rgba(10,10,10,0.6)",
+              cursor: "pointer", fontFamily: "inherit", boxShadow: statusFilter !== f ? "0 1px 3px rgba(0,0,0,0.04)" : "none",
+              textTransform: "capitalize",
+            }}>
+              {f}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Table */}
       {customers.length === 0 ? (
-        <div style={{
-          padding: "48px",
-          textAlign: "center",
-          backgroundColor: "white",
-          borderRadius: "16px",
-          border: "1px solid rgb(228,227,223)",
-        }}>
-          <h2 style={{ fontSize: "18px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 8px" }}>
-            No customers yet
-          </h2>
-          <p style={{ fontSize: "14px", color: "rgb(97,95,109)", maxWidth: "400px", margin: "0 auto", lineHeight: "20px" }}>
-            Customers will appear here once they sign up for your loyalty card. Share your card link to start enrolling customers.
-          </p>
+        <div style={card({ padding: 48, textAlign: "center" })}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: "rgba(10,10,10,0.85)", margin: "0 0 6px" }}>No audience yet</h2>
+          <p style={{ fontSize: 13, color: "rgba(10,10,10,0.4)", margin: 0 }}>Customers will appear here once they sign up for your loyalty card.</p>
         </div>
       ) : (
-        <div style={{ backgroundColor: "white", borderRadius: "16px", border: "1px solid rgb(228,227,223)", overflow: "hidden" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "14px" }}>
-            <thead>
-              <tr style={{ borderBottom: "1px solid rgb(228,227,223)" }}>
-                {["Name", "Email", "Card", "Progress", "Status", "Joined"].map((h) => (
-                  <th
-                    key={h}
-                    style={{
-                      padding: "12px 16px",
-                      textAlign: "left",
-                      fontSize: "12px",
-                      fontWeight: 600,
-                      color: "rgb(97,95,109)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.5px",
-                    }}
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((c) => (
-                <tr key={c.id} style={{ borderBottom: "1px solid rgb(243,242,238)" }}>
-                  <td style={{ padding: "14px 16px", fontWeight: 600, color: "rgb(11,5,29)" }}>
-                    {c.name}
-                  </td>
-                  <td style={{ padding: "14px 16px", color: "rgb(97,95,109)" }}>{c.email}</td>
-                  <td style={{ padding: "14px 16px", color: "rgb(97,95,109)" }}>{c.cardName}</td>
-                  <td style={{ padding: "14px 16px", color: "rgb(11,5,29)", fontWeight: 500 }}>
-                    {c.cardType === "stamp" ? `${c.stamps} stamps` : `${c.points} pts`}
-                  </td>
-                  <td style={{ padding: "14px 16px" }}>
-                    <span
-                      style={{
-                        padding: "4px 10px",
-                        borderRadius: "6px",
-                        fontSize: "12px",
-                        fontWeight: 600,
-                        backgroundColor: c.status === "active" ? "rgb(220,252,231)" : "rgb(254,226,226)",
-                        color: c.status === "active" ? "rgb(22,101,52)" : "rgb(153,27,27)",
-                      }}
-                    >
-                      {c.status}
-                    </span>
-                  </td>
-                  <td style={{ padding: "14px 16px", color: "rgb(97,95,109)" }}>
-                    {new Date(c.joinedAt).toLocaleDateString("en-AU", { day: "2-digit", month: "short", year: "numeric" })}
-                  </td>
+        <div style={card({ overflow: "hidden", padding: 0 })}>
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid rgba(10,10,10,0.06)" }}>
+                  {["Name", "Card", "Progress", "Status", "Joined"].map((h) => (
+                    <th key={h} style={{ padding: "12px 16px", textAlign: "left", fontSize: 11, fontWeight: 600, color: "rgba(10,10,10,0.4)", textTransform: "uppercase", letterSpacing: "0.5px", whiteSpace: "nowrap" }}>{h}</th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          {filtered.length === 0 && search && (
-            <div style={{ padding: "32px", textAlign: "center", color: "rgb(97,95,109)" }}>
-              No customers matching &quot;{search}&quot;
-            </div>
-          )}
+              </thead>
+              <tbody>
+                {filtered.map((c) => (
+                  <tr key={c.id} style={{ borderBottom: "1px solid rgba(10,10,10,0.03)" }}>
+                    <td style={{ padding: "14px 16px" }}>
+                      <div style={{ fontWeight: 600, color: "rgba(10,10,10,0.85)" }}>{c.name}</div>
+                      <div style={{ fontSize: 11, color: "rgba(10,10,10,0.35)", marginTop: 1 }}>{c.email}</div>
+                    </td>
+                    <td style={{ padding: "14px 16px", color: "rgba(10,10,10,0.6)", whiteSpace: "nowrap" }}>{c.cardName}</td>
+                    <td style={{ padding: "14px 16px", fontWeight: 600, color: "rgba(10,10,10,0.85)", whiteSpace: "nowrap" }}>
+                      {c.cardType === "stamp" ? `${c.stamps} stamps` : `${c.points} pts`}
+                    </td>
+                    <td style={{ padding: "14px 16px" }}>
+                      <span style={{
+                        padding: "3px 10px", borderRadius: 6, fontSize: 11, fontWeight: 600,
+                        backgroundColor: c.status === "active" ? "rgba(16,185,129,0.08)" : "rgba(10,10,10,0.04)",
+                        color: c.status === "active" ? "rgb(5,150,105)" : "rgba(10,10,10,0.4)",
+                      }}>{c.status}</span>
+                    </td>
+                    <td style={{ padding: "14px 16px", color: "rgba(10,10,10,0.45)", fontSize: 12, whiteSpace: "nowrap" }}>
+                      {new Date(c.joinedAt).toLocaleDateString("en-AU", { day: "2-digit", month: "short", year: "numeric" })}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {filtered.length === 0 && search && (
+              <div style={{ padding: 32, textAlign: "center", color: "rgba(10,10,10,0.4)", fontSize: 13 }}>
+                No results matching &quot;{search}&quot;
+              </div>
+            )}
+          </div>
         </div>
       )}
+
+      <style>{`
+        @media (max-width: 768px) {
+          .audience-stats-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   );
 }

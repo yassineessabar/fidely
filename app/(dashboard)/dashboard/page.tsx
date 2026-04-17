@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { TrendingUp, Users, CreditCard, Bell, ArrowUpRight, ArrowDownRight } from "lucide-react";
 
 type Stats = {
   totalCustomers: number;
@@ -21,10 +22,16 @@ type Analytics = {
   avgPoints: number;
 };
 
-export default function DashboardPage() {
+const card = (extra?: React.CSSProperties): React.CSSProperties => ({
+  backgroundColor: "white", borderRadius: 14,
+  border: "1px solid rgba(10,10,10,0.06)", padding: 20, ...extra,
+});
+
+export default function InsightsPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [analytics, setAnalytics] = useState<Analytics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [dateRange, setDateRange] = useState("30d");
 
   useEffect(() => {
     Promise.all([
@@ -36,172 +43,192 @@ export default function DashboardPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) {
-    return <div style={{ padding: "48px", textAlign: "center", color: "rgb(97,95,109)" }}>Loading dashboard...</div>;
-  }
+  if (loading) return <div style={{ padding: 48, textAlign: "center", color: "rgba(10,10,10,0.4)" }}>Loading insights...</div>;
 
-  const kpis = stats
-    ? [
-        { label: "Total Customers", value: stats.totalCustomers.toLocaleString() },
-        { label: "Active Customers", value: stats.activeCustomers.toLocaleString() },
-        { label: "Active Cards", value: stats.activeCards.toString() },
-        { label: "Notifications Sent", value: stats.notificationsSent.toLocaleString() },
-      ]
-    : [];
+  const kpis = stats ? [
+    { label: "Total Customers", value: stats.totalCustomers.toLocaleString(), icon: Users, color: "#6C47FF" },
+    { label: "Active Customers", value: stats.activeCustomers.toLocaleString(), icon: TrendingUp, color: "#10b981" },
+    { label: "Active Cards", value: stats.activeCards.toString(), icon: CreditCard, color: "#f59e0b" },
+    { label: "Notifications", value: stats.notificationsSent.toLocaleString(), icon: Bell, color: "#0ea5e9" },
+  ] : [];
 
-  const maxMonthCount = analytics ? Math.max(...analytics.enrollmentsByMonth.map((m) => m.count), 1) : 1;
-  const maxStampCount = analytics ? Math.max(...analytics.stampDistribution.map((s) => s.count), 1) : 1;
-  const hasAnalytics = analytics && analytics.totalEnrollments > 0;
+  const maxMonth = analytics ? Math.max(...analytics.enrollmentsByMonth.map((m) => m.count), 1) : 1;
+  const maxStamp = analytics ? Math.max(...analytics.stampDistribution.map((s) => s.count), 1) : 1;
+  const has = analytics && analytics.totalEnrollments > 0;
 
   return (
-    <div>
-      <div style={{ marginBottom: "24px" }}>
-        <h1 style={{ fontSize: "24px", fontWeight: 700, color: "rgb(11,5,29)", margin: 0 }}>Dashboard</h1>
-        <p style={{ fontSize: "14px", color: "rgb(97,95,109)", marginTop: "4px" }}>
-          Overview of your loyalty program
-        </p>
+    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      {/* Top bar */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div />
+        <div style={{ display: "flex", gap: 6 }}>
+          {["7d", "30d", "90d"].map((r) => (
+            <button key={r} onClick={() => setDateRange(r)} style={{
+              padding: "6px 14px", borderRadius: 99, border: "none", fontSize: 12, fontWeight: 600,
+              backgroundColor: dateRange === r ? "#0b051d" : "white", color: dateRange === r ? "white" : "rgba(10,10,10,0.6)",
+              cursor: "pointer", fontFamily: "inherit", boxShadow: dateRange !== r ? "0 1px 3px rgba(0,0,0,0.04)" : "none",
+            }}>
+              {r === "7d" ? "7 days" : r === "30d" ? "30 days" : "90 days"}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* KPI Cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "16px", marginBottom: "24px" }}>
-        {kpis.map((kpi) => (
-          <div key={kpi.label} style={{ padding: "20px", backgroundColor: "white", borderRadius: "14px", border: "1px solid rgb(228,227,223)" }}>
-            <div style={{ fontSize: "12px", fontWeight: 500, color: "rgb(97,95,109)", marginBottom: "6px" }}>{kpi.label}</div>
-            <div style={{ fontSize: "28px", fontWeight: 700, color: "rgb(11,5,29)" }}>{kpi.value}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* Getting started */}
-      {stats && stats.totalCards === 0 && (
-        <div style={{ padding: "32px", backgroundColor: "white", borderRadius: "16px", border: "1px solid rgb(228,227,223)", textAlign: "center", marginBottom: "24px" }}>
-          <h2 style={{ fontSize: "18px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 8px" }}>Get started</h2>
-          <p style={{ fontSize: "14px", color: "rgb(97,95,109)", maxWidth: "400px", margin: "0 auto", lineHeight: "20px" }}>
-            Create your first loyalty card to start enrolling customers. Head to the admin panel to set up a stamp card, points card, or coupon.
-          </p>
-        </div>
-      )}
-
-      {stats && stats.totalCards > 0 && stats.totalCustomers === 0 && (
-        <div style={{ padding: "32px", backgroundColor: "white", borderRadius: "16px", border: "1px solid rgb(228,227,223)", textAlign: "center", marginBottom: "24px" }}>
-          <h2 style={{ fontSize: "18px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 8px" }}>Share your card</h2>
-          <p style={{ fontSize: "14px", color: "rgb(97,95,109)", maxWidth: "400px", margin: "0 auto", lineHeight: "20px" }}>
-            You have {stats.activeCards} active card{stats.activeCards !== 1 ? "s" : ""}. Share the enrollment link with your customers to start growing your loyalty program.
-          </p>
-        </div>
-      )}
-
-      {/* Analytics section */}
-      {hasAnalytics && (
-        <>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "24px" }}>
-            {/* Enrollment trend */}
-            <div style={{ backgroundColor: "white", borderRadius: "14px", border: "1px solid rgb(228,227,223)", padding: "20px" }}>
-              <h2 style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 16px" }}>New Members (Last 6 Months)</h2>
-              <div style={{ display: "flex", alignItems: "flex-end", gap: "8px", height: "120px" }}>
-                {analytics!.enrollmentsByMonth.map((m) => (
-                  <div key={m.month} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
-                    <div style={{ fontSize: "11px", fontWeight: 600, color: "rgb(11,5,29)" }}>{m.count}</div>
-                    <div style={{
-                      width: "100%", borderRadius: "6px 6px 0 0",
-                      backgroundColor: m.count > 0 ? "#0b051d" : "rgb(243,242,238)",
-                      height: `${Math.max((m.count / maxMonthCount) * 100, 4)}%`,
-                      minHeight: "4px",
-                    }} />
-                    <div style={{ fontSize: "10px", color: "rgb(97,95,109)" }}>{m.month}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Stamp distribution or card overview */}
-            {analytics!.stampDistribution.some((s) => s.count > 0) ? (
-              <div style={{ backgroundColor: "white", borderRadius: "14px", border: "1px solid rgb(228,227,223)", padding: "20px" }}>
-                <h2 style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 16px" }}>Stamp Progress</h2>
-                <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                  {analytics!.stampDistribution.map((s) => (
-                    <div key={s.label} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                      <div style={{ fontSize: "12px", color: "rgb(97,95,109)", width: "80px", flexShrink: 0 }}>{s.label}</div>
-                      <div style={{ flex: 1, height: "20px", backgroundColor: "rgb(243,242,238)", borderRadius: "4px", overflow: "hidden" }}>
-                        <div style={{ height: "100%", borderRadius: "4px", backgroundColor: "#0b051d", width: `${(s.count / maxStampCount) * 100}%`, minWidth: s.count > 0 ? "4px" : "0" }} />
-                      </div>
-                      <div style={{ fontSize: "12px", fontWeight: 600, color: "rgb(11,5,29)", width: "30px", textAlign: "right" }}>{s.count}</div>
-                    </div>
-                  ))}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14 }} className="insights-kpi-grid">
+        {kpis.map((kpi) => {
+          const Icon = kpi.icon;
+          return (
+            <div key={kpi.label} style={card()}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                <span style={{ fontSize: 12, fontWeight: 500, color: "rgba(10,10,10,0.45)" }}>{kpi.label}</span>
+                <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: `${kpi.color}10`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Icon size={16} style={{ color: kpi.color }} />
                 </div>
               </div>
-            ) : (
-              <div style={{ backgroundColor: "white", borderRadius: "14px", border: "1px solid rgb(228,227,223)", padding: "20px" }}>
-                <h2 style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 16px" }}>Cards Overview</h2>
-                {analytics!.cardBreakdown.map((c) => (
-                  <div key={c.name} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid rgb(243,242,238)" }}>
-                    <div>
-                      <div style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)" }}>{c.name}</div>
-                      <div style={{ fontSize: "12px", color: "rgb(97,95,109)", textTransform: "capitalize" }}>{c.type}</div>
-                    </div>
-                    <div style={{ fontSize: "18px", fontWeight: 700, color: "rgb(11,5,29)" }}>{c.members}</div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+              <div style={{ fontSize: 28, fontWeight: 700, color: "rgba(10,10,10,0.9)", lineHeight: 1 }}>{kpi.value}</div>
+            </div>
+          );
+        })}
+      </div>
 
-          {/* Members by card */}
-          <div style={{ backgroundColor: "white", borderRadius: "14px", border: "1px solid rgb(228,227,223)", padding: "20px", marginBottom: "24px" }}>
-            <h2 style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 16px" }}>Members by Card</h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "12px" }}>
-              {analytics!.cardBreakdown.map((c) => (
-                <div key={c.name} style={{ padding: "16px", backgroundColor: "rgb(249,248,245)", borderRadius: "10px" }}>
-                  <div style={{ fontSize: "13px", fontWeight: 600, color: "rgb(11,5,29)", marginBottom: "4px" }}>{c.name}</div>
-                  <div style={{ fontSize: "11px", color: "rgb(97,95,109)", marginBottom: "8px", textTransform: "capitalize" }}>{c.type} · {c.status}</div>
-                  <div style={{ display: "flex", gap: "16px" }}>
-                    <div>
-                      <div style={{ fontSize: "20px", fontWeight: 700, color: "rgb(11,5,29)" }}>{c.members}</div>
-                      <div style={{ fontSize: "10px", color: "rgb(97,95,109)" }}>Total</div>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "20px", fontWeight: 700, color: "rgb(22,101,52)" }}>{c.active}</div>
-                      <div style={{ fontSize: "10px", color: "rgb(97,95,109)" }}>Active</div>
-                    </div>
-                  </div>
+      {/* No data state */}
+      {!has && stats && stats.totalCards > 0 && (
+        <div style={card({ textAlign: "center", padding: 40 })}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: "rgba(10,10,10,0.85)", margin: "0 0 6px" }}>Insights will appear here</h2>
+          <p style={{ fontSize: 13, color: "rgba(10,10,10,0.4)", margin: 0 }}>Share your card link to start enrolling customers</p>
+        </div>
+      )}
+
+      {!has && stats && stats.totalCards === 0 && (
+        <div style={card({ textAlign: "center", padding: 40 })}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: "rgba(10,10,10,0.85)", margin: "0 0 6px" }}>Get started</h2>
+          <p style={{ fontSize: 13, color: "rgba(10,10,10,0.4)", margin: 0 }}>Create your first loyalty card to see insights</p>
+        </div>
+      )}
+
+      {/* Charts row */}
+      {has && (
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }} className="insights-chart-grid">
+          {/* Enrollment trend */}
+          <div style={card()}>
+            <h3 style={{ fontSize: 14, fontWeight: 600, color: "rgba(10,10,10,0.85)", margin: "0 0 16px" }}>New Members</h3>
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 6, height: 120 }}>
+              {analytics!.enrollmentsByMonth.map((m) => (
+                <div key={m.month} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                  <div style={{ fontSize: 10, fontWeight: 600, color: "rgba(10,10,10,0.6)" }}>{m.count || ""}</div>
+                  <div style={{
+                    width: "100%", borderRadius: "6px 6px 0 0",
+                    backgroundColor: m.count > 0 ? "#6C47FF" : "rgba(10,10,10,0.04)",
+                    height: `${Math.max((m.count / maxMonth) * 100, 4)}%`, minHeight: 4,
+                  }} />
+                  <div style={{ fontSize: 9, color: "rgba(10,10,10,0.35)" }}>{m.month}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Top members */}
-          {analytics!.topCustomers.length > 0 && (
-            <div style={{ backgroundColor: "white", borderRadius: "14px", border: "1px solid rgb(228,227,223)", padding: "20px" }}>
-              <h2 style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 16px" }}>Top Members</h2>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
-                <thead>
-                  <tr style={{ borderBottom: "1px solid rgb(228,227,223)" }}>
-                    {["Name", "Card", "Stamps", "Points", "Status"].map((h) => (
-                      <th key={h} style={{ padding: "8px 12px", textAlign: "left", fontSize: "11px", fontWeight: 600, color: "rgb(97,95,109)", textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {analytics!.topCustomers.map((c, i) => (
-                    <tr key={i} style={{ borderBottom: "1px solid rgb(243,242,238)" }}>
-                      <td style={{ padding: "10px 12px" }}>
-                        <div style={{ fontWeight: 600, color: "rgb(11,5,29)" }}>{c.name}</div>
-                        <div style={{ fontSize: "11px", color: "rgb(97,95,109)" }}>{c.email}</div>
-                      </td>
-                      <td style={{ padding: "10px 12px", color: "rgb(97,95,109)" }}>{c.card}</td>
-                      <td style={{ padding: "10px 12px", fontWeight: 600 }}>{c.stamps}</td>
-                      <td style={{ padding: "10px 12px", fontWeight: 600 }}>{c.points}</td>
-                      <td style={{ padding: "10px 12px" }}>
-                        <span style={{ padding: "3px 8px", borderRadius: "6px", fontSize: "11px", fontWeight: 600, backgroundColor: c.status === "active" ? "rgb(220,252,231)" : "rgb(254,226,226)", color: c.status === "active" ? "rgb(22,101,52)" : "rgb(153,27,27)" }}>{c.status}</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          {/* Stamp distribution or cards overview */}
+          {analytics!.stampDistribution.some((s) => s.count > 0) ? (
+            <div style={card()}>
+              <h3 style={{ fontSize: 14, fontWeight: 600, color: "rgba(10,10,10,0.85)", margin: "0 0 16px" }}>Stamp Progress</h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {analytics!.stampDistribution.map((s) => (
+                  <div key={s.label} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div style={{ fontSize: 11, color: "rgba(10,10,10,0.45)", width: 70, flexShrink: 0 }}>{s.label}</div>
+                    <div style={{ flex: 1, height: 18, backgroundColor: "rgba(10,10,10,0.03)", borderRadius: 4, overflow: "hidden" }}>
+                      <div style={{ height: "100%", borderRadius: 4, backgroundColor: "#6C47FF", width: `${(s.count / maxStamp) * 100}%`, minWidth: s.count > 0 ? 4 : 0 }} />
+                    </div>
+                    <div style={{ fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.7)", width: 24, textAlign: "right" }}>{s.count}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div style={card()}>
+              <h3 style={{ fontSize: 14, fontWeight: 600, color: "rgba(10,10,10,0.85)", margin: "0 0 16px" }}>Cards Overview</h3>
+              {analytics!.cardBreakdown.map((c) => (
+                <div key={c.name} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid rgba(10,10,10,0.04)" }}>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: "rgba(10,10,10,0.85)" }}>{c.name}</div>
+                    <div style={{ fontSize: 11, color: "rgba(10,10,10,0.4)", textTransform: "capitalize" }}>{c.type}</div>
+                  </div>
+                  <div style={{ fontSize: 18, fontWeight: 700, color: "rgba(10,10,10,0.85)" }}>{c.members}</div>
+                </div>
+              ))}
             </div>
           )}
-        </>
+        </div>
       )}
+
+      {/* Members by card */}
+      {has && (
+        <div style={card()}>
+          <h3 style={{ fontSize: 14, fontWeight: 600, color: "rgba(10,10,10,0.85)", margin: "0 0 16px" }}>Members by Card</h3>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 10 }}>
+            {analytics!.cardBreakdown.map((c) => (
+              <div key={c.name} style={{ padding: 14, backgroundColor: "rgba(10,10,10,0.02)", borderRadius: 10 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: "rgba(10,10,10,0.85)", marginBottom: 3 }}>{c.name}</div>
+                <div style={{ fontSize: 11, color: "rgba(10,10,10,0.4)", marginBottom: 8, textTransform: "capitalize" }}>{c.type} · {c.status}</div>
+                <div style={{ display: "flex", gap: 16 }}>
+                  <div>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: "rgba(10,10,10,0.85)" }}>{c.members}</div>
+                    <div style={{ fontSize: 10, color: "rgba(10,10,10,0.35)" }}>Total</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 20, fontWeight: 700, color: "rgb(16,185,129)" }}>{c.active}</div>
+                    <div style={{ fontSize: 10, color: "rgba(10,10,10,0.35)" }}>Active</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Top members */}
+      {has && analytics!.topCustomers.length > 0 && (
+        <div style={card()}>
+          <h3 style={{ fontSize: 14, fontWeight: 600, color: "rgba(10,10,10,0.85)", margin: "0 0 16px" }}>Top Members</h3>
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid rgba(10,10,10,0.06)" }}>
+                  {["Name", "Card", "Stamps", "Points", "Status"].map((h) => (
+                    <th key={h} style={{ padding: "8px 12px", textAlign: "left", fontSize: 11, fontWeight: 600, color: "rgba(10,10,10,0.4)", textTransform: "uppercase", letterSpacing: "0.5px" }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {analytics!.topCustomers.map((c, i) => (
+                  <tr key={i} style={{ borderBottom: "1px solid rgba(10,10,10,0.03)" }}>
+                    <td style={{ padding: "10px 12px" }}>
+                      <div style={{ fontWeight: 600, color: "rgba(10,10,10,0.85)" }}>{c.name}</div>
+                      <div style={{ fontSize: 11, color: "rgba(10,10,10,0.35)" }}>{c.email}</div>
+                    </td>
+                    <td style={{ padding: "10px 12px", color: "rgba(10,10,10,0.6)" }}>{c.card}</td>
+                    <td style={{ padding: "10px 12px", fontWeight: 600, color: "rgba(10,10,10,0.85)" }}>{c.stamps}</td>
+                    <td style={{ padding: "10px 12px", fontWeight: 600, color: "rgba(10,10,10,0.85)" }}>{c.points}</td>
+                    <td style={{ padding: "10px 12px" }}>
+                      <span style={{ padding: "3px 8px", borderRadius: 6, fontSize: 11, fontWeight: 600, backgroundColor: c.status === "active" ? "rgba(16,185,129,0.08)" : "rgba(10,10,10,0.04)", color: c.status === "active" ? "rgb(5,150,105)" : "rgba(10,10,10,0.4)" }}>{c.status}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @media (max-width: 768px) {
+          .insights-kpi-grid { grid-template-columns: 1fr 1fr !important; }
+          .insights-chart-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          .insights-kpi-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
     </div>
   );
 }
