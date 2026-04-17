@@ -2,30 +2,31 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Check, ChevronDown, Puzzle, Users, Headphones, ShieldCheck } from "lucide-react";
 
 const plans = [
   {
-    key: "starter",
+    id: "starter",
     name: "Starter",
-    tagline: "Replace paper loyalty cards",
     price: 49,
-    features: [
+    desc: "Replace paper loyalty cards",
+    cta: "Subscribe to Starter",
+    highlights: [
       "1 location",
-      "Digital loyalty card (Apple & Google Wallet)",
+      "Digital loyalty card",
+      "Apple & Google Wallet",
       "QR code for in-store",
       "Up to 150 customers",
-      "Basic customer capture",
     ],
-    excluded: ["No push notifications"],
-    highlight: false,
   },
   {
-    key: "growth",
+    id: "growth",
     name: "Growth",
-    tagline: "Bring customers back automatically",
     price: 79,
-    badge: "Most Popular",
-    features: [
+    recommended: true,
+    desc: "Bring customers back automatically",
+    cta: "Subscribe to Growth",
+    highlights: [
       "1 location",
       "Digital loyalty card",
       "QR code",
@@ -33,15 +34,14 @@ const plans = [
       "Basic analytics",
       "Up to 500 customers",
     ],
-    excluded: [],
-    highlight: true,
   },
   {
-    key: "pro",
+    id: "pro",
     name: "Pro",
-    tagline: "Maximize customer retention",
     price: 129,
-    features: [
+    desc: "Maximize customer retention",
+    cta: "Subscribe to Pro",
+    highlights: [
       "1 location",
       "Digital loyalty card",
       "QR code",
@@ -50,8 +50,6 @@ const plans = [
       "Unlimited customers",
       "Priority support",
     ],
-    excluded: [],
-    highlight: false,
   },
 ];
 
@@ -68,169 +66,162 @@ export default function UpgradePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+    <div style={{ maxWidth: 1100, margin: "0 auto" }}>
       {/* Header */}
-      <div style={{ textAlign: "center", marginBottom: 40 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 700, color: "rgba(10,10,10,0.85)", margin: "0 0 8px", lineHeight: 1.3 }}>
-          Choose the right plan for your business
+      <div style={{ textAlign: "center", marginBottom: 32 }}>
+        <h1 style={{ fontSize: 32, fontWeight: 400, color: "rgba(10,10,10,0.9)", margin: 0, letterSpacing: "-0.01em" }}>
+          Choose the plan that&apos;s right for you
         </h1>
-        <p style={{ fontSize: 14, color: "rgba(10,10,10,0.4)", margin: 0 }}>
-          All plans include Apple &amp; Google Wallet integration
-        </p>
       </div>
 
       {/* Plan cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: 16, marginBottom: 32 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16, alignItems: "stretch", marginBottom: 32 }}>
         {plans.map((plan) => (
-          <div
-            key={plan.key}
-            style={{
-              backgroundColor: plan.highlight ? "#0a0a0a" : "white",
-              borderRadius: 20,
-              border: plan.highlight ? "none" : "1px solid rgba(10,10,10,0.06)",
-              padding: 28,
-              display: "flex",
-              flexDirection: "column",
-              position: "relative",
-            }}
-          >
-            {plan.badge && (
-              <div style={{
-                position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)",
-                backgroundColor: "#f59e0b", color: "white",
-                padding: "5px 14px", borderRadius: 99, fontSize: 11, fontWeight: 700, whiteSpace: "nowrap",
-              }}>
-                {plan.badge}
+          <div key={plan.id} style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{
+              flex: 1, display: "flex", flexDirection: "column",
+              borderRadius: 20, backgroundColor: "rgba(10,10,10,0.02)", padding: 24,
+              border: "1px solid rgba(10,10,10,0.04)",
+            }}>
+              {/* Name + badge */}
+              <div style={{ marginBottom: 20 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
+                  <span style={{ fontSize: 24, fontWeight: 400, color: "rgba(10,10,10,0.9)" }}>{plan.name}</span>
+                  {plan.recommended && (
+                    <span style={{
+                      fontSize: 13, fontWeight: 300, padding: "4px 10px", borderRadius: 99,
+                      background: "linear-gradient(90deg, #FFA67C, #FF8047)", color: "white",
+                    }}>
+                      Recommended
+                    </span>
+                  )}
+                </div>
+                {/* Price */}
+                <div style={{ display: "flex", alignItems: "flex-end" }}>
+                  <span style={{ fontSize: 30, fontWeight: 500, color: "rgba(10,10,10,0.9)", lineHeight: "36px" }}>$</span>
+                  <span style={{ fontSize: 30, fontWeight: 500, color: "rgba(10,10,10,0.9)", lineHeight: "36px" }}>{plan.price}</span>
+                  <span style={{ fontSize: 20, fontWeight: 200, color: "rgba(10,10,10,0.25)", lineHeight: "28px" }}>/</span>
+                  <span style={{ fontSize: 14, color: "rgba(10,10,10,0.25)" }}>mo</span>
+                </div>
               </div>
-            )}
 
-            <div style={{ fontSize: 15, fontWeight: 700, color: plan.highlight ? "white" : "rgba(10,10,10,0.85)", marginBottom: 2 }}>
-              {plan.name}
-            </div>
-            <div style={{ fontSize: 12, color: plan.highlight ? "rgba(255,255,255,0.45)" : "rgba(10,10,10,0.4)", marginBottom: 16 }}>
-              {plan.tagline}
-            </div>
+              {/* Divider */}
+              <div style={{ height: 1, backgroundColor: "rgba(10,10,10,0.06)", margin: "0 8px 20px" }} />
 
-            {/* Price */}
-            <div style={{ marginBottom: 20 }}>
-              <span style={{ fontSize: 36, fontWeight: 800, color: plan.highlight ? "white" : "rgba(10,10,10,0.9)", lineHeight: 1 }}>
-                ${plan.price}
-              </span>
-              <span style={{ fontSize: 14, fontWeight: 400, color: plan.highlight ? "rgba(255,255,255,0.4)" : "rgba(10,10,10,0.4)" }}>/mo</span>
-            </div>
+              {/* Description */}
+              <p style={{ fontSize: 13, color: "rgba(10,10,10,0.4)", margin: "0 0 20px", lineHeight: 1.5 }}>{plan.desc}</p>
 
-            {/* CTA button right below price */}
-            <button
-              onClick={() => router.push(`/dashboard/billing?plan=${plan.key}`)}
-              style={{
-                width: "100%", padding: "11px", borderRadius: 10, border: "none",
-                backgroundColor: plan.highlight ? "white" : "#0a0a0a",
-                color: plan.highlight ? "#0a0a0a" : "white",
-                fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
-                marginBottom: 20,
-              }}
-            >
-              Get Started
-            </button>
+              {/* CTA */}
+              <button
+                onClick={() => router.push(`/dashboard/billing?plan=${plan.id}`)}
+                style={{
+                  width: "100%", height: 40, borderRadius: 8, border: "none",
+                  fontSize: 15, fontWeight: 500, cursor: "pointer", fontFamily: "inherit",
+                  marginBottom: 20,
+                  backgroundColor: plan.recommended ? "rgba(255,99,31,0.85)" : "transparent",
+                  color: plan.recommended ? "black" : "rgba(10,10,10,0.9)",
+                  ...(plan.recommended ? {} : { border: "1px solid rgba(10,10,10,0.1)" }),
+                }}
+              >
+                {plan.cta}
+              </button>
 
-            <div style={{ height: 1, backgroundColor: plan.highlight ? "rgba(255,255,255,0.1)" : "rgba(10,10,10,0.06)", marginBottom: 18 }} />
+              {/* Divider */}
+              <div style={{ height: 1, backgroundColor: "rgba(10,10,10,0.06)", margin: "0 8px 16px" }} />
 
-            {/* Features */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 9, flex: 1 }}>
-              {plan.features.map((f) => (
-                <div key={f} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: plan.highlight ? "rgba(255,255,255,0.7)" : "rgba(10,10,10,0.7)" }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={plan.highlight ? "rgb(16,185,129)" : "rgb(16,185,129)"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  {f}
+              {/* Highlights */}
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: 14, fontWeight: 500, color: "rgba(10,10,10,0.85)", margin: "0 0 8px" }}>Plan highlights:</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {plan.highlights.map((h) => (
+                    <div key={h} style={{ display: "flex", alignItems: "center", fontSize: 14, color: "rgba(10,10,10,0.75)", fontWeight: 300 }}>
+                      <Check size={16} strokeWidth={2} style={{ flexShrink: 0, color: "rgb(20,184,166)", marginRight: 12 }} />
+                      {h}
+                    </div>
+                  ))}
                 </div>
-              ))}
-              {plan.excluded.map((f) => (
-                <div key={f} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: plan.highlight ? "rgba(255,255,255,0.25)" : "rgba(10,10,10,0.3)" }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={plan.highlight ? "rgba(255,255,255,0.25)" : "rgba(10,10,10,0.25)"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                    <path d="M18 6L6 18M6 6l12 12" />
-                  </svg>
-                  {f}
-                </div>
-              ))}
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Enterprise panel */}
+      {/* Enterprise banner */}
       <div style={{
-        background: "linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(71,85,105,0.06) 100%)",
-        borderRadius: 20, padding: 32, marginBottom: 40,
-        border: "1px solid rgba(10,10,10,0.05)",
+        borderRadius: 20, overflow: "hidden",
+        background: "linear-gradient(to top left, rgba(249,115,22,0.8), rgb(71,85,105) 40%)",
+        color: "white", padding: "32px 48px", marginBottom: 32,
       }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 24 }}>
-          <div style={{ flex: 1, minWidth: 240 }}>
-            <div style={{ fontSize: 18, fontWeight: 700, color: "rgba(10,10,10,0.85)", marginBottom: 4 }}>Enterprise</div>
-            <div style={{ fontSize: 13, color: "rgba(10,10,10,0.5)", marginBottom: 16, lineHeight: 1.5 }}>
-              For multi-location and scaling businesses. Custom pricing, dedicated support, and advanced features.
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 24px" }}>
+        <div style={{ display: "flex", gap: 56, alignItems: "flex-start", flexWrap: "wrap" }}>
+          <div style={{ flex: "2 1 240px" }}>
+            <h3 style={{ fontSize: 24, fontWeight: 700, margin: "0 0 8px" }}>Kyro for Enterprise</h3>
+            <p style={{ fontSize: 14, fontWeight: 300, margin: "0 0 24px", lineHeight: 1.6, opacity: 0.9 }}>
+              Multi-location businesses need centralized control. Custom pricing, dedicated support, and advanced features for scaling brands.
+            </p>
+            <a
+              href="mailto:hello@wearekyro.com?subject=Enterprise Plan Inquiry"
+              style={{
+                display: "inline-flex", alignItems: "center", justifyContent: "center",
+                height: 40, padding: "0 32px", borderRadius: 8,
+                border: "1px solid white", backgroundColor: "transparent",
+                color: "white", fontSize: 15, fontWeight: 500, textDecoration: "none",
+              }}
+            >
+              Contact Us
+            </a>
+          </div>
+          <div style={{ flex: "3 1 320px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px 56px" }}>
               {[
-                "Multiple locations",
-                "Centralized dashboard",
-                "Unlimited customers",
-                "Unlimited campaigns",
-                "Custom branding",
-                "Dedicated support",
-              ].map((f) => (
-                <div key={f} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "rgba(10,10,10,0.65)" }}>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgb(16,185,129)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
-                    <path d="M20 6L9 17l-5-5" />
-                  </svg>
-                  {f}
-                </div>
-              ))}
+                { icon: Puzzle, title: "Onboarding & Training", desc: "Tailored onboarding with live training to help your team adopt quickly." },
+                { icon: Users, title: "Multi-Store Dashboard", desc: "Centralized management across all locations with per-store analytics." },
+                { icon: Headphones, title: "Priority Support", desc: "Guaranteed priority assistance with defined response times." },
+                { icon: ShieldCheck, title: "Custom Branding", desc: "White-label loyalty cards with your own branding and domain." },
+              ].map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.title} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                    <Icon size={20} style={{ color: "#fb923c" }} />
+                    <div>
+                      <h4 style={{ fontSize: 14, fontWeight: 700, margin: "0 0 4px" }}>{item.title}</h4>
+                      <p style={{ fontSize: 14, fontWeight: 300, margin: 0, lineHeight: 1.5, opacity: 0.85 }}>{item.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          <a
-            href="mailto:hello@wearekyro.com?subject=Enterprise Plan Inquiry"
-            style={{
-              padding: "11px 28px", borderRadius: 10,
-              backgroundColor: "#0a0a0a", color: "white",
-              fontSize: 13, fontWeight: 600, textDecoration: "none",
-              alignSelf: "center",
-            }}
-          >
-            Contact Us
-          </a>
         </div>
       </div>
 
       {/* FAQ */}
-      <div style={{ marginBottom: 40 }}>
-        <h2 style={{ fontSize: 18, fontWeight: 700, color: "rgba(10,10,10,0.85)", marginBottom: 4 }}>Frequently asked questions</h2>
-        <p style={{ fontSize: 13, color: "rgba(10,10,10,0.4)", marginBottom: 20 }}>Everything you need to know about our plans</p>
-
-        <div style={{ borderTop: "1px solid rgba(10,10,10,0.06)" }}>
+      <div style={{ marginBottom: 32, padding: "0 8px" }}>
+        <h2 style={{ fontSize: 24, fontWeight: 600, color: "rgba(10,10,10,0.9)", margin: "0 0 24px" }}>
+          Frequently Asked Questions
+        </h2>
+        <div>
           {faqs.map((faq, i) => (
-            <div key={i} style={{ borderBottom: "1px solid rgba(10,10,10,0.06)" }}>
+            <div key={i} style={{ borderTop: "1px solid rgba(10,10,10,0.06)", padding: "16px 0" }}>
               <button
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 style={{
-                  width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center",
-                  padding: "16px 0", border: "none", backgroundColor: "transparent",
-                  cursor: "pointer", fontFamily: "inherit", textAlign: "left",
+                  display: "flex", width: "100%", alignItems: "center", justifyContent: "space-between",
+                  textAlign: "left", border: "none", backgroundColor: "transparent",
+                  cursor: "pointer", fontFamily: "inherit", padding: 0,
                 }}
               >
-                <span style={{ fontSize: 14, fontWeight: 500, color: "rgba(10,10,10,0.8)" }}>{faq.q}</span>
-                <svg
-                  width="16" height="16" viewBox="0 0 24 24" fill="none"
-                  stroke="rgba(10,10,10,0.3)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                  style={{ flexShrink: 0, transform: openFaq === i ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s" }}
-                >
-                  <path d="M6 9l6 6 6-6" />
-                </svg>
+                <span style={{ fontSize: 17, fontWeight: 500, color: "rgba(10,10,10,0.85)" }}>{faq.q}</span>
+                <ChevronDown
+                  size={20}
+                  style={{
+                    flexShrink: 0, color: "rgba(10,10,10,0.3)", marginLeft: 16,
+                    transform: openFaq === i ? "rotate(180deg)" : "rotate(0deg)",
+                    transition: "transform 0.2s",
+                  }}
+                />
               </button>
               {openFaq === i && (
-                <div style={{ paddingBottom: 16, fontSize: 13, color: "rgba(10,10,10,0.5)", lineHeight: 1.6 }}>
-                  {faq.a}
-                </div>
+                <p style={{ marginTop: 12, fontSize: 14, color: "rgba(10,10,10,0.5)", lineHeight: 1.6 }}>{faq.a}</p>
               )}
             </div>
           ))}
