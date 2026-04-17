@@ -61,14 +61,15 @@ export async function POST(request: Request) {
     .single();
   if (!profile?.business_id) return NextResponse.json({ error: "No business" }, { status: 403 });
 
-  let body: { title: string; message?: string; card_id?: string; scheduled_at?: string };
+  let body: { title: string; message?: string; card_id?: string; scheduled_at?: string; campaign_type?: string };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  const { title, message, card_id, scheduled_at } = body;
+  const { title, message, card_id, scheduled_at, campaign_type } = body;
+  const notifType = campaign_type === "birthday" ? "birthday" : "custom";
   if (!title) {
     return NextResponse.json({ error: "Title is required" }, { status: 400 });
   }
@@ -98,7 +99,7 @@ export async function POST(request: Request) {
     for (const cid of cardIds) {
       await admin.from("card_notifications" as any).insert({
         card_id: cid,
-        type: "custom",
+        type: notifType as any,
         title,
         message: message || null,
         scheduled_at,
@@ -127,7 +128,7 @@ export async function POST(request: Request) {
 
     await admin.from("card_notifications" as any).insert({
       card_id: cid,
-      type: "custom",
+      type: notifType as any,
       title,
       message: message || null,
       sent_at: new Date().toISOString(),
