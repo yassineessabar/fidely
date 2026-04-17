@@ -43,7 +43,7 @@ export default function DashboardLayout({
   const title = pageTitles[pathname] || (pathname.startsWith("/dashboard/loyalty/") ? "Edit Card" : "Dashboard");
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "white" }}>
+    <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "white", fontFamily: "var(--font-geist-sans), Arial, sans-serif" }}>
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
