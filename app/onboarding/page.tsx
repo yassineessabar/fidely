@@ -13,9 +13,9 @@ const iconMap: Record<string, any> = {
 };
 
 const objectives = [
-  { id: "retention", label: "Bring customers back", desc: "Turn one-time visitors into regulars with rewards", icon: "🔄" },
-  { id: "sales", label: "Increase revenue", desc: "Drive more spend per visit with loyalty incentives", icon: "📈" },
-  { id: "database", label: "Grow your audience", desc: "Capture customer details and build your database", icon: "👥" },
+  { id: "retention", label: "Bring customers back", desc: "Turn one-time visitors into regulars with rewards" },
+  { id: "sales", label: "Increase revenue", desc: "Drive more spend per visit with loyalty incentives" },
+  { id: "database", label: "Grow your audience", desc: "Capture customer details and build your database" },
 ];
 
 type State = {
@@ -260,25 +260,20 @@ export default function OnboardingPage() {
                                 position: "absolute", inset: 0,
                                 background: `linear-gradient(transparent 20%, ${t.backgroundColor}cc 100%)`,
                               }} />
-                              {/* Stamp emojis — big, no background, like real wallet */}
+                              {/* Stamp emojis — big like real wallet */}
                               <div style={{
-                                position: "absolute", bottom: 2, left: 0, right: 0,
-                                display: "flex", justifyContent: "center", gap: 1, padding: "0 4px", flexWrap: "wrap",
+                                position: "absolute", inset: 0,
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                                gap: 2, flexWrap: "wrap", padding: "4px 6px",
                               }}>
                                 {Array.from({ length: Math.min(t.mockStamps, 10) }).map((_, i) => (
-                                  <div key={i} style={{
-                                    width: 18, height: 18,
-                                    display: "flex", alignItems: "center", justifyContent: "center",
-                                    position: "relative",
+                                  <span key={i} style={{
+                                    fontSize: 18, lineHeight: 1,
+                                    opacity: i < 3 ? 1 : 0.15,
+                                    filter: i >= 3 ? "grayscale(1)" : "none",
                                   }}>
-                                    <span style={{
-                                      fontSize: 14, lineHeight: 1,
-                                      opacity: i < 3 ? 1 : 0.2,
-                                      filter: i >= 3 ? "grayscale(1)" : "none",
-                                    }}>
-                                      {t.stampEmoji}
-                                    </span>
-                                  </div>
+                                    {t.stampEmoji}
+                                  </span>
                                 ))}
                               </div>
                             </div>
@@ -340,7 +335,7 @@ export default function OnboardingPage() {
               <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)", textAlign: "center", margin: "0 0 40px" }}>
                 Select all that apply
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, maxWidth: 560, margin: "0 auto" }} className="goals-grid">
+              <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 440, margin: "0 auto" }}>
                 {objectives.map((obj) => {
                   const selected = data.selectedObjectives.includes(obj.id);
                   return (
@@ -353,22 +348,24 @@ export default function OnboardingPage() {
                         setData({ ...data, selectedObjectives: next });
                       }}
                       style={{
-                        display: "flex", flexDirection: "column", alignItems: "center",
-                        padding: "28px 16px", borderRadius: 16, cursor: "pointer", fontFamily: "inherit",
-                        border: selected ? "2px solid #0b051d" : "1px solid rgba(10,10,10,0.08)",
-                        backgroundColor: selected ? "rgba(11,5,29,0.03)" : "white",
-                        textAlign: "center", transition: "all 0.2s",
-                        boxShadow: selected ? "0 4px 16px rgba(11,5,29,0.08)" : "none",
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                        padding: "20px 22px", borderRadius: 14, cursor: "pointer", fontFamily: "inherit",
+                        border: selected ? "1.5px solid #0b051d" : "1px solid rgba(10,10,10,0.08)",
+                        backgroundColor: "white", textAlign: "left", transition: "all 0.15s",
                       }}
                     >
-                      <div style={{ fontSize: 32, marginBottom: 12 }}>{obj.icon}</div>
-                      <div style={{ fontSize: 15, fontWeight: 700, color: "rgba(10,10,10,0.85)", marginBottom: 4 }}>{obj.label}</div>
-                      <div style={{ fontSize: 12, color: "rgba(10,10,10,0.4)", lineHeight: 1.4 }}>{obj.desc}</div>
-                      {selected && (
-                        <div style={{ width: 22, height: 22, borderRadius: "50%", backgroundColor: "#0b051d", display: "flex", alignItems: "center", justifyContent: "center", marginTop: 12 }}>
-                          <Check size={13} style={{ color: "white" }} />
-                        </div>
-                      )}
+                      <div>
+                        <div style={{ fontSize: 15, fontWeight: 600, color: "rgba(10,10,10,0.85)", marginBottom: 2 }}>{obj.label}</div>
+                        <div style={{ fontSize: 13, color: "rgba(10,10,10,0.4)", lineHeight: 1.4 }}>{obj.desc}</div>
+                      </div>
+                      <div style={{
+                        width: 22, height: 22, borderRadius: "50%", flexShrink: 0, marginLeft: 16,
+                        border: selected ? "none" : "1.5px solid rgba(10,10,10,0.15)",
+                        backgroundColor: selected ? "#0b051d" : "transparent",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                      }}>
+                        {selected && <Check size={13} style={{ color: "white" }} />}
+                      </div>
                     </button>
                   );
                 })}
@@ -564,38 +561,130 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          {/* Step 5: Success */}
-          {step === 5 && (
-            <div style={{ animation: "fadeInUp 0.5s ease", textAlign: "center", paddingTop: 40 }}>
-              <div style={{
-                width: 72, height: 72, borderRadius: "50%",
-                backgroundColor: "rgba(16,185,129,0.1)", display: "flex",
-                alignItems: "center", justifyContent: "center", margin: "0 auto 24px",
-              }}>
-                <Check size={36} style={{ color: "rgb(16,185,129)" }} />
+          {/* Step 5: Success — iPhone mockup with confetti */}
+          {step === 5 && (() => {
+            const t = data.theme;
+            return (
+            <div style={{ animation: "fadeInUp 0.5s ease", position: "relative" }}>
+              {/* Confetti canvas */}
+              <div className="confetti-container" style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 1, overflow: "hidden" }}>
+                {Array.from({ length: 60 }).map((_, i) => (
+                  <div key={i} className="confetti-piece" style={{
+                    position: "absolute",
+                    left: `${Math.random() * 100}%`,
+                    top: `-${Math.random() * 20 + 5}%`,
+                    width: Math.random() * 8 + 4,
+                    height: Math.random() * 12 + 6,
+                    backgroundColor: ["#6C47FF", "#E6FFA9", "#f59e0b", "#ec4899", "#10b981", "#0ea5e9", "#ef4444"][Math.floor(Math.random() * 7)],
+                    borderRadius: Math.random() > 0.5 ? "50%" : "2px",
+                    animation: `confettiFall ${Math.random() * 2 + 2}s ease-in ${Math.random() * 1.5}s forwards`,
+                    transform: `rotate(${Math.random() * 360}deg)`,
+                  }} />
+                ))}
               </div>
-              <h1 style={{ fontSize: 28, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 8px" }}>
-                You&apos;re all set!
-              </h1>
-              <p style={{ fontSize: 15, color: "rgba(10,10,10,0.45)", margin: "0 0 40px", maxWidth: 400, marginLeft: "auto", marginRight: "auto", lineHeight: 1.6 }}>
-                Your loyalty card has been created. Share it with your customers to start building loyalty.
-              </p>
-              <button
-                onClick={() => router.push("/dashboard/loyalty")}
-                style={{
-                  padding: "14px 40px", borderRadius: 99, border: "none",
-                  backgroundColor: "#0b051d", color: "white", fontSize: 15, fontWeight: 600,
-                  cursor: "pointer", fontFamily: "inherit",
-                }}
-              >
-                Go to Dashboard
-              </button>
+
+              <div style={{ textAlign: "center", marginBottom: 24 }}>
+                <h1 style={{ fontSize: 30, fontWeight: 800, color: "rgba(0,0,0,0.9)", margin: "0 0 8px", letterSpacing: "-0.45px" }}>
+                  Looking good!
+                </h1>
+                <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)", margin: 0 }}>
+                  Your loyalty card is ready. Share it with your customers.
+                </p>
+              </div>
+
+              {/* iPhone mockup with card */}
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flex: 1, position: "relative", zIndex: 2 }}>
+                <div style={{
+                  width: "100%", maxWidth: 320, aspectRatio: "393/852",
+                  border: "6px solid #ebebeb", borderRadius: 48,
+                  overflow: "hidden", backgroundColor: "#000",
+                  boxShadow: "rgba(0,0,0,0.02) 0px 121px 49px, rgba(0,0,0,0.08) 0px 68px 41px, rgba(0,0,0,0.14) 0px 30px 30px, rgba(0,0,0,0.16) 0px 8px 17px",
+                }}>
+                  {/* Status bar */}
+                  <div style={{ height: 44, backgroundColor: "#000", display: "flex", alignItems: "flex-end", justifyContent: "center", paddingBottom: 4 }}>
+                    <div style={{ width: 80, height: 5, borderRadius: 3, backgroundColor: "#333" }} />
+                  </div>
+
+                  {/* Wallet card content */}
+                  {t && (
+                    <div style={{ backgroundColor: t.backgroundColor, margin: 10, borderRadius: 14, overflow: "hidden" }}>
+                      <div style={{ padding: "14px 16px 10px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                          {data.logoUrl ? (
+                            <img src={data.logoUrl} alt="" style={{ width: 32, height: 32, borderRadius: 8, objectFit: "cover" }} />
+                          ) : (
+                            <div style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: t.accentColor, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                              <span style={{ fontSize: 12, fontWeight: 900, color: t.primaryColor }}>{(data.name || "K").charAt(0)}</span>
+                            </div>
+                          )}
+                          <span style={{ fontSize: 14, fontWeight: 700, color: t.primaryColor }}>{data.name || "Your Business"}</span>
+                        </div>
+                        <div style={{ textAlign: "right" }}>
+                          <div style={{ fontSize: 8, fontWeight: 600, color: t.secondaryColor, textTransform: "uppercase" }}>VALID UNTIL</div>
+                          <div style={{ fontSize: 13, fontWeight: 700, color: t.primaryColor }}>18/04/2027</div>
+                        </div>
+                      </div>
+
+                      <div style={{ height: 110, position: "relative", overflow: "hidden" }}>
+                        {data.bannerUrl ? (
+                          <><img src={data.bannerUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /><div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)" }} /></>
+                        ) : (
+                          <div style={{ width: "100%", height: "100%", background: `linear-gradient(135deg, ${t.accentColor}40, ${t.backgroundColor})` }} />
+                        )}
+                        <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", gap: 3, flexWrap: "wrap", padding: "8px 12px" }}>
+                          {Array.from({ length: 10 }).map((_, i) => (
+                            <span key={i} style={{ fontSize: 20, opacity: i < 3 ? 1 : 0.15, filter: i >= 3 ? "grayscale(1)" : "none" }}>{t.stampEmoji}</span>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div style={{ padding: "10px 16px", display: "flex", justifyContent: "space-between" }}>
+                        <div>
+                          <div style={{ fontSize: 8, fontWeight: 600, color: t.secondaryColor, textTransform: "uppercase" }}>STAMPS UNTIL REWARD</div>
+                          <div style={{ fontSize: 14, fontWeight: 600, color: t.primaryColor }}>10 stamps</div>
+                        </div>
+                        <div style={{ textAlign: "right" }}>
+                          <div style={{ fontSize: 8, fontWeight: 600, color: t.secondaryColor, textTransform: "uppercase" }}>MEMBER</div>
+                          <div style={{ fontSize: 14, fontWeight: 500, color: t.primaryColor }}>Jane Smith</div>
+                        </div>
+                      </div>
+
+                      <div style={{ padding: "10px 16px 14px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        <div style={{ width: 64, height: 64, borderRadius: 8, backgroundColor: "white", padding: 4, display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gridTemplateRows: "repeat(7, 1fr)", gap: 0.5 }}>
+                          {[1,1,1,0,1,1,1, 1,0,1,0,1,0,1, 1,1,1,0,1,1,1, 0,0,0,0,0,0,0, 1,0,1,1,0,1,0, 0,1,0,0,1,0,1, 1,0,1,0,1,1,1].map((v, i) => (
+                            <div key={i} style={{ backgroundColor: v ? "#0b051d" : "white" }} />
+                          ))}
+                        </div>
+                        <div style={{ fontSize: 8, color: t.secondaryColor, marginTop: 6, opacity: 0.4 }}>Powered by Kyro</div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Home indicator */}
+                  <div style={{ height: 24, backgroundColor: "#000", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                    <div style={{ width: 100, height: 4, borderRadius: 2, backgroundColor: "#444" }} />
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
+            );
+          })()}
         </div>
       </div>
 
       {/* Bottom navigation */}
+      {step === 5 && (
+        <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 10, background: "linear-gradient(transparent, white 30%)", padding: "40px 24px 24px" }}>
+          <div style={{ maxWidth: 512, margin: "0 auto" }}>
+            <button
+              onClick={() => router.push("/dashboard/loyalty")}
+              style={{ width: "100%", padding: "14px", borderRadius: 99, border: "none", backgroundColor: "#0b051d", color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit" }}
+            >
+              Continue to Dashboard
+            </button>
+          </div>
+        </div>
+      )}
       {step < 5 && (
         <div style={{
           position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 10,
@@ -658,6 +747,10 @@ export default function OnboardingPage() {
         @keyframes fadeInUp {
           from { opacity: 0; transform: translateY(12px); }
           to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes confettiFall {
+          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(800px) rotate(720deg); opacity: 0; }
         }
         @media (max-width: 768px) {
           .onboard-preview { display: none !important; }
