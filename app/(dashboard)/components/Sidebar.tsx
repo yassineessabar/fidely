@@ -390,26 +390,49 @@ export default function Sidebar({
         </div>
       </nav>
 
-      {/* Upgrade banner */}
+      {/* Plan banner */}
       <div className="dash-upgrade-banner" style={{ padding: "8px 14px 0", minWidth: "260px" }}>
-        <Link
-          href="/dashboard/upgrade"
-          onClick={onNavClick}
-          style={{
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "14px 16px", borderRadius: "12px",
-            border: "1px solid rgba(255,255,255,0.08)", backgroundColor: "rgba(255,255,255,0.03)",
-            textDecoration: "none", transition: "background-color 0.15s",
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)"; }}
-        >
-          <div>
-            <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.8)" }}>Upgrade your plan</p>
-            <p style={{ margin: "3px 0 0", fontSize: "11px", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>Get more features</p>
-          </div>
-          <Gem size={18} style={{ color: "rgba(255,255,255,0.25)" }} />
-        </Link>
+        {plan === "free" || plan === "starter" ? (
+          <Link
+            href="/dashboard/upgrade"
+            onClick={onNavClick}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              padding: "14px 16px", borderRadius: "12px",
+              border: "1px solid rgba(255,255,255,0.08)", backgroundColor: "rgba(255,255,255,0.03)",
+              textDecoration: "none", transition: "background-color 0.15s",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)"; }}
+          >
+            <div>
+              <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.8)" }}>Upgrade your plan</p>
+              <p style={{ margin: "3px 0 0", fontSize: "11px", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>Get more features</p>
+            </div>
+            <Gem size={18} style={{ color: "rgba(255,255,255,0.25)" }} />
+          </Link>
+        ) : (
+          <Link
+            href="/dashboard/upgrade"
+            onClick={onNavClick}
+            style={{
+              display: "flex", alignItems: "center", justifyContent: "space-between",
+              padding: "14px 16px", borderRadius: "12px",
+              border: "1px solid rgba(255,255,255,0.08)", backgroundColor: "rgba(255,255,255,0.03)",
+              textDecoration: "none", transition: "background-color 0.15s",
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)"; }}
+          >
+            <div>
+              <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.8)" }}>
+                {plan.charAt(0).toUpperCase() + plan.slice(1)} Plan
+              </p>
+              <p style={{ margin: "3px 0 0", fontSize: "11px", color: "rgba(16,185,129,0.8)", fontWeight: 500 }}>Active</p>
+            </div>
+            <div style={{ width: 8, height: 8, borderRadius: 99, backgroundColor: "rgb(16,185,129)" }} />
+          </Link>
+        )}
       </div>
 
       {/* Bottom bar: avatar + notification */}
