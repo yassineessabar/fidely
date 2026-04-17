@@ -224,69 +224,86 @@ export default function OnboardingPage() {
                             backgroundColor: "transparent", fontFamily: "inherit", width: "100%",
                           }}
                         >
-                          {/* Phone-shaped wallet card mockup */}
+                          {/* Phone-shaped wallet card mockup with realistic content */}
                           <div style={{
                             aspectRatio: "172.5 / 320",
                             backgroundColor: t.backgroundColor,
                             display: "flex", flexDirection: "column",
                             overflow: "hidden", position: "relative",
                           }}>
-                            {/* Top bar: logo + name */}
-                            <div style={{ padding: "14px 14px 8px", display: "flex", alignItems: "center", gap: 8 }}>
+                            {/* Top bar: logo + business name */}
+                            <div style={{ padding: "12px 12px 6px", display: "flex", alignItems: "center", gap: 6 }}>
                               <div style={{
-                                width: 24, height: 24, borderRadius: 6,
+                                width: 22, height: 22, borderRadius: 5,
                                 backgroundColor: t.accentColor, display: "flex",
                                 alignItems: "center", justifyContent: "center", flexShrink: 0,
                               }}>
-                                <span style={{ fontSize: 8, fontWeight: 900, color: t.primaryColor }}>K</span>
+                                <span style={{ fontSize: 7, fontWeight: 900, color: t.primaryColor }}>
+                                  {t.mockBusiness.charAt(0)}
+                                </span>
                               </div>
-                              <span style={{ fontSize: 9, fontWeight: 700, color: t.primaryColor, opacity: 0.9 }}>
-                                Your Business
+                              <span style={{ fontSize: 8, fontWeight: 700, color: t.primaryColor, opacity: 0.9 }}>
+                                {t.mockBusiness}
                               </span>
                             </div>
 
-                            {/* Strip area */}
+                            {/* Banner image strip */}
                             <div style={{
-                              flex: "0 0 35%",
-                              background: `linear-gradient(135deg, ${t.accentColor}40, ${t.backgroundColor})`,
-                              display: "flex", alignItems: "center", justifyContent: "center", gap: 4, flexWrap: "wrap",
-                              padding: "6px 10px",
+                              flex: "0 0 38%", position: "relative", overflow: "hidden",
                             }}>
-                              {Array.from({ length: 10 }).map((_, i) => (
-                                <div key={i} style={{
-                                  width: "16%", aspectRatio: "1", borderRadius: "50%",
-                                  backgroundColor: i < 3 ? `${t.accentColor}` : `${t.primaryColor}15`,
-                                  border: i >= 3 ? `1px solid ${t.primaryColor}20` : "none",
-                                }} />
-                              ))}
+                              <img
+                                src={t.bannerImage}
+                                alt=""
+                                style={{
+                                  width: "100%", height: "100%", objectFit: "cover",
+                                  display: "block",
+                                }}
+                              />
+                              <div style={{
+                                position: "absolute", inset: 0,
+                                background: `linear-gradient(transparent 20%, ${t.backgroundColor}cc 100%)`,
+                              }} />
+                              {/* Stamp dots overlay */}
+                              <div style={{
+                                position: "absolute", bottom: 6, left: 0, right: 0,
+                                display: "flex", justifyContent: "center", gap: 3, padding: "0 8px",
+                              }}>
+                                {Array.from({ length: Math.min(t.mockStamps, 10) }).map((_, i) => (
+                                  <div key={i} style={{
+                                    width: 8, height: 8, borderRadius: "50%",
+                                    backgroundColor: i < 3 ? t.accentColor : `${t.primaryColor}20`,
+                                    border: i >= 3 ? `0.5px solid ${t.primaryColor}30` : "none",
+                                  }} />
+                                ))}
+                              </div>
                             </div>
 
                             {/* Fields */}
-                            <div style={{ padding: "10px 14px", flex: 1 }}>
-                              <div style={{ fontSize: 7, fontWeight: 600, color: t.secondaryColor, textTransform: "uppercase", letterSpacing: "0.3px", marginBottom: 2 }}>
-                                STAMPS UNTIL REWARD
+                            <div style={{ padding: "8px 12px", flex: 1 }}>
+                              <div style={{ fontSize: 6, fontWeight: 600, color: t.secondaryColor, textTransform: "uppercase", letterSpacing: "0.3px", marginBottom: 1 }}>
+                                REWARD
                               </div>
-                              <div style={{ fontSize: 10, fontWeight: 600, color: t.primaryColor, marginBottom: 8 }}>
-                                10 stamps
+                              <div style={{ fontSize: 9, fontWeight: 600, color: t.primaryColor, marginBottom: 6 }}>
+                                {t.mockReward}
                               </div>
-                              <div style={{ fontSize: 7, fontWeight: 600, color: t.secondaryColor, textTransform: "uppercase", letterSpacing: "0.3px", marginBottom: 2 }}>
+                              <div style={{ fontSize: 6, fontWeight: 600, color: t.secondaryColor, textTransform: "uppercase", letterSpacing: "0.3px", marginBottom: 1 }}>
                                 MEMBER
                               </div>
-                              <div style={{ fontSize: 9, fontWeight: 500, color: t.primaryColor, opacity: 0.7 }}>
+                              <div style={{ fontSize: 8, fontWeight: 500, color: t.primaryColor, opacity: 0.6 }}>
                                 Jane Smith
                               </div>
                             </div>
 
                             {/* QR placeholder */}
-                            <div style={{ padding: "0 14px 12px", display: "flex", justifyContent: "center" }}>
+                            <div style={{ padding: "0 12px 8px", display: "flex", justifyContent: "center" }}>
                               <div style={{
-                                width: 40, height: 40, borderRadius: 6,
-                                backgroundColor: "white", opacity: 0.9,
+                                width: 36, height: 36, borderRadius: 5,
+                                backgroundColor: "white", opacity: 0.85,
                               }} />
                             </div>
 
                             {/* Powered by */}
-                            <div style={{ textAlign: "center", paddingBottom: 8, fontSize: 5, color: t.secondaryColor, opacity: 0.4 }}>
+                            <div style={{ textAlign: "center", paddingBottom: 6, fontSize: 5, color: t.secondaryColor, opacity: 0.35 }}>
                               Powered by Kyro
                             </div>
                           </div>
