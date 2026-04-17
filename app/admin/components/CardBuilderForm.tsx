@@ -277,6 +277,34 @@ export default function CardBuilderForm({
     setLogic({ rewardTiers: updated } as never);
   };
 
+  const [geocoding, setGeocoding] = useState(false);
+  const [geoResult, setGeoResult] = useState<string>("");
+
+  async function handleGeocode() {
+    const addr = (cardData.businessDetails as any).address;
+    if (!addr || addr.trim().length < 3) return;
+    setGeocoding(true);
+    setGeoResult("");
+    try {
+      const res = await fetch("/api/admin/geocode", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ address: addr }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setDetails({ latitude: data.latitude, longitude: data.longitude } as any);
+        setGeoResult(`📍 ${data.display_name}`);
+      } else {
+        setGeoResult(`❌ ${data.error || "Not found"}`);
+      }
+    } catch {
+      setGeoResult("❌ Geocoding failed");
+    } finally {
+      setGeocoding(false);
+    }
+  }
+
   const addTier = () =>
     setLogic({ rewardTiers: [...tiers, { points: 0, reward: "" }] } as never);
 
@@ -357,6 +385,42 @@ export default function CardBuilderForm({
               <p style={{ fontSize: "12px", color: "rgb(97,95,109)", marginTop: "4px" }}>
                 4-digit PIN required by merchants to perform scan actions.
               </p>
+            </div>
+            <div style={{ marginBottom: "14px" }}>
+              <label style={labelStyle}>Shop Address</label>
+              <div style={{ display: "flex", gap: "8px" }}>
+                <input
+                  style={{ ...inputStyle, flex: 1 }}
+                  value={(cardData.businessDetails as any).address || ""}
+                  onChange={(e) => setDetails({ address: e.target.value } as any)}
+                  placeholder="123 Main St, Sydney NSW 2000"
+                />
+                <button
+                  type="button"
+                  onClick={handleGeocode}
+                  disabled={geocoding}
+                  style={{
+                    padding: "10px 16px", borderRadius: "8px",
+                    backgroundColor: "rgb(108,71,255)", color: "white",
+                    border: "none", fontSize: "13px", fontWeight: 600,
+                    cursor: geocoding ? "not-allowed" : "pointer",
+                    opacity: geocoding ? 0.7 : 1, fontFamily: "inherit",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {geocoding ? "..." : "📍 Locate"}
+                </button>
+              </div>
+              {geoResult && (
+                <div style={{ marginTop: "6px", fontSize: "12px", color: geoResult.startsWith("❌") ? "#e53e3e" : "rgb(22,101,52)" }}>
+                  {geoResult}
+                </div>
+              )}
+              {(cardData.businessDetails as any).latitude && !geoResult && (
+                <div style={{ marginTop: "6px", fontSize: "12px", color: "rgb(22,101,52)" }}>
+                  📍 Location set ({(cardData.businessDetails as any).latitude.toFixed(4)}, {(cardData.businessDetails as any).longitude.toFixed(4)})
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -603,6 +667,77 @@ export default function CardBuilderForm({
                 </>
               );
             })()}
+
+            {/* Birthday Campaign */}
+            {(cardData.type === "stamp" || cardData.type === "points") && (
+              <div style={{ marginTop: "20px", paddingTop: "16px", borderTop: "1px solid rgb(228,227,223)" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "14px" }}>
+                  <label style={{ ...labelStyle, marginBottom: 0 }}>Birthday Campaign</label>
+                  <button
+                    type="button"
+                    onClick={() => setLogic({ birthdayEnabled: !(cardData.logic as any).birthdayEnabled } as any)}
+                    style={{
+                      width: "44px", height: "24px", borderRadius: "12px", border: "none",
+                      backgroundColor: (cardData.logic as any).birthdayEnabled ? "rgb(108,71,255)" : "rgb(228,227,223)",
+                      cursor: "pointer", position: "relative", transition: "background-color 0.2s",
+                    }}
+                  >
+                    <div style={{
+                      width: "20px", height: "20px", borderRadius: "50%", backgroundColor: "white",
+                      position: "absolute", top: "2px",
+                      left: (cardData.logic as any).birthdayEnabled ? "22px" : "2px",
+                      transition: "left 0.2s",
+                    }} />
+                  </button>
+                </div>
+                {(cardData.logic as any).birthdayEnabled && (
+                  <>
+                    <div style={{ marginBottom: "14px" }}>
+                      <label style={labelStyle}>Birthday Offer Message</label>
+                      <input
+                        style={inputStyle}
+                        value={(cardData.logic as any).birthdayOffer || ""}
+                        onChange={(e) => setLogic({ birthdayOffer: e.target.value } as any)}
+                        placeholder="Free coffee on your birthday!"
+                      />
+                    </div>
+                    <div style={{ marginBottom: "14px" }}>
+                      <label style={labelStyle}>Reward Type</label>
+                      <div style={{ display: "flex", gap: "8px" }}>
+                        {(["message", "stamp", "points"] as const).map((rt) => (
+                          <button
+                            key={rt}
+                            type="button"
+                            onClick={() => setLogic({ birthdayRewardType: rt } as any)}
+                            style={{
+                              ...sharedTypeBtn,
+                              ...((cardData.logic as any).birthdayRewardType === rt || (!((cardData.logic as any).birthdayRewardType) && rt === "message")
+                                ? { backgroundColor: "rgb(108,71,255)", color: "white", border: "none" }
+                                : { backgroundColor: "white", border: "1px solid rgb(228,227,223)", color: "rgb(11,5,29)" }),
+                              padding: "8px 14px", fontSize: "13px",
+                            }}
+                          >
+                            {rt === "message" ? "Message Only" : rt === "stamp" ? "Free Stamp" : "Bonus Points"}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    {(cardData.logic as any).birthdayRewardType === "points" && (
+                      <div style={{ marginBottom: "14px" }}>
+                        <label style={labelStyle}>Birthday Bonus Points</label>
+                        <input
+                          type="number"
+                          style={inputStyle}
+                          value={(cardData.logic as any).birthdayPointsAmount || ""}
+                          onChange={(e) => setLogic({ birthdayPointsAmount: parseInt(e.target.value) || 0 } as any)}
+                          placeholder="50"
+                        />
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
