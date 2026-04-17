@@ -134,7 +134,7 @@ export default function OnboardingPage() {
               <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)", textAlign: "center", margin: "0 0 32px", letterSpacing: "0.16px" }}>
                 We&apos;ll customize your loyalty card based on your industry
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }} className="biz-type-grid">
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20 }} className="biz-type-grid">
                 {businessTypes.map((bt) => {
                   const selected = data.businessType === bt.id;
                   return (
