@@ -306,55 +306,207 @@ html { scroll-behavior: smooth; }
 }
 
 /* ========== DASHBOARD DARK MODE ========== */
+/* Layout shell */
 html.dark .dash-main {
   background-color: #0a0a0a !important;
-  color: #fafafa !important;
+  color: #e5e5e5 !important;
 }
 html.dark .dash-main header {
-  background-color: #0a0a0a !important;
+  background-color: rgba(10,10,10,0.85) !important;
+  backdrop-filter: blur(12px) !important;
   border-bottom-color: rgba(255,255,255,0.06) !important;
 }
 html.dark .dash-main header h1 {
-  color: rgba(255,255,255,0.8) !important;
+  color: rgba(255,255,255,0.7) !important;
 }
-html.dark .dash-main main {
+html.dark .dash-main > main {
   background-color: #0a0a0a !important;
 }
-html.dark .dash-main main > div {
-  color: #fafafa !important;
-}
-/* Dark mode cards */
-html.dark .dash-main [style*="backgroundColor: \"#fff\""],
-html.dark .dash-main [style*="backgroundColor: \"white\""] {
-  background-color: #141414 !important;
-  border-color: rgba(255,255,255,0.06) !important;
-}
-/* Generic dark overrides via data attribute */
+
+/* Typography */
 html.dark .dash-main h1,
 html.dark .dash-main h2,
 html.dark .dash-main h3 {
   color: rgba(255,255,255,0.9) !important;
 }
-html.dark .dash-main p,
-html.dark .dash-main span,
-html.dark .dash-main div,
-html.dark .dash-main label,
-html.dark .dash-main td,
-html.dark .dash-main th {
-  color: inherit;
+html.dark .dash-main p {
+  color: rgba(255,255,255,0.5) !important;
+}
+html.dark .dash-main label {
+  color: rgba(255,255,255,0.4) !important;
 }
 html.dark .dash-main table {
   color: rgba(255,255,255,0.7) !important;
 }
+
+/* Cards — any white/light background div */
+html.dark .dash-main div[style*="background-color: white"],
+html.dark .dash-main div[style*="backgroundColor: white"],
+html.dark .dash-main div[style*="background-color: rgb(255"],
+html.dark .dash-main div[style*="backgroundColor:\"white\""] {
+  background-color: #141414 !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+/* Cards with #fafafa bg */
+html.dark .dash-main div[style*="#fafafa"] {
+  background-color: #0a0a0a !important;
+}
+
+/* Inputs */
 html.dark .dash-main input,
 html.dark .dash-main textarea,
 html.dark .dash-main select {
-  background-color: rgba(255,255,255,0.04) !important;
-  border-color: rgba(255,255,255,0.08) !important;
-  color: rgba(255,255,255,0.8) !important;
+  background-color: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  color: rgba(255,255,255,0.85) !important;
 }
-html.dark .dash-main button {
-  color: inherit;
+html.dark .dash-main input::placeholder,
+html.dark .dash-main textarea::placeholder {
+  color: rgba(255,255,255,0.25) !important;
+}
+
+/* Buttons — non-primary (white bg) */
+html.dark .dash-main button[style*="backgroundColor: white"],
+html.dark .dash-main button[style*="background-color: white"],
+html.dark .dash-main a[style*="backgroundColor: white"],
+html.dark .dash-main a[style*="background-color: white"] {
+  background-color: #1a1a1a !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  color: rgba(255,255,255,0.7) !important;
+}
+
+/* Borders on cards/sections */
+html.dark .dash-main div[style*="border: 1px solid rgba(10"],
+html.dark .dash-main div[style*="border: 1.5px solid rgba(10"] {
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+/* Info banners */
+html.dark .dash-main div[style*="rgba(37,101,214"] {
+  background-color: rgba(37,101,214,0.1) !important;
+}
+
+/* Status badges */
+html.dark .dash-main span[style*="rgba(16,185,129"] {
+  background-color: rgba(16,185,129,0.15) !important;
+}
+html.dark .dash-main span[style*="rgba(10,10,10,0.04)"] {
+  background-color: rgba(255,255,255,0.06) !important;
+  color: rgba(255,255,255,0.4) !important;
+}
+html.dark .dash-main span[style*="rgba(10,10,10,0.06)"] {
+  background-color: rgba(255,255,255,0.06) !important;
+  color: rgba(255,255,255,0.5) !important;
+}
+
+/* Links grid cards */
+html.dark .links-grid > div > div,
+html.dark .edit-layout > div:first-child > div,
+html.dark .new-card-layout > div:first-child > div {
+  background-color: #141414 !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+html.dark .links-grid > div > div[style*="border: 2px"] {
+  border-color: rgba(255,255,255,0.3) !important;
+}
+
+/* KPI cards in insights */
+html.dark .insights-kpi-grid > div {
+  background-color: #141414 !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+/* Charts card */
+html.dark .insights-chart-grid > div {
+  background-color: #141414 !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+/* Profile page cover gradient when no image */
+html.dark .dash-main div[style*="border-radius: 16px 16px 0"] {
+  background-color: #141414 !important;
+}
+
+/* Upgrade page cards */
+html.dark .dash-main div[style*="borderRadius: 20"] {
+  background-color: #141414 !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+
+/* Delete modal overlay */
+html.dark .dash-main div[style*="position: fixed"][style*="rgba(0,0,0"] {
+  background-color: rgba(0,0,0,0.7) !important;
+}
+html.dark .dash-main div[style*="position: fixed"] > div[style*="backgroundColor: white"] {
+  background-color: #1a1a1a !important;
+}
+
+/* Dropdown menus */
+html.dark .profile-dropdown {
+  background-color: #1a1a1a !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+html.dark .profile-dropdown a,
+html.dark .profile-dropdown button {
+  color: rgba(255,255,255,0.7) !important;
+}
+html.dark .profile-dropdown a:hover,
+html.dark .profile-dropdown button:hover {
+  background-color: rgba(255,255,255,0.06) !important;
+}
+html.dark .profile-dropdown div[style*="rgba(10,10,10,0.06)"] {
+  background-color: rgba(255,255,255,0.06) !important;
+}
+
+/* Color picker labels */
+html.dark .dash-main input[type="color"] {
+  background-color: transparent !important;
+}
+
+/* Theme preset buttons */
+html.dark .dash-main .theme-preset-grid button,
+html.dark .dash-main .new-theme-grid button,
+html.dark .dash-main .new-theme-select-grid button,
+html.dark .dash-main .edit-theme-grid button {
+  border-color: rgba(255,255,255,0.1) !important;
+}
+
+/* Emoji buttons */
+html.dark .dash-main button[style*="fontSize: 19"],
+html.dark .dash-main button[style*="fontSize: 18"],
+html.dark .dash-main button[style*="fontSize: 20"] {
+  background-color: #1a1a1a !important;
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* Legend toggles in insights */
+html.dark .dash-main button[style*="borderRadius: 99"] {
+  border-color: rgba(255,255,255,0.1) !important;
+}
+
+/* Recharts */
+html.dark .dash-main .recharts-cartesian-grid line {
+  stroke: rgba(255,255,255,0.06) !important;
+}
+html.dark .dash-main .recharts-xAxis text,
+html.dark .dash-main .recharts-yAxis text {
+  fill: rgba(255,255,255,0.35) !important;
+}
+
+/* FAQ accordion */
+html.dark .dash-main button[style*="backgroundColor: transparent"] {
+  color: rgba(255,255,255,0.7) !important;
+}
+
+/* Scrollbar */
+html.dark ::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #333;
+}
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #444;
 }
 
 /* ========== DASHBOARD ========== */
