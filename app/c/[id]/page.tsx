@@ -183,19 +183,6 @@ export default async function PublicCardPage({ params }: { params: { id: string 
             padding: "28px 24px",
           }}
         >
-          <div
-            style={{
-              fontSize: "13px",
-              fontWeight: 600,
-              color: secondary,
-              textTransform: "uppercase",
-              letterSpacing: "0.5px",
-              marginBottom: "20px",
-              textAlign: "center",
-            }}
-          >
-            Join the loyalty program
-          </div>
           <EnrollForm
             cardId={c.id}
             backgroundColor={bg}
