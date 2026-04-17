@@ -51,6 +51,8 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
   }, []);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [bizName, setBizName] = useState("");
+  const [plan, setPlan] = useState("free");
+  const planLabels: Record<string, string> = { free: "Free Plan", starter: "Starter", growth: "Growth", enterprise: "Enterprise" };
 
   useEffect(() => {
     fetch("/api/merchant/cards")
@@ -61,6 +63,10 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
           if (bd.name) setBizName(bd.name);
         }
       })
+      .catch(() => {});
+    fetch("/api/merchant/plan")
+      .then((r) => r.json())
+      .then((d) => { if (d?.plan) setPlan(d.plan); })
       .catch(() => {});
   }, []);
 
@@ -132,7 +138,7 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
                 <div style={{ padding: "10px 12px", marginBottom: "4px" }}>
                   <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "rgba(10,10,10,0.85)" }}>{bizName || "My Business"}</p>
                   <div style={{ display: "inline-block", marginTop: "4px", padding: "2px 8px", borderRadius: "6px", fontSize: "10px", fontWeight: 600, backgroundColor: "rgba(10,10,10,0.06)", color: "rgba(10,10,10,0.5)" }}>
-                    Free Plan
+                    {planLabels[plan] || "Free Plan"}
                   </div>
                 </div>
 

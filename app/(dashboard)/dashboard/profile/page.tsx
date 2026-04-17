@@ -11,6 +11,7 @@ export default function ProfilePage() {
   const [business, setBusiness] = useState<any>(null);
   const [branding, setBranding] = useState<any>(null);
   const [stats, setStats] = useState<any>(null);
+  const [plan, setPlan] = useState("free");
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"overview" | "account" | "billing">("overview");
 
@@ -18,12 +19,14 @@ export default function ProfilePage() {
     Promise.all([
       fetch("/api/merchant/cards").then((r) => r.json()).catch(() => ({})),
       fetch("/api/merchant/stats").then((r) => r.json()).catch(() => ({})),
-    ]).then(([cardsData, statsData]) => {
+      fetch("/api/merchant/plan").then((r) => r.json()).catch(() => ({})),
+    ]).then(([cardsData, statsData, planData]) => {
       if (cardsData?.cards?.length > 0) {
         setBusiness(cardsData.cards[0].business_details || {});
         setBranding(cardsData.cards[0].branding || {});
       }
       setStats(statsData || {});
+      if (planData?.plan) setPlan(planData.plan);
       setLoading(false);
     });
   }, []);
@@ -32,6 +35,8 @@ export default function ProfilePage() {
   const initials = getInitials(businessName);
   const logoUrl = branding?.logoUrl;
   const bannerUrl = branding?.heroImageUrl;
+  const planLabels: Record<string, string> = { free: "Free Plan", starter: "Starter", growth: "Growth", enterprise: "Enterprise" };
+  const planLabel = planLabels[plan] || "Free Plan";
 
   const tabStyle = (id: string): React.CSSProperties => ({
     padding: "10px 0",
@@ -138,7 +143,7 @@ export default function ProfilePage() {
             padding: "3px 10px", borderRadius: "99px", fontSize: "11px", fontWeight: 600,
             backgroundColor: "rgba(10,10,10,0.06)", color: "rgba(10,10,10,0.5)",
           }}>
-            Free Plan
+            {planLabel}
           </span>
           <span style={{ fontSize: "12px", color: "rgba(10,10,10,0.3)" }}>Member since April 2026</span>
         </div>
