@@ -8,6 +8,12 @@ export interface PassField {
   value: string | number;
 }
 
+export interface PassLocation {
+  latitude: number;
+  longitude: number;
+  relevantText?: string;
+}
+
 export interface PassTemplate {
   type: PassType;
   merchantName: string;
@@ -32,6 +38,8 @@ export interface PassTemplate {
   authToken?: string;
   stampsCollected?: number;
   totalStamps?: number;
+  locations?: PassLocation[];
+  relevantDate?: string;
 }
 
 export interface GeneratePassOptions {
