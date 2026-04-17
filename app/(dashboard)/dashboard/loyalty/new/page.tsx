@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save, Check, Image, Upload, Trash2, Sparkles, CreditCard } from "lucide-react";
 import { getThemesForType, OnboardingTheme } from "@/lib/onboarding-themes";
