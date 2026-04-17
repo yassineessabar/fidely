@@ -24,8 +24,8 @@ import {
 
 const navItems = [
   { label: "My Kyro", href: "/dashboard/loyalty", icon: Gift },
-  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Customers", href: "/dashboard/customers", icon: Users },
+  { label: "Insights", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Audience", href: "/dashboard/customers", icon: Users },
   { label: "Campaigns", href: "/dashboard/campaigns", icon: Send },
 ];
 
