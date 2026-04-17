@@ -185,18 +185,18 @@ export default function CardPreview({ type, cardName, businessDetails, branding,
         </div>
       )}
 
-      {/* ── Secondary + Auxiliary fields ── */}
-      <div style={{ padding: "12px 16px" }}>
+      {/* ── Secondary + Auxiliary fields (side by side like wallet) ── */}
+      <div style={{ padding: "12px 16px", display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
         {secondaryLabel && (
-          <div style={{ marginBottom: auxiliaryLabel ? "10px" : "0" }}>
+          <div>
             <div style={{ fontSize: "9px", fontWeight: 600, color: secondary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "2px" }}>{secondaryLabel}</div>
             <div style={{ fontSize: "14px", fontWeight: 600, color: primary }}>{secondaryValue}</div>
           </div>
         )}
         {auxiliaryLabel && (
-          <div>
+          <div style={{ textAlign: "right" }}>
             <div style={{ fontSize: "9px", fontWeight: 600, color: secondary, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: "2px" }}>{auxiliaryLabel}</div>
-            <div style={{ fontSize: "13px", fontWeight: 500, color: `${primary}90` }}>{auxiliaryValue}</div>
+            <div style={{ fontSize: "13px", fontWeight: 500, color: primary }}>{auxiliaryValue}</div>
           </div>
         )}
       </div>
