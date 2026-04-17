@@ -215,33 +215,17 @@ async function createStampStripWithSharp(
 ): Promise<Buffer> {
   const accent = parseColor(accentColor);
 
-  // Create base image: banner resized + darkened, or solid accent
+  // Create base image: solid accent color (like Boomerang style)
   let baseBuf: Buffer;
-  if (bannerBuf) {
-    // Resize banner to strip dimensions
-    const resized = await sharp(bannerBuf)
-      .resize(width, height, { fit: "cover" })
-      .png()
-      .toBuffer();
-    // Darken by compositing semi-transparent black overlay
-    const darkOverlay = Buffer.from(
-      `<svg width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="rgba(0,0,0,0.65)"/></svg>`
-    );
-    baseBuf = await sharp(resized)
-      .composite([{ input: darkOverlay, blend: "over" }])
-      .png()
-      .toBuffer();
-  } else {
-    baseBuf = await sharp({
-      create: { width, height, channels: 4, background: { r: accent[0], g: accent[1], b: accent[2], alpha: 255 } },
-    }).png().toBuffer();
-  }
+  baseBuf = await sharp({
+    create: { width, height, channels: 4, background: { r: accent[0], g: accent[1], b: accent[2], alpha: 255 } },
+  }).png().toBuffer();
 
   // Generate stamp grid layout
   const cols = Math.ceil(total / 2);
   const nRows = total > cols ? 2 : 1;
-  const padding = 10;
-  const gap = 6;
+  const padding = 16;
+  const gap = 8;
   const availW = width - padding * 2;
   const availH = height - padding * 2;
   const stampSize = Math.min(
@@ -266,46 +250,27 @@ async function createStampStripWithSharp(
     filledCup = readFileSync(cupFilledPath);
     dimCup = readFileSync(cupDimPath);
   } else {
-    // Generate emoji-style coffee cups on-the-fly (Boomerang style)
+    // Generate emoji-style coffee cups (Boomerang style — bold, clear ☕)
     const filledSvg = `<svg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'>
-      <!-- Saucer/plate -->
-      <ellipse cx='30' cy='58' rx='26' ry='5' fill='#e0d5c8'/>
-      <ellipse cx='30' cy='57' rx='24' ry='4.5' fill='#f0e8dd'/>
-      <!-- Cup body -->
-      <path d='M12,24 L14,50 Q14,54 22,54 L38,54 Q46,54 46,50 L48,24 Z' fill='#f5f0e8'/>
-      <path d='M12,24 L14,50 Q14,54 22,54 L38,54 Q46,54 46,50 L48,24 Z' fill='url(#cupShade)' />
-      <!-- Cup rim -->
-      <ellipse cx='30' cy='24' rx='18' ry='5' fill='#f5f0e8'/>
-      <ellipse cx='30' cy='24' rx='18' ry='5' fill='#faf7f3' opacity='0.6'/>
-      <!-- Coffee liquid -->
-      <ellipse cx='30' cy='25' rx='15.5' ry='3.8' fill='#5C3317'/>
-      <ellipse cx='30' cy='24.5' rx='14' ry='3' fill='#6B3A2A'/>
-      <ellipse cx='27' cy='24' rx='8' ry='1.8' fill='#8B5A3A' opacity='0.5'/>
-      <!-- Handle -->
-      <path d='M48,28 Q58,28 58,38 Q58,46 48,46' fill='none' stroke='#e8ddd0' stroke-width='5' stroke-linecap='round'/>
-      <path d='M48,30 Q55,30 55,38 Q55,44 48,44' fill='none' stroke='#f5f0e8' stroke-width='3' stroke-linecap='round'/>
-      <!-- Steam -->
-      <path d='M22,18 Q20,12 23,7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.6'/>
-      <path d='M30,16 Q28,10 31,4' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.4'/>
-      <path d='M38,18 Q36,12 39,7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.5'/>
-      <defs>
-        <linearGradient id='cupShade' x1='0' y1='0' x2='1' y2='0'>
-          <stop offset='0%' stop-color='#00000020'/>
-          <stop offset='40%' stop-color='#00000000'/>
-          <stop offset='100%' stop-color='#00000015'/>
-        </linearGradient>
-      </defs>
+      <ellipse cx='28' cy='59' rx='25' ry='4' fill='#C49A6C'/>
+      <ellipse cx='28' cy='58.5' rx='23' ry='3.5' fill='#DEB887'/>
+      <rect x='8' y='22' width='40' height='32' rx='6' ry='6' fill='#FAEBD7'/>
+      <rect x='10' y='22' width='36' height='4' rx='2' fill='#FFF5E6'/>
+      <rect x='12' y='26' width='32' height='24' rx='4' fill='#6F4E37'/>
+      <rect x='12' y='26' width='32' height='6' rx='2' fill='#8B6914' opacity='0.3'/>
+      <ellipse cx='28' cy='36' rx='10' ry='4' fill='#8B6914' opacity='0.2'/>
+      <path d='M48,28 C56,28 58,34 58,38 C58,42 56,48 48,48' fill='none' stroke='#FAEBD7' stroke-width='6' stroke-linecap='round'/>
+      <path d='M48,31 C53,31 55,35 55,38 C55,41 53,45 48,45' fill='none' stroke='#FFF5E6' stroke-width='3' stroke-linecap='round'/>
+      <path d='M20,18 Q18,12 21,6' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' opacity='0.7'/>
+      <path d='M28,16 Q26,9 29,3' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' opacity='0.5'/>
+      <path d='M36,18 Q34,12 37,6' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' opacity='0.6'/>
     </svg>`;
     const dimSvg = `<svg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'>
-      <!-- Saucer/plate -->
-      <ellipse cx='30' cy='58' rx='26' ry='5' fill='white' opacity='0.12'/>
-      <!-- Cup body -->
-      <path d='M12,24 L14,50 Q14,54 22,54 L38,54 Q46,54 46,50 L48,24 Z' fill='white' fill-opacity='0.12'/>
-      <!-- Cup rim -->
-      <ellipse cx='30' cy='24' rx='18' ry='5' fill='white' fill-opacity='0.18'/>
-      <!-- Handle -->
-      <path d='M48,28 Q58,28 58,38 Q58,46 48,46' fill='none' stroke='white' stroke-width='5' stroke-linecap='round' opacity='0.15'/>
-      <path d='M48,30 Q55,30 55,38 Q55,44 48,44' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' opacity='0.1'/>
+      <ellipse cx='28' cy='59' rx='25' ry='4' fill='white' opacity='0.15'/>
+      <rect x='8' y='22' width='40' height='32' rx='6' ry='6' fill='white' fill-opacity='0.15'/>
+      <rect x='10' y='22' width='36' height='4' rx='2' fill='white' fill-opacity='0.2'/>
+      <rect x='12' y='26' width='32' height='24' rx='4' fill='white' fill-opacity='0.08'/>
+      <path d='M48,28 C56,28 58,34 58,38 C58,42 56,48 48,48' fill='none' stroke='white' stroke-width='6' stroke-linecap='round' opacity='0.15'/>
     </svg>`;
     filledCup = await sharp(Buffer.from(filledSvg)).png().toBuffer();
     dimCup = await sharp(Buffer.from(dimSvg)).png().toBuffer();
