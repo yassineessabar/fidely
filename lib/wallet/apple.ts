@@ -223,7 +223,7 @@ async function createStampStripWithSharp(
       .png()
       .toBuffer();
     const darkOverlay = Buffer.from(
-      `<svg width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="rgba(0,0,0,0.75)"/></svg>`
+      `<svg width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="rgba(0,0,0,0.5)"/></svg>`
     );
     baseBuf = await sharp(resized)
       .composite([{ input: darkOverlay, blend: "over" }])
@@ -282,13 +282,21 @@ async function createStampStripWithSharp(
   }
   const iconSize = stampSize;
 
-  // Composite each cup icon onto the base
+  // Composite each cup icon onto the base with white backing for filled cups
   const composites: sharp.OverlayOptions[] = [];
   for (let idx = 0; idx < total; idx++) {
     const row = Math.floor(idx / cols);
     const col = idx % cols;
     const x = offsetX + col * (stampSize + gap) + Math.floor((stampSize - iconSize) / 2);
     const y = offsetY + row * (stampSize + gap) + Math.floor((stampSize - iconSize) / 2);
+
+    if (idx < collected) {
+      // Add white circle behind filled cups so they pop against dark banner
+      const whiteBg = Buffer.from(
+        `<svg width="${iconSize}" height="${iconSize}"><circle cx="${iconSize/2}" cy="${iconSize/2}" r="${iconSize/2}" fill="white" opacity="0.85"/></svg>`
+      );
+      composites.push({ input: await sharp(whiteBg).png().toBuffer(), left: x, top: y });
+    }
 
     const icon = idx < collected ? filledCup : dimCup;
     const resized = await sharp(icon).resize(iconSize, iconSize).png().toBuffer();

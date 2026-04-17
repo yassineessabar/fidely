@@ -127,14 +127,18 @@ export default function CardPreview({ type, cardName, businessDetails, branding,
 
       {/* ── Strip ── */}
       {type === "stamp" ? (
-        /* Stamp grid strip */
+        /* Stamp grid strip with banner background + emoji cups */
         <div style={{
           width: "100%", padding: "12px 16px",
           backgroundColor: accent,
+          backgroundImage: branding.heroImageUrl ? `linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), url(${branding.heroImageUrl})` : undefined,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           display: "flex", flexDirection: "column", gap: "6px",
         }}>
           {(() => {
             const total = logic?.totalStamps || 10;
+            const stampIcon = CATEGORY_STAMP_ICONS[businessDetails.category] || logic?.stampIcon || "☕";
             const cols = Math.ceil(total / 2);
             const rows = [];
             for (let r = 0; r < 2; r++) {
@@ -144,12 +148,12 @@ export default function CardPreview({ type, cardName, businessDetails, branding,
                 if (idx >= total) break;
                 items.push(
                   <div key={idx} style={{
-                    width: "100%", aspectRatio: "1", borderRadius: "50%",
-                    backgroundColor: idx < 1 ? `${primary}ee` : "transparent",
-                    border: idx < 1 ? "none" : `2px solid ${primary}40`,
+                    width: "100%", aspectRatio: "1",
                     display: "flex", alignItems: "center", justifyContent: "center",
+                    fontSize: "22px",
+                    opacity: idx < 1 ? 1 : 0.2,
                   }}>
-                    {idx < 1 && <div style={{ width: "35%", height: "35%", borderRadius: "50%", backgroundColor: accent }} />}
+                    {stampIcon}
                   </div>
                 );
               }
