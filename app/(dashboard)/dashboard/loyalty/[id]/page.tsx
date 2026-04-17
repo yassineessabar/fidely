@@ -457,7 +457,9 @@ export default function EditCardPage() {
       <style>{`
         @media (max-width: 768px) {
           .edit-layout { flex-direction: column !important; }
-          .edit-preview { display: none !important; }
+          .edit-preview { width: 100% !important; display: flex !important; justify-content: center !important; order: -1 !important; margin-bottom: 16px !important; }
+          .edit-preview > div { position: static !important; }
+          .edit-preview > div > div { transform: scale(0.85); transform-origin: top center; }
           .edit-theme-grid { grid-template-columns: repeat(4, 1fr) !important; }
         }
       `}</style>

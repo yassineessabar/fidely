@@ -625,7 +625,9 @@ export default function LinksPage() {
       <style>{`
         @media (max-width: 768px) {
           .links-grid { grid-template-columns: 1fr !important; }
-          .links-preview { display: none !important; }
+          .links-preview { order: -1 !important; display: flex !important; justify-content: center !important; margin-bottom: 16px !important; }
+          .links-preview > div { position: static !important; }
+          .links-preview > div > div { transform: scale(0.85); transform-origin: top center; }
           .theme-preset-grid { grid-template-columns: repeat(4, 1fr) !important; }
         }
       `}</style>

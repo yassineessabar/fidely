@@ -472,7 +472,9 @@ export default function NewCardPage() {
       <style>{`
         @media (max-width: 768px) {
           .new-card-layout { flex-direction: column !important; }
-          .new-card-preview { display: none !important; }
+          .new-card-preview { width: 100% !important; display: flex !important; justify-content: center !important; order: -1 !important; margin-bottom: 16px !important; }
+          .new-card-preview > div { position: static !important; }
+          .new-card-preview > div > div { transform: scale(0.85); transform-origin: top center; }
           .new-theme-grid { grid-template-columns: repeat(4, 1fr) !important; }
         }
       `}</style>
