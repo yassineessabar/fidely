@@ -74,6 +74,7 @@ type State = {
   cardType: string;
   stampEmoji: string;
   name: string;
+  cardName: string;
   description: string;
   logoUrl: string;
   bannerUrl: string;
@@ -89,6 +90,7 @@ export default function OnboardingPage() {
     cardType: "stamp",
     stampEmoji: "",
     name: "",
+    cardName: "",
     description: "",
     logoUrl: "",
     bannerUrl: "",
@@ -114,7 +116,7 @@ export default function OnboardingPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: dbType,
-          name: `${data.name} Loyalty Card`,
+          name: data.cardName || `${data.name} Loyalty Card`,
           business_details: {
             name: data.name,
             category: data.businessType,
@@ -499,6 +501,23 @@ export default function OnboardingPage() {
                       value={data.name}
                       onChange={(e) => setData({ ...data, name: e.target.value })}
                       placeholder="e.g. Bean & Grind"
+                      style={{
+                        width: "100%", padding: "14px 16px", borderRadius: 12,
+                        border: "1.5px solid rgba(10,10,10,0.1)", fontSize: 15, fontFamily: "inherit",
+                        color: "rgba(10,10,10,0.9)", outline: "none", boxSizing: "border-box",
+                      }}
+                    />
+                  </div>
+
+                  {/* Card Name */}
+                  <div>
+                    <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                      Card Name <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "rgba(10,10,10,0.3)" }}>(optional)</span>
+                    </label>
+                    <input
+                      value={data.cardName}
+                      onChange={(e) => setData({ ...data, cardName: e.target.value })}
+                      placeholder={`e.g. ${data.name || "My"} Rewards`}
                       style={{
                         width: "100%", padding: "14px 16px", borderRadius: 12,
                         border: "1.5px solid rgba(10,10,10,0.1)", fontSize: 15, fontFamily: "inherit",

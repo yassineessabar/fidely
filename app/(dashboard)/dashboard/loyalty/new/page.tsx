@@ -74,6 +74,7 @@ export default function NewCardPage() {
   // Card data
   const [cardType, setCardType] = useState("stamp");
   const [name, setName] = useState("");
+  const [cardName, setCardName] = useState("");
   const [emoji, setEmoji] = useState("☕");
   const [logoUrl, setLogoUrl] = useState("");
   const [bannerUrl, setBannerUrl] = useState("");
@@ -103,7 +104,7 @@ export default function NewCardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: dbType,
-          name: `${name} Loyalty Card`,
+          name: cardName || `${name} Loyalty Card`,
           business_details: {
             name,
             category: "",
@@ -216,6 +217,16 @@ export default function NewCardPage() {
               <div>
                 <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>Business Name</label>
                 <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Bean & Grind"
+                  style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: "1.5px solid rgba(10,10,10,0.1)", fontSize: 15, fontFamily: "inherit", color: "rgba(10,10,10,0.9)", outline: "none", boxSizing: "border-box" }}
+                />
+              </div>
+
+              {/* Card Name */}
+              <div>
+                <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                  Card Name <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "rgba(10,10,10,0.3)" }}>(optional)</span>
+                </label>
+                <input value={cardName} onChange={(e) => setCardName(e.target.value)} placeholder={`e.g. ${name || "My"} Rewards`}
                   style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: "1.5px solid rgba(10,10,10,0.1)", fontSize: 15, fontFamily: "inherit", color: "rgba(10,10,10,0.9)", outline: "none", boxSizing: "border-box" }}
                 />
               </div>

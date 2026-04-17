@@ -80,6 +80,7 @@ export default function EditCardPage() {
   const [primaryColor, setPrimaryColor] = useState("#FFFFFF");
   const [secondaryColor, setSecondaryColor] = useState("#E6FFA9");
   const [accentColor, setAccentColor] = useState("#6C47FF");
+  const [cardName, setCardName] = useState("");
   const [totalStamps, setTotalStamps] = useState(10);
   const [reward, setReward] = useState("Free item");
 
@@ -91,6 +92,7 @@ export default function EditCardPage() {
           const c = d.card;
           setCard(c);
           setName(c.business_details?.name || c.name?.replace(" Loyalty Card", "") || "");
+          setCardName(c.name || "");
           setCardType(c.business_details?.cardVariant || c.type || "stamp");
           setEmoji(c.branding?.stampEmoji || "☕");
           setLogoUrl(c.branding?.logoUrl || "");
@@ -115,7 +117,7 @@ export default function EditCardPage() {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: `${name} Loyalty Card`,
+          name: cardName || `${name} Loyalty Card`,
           type: dbType,
           business_details: { ...card?.business_details, name, cardVariant: cardType },
           branding: {
@@ -189,6 +191,16 @@ export default function EditCardPage() {
               Business Name
             </label>
             <input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Bean & Grind"
+              style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: "1.5px solid rgba(10,10,10,0.1)", fontSize: 15, fontFamily: "inherit", color: "rgba(10,10,10,0.9)", outline: "none", boxSizing: "border-box" }}
+            />
+          </div>
+
+          {/* Card Name */}
+          <div>
+            <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+              Card Name <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0, color: "rgba(10,10,10,0.3)" }}>(optional)</span>
+            </label>
+            <input value={cardName} onChange={(e) => setCardName(e.target.value)} placeholder={`e.g. ${name || "My"} Rewards`}
               style={{ width: "100%", padding: "14px 16px", borderRadius: 12, border: "1.5px solid rgba(10,10,10,0.1)", fontSize: 15, fontFamily: "inherit", color: "rgba(10,10,10,0.9)", outline: "none", boxSizing: "border-box" }}
             />
           </div>
