@@ -120,7 +120,7 @@ export default function ProfilePage() {
         ) : (
           <div style={{
             width: "88px", height: "88px", borderRadius: "50%",
-            background: `linear-gradient(135deg, ${branding?.backgroundColor || "#f59e0b"}, ${branding?.accentColor || "#f97316"})`,
+            background: `linear-gradient(135deg, ${branding?.backgroundColor || "#333"}, ${branding?.accentColor || "#111"})`,
             display: "flex", alignItems: "center", justifyContent: "center",
             color: branding?.primaryColor || "white", fontSize: "26px", fontWeight: 700,
             border: "4px solid white", marginTop: "-44px", marginBottom: "14px",
@@ -136,9 +136,9 @@ export default function ProfilePage() {
         <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
           <span style={{
             padding: "3px 10px", borderRadius: "99px", fontSize: "11px", fontWeight: 600,
-            backgroundColor: "rgba(245,158,11,0.08)", color: "rgba(180,83,9,0.8)",
+            backgroundColor: "rgba(10,10,10,0.06)", color: "rgba(10,10,10,0.5)",
           }}>
-            Free Beta
+            Free Plan
           </span>
           <span style={{ fontSize: "12px", color: "rgba(10,10,10,0.3)" }}>Member since April 2026</span>
         </div>
@@ -225,7 +225,7 @@ export default function ProfilePage() {
                 Active
               </span>
             </div>
-            <div style={{ fontSize: "18px", fontWeight: 700, color: "rgba(10,10,10,0.85)", marginBottom: "4px" }}>Free Beta</div>
+            <div style={{ fontSize: "18px", fontWeight: 700, color: "rgba(10,10,10,0.85)", marginBottom: "4px" }}>Free Plan</div>
             <div style={{ fontSize: "13px", color: "rgba(10,10,10,0.35)", marginBottom: "20px" }}>No charge during beta period</div>
             <div style={{
               backgroundColor: "rgba(10,10,10,0.015)", borderRadius: "10px", padding: "14px",
@@ -242,7 +242,7 @@ export default function ProfilePage() {
             </div>
             <a href="/dashboard/upgrade" style={{
               display: "inline-block", padding: "9px 20px", borderRadius: "8px",
-              backgroundColor: "#0b051d", color: "white", fontSize: "13px", fontWeight: 600, textDecoration: "none",
+              backgroundColor: "#111", color: "white", fontSize: "13px", fontWeight: 600, textDecoration: "none",
             }}>
               Upgrade Plan
             </a>

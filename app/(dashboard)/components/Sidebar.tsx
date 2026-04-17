@@ -104,7 +104,7 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
           >
             <div style={{
               width: "32px", height: "32px", borderRadius: "50%",
-              background: "linear-gradient(135deg, #f59e0b, #f97316)",
+              background: "linear-gradient(135deg, #333, #111)",
               display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
             }}>
               <span style={{ color: "white", fontSize: "11px", fontWeight: 700 }}>
@@ -131,8 +131,8 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
                 {/* User info */}
                 <div style={{ padding: "10px 12px", marginBottom: "4px" }}>
                   <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "rgba(10,10,10,0.85)" }}>{bizName || "My Business"}</p>
-                  <div style={{ display: "inline-block", marginTop: "4px", padding: "2px 8px", borderRadius: "6px", fontSize: "10px", fontWeight: 600, backgroundColor: "rgba(245,158,11,0.12)", color: "rgb(180,83,9)" }}>
-                    Free Beta
+                  <div style={{ display: "inline-block", marginTop: "4px", padding: "2px 8px", borderRadius: "6px", fontSize: "10px", fontWeight: 600, backgroundColor: "rgba(10,10,10,0.06)", color: "rgba(10,10,10,0.5)" }}>
+                    Free Plan
                   </div>
                 </div>
 

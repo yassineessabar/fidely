@@ -21,7 +21,7 @@ const faqs = [
   },
   {
     q: "Is there a limit on customers?",
-    a: "On the Free Beta plan, there are no limits on cards or customer enrollments. Enjoy unlimited access while we're in beta.",
+    a: "On the Free Plan plan, there are no limits on cards or customer enrollments. Enjoy unlimited access while we're in beta.",
   },
 ];
 
@@ -56,7 +56,7 @@ export default function HelpPage() {
             style={{
               width: 40,
               height: 2,
-              background: "linear-gradient(90deg, #f97316, #10b981)",
+              background: "linear-gradient(90deg, #333, #111)",
               borderRadius: 2,
               margin: "0 auto 16px",
             }}
@@ -85,7 +85,7 @@ export default function HelpPage() {
             {
               title: "Documentation",
               desc: "Guides, tutorials, and API reference",
-              bg: "linear-gradient(135deg, #f97316, #ea580c)",
+              bg: "linear-gradient(135deg, #222, #111)",
             },
             {
               title: "Community",
