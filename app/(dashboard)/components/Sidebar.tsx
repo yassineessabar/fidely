@@ -8,8 +8,8 @@ import {
   Users,
   Send,
   Gift,
-  BarChart3,
-  Sparkles,
+  Bell,
+  CreditCard,
   Settings,
   ChevronLeft,
   ChevronRight,
@@ -21,8 +21,8 @@ const navItems = [
   { label: "Customers", href: "/dashboard/customers", icon: Users },
   { label: "Campaigns", href: "/dashboard/campaigns", icon: Send },
   { label: "Loyalty", href: "/dashboard/loyalty", icon: Gift },
-  { label: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
-  { label: "AI Assistant", href: "/dashboard/ai", icon: Sparkles },
+  { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
+  { label: "Billing", href: "/dashboard/billing", icon: CreditCard },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
