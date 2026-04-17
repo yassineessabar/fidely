@@ -30,7 +30,7 @@ export default function DashboardLayout({
   const [mobileOpen, setMobileOpen] = useState(false);
   const [ready, setReady] = useState(false);
 
-  // Check if merchant needs onboarding (no cards yet)
+  // Check if merchant needs onboarding (no cards yet) — only on first mount
   useEffect(() => {
     localStorage.removeItem("kyro-sidebar-open");
     fetch("/api/merchant/cards")
@@ -43,9 +43,13 @@ export default function DashboardLayout({
         }
       })
       .catch(() => setReady(true));
-  }, [router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const title = pageTitles[pathname] || (pathname.startsWith("/dashboard/loyalty/") ? "Edit Card" : "Dashboard");
+  const title = pageTitles[pathname] || (
+    pathname === "/dashboard/loyalty/new" ? "Add Card" :
+    pathname.startsWith("/dashboard/loyalty/") ? "Edit Card" : "Dashboard"
+  );
 
   if (!ready) {
     return <div style={{ minHeight: "100vh", backgroundColor: "white" }} />;
