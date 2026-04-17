@@ -215,11 +215,25 @@ async function createStampStripWithSharp(
 ): Promise<Buffer> {
   const accent = parseColor(accentColor);
 
-  // Create base image: solid accent color (like Boomerang style)
+  // Create base image: banner with dark overlay, or solid accent
   let baseBuf: Buffer;
-  baseBuf = await sharp({
-    create: { width, height, channels: 4, background: { r: accent[0], g: accent[1], b: accent[2], alpha: 255 } },
-  }).png().toBuffer();
+  if (bannerBuf) {
+    const resized = await sharp(bannerBuf)
+      .resize(width, height, { fit: "cover" })
+      .png()
+      .toBuffer();
+    const darkOverlay = Buffer.from(
+      `<svg width="${width}" height="${height}"><rect width="${width}" height="${height}" fill="rgba(0,0,0,0.55)"/></svg>`
+    );
+    baseBuf = await sharp(resized)
+      .composite([{ input: darkOverlay, blend: "over" }])
+      .png()
+      .toBuffer();
+  } else {
+    baseBuf = await sharp({
+      create: { width, height, channels: 4, background: { r: accent[0], g: accent[1], b: accent[2], alpha: 255 } },
+    }).png().toBuffer();
+  }
 
   // Generate stamp grid layout
   const cols = Math.ceil(total / 2);
