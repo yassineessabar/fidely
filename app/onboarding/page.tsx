@@ -112,7 +112,7 @@ export default function OnboardingPage() {
 
       {/* Content */}
       <div style={{ flex: 1, display: "flex", justifyContent: "center", padding: "40px 24px 120px" }}>
-        <div style={{ width: "100%", maxWidth: step === 4 ? 900 : 640 }}>
+        <div style={{ width: "100%", maxWidth: step === 2 ? 800 : step === 4 ? 900 : 640 }}>
 
           {/* Step 1: Business Type */}
           {step === 1 && (
@@ -150,58 +150,107 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          {/* Step 2: Theme */}
+          {/* Step 2: Theme — tall phone-shaped card previews like Linktree */}
           {step === 2 && (
             <div style={{ animation: "fadeInUp 0.5s ease" }}>
-              <h1 style={{ fontSize: 28, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 8px", textAlign: "center" }}>
-                Choose a theme for your card
+              <h1 style={{ fontSize: 30, fontWeight: 800, color: "rgba(0,0,0,0.9)", margin: "0 0 16px", textAlign: "center", letterSpacing: "-0.45px" }}>
+                Select a theme
               </h1>
-              <p style={{ fontSize: 15, color: "rgba(10,10,10,0.45)", textAlign: "center", margin: "0 0 40px" }}>
-                Pick a color scheme that matches your brand
+              <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)", textAlign: "center", margin: "0 0 24px", letterSpacing: "0.16px" }}>
+                Pick the style that feels right — you can customize it later
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 16 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 24 }} className="theme-grid">
                 {getThemesForType(data.businessType).map((t) => {
                   const selected = data.theme?.id === t.id;
                   return (
-                    <button
-                      key={t.id}
-                      onClick={() => setData({ ...data, theme: t })}
-                      style={{
-                        padding: 0, borderRadius: 16, cursor: "pointer", fontFamily: "inherit",
-                        border: selected ? "2px solid #0b051d" : "1px solid rgba(10,10,10,0.08)",
-                        overflow: "hidden", backgroundColor: "white", textAlign: "left",
-                        transition: "all 0.15s",
-                      }}
-                    >
-                      {/* Mini card preview */}
+                    <div key={t.id} style={{ animation: "fadeInUp 0.6s cubic-bezier(0.2, 0, 0, 1)" }}>
                       <div style={{
-                        height: 100, backgroundColor: t.backgroundColor,
-                        display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                        padding: "0 16px",
+                        borderRadius: 16, overflow: "hidden",
+                        outline: selected ? "1.5px solid rgb(0,0,0)" : "none",
+                        outlineOffset: "1.5px",
+                        display: "flex", flexDirection: "column", alignItems: "center",
                       }}>
-                        <div style={{
-                          width: 32, height: 32, borderRadius: 8,
-                          backgroundColor: t.accentColor, display: "flex",
-                          alignItems: "center", justifyContent: "center",
-                        }}>
-                          <span style={{ color: t.primaryColor, fontSize: 14, fontWeight: 700 }}>K</span>
-                        </div>
-                        <div>
-                          <div style={{ fontSize: 11, fontWeight: 700, color: t.primaryColor }}>Your Business</div>
-                          <div style={{ fontSize: 9, color: t.secondaryColor }}>Loyalty Card</div>
-                        </div>
-                      </div>
-                      <div style={{ padding: "12px 16px" }}>
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                          <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(10,10,10,0.85)" }}>{t.name}</span>
-                          {selected && (
-                            <div style={{ width: 20, height: 20, borderRadius: "50%", backgroundColor: "#0b051d", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                              <Check size={12} style={{ color: "white" }} />
+                        <button
+                          onClick={() => setData({ ...data, theme: t })}
+                          style={{
+                            display: "block", borderRadius: 16, overflow: "hidden",
+                            cursor: "pointer", border: "none", padding: 0,
+                            backgroundColor: "transparent", fontFamily: "inherit", width: "100%",
+                          }}
+                        >
+                          {/* Phone-shaped wallet card mockup */}
+                          <div style={{
+                            aspectRatio: "172.5 / 320",
+                            backgroundColor: t.backgroundColor,
+                            display: "flex", flexDirection: "column",
+                            overflow: "hidden", position: "relative",
+                          }}>
+                            {/* Top bar: logo + name */}
+                            <div style={{ padding: "14px 14px 8px", display: "flex", alignItems: "center", gap: 8 }}>
+                              <div style={{
+                                width: 24, height: 24, borderRadius: 6,
+                                backgroundColor: t.accentColor, display: "flex",
+                                alignItems: "center", justifyContent: "center", flexShrink: 0,
+                              }}>
+                                <span style={{ fontSize: 8, fontWeight: 900, color: t.primaryColor }}>K</span>
+                              </div>
+                              <span style={{ fontSize: 9, fontWeight: 700, color: t.primaryColor, opacity: 0.9 }}>
+                                Your Business
+                              </span>
                             </div>
-                          )}
-                        </div>
+
+                            {/* Strip area */}
+                            <div style={{
+                              flex: "0 0 35%",
+                              background: `linear-gradient(135deg, ${t.accentColor}40, ${t.backgroundColor})`,
+                              display: "flex", alignItems: "center", justifyContent: "center", gap: 4, flexWrap: "wrap",
+                              padding: "6px 10px",
+                            }}>
+                              {Array.from({ length: 10 }).map((_, i) => (
+                                <div key={i} style={{
+                                  width: "16%", aspectRatio: "1", borderRadius: "50%",
+                                  backgroundColor: i < 3 ? `${t.accentColor}` : `${t.primaryColor}15`,
+                                  border: i >= 3 ? `1px solid ${t.primaryColor}20` : "none",
+                                }} />
+                              ))}
+                            </div>
+
+                            {/* Fields */}
+                            <div style={{ padding: "10px 14px", flex: 1 }}>
+                              <div style={{ fontSize: 7, fontWeight: 600, color: t.secondaryColor, textTransform: "uppercase", letterSpacing: "0.3px", marginBottom: 2 }}>
+                                STAMPS UNTIL REWARD
+                              </div>
+                              <div style={{ fontSize: 10, fontWeight: 600, color: t.primaryColor, marginBottom: 8 }}>
+                                10 stamps
+                              </div>
+                              <div style={{ fontSize: 7, fontWeight: 600, color: t.secondaryColor, textTransform: "uppercase", letterSpacing: "0.3px", marginBottom: 2 }}>
+                                MEMBER
+                              </div>
+                              <div style={{ fontSize: 9, fontWeight: 500, color: t.primaryColor, opacity: 0.7 }}>
+                                Jane Smith
+                              </div>
+                            </div>
+
+                            {/* QR placeholder */}
+                            <div style={{ padding: "0 14px 12px", display: "flex", justifyContent: "center" }}>
+                              <div style={{
+                                width: 40, height: 40, borderRadius: 6,
+                                backgroundColor: "white", opacity: 0.9,
+                              }} />
+                            </div>
+
+                            {/* Powered by */}
+                            <div style={{ textAlign: "center", paddingBottom: 8, fontSize: 5, color: t.secondaryColor, opacity: 0.4 }}>
+                              Powered by Kyro
+                            </div>
+                          </div>
+                        </button>
                       </div>
-                    </button>
+                      {/* Theme name below card */}
+                      <div style={{ textAlign: "center", marginTop: 8, fontSize: 12, fontWeight: 500, color: selected ? "rgba(0,0,0,0.9)" : "rgba(0,0,0,0.5)" }}>
+                        {t.name}
+                      </div>
+                    </div>
                   );
                 })}
               </div>
@@ -437,6 +486,10 @@ export default function OnboardingPage() {
         }
         @media (max-width: 768px) {
           .onboard-preview { display: none !important; }
+          .theme-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+        }
+        @media (max-width: 400px) {
+          .theme-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
         }
       `}</style>
     </div>
