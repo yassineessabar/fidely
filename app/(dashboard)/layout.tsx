@@ -28,9 +28,8 @@ export default function DashboardLayout({
   const pathname = usePathname();
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [ready, setReady] = useState(false);
 
-  // Check if merchant needs onboarding (no cards yet) — only on first mount
+  // Check if merchant needs onboarding (no cards yet) — background, non-blocking
   useEffect(() => {
     localStorage.removeItem("kyro-sidebar-open");
     fetch("/api/merchant/cards")
@@ -38,11 +37,9 @@ export default function DashboardLayout({
       .then((d) => {
         if (!d.cards || d.cards.length === 0) {
           router.replace("/onboarding");
-        } else {
-          setReady(true);
         }
       })
-      .catch(() => setReady(true));
+      .catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -94,7 +91,7 @@ export default function DashboardLayout({
       >
         <DashHeader title={title} onMenuClick={() => setMobileOpen(true)} />
         <main style={{ flex: 1, padding: "28px 32px", backgroundColor: "#fafafa", minHeight: 0 }}>
-          {ready ? children : null}
+          {children}
         </main>
       </div>
     </div>
