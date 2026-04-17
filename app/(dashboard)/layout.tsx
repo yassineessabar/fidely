@@ -6,9 +6,10 @@ import Sidebar from "./components/Sidebar";
 import DashHeader from "./components/DashHeader";
 
 const pageTitles: Record<string, string> = {
-  "/dashboard": "Dashboard",
-  "/dashboard/loyalty": "Loyalty Cards",
-  "/dashboard/customers": "Customers",
+  "/dashboard": "Insights",
+  "/dashboard/loyalty": "Links",
+  "/dashboard/appearance": "Appearance",
+  "/dashboard/customers": "Audience",
   "/dashboard/campaigns": "Campaigns",
   "/dashboard/notifications": "Notifications",
   "/dashboard/billing": "Billing",

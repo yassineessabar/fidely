@@ -9,6 +9,7 @@ import {
   Users,
   Send,
   Gift,
+  Palette,
   PanelLeft,
   X,
   Gem,
@@ -24,6 +25,7 @@ import {
 
 const navItems = [
   { label: "Links", href: "/dashboard/loyalty", icon: Gift },
+  { label: "Appearance", href: "/dashboard/appearance", icon: Palette },
   { label: "Insights", href: "/dashboard", icon: LayoutDashboard },
   { label: "Audience", href: "/dashboard/customers", icon: Users },
   { label: "Campaigns", href: "/dashboard/campaigns", icon: Send },
