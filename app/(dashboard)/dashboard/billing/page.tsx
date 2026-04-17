@@ -26,6 +26,7 @@ export default function BillingPage() {
   const [cards, setCards] = useState<CardInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const [cycle, setCycle] = useState<"monthly" | "yearly">("monthly");
+  const [checkingOut, setCheckingOut] = useState(false);
 
   useEffect(() => {
     fetch("/api/merchant/cards")
@@ -390,22 +391,60 @@ export default function BillingPage() {
       </div>
 
       {/* CTA */}
-      <button
-        disabled
-        style={{
-          width: "100%",
-          padding: "14px",
-          borderRadius: 14,
-          border: "none",
-          backgroundColor: "rgba(10,10,10,0.06)",
-          color: "rgba(10,10,10,0.35)",
-          fontSize: 15,
-          fontWeight: 600,
-          cursor: "not-allowed",
-        }}
-      >
-        Coming Soon — Continue to Checkout
-      </button>
+      <div style={{ display: "flex", gap: 12 }}>
+        <button
+          onClick={async () => {
+            setCheckingOut(true);
+            try {
+              const res = await fetch("/api/billing/checkout", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ plan: "growth", cycle }),
+              });
+              const data = await res.json();
+              if (data.url) window.location.href = data.url;
+              else alert(data.error || "Checkout failed");
+            } catch { alert("Checkout failed"); }
+            finally { setCheckingOut(false); }
+          }}
+          disabled={checkingOut}
+          style={{
+            flex: 1,
+            padding: "14px",
+            borderRadius: 14,
+            border: "none",
+            backgroundColor: "#0a0a0a",
+            color: "white",
+            fontSize: 15,
+            fontWeight: 600,
+            cursor: checkingOut ? "not-allowed" : "pointer",
+            opacity: checkingOut ? 0.7 : 1,
+          }}
+        >
+          {checkingOut ? "Redirecting..." : "Continue to Checkout"}
+        </button>
+        <button
+          onClick={async () => {
+            try {
+              const res = await fetch("/api/billing/portal", { method: "POST" });
+              const data = await res.json();
+              if (data.url) window.location.href = data.url;
+            } catch {}
+          }}
+          style={{
+            padding: "14px 24px",
+            borderRadius: 14,
+            border: "1px solid rgba(10,10,10,0.08)",
+            backgroundColor: "white",
+            color: "rgba(10,10,10,0.8)",
+            fontSize: 14,
+            fontWeight: 500,
+            cursor: "pointer",
+          }}
+        >
+          Manage Subscription
+        </button>
+      </div>
     </div>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 const plans = [
   {
     name: "Starter",
@@ -24,8 +26,8 @@ const plans = [
     price: "$49",
     priceNote: "or $39/mo yearly",
     badge: "Recommended",
-    badgeColor: "rgb(108,71,255)",
-    badgeBg: "rgba(108,71,255,0.1)",
+    badgeColor: "rgba(10,10,10,0.9)",
+    badgeBg: "rgba(10,10,10,0.06)",
     elevated: true,
     features: [
       "Unlimited cards",
@@ -79,6 +81,7 @@ function CheckIcon() {
 }
 
 export default function UpgradePage() {
+  const router = useRouter();
   return (
     <div>
       {/* Header */}
@@ -269,6 +272,7 @@ export default function UpgradePage() {
 
             {plan.ctaStyle === "primary" && (
               <button
+                onClick={() => router.push("/dashboard/billing?plan=growth")}
                 style={{
                   width: "100%",
                   padding: "12px",
@@ -286,8 +290,10 @@ export default function UpgradePage() {
             )}
 
             {plan.ctaStyle === "outline" && (
-              <button
+              <a
+                href="mailto:hello@wearekyro.com?subject=Enterprise Plan Inquiry"
                 style={{
+                  display: "block",
                   width: "100%",
                   padding: "12px",
                   borderRadius: 12,
@@ -297,10 +303,13 @@ export default function UpgradePage() {
                   fontSize: 14,
                   fontWeight: 600,
                   cursor: "pointer",
+                  textAlign: "center",
+                  textDecoration: "none",
+                  boxSizing: "border-box",
                 }}
               >
                 {plan.cta}
-              </button>
+              </a>
             )}
           </div>
         ))}
