@@ -77,7 +77,6 @@ export default function CustomersPage() {
           borderRadius: "16px",
           border: "1px solid rgb(228,227,223)",
         }}>
-          <div style={{ fontSize: "48px", marginBottom: "16px" }}>👥</div>
           <h2 style={{ fontSize: "18px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 8px" }}>
             No customers yet
           </h2>

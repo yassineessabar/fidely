@@ -18,9 +18,9 @@ import {
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Loyalty", href: "/dashboard/loyalty", icon: Gift },
   { label: "Customers", href: "/dashboard/customers", icon: Users },
   { label: "Campaigns", href: "/dashboard/campaigns", icon: Send },
-  { label: "Loyalty", href: "/dashboard/loyalty", icon: Gift },
   { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
   { label: "Billing", href: "/dashboard/billing", icon: CreditCard },
   { label: "Settings", href: "/dashboard/settings", icon: Settings },

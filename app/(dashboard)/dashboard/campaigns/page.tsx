@@ -110,16 +110,16 @@ export default function CampaignsPage() {
               </label>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
                 {([
-                  { id: "promo" as const, emoji: "📣", label: "Promo", desc: "Special offers & announcements" },
-                  { id: "birthday" as const, emoji: "🎂", label: "Birthday", desc: "Birthday rewards for members" },
-                  { id: "location" as const, emoji: "📍", label: "Location", desc: "Nearby visit reminders" },
+                  { id: "promo" as const, label: "Promo", desc: "Special offers & announcements" },
+                  { id: "birthday" as const, label: "Birthday", desc: "Birthday rewards for members" },
+                  { id: "location" as const, label: "Location", desc: "Nearby visit reminders" },
                 ]).map((t) => (
                   <button
                     key={t.id}
                     type="button"
                     onClick={() => {
                       setCampaignType(t.id);
-                      if (t.id === "birthday" && !title) setTitle("Happy Birthday! 🎂");
+                      if (t.id === "birthday" && !title) setTitle("Happy Birthday!");
                       if (t.id === "location" && !title) setTitle("We're nearby! Come visit us");
                     }}
                     style={{
@@ -133,7 +133,6 @@ export default function CampaignsPage() {
                       transition: "border-color 0.15s",
                     }}
                   >
-                    <div style={{ fontSize: "24px", marginBottom: "6px" }}>{t.emoji}</div>
                     <div style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)", marginBottom: "2px" }}>{t.label}</div>
                     <div style={{ fontSize: "11px", color: "rgb(97,95,109)", lineHeight: "14px" }}>{t.desc}</div>
                   </button>
@@ -148,7 +147,7 @@ export default function CampaignsPage() {
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder={campaignType === "birthday" ? "Happy Birthday! 🎂" : campaignType === "location" ? "We're nearby! Come visit us" : "Double stamps this weekend!"}
+                placeholder={campaignType === "birthday" ? "Happy Birthday!" : campaignType === "location" ? "We're nearby! Come visit us" : "Double stamps this weekend!"}
                 style={{ width: "100%", padding: "10px 14px", borderRadius: "8px", border: "1px solid rgb(228,227,223)", fontSize: "14px", fontFamily: "inherit", outline: "none", boxSizing: "border-box" }}
               />
             </div>
@@ -230,7 +229,7 @@ export default function CampaignsPage() {
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <div style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)" }}>{n.title}</div>
                   <span style={{ fontSize: "10px", padding: "2px 6px", borderRadius: "4px", backgroundColor: "rgb(243,242,238)", color: "rgb(97,95,109)", fontWeight: 600 }}>
-                    {n.type === "birthday" ? "🎂 Birthday" : n.type === "custom" ? "📣 Promo" : n.type}
+                    {n.type === "birthday" ? "Birthday" : n.type === "custom" ? "Promo" : n.type}
                   </span>
                 </div>
                 <div style={{ fontSize: "12px", color: "rgb(97,95,109)", marginTop: "3px" }}>

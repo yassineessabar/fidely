@@ -60,7 +60,6 @@ export default function NotificationsPage() {
 
       {notifications.length === 0 ? (
         <div style={{ padding: "48px", textAlign: "center", backgroundColor: "white", borderRadius: "16px", border: "1px solid rgb(228,227,223)" }}>
-          <div style={{ fontSize: "48px", marginBottom: "16px" }}>🔔</div>
           <h2 style={{ fontSize: "18px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 8px" }}>No notifications yet</h2>
           <p style={{ fontSize: "14px", color: "rgb(97,95,109)", maxWidth: "400px", margin: "0 auto", lineHeight: "20px" }}>
             Send your first campaign from the Campaigns tab to start reaching your customers.
@@ -100,7 +99,7 @@ export default function NotificationsPage() {
                     <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                       <div style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)" }}>{n.title}</div>
                       <span style={{ fontSize: "10px", padding: "2px 6px", borderRadius: "4px", backgroundColor: "rgb(243,242,238)", color: "rgb(97,95,109)", fontWeight: 600 }}>
-                        {n.type === "birthday" ? "🎂 Birthday" : n.type === "expiry" ? "⏰ Expiry" : "📣 Promo"}
+                        {n.type === "birthday" ? "Birthday" : n.type === "expiry" ? "Expiry" : "Promo"}
                       </span>
                     </div>
                     <div style={{ fontSize: "12px", color: "rgb(97,95,109)", marginTop: "2px" }}>

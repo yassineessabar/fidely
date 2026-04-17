@@ -50,7 +50,6 @@ export default function LoyaltyPage() {
   }
 
   const typeLabels: Record<string, string> = { stamp: "Stamp Card", points: "Points Card", coupon: "Coupon" };
-  const typeEmoji: Record<string, string> = { stamp: "☕", points: "💰", coupon: "🎟️" };
 
   return (
     <div>
@@ -76,7 +75,6 @@ export default function LoyaltyPage() {
 
       {cards.length === 0 ? (
         <div style={{ padding: "48px", textAlign: "center", backgroundColor: "white", borderRadius: "16px", border: "1px solid rgb(228,227,223)" }}>
-          <div style={{ fontSize: "48px", marginBottom: "16px" }}>💳</div>
           <h2 style={{ fontSize: "18px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 8px" }}>No loyalty cards yet</h2>
           <p style={{ fontSize: "14px", color: "rgb(97,95,109)", maxWidth: "400px", margin: "0 auto 20px", lineHeight: "20px" }}>
             Create your first loyalty card to start enrolling customers and building repeat visits.
@@ -99,7 +97,6 @@ export default function LoyaltyPage() {
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
                     <div>
                       <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
-                        <span style={{ fontSize: "20px" }}>{typeEmoji[card.type] || "💳"}</span>
                         <h3 style={{ fontSize: "16px", fontWeight: 600, color: "rgb(11,5,29)", margin: 0 }}>{card.name}</h3>
                       </div>
                       <div style={{ fontSize: "12px", color: "rgb(97,95,109)" }}>{typeLabels[card.type] || card.type}</div>
@@ -171,7 +168,6 @@ export default function LoyaltyPage() {
             style={{ backgroundColor: "white", borderRadius: "20px", padding: "32px", maxWidth: "400px", width: "90%", textAlign: "center" }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div style={{ fontSize: "48px", marginBottom: "16px" }}>⚠️</div>
             <h2 style={{ fontSize: "18px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 8px" }}>
               Delete &quot;{deleteTarget.name}&quot;?
             </h2>

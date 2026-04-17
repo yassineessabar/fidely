@@ -75,7 +75,6 @@ export default function DashboardPage() {
       {/* Getting started */}
       {stats && stats.totalCards === 0 && (
         <div style={{ padding: "32px", backgroundColor: "white", borderRadius: "16px", border: "1px solid rgb(228,227,223)", textAlign: "center", marginBottom: "24px" }}>
-          <div style={{ fontSize: "48px", marginBottom: "16px" }}>🚀</div>
           <h2 style={{ fontSize: "18px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 8px" }}>Get started</h2>
           <p style={{ fontSize: "14px", color: "rgb(97,95,109)", maxWidth: "400px", margin: "0 auto", lineHeight: "20px" }}>
             Create your first loyalty card to start enrolling customers. Head to the admin panel to set up a stamp card, points card, or coupon.
@@ -85,7 +84,6 @@ export default function DashboardPage() {
 
       {stats && stats.totalCards > 0 && stats.totalCustomers === 0 && (
         <div style={{ padding: "32px", backgroundColor: "white", borderRadius: "16px", border: "1px solid rgb(228,227,223)", textAlign: "center", marginBottom: "24px" }}>
-          <div style={{ fontSize: "48px", marginBottom: "16px" }}>📱</div>
           <h2 style={{ fontSize: "18px", fontWeight: 600, color: "rgb(11,5,29)", margin: "0 0 8px" }}>Share your card</h2>
           <p style={{ fontSize: "14px", color: "rgb(97,95,109)", maxWidth: "400px", margin: "0 auto", lineHeight: "20px" }}>
             You have {stats.activeCards} active card{stats.activeCards !== 1 ? "s" : ""}. Share the enrollment link with your customers to start growing your loyalty program.
