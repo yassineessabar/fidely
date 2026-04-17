@@ -24,9 +24,16 @@ export async function POST(
     );
   }
 
-  if (dob > new Date().toISOString().split("T")[0]) {
+  if (dob >= new Date().toISOString().split("T")[0]) {
     return NextResponse.json(
-      { error: "Date of birth cannot be in the future" },
+      { error: "Date of birth must be in the past" },
+      { status: 400 }
+    );
+  }
+
+  if (phone.replace(/\D/g, "").length !== 10) {
+    return NextResponse.json(
+      { error: "Phone number must be 10 digits" },
       { status: 400 }
     );
   }

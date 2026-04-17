@@ -53,6 +53,19 @@ export default function EnrollForm({
     setLoading(true);
     setError("");
 
+    if (phone.replace(/\D/g, "").length !== 10) {
+      setError("Phone number must be 10 digits");
+      setLoading(false);
+      return;
+    }
+
+    const today = new Date().toISOString().split("T")[0];
+    if (dob >= today) {
+      setError("Date of birth must be in the past");
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await fetch(`/api/enroll/${cardId}`, {
         method: "POST",
@@ -149,8 +162,14 @@ export default function EnrollForm({
             type="tel"
             required
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            placeholder="0400 000 000"
+            onChange={(e) => {
+              const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
+              setPhone(digits);
+            }}
+            pattern="\d{10}"
+            maxLength={10}
+            inputMode="numeric"
+            placeholder="0400000000"
             style={{ ...inputStyle, paddingLeft: "42px" }}
           />
         </div>
@@ -162,11 +181,11 @@ export default function EnrollForm({
           required
           value={dob}
           onChange={(e) => {
-            const today = new Date().toISOString().split("T")[0];
-            if (e.target.value > today) return;
+            const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+            if (e.target.value > yesterday) return;
             setDob(e.target.value);
           }}
-          max={new Date().toISOString().split("T")[0]}
+          max={new Date(Date.now() - 86400000).toISOString().split("T")[0]}
           style={{
             ...inputStyle,
             colorScheme: "dark",
