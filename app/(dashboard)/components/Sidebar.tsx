@@ -21,13 +21,20 @@ import {
   CreditCard,
   Sun,
   Moon,
+  Wrench,
+  Megaphone,
+  Plug,
+  MessageSquare,
 } from "lucide-react";
 
-const navItems = [
+const mainNavItems = [
   { label: "Links", href: "/dashboard/loyalty", icon: Gift },
   { label: "Insights", href: "/dashboard", icon: LayoutDashboard },
   { label: "Audience", href: "/dashboard/customers", icon: Users },
-  { label: "Campaigns", href: "/dashboard/campaigns", icon: Send },
+];
+
+const toolsNavItems = [
+  { label: "Campaigns", href: "/dashboard/campaigns", icon: Megaphone },
 ];
 
 function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
@@ -275,46 +282,61 @@ export default function Sidebar({
 
       {/* Nav items */}
       <nav style={{ flex: 1, padding: "8px 10px", display: "flex", flexDirection: "column", gap: "1px", minWidth: "260px" }}>
-        {navItems.map((item) => {
+        {mainNavItems.map((item) => {
           const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
           const Icon = item.icon;
-
           return (
             <Link
               key={item.href}
               href={item.href}
               onClick={onNavClick}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "9px 14px",
-                borderRadius: "10px",
-                textDecoration: "none",
-                fontSize: "13px",
-                fontWeight: isActive ? 600 : 500,
+                display: "flex", alignItems: "center", gap: "10px",
+                padding: "9px 14px", borderRadius: "10px", textDecoration: "none",
+                fontSize: "13px", fontWeight: isActive ? 600 : 500,
                 color: isActive ? "white" : "rgba(255,255,255,0.5)",
                 backgroundColor: isActive ? "rgba(255,255,255,0.08)" : "transparent",
                 transition: "all 0.15s ease",
               }}
-              onMouseEnter={(e) => {
-                if (!isActive) {
-                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.05)";
-                  e.currentTarget.style.color = "rgba(255,255,255,0.8)";
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!isActive) {
-                  e.currentTarget.style.backgroundColor = "transparent";
-                  e.currentTarget.style.color = "rgba(255,255,255,0.5)";
-                }
-              }}
+              onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "rgba(255,255,255,0.8)"; } }}
+              onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.5)"; } }}
             >
               <Icon size={18} strokeWidth={isActive ? 2 : 1.8} />
               <span className="dash-nav-label">{item.label}</span>
             </Link>
           );
         })}
+
+        {/* Tools section */}
+        <div style={{ marginTop: "16px", paddingTop: "12px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+          <span className="dash-nav-label" style={{ display: "block", fontSize: "10px", fontWeight: 600, color: "rgba(255,255,255,0.25)", textTransform: "uppercase", letterSpacing: "1.2px", padding: "4px 14px 8px" }}>
+            Tools
+          </span>
+          {toolsNavItems.map((item) => {
+            const isActive = pathname === item.href || pathname.startsWith(item.href);
+            const Icon = item.icon;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={onNavClick}
+                style={{
+                  display: "flex", alignItems: "center", gap: "10px",
+                  padding: "9px 14px", borderRadius: "10px", textDecoration: "none",
+                  fontSize: "13px", fontWeight: isActive ? 600 : 500,
+                  color: isActive ? "white" : "rgba(255,255,255,0.5)",
+                  backgroundColor: isActive ? "rgba(255,255,255,0.08)" : "transparent",
+                  transition: "all 0.15s ease",
+                }}
+                onMouseEnter={(e) => { if (!isActive) { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "rgba(255,255,255,0.8)"; } }}
+                onMouseLeave={(e) => { if (!isActive) { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "rgba(255,255,255,0.5)"; } }}
+              >
+                <Icon size={18} strokeWidth={isActive ? 2 : 1.8} />
+                <span className="dash-nav-label">{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
       </nav>
 
       {/* Upgrade banner */}
