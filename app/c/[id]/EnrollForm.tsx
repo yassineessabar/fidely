@@ -45,6 +45,7 @@ export default function EnrollForm({
   const [dob, setDob] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [dobError, setDobError] = useState("");
   const isApple = useIsApple();
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -163,10 +164,10 @@ export default function EnrollForm({
             required
             value={phone}
             onChange={(e) => {
-              const digits = e.target.value.replace(/\D/g, "").slice(0, 10);
-              setPhone(digits);
+              const digits = e.target.value.replace(/\D/g, "");
+              if (digits.length <= 10) setPhone(digits);
             }}
-            pattern="\d{10}"
+            pattern="[0-9]{10}"
             maxLength={10}
             inputMode="numeric"
             placeholder="0400000000"
@@ -181,16 +182,27 @@ export default function EnrollForm({
           required
           value={dob}
           onChange={(e) => {
-            const yesterday = new Date(Date.now() - 86400000).toISOString().split("T")[0];
-            if (e.target.value > yesterday) return;
+            const today = new Date().toISOString().split("T")[0];
+            if (e.target.value >= today) {
+              setDobError("Please select a date in the past");
+              setDob("");
+              return;
+            }
+            setDobError("");
             setDob(e.target.value);
           }}
           max={new Date(Date.now() - 86400000).toISOString().split("T")[0]}
+          min="1920-01-01"
           style={{
             ...inputStyle,
             colorScheme: "dark",
           }}
         />
+        {dobError && (
+          <div style={{ marginTop: "6px", fontSize: "13px", color: "#ff6b6b" }}>
+            {dobError}
+          </div>
+        )}
       </div>
 
       {error && (
