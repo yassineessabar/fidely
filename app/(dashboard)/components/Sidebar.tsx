@@ -11,9 +11,9 @@ import {
   Bell,
   CreditCard,
   Settings,
-  ChevronLeft,
-  ChevronRight,
+  PanelLeft,
   X,
+  Gem,
 } from "lucide-react";
 
 const navItems = [
@@ -41,61 +41,57 @@ export default function Sidebar({
     <aside
       className="dash-sidebar"
       style={{
-        width: collapsed ? "72px" : "240px",
+        width: collapsed ? "0px" : "260px",
         minHeight: "100vh",
-        backgroundColor: "rgb(11,5,29)",
+        backgroundColor: "#fafafa",
         display: "flex",
         flexDirection: "column",
-        transition: "width 0.2s ease",
+        transition: "width 260ms cubic-bezier(0.31, 0.1, 0.08, 0.96)",
         position: "fixed",
         top: 0,
         left: 0,
         bottom: 0,
         zIndex: 50,
         overflow: "hidden",
+        borderRight: "1px solid rgba(0,0,0,0.06)",
       }}
     >
-      {/* Logo + close button */}
+      {/* Logo + toggle */}
       <div
         style={{
-          padding: collapsed ? "20px 0" : "20px 24px",
+          padding: "16px 16px 12px",
           display: "flex",
           alignItems: "center",
-          justifyContent: collapsed ? "center" : "space-between",
-          height: "72px",
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          justifyContent: "space-between",
+          minWidth: "260px",
         }}
       >
-        {collapsed ? (
-          <div style={{ width: "32px", height: "32px", borderRadius: "8px", backgroundColor: "rgb(230,255,169)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span className="font-display" style={{ color: "rgb(11,5,29)", fontWeight: 800, fontSize: "16px" }}>f</span>
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <div style={{
+            height: "26px", width: "26px", borderRadius: "7px",
+            backgroundColor: "#0a0a0a", display: "flex",
+            alignItems: "center", justifyContent: "center",
+          }}>
+            <span style={{ fontSize: "9px", fontWeight: 900, color: "white", letterSpacing: "-0.06em" }}>K</span>
           </div>
-        ) : (
-          <>
-            <KyroLogo color="white" height={22} />
-            {onNavClick && (
-              <button
-                onClick={onNavClick}
-                className="dash-close-btn"
-                style={{
-                  display: "none",
-                  background: "rgba(255,255,255,0.1)",
-                  border: "none",
-                  borderRadius: "8px",
-                  padding: "6px",
-                  cursor: "pointer",
-                  color: "rgba(255,255,255,0.6)",
-                }}
-              >
-                <X size={18} />
-              </button>
-            )}
-          </>
-        )}
+          <span style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.03em", color: "rgba(10,10,10,0.9)" }}>
+            Kyro
+          </span>
+        </div>
+        <button
+          onClick={onToggle}
+          style={{
+            background: "none", border: "none", cursor: "pointer",
+            color: "rgba(10,10,10,0.4)", padding: "4px",
+            borderRadius: "6px", display: "flex", alignItems: "center",
+          }}
+        >
+          <PanelLeft size={18} />
+        </button>
       </div>
 
       {/* Nav items */}
-      <nav style={{ flex: 1, padding: "12px 8px", display: "flex", flexDirection: "column", gap: "2px" }}>
+      <nav style={{ flex: 1, padding: "8px 10px", display: "flex", flexDirection: "column", gap: "1px", minWidth: "260px" }}>
         {navItems.map((item) => {
           const isActive = pathname === item.href || (item.href !== "/dashboard" && pathname.startsWith(item.href));
           const Icon = item.icon;
@@ -108,49 +104,83 @@ export default function Sidebar({
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "12px",
-                padding: collapsed ? "10px 0" : "10px 16px",
-                justifyContent: collapsed ? "center" : "flex-start",
+                gap: "10px",
+                padding: "9px 14px",
                 borderRadius: "10px",
                 textDecoration: "none",
-                fontSize: "14px",
-                fontWeight: isActive ? 600 : 400,
-                color: isActive ? "white" : "rgba(255,255,255,0.5)",
-                backgroundColor: isActive ? "rgba(255,255,255,0.08)" : "transparent",
+                fontSize: "13px",
+                fontWeight: isActive ? 600 : 500,
+                color: isActive ? "rgba(10,10,10,0.9)" : "rgba(10,10,10,0.5)",
+                backgroundColor: isActive ? "rgba(10,10,10,0.06)" : "transparent",
                 transition: "all 0.15s ease",
               }}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.03)";
+                  e.currentTarget.style.color = "rgba(10,10,10,0.8)";
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  e.currentTarget.style.backgroundColor = "transparent";
+                  e.currentTarget.style.color = "rgba(10,10,10,0.5)";
+                }
+              }}
             >
-              <Icon size={20} strokeWidth={isActive ? 2 : 1.5} />
-              {!collapsed && <span className="dash-nav-label">{item.label}</span>}
+              <Icon size={18} strokeWidth={isActive ? 2 : 1.8} />
+              <span>{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
-      {/* Collapse toggle */}
-      <div className="dash-collapse-btn" style={{ padding: "16px 8px", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-        <button
-          onClick={onToggle}
+      {/* Upgrade banner */}
+      <div style={{ padding: "12px 14px", minWidth: "260px" }}>
+        <Link
+          href="/dashboard/billing"
+          onClick={onNavClick}
           style={{
-            width: "100%",
             display: "flex",
             alignItems: "center",
-            justifyContent: collapsed ? "center" : "flex-start",
-            gap: "12px",
-            padding: collapsed ? "10px 0" : "10px 16px",
-            background: "none",
-            border: "none",
-            color: "rgba(255,255,255,0.4)",
-            cursor: "pointer",
-            borderRadius: "10px",
-            fontSize: "13px",
-            fontFamily: "inherit",
-            transition: "color 0.15s",
+            justifyContent: "space-between",
+            padding: "14px 16px",
+            borderRadius: "12px",
+            border: "1px solid rgba(10,10,10,0.06)",
+            backgroundColor: "rgba(10,10,10,0.02)",
+            textDecoration: "none",
+            transition: "background-color 0.15s",
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.04)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.02)"; }}
+        >
+          <div>
+            <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "rgba(10,10,10,0.8)" }}>
+              Upgrade your plan
+            </p>
+            <p style={{ margin: "3px 0 0", fontSize: "11px", color: "rgba(10,10,10,0.35)", fontWeight: 500 }}>
+              Get more features
+            </p>
+          </div>
+          <Gem size={18} style={{ color: "rgba(10,10,10,0.25)" }} />
+        </Link>
+      </div>
+
+      {/* Mobile close button (hidden on desktop, shown via CSS) */}
+      {onNavClick && (
+        <button
+          onClick={onNavClick}
+          className="dash-close-btn"
+          style={{
+            display: "none",
+            position: "absolute", top: "16px", right: "16px",
+            background: "rgba(10,10,10,0.06)", border: "none",
+            borderRadius: "8px", padding: "6px", cursor: "pointer",
+            color: "rgba(10,10,10,0.5)",
           }}
         >
-          {collapsed ? <ChevronRight size={18} /> : <><ChevronLeft size={18} /><span>Collapse</span></>}
+          <X size={18} />
         </button>
-      </div>
+      )}
     </aside>
   );
 }
