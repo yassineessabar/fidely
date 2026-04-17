@@ -104,7 +104,7 @@ export default function DashboardPage() {
                     <div style={{ fontSize: "11px", fontWeight: 600, color: "rgb(11,5,29)" }}>{m.count}</div>
                     <div style={{
                       width: "100%", borderRadius: "6px 6px 0 0",
-                      backgroundColor: m.count > 0 ? "rgb(108,71,255)" : "rgb(243,242,238)",
+                      backgroundColor: m.count > 0 ? "#0a0a0a" : "rgb(243,242,238)",
                       height: `${Math.max((m.count / maxMonthCount) * 100, 4)}%`,
                       minHeight: "4px",
                     }} />

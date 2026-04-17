@@ -174,10 +174,10 @@ export default function BillingPage() {
               justifyContent: "space-between",
               padding: "18px 20px",
               borderRadius: 14,
-              border: `1.5px solid ${cycle === "monthly" ? "rgb(108,71,255)" : "rgba(10,10,10,0.08)"}`,
+              border: `1.5px solid ${cycle === "monthly" ? "#0a0a0a" : "rgba(10,10,10,0.08)"}`,
               backgroundColor:
                 cycle === "monthly"
-                  ? "rgba(108,71,255,0.04)"
+                  ? "rgba(10,10,10,0.04)"
                   : "transparent",
               cursor: "pointer",
               transition: "all 0.15s",
@@ -190,7 +190,7 @@ export default function BillingPage() {
                   width: 18,
                   height: 18,
                   borderRadius: "50%",
-                  border: `2px solid ${cycle === "monthly" ? "rgb(108,71,255)" : "rgba(10,10,10,0.2)"}`,
+                  border: `2px solid ${cycle === "monthly" ? "#0a0a0a" : "rgba(10,10,10,0.2)"}`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -246,10 +246,10 @@ export default function BillingPage() {
               justifyContent: "space-between",
               padding: "18px 20px",
               borderRadius: 14,
-              border: `1.5px solid ${cycle === "yearly" ? "rgb(108,71,255)" : "rgba(10,10,10,0.08)"}`,
+              border: `1.5px solid ${cycle === "yearly" ? "#0a0a0a" : "rgba(10,10,10,0.08)"}`,
               backgroundColor:
                 cycle === "yearly"
-                  ? "rgba(108,71,255,0.04)"
+                  ? "rgba(10,10,10,0.04)"
                   : "transparent",
               cursor: "pointer",
               transition: "all 0.15s",
@@ -262,7 +262,7 @@ export default function BillingPage() {
                   width: 18,
                   height: 18,
                   borderRadius: "50%",
-                  border: `2px solid ${cycle === "yearly" ? "rgb(108,71,255)" : "rgba(10,10,10,0.2)"}`,
+                  border: `2px solid ${cycle === "yearly" ? "#0a0a0a" : "rgba(10,10,10,0.2)"}`,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",

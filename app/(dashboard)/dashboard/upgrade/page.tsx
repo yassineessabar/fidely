@@ -131,10 +131,10 @@ export default function UpgradePage() {
             style={{
               backgroundColor: "#fff",
               borderRadius: 20,
-              border: `1px solid ${plan.elevated ? "rgba(108,71,255,0.18)" : "rgba(10,10,10,0.06)"}`,
+              border: `1px solid ${plan.elevated ? "rgba(10,10,10,0.12)" : "rgba(10,10,10,0.06)"}`,
               padding: 28,
               boxShadow: plan.elevated
-                ? "0 8px 32px rgba(108,71,255,0.12)"
+                ? "0 8px 32px rgba(10,10,10,0.08)"
                 : "none",
               display: "flex",
               flexDirection: "column",
