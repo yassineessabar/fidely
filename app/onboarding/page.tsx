@@ -115,40 +115,86 @@ export default function OnboardingPage() {
         <div style={{ width: "100%", maxWidth: step === 2 ? 800 : step === 4 ? 900 : 640 }}>
 
           {/* Step 1: Business Type */}
-          {step === 1 && (
+          {step === 1 && (() => {
+            const bizImages: Record<string, string> = {
+              cafe: "/images/brands/biz-cafe.png",
+              restaurant: "/images/brands/biz-sushi.png",
+              bakery: "/images/brands/biz-bakery.png",
+              barber: "/images/brands/biz-barber.png",
+              salon: "/images/brands/biz-salon.png",
+              gym: "/images/brands/biz-gym.png",
+              retail: "/images/brands/biz-books.png",
+              other: "/images/brands/biz-flowers.png",
+            };
+            return (
             <div style={{ animation: "fadeInUp 0.5s ease" }}>
-              <h1 style={{ fontSize: 28, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 8px", textAlign: "center" }}>
+              <h1 style={{ fontSize: 30, fontWeight: 800, color: "rgba(0,0,0,0.9)", margin: "0 0 16px", textAlign: "center", letterSpacing: "-0.45px" }}>
                 What type of business do you run?
               </h1>
-              <p style={{ fontSize: 15, color: "rgba(10,10,10,0.45)", textAlign: "center", margin: "0 0 40px" }}>
+              <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)", textAlign: "center", margin: "0 0 32px", letterSpacing: "0.16px" }}>
                 We&apos;ll customize your loyalty card based on your industry
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 12 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }} className="biz-type-grid">
                 {businessTypes.map((bt) => {
-                  const Icon = iconMap[bt.icon] || Store;
                   const selected = data.businessType === bt.id;
                   return (
                     <button
                       key={bt.id}
                       onClick={() => setData({ ...data, businessType: bt.id })}
                       style={{
-                        display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
-                        padding: "24px 16px", borderRadius: 16, cursor: "pointer", fontFamily: "inherit",
+                        display: "flex", flexDirection: "column", alignItems: "stretch",
+                        padding: 0, borderRadius: 16, cursor: "pointer", fontFamily: "inherit",
                         border: selected ? "2px solid #0b051d" : "1px solid rgba(10,10,10,0.08)",
-                        backgroundColor: selected ? "rgba(11,5,29,0.04)" : "white",
-                        transition: "all 0.15s",
+                        backgroundColor: "white", overflow: "hidden",
+                        transition: "all 0.2s ease",
+                        boxShadow: selected ? "0 4px 20px rgba(11,5,29,0.12)" : "none",
+                        transform: selected ? "translateY(-2px)" : "none",
                       }}
                     >
-                      <Icon size={28} strokeWidth={1.5} style={{ color: selected ? "#0b051d" : "rgba(10,10,10,0.4)" }} />
-                      <span style={{ fontSize: 13, fontWeight: 600, color: selected ? "#0b051d" : "rgba(10,10,10,0.7)" }}>
-                        {bt.label}
-                      </span>
+                      {/* Image */}
+                      <div style={{
+                        aspectRatio: "4/3", overflow: "hidden",
+                        backgroundColor: "rgb(243,242,238)",
+                      }}>
+                        <img
+                          src={bizImages[bt.id] || bizImages.other}
+                          alt={bt.label}
+                          style={{
+                            width: "100%", height: "100%", objectFit: "cover",
+                            display: "block",
+                            filter: selected ? "none" : "grayscale(0.3)",
+                            transition: "filter 0.2s",
+                          }}
+                        />
+                      </div>
+                      {/* Label */}
+                      <div style={{
+                        padding: "12px 14px",
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                      }}>
+                        <span style={{
+                          fontSize: 13, fontWeight: 600,
+                          color: selected ? "#0b051d" : "rgba(10,10,10,0.65)",
+                        }}>
+                          {bt.label}
+                        </span>
+                        {selected && (
+                          <div style={{
+                            width: 20, height: 20, borderRadius: "50%",
+                            backgroundColor: "#0b051d", display: "flex",
+                            alignItems: "center", justifyContent: "center",
+                          }}>
+                            <Check size={12} style={{ color: "white" }} />
+                          </div>
+                        )}
+                      </div>
                     </button>
                   );
                 })}
               </div>
             </div>
-          )}
+            );
+          })()}
 
           {/* Step 2: Theme — tall phone-shaped card previews like Linktree */}
           {step === 2 && (
@@ -487,6 +533,7 @@ export default function OnboardingPage() {
         @media (max-width: 768px) {
           .onboard-preview { display: none !important; }
           .theme-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
+          .biz-type-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
         @media (max-width: 400px) {
           .theme-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
