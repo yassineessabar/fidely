@@ -250,27 +250,13 @@ async function createStampStripWithSharp(
     filledCup = readFileSync(cupFilledPath);
     dimCup = readFileSync(cupDimPath);
   } else {
-    // Generate emoji-style coffee cups (Boomerang style — bold, clear ☕)
-    const filledSvg = `<svg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'>
-      <ellipse cx='28' cy='59' rx='25' ry='4' fill='#C49A6C'/>
-      <ellipse cx='28' cy='58.5' rx='23' ry='3.5' fill='#DEB887'/>
-      <rect x='8' y='22' width='40' height='32' rx='6' ry='6' fill='#FAEBD7'/>
-      <rect x='10' y='22' width='36' height='4' rx='2' fill='#FFF5E6'/>
-      <rect x='12' y='26' width='32' height='24' rx='4' fill='#6F4E37'/>
-      <rect x='12' y='26' width='32' height='6' rx='2' fill='#8B6914' opacity='0.3'/>
-      <ellipse cx='28' cy='36' rx='10' ry='4' fill='#8B6914' opacity='0.2'/>
-      <path d='M48,28 C56,28 58,34 58,38 C58,42 56,48 48,48' fill='none' stroke='#FAEBD7' stroke-width='6' stroke-linecap='round'/>
-      <path d='M48,31 C53,31 55,35 55,38 C55,41 53,45 48,45' fill='none' stroke='#FFF5E6' stroke-width='3' stroke-linecap='round'/>
-      <path d='M20,18 Q18,12 21,6' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' opacity='0.7'/>
-      <path d='M28,16 Q26,9 29,3' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' opacity='0.5'/>
-      <path d='M36,18 Q34,12 37,6' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' opacity='0.6'/>
+    // Render ☕ emoji as SVG text
+    const emojiSize = 52;
+    const filledSvg = `<svg width='64' height='64' xmlns='http://www.w3.org/2000/svg'>
+      <text x='32' y='48' font-size='${emojiSize}' text-anchor='middle' dominant-baseline='auto'>☕</text>
     </svg>`;
-    const dimSvg = `<svg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'>
-      <ellipse cx='28' cy='59' rx='25' ry='4' fill='white' opacity='0.15'/>
-      <rect x='8' y='22' width='40' height='32' rx='6' ry='6' fill='white' fill-opacity='0.15'/>
-      <rect x='10' y='22' width='36' height='4' rx='2' fill='white' fill-opacity='0.2'/>
-      <rect x='12' y='26' width='32' height='24' rx='4' fill='white' fill-opacity='0.08'/>
-      <path d='M48,28 C56,28 58,34 58,38 C58,42 56,48 48,48' fill='none' stroke='white' stroke-width='6' stroke-linecap='round' opacity='0.15'/>
+    const dimSvg = `<svg width='64' height='64' xmlns='http://www.w3.org/2000/svg'>
+      <text x='32' y='48' font-size='${emojiSize}' text-anchor='middle' dominant-baseline='auto' opacity='0.3'>☕</text>
     </svg>`;
     filledCup = await sharp(Buffer.from(filledSvg)).png().toBuffer();
     dimCup = await sharp(Buffer.from(dimSvg)).png().toBuffer();
