@@ -266,9 +266,47 @@ async function createStampStripWithSharp(
     filledCup = readFileSync(cupFilledPath);
     dimCup = readFileSync(cupDimPath);
   } else {
-    // Generate on-the-fly if files don't exist (serverless)
-    const filledSvg = `<svg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'><ellipse cx='28' cy='56' rx='24' ry='6' fill='#d4a574' opacity='0.8'/><ellipse cx='28' cy='55' rx='22' ry='5' fill='#e8c9a0'/><path d='M10,22 L10,44 Q10,52 20,52 L36,52 Q46,52 46,44 L46,22 Z' fill='#f5f0e8' stroke='#d4a574' stroke-width='1.5'/><path d='M12,28 L12,43 Q12,50 21,50 L35,50 Q44,50 44,43 L44,28 Z' fill='#6B3A2A'/><path d='M12,28 L44,28 Q42,32 28,32 Q14,32 12,28 Z' fill='#8B5A3A' opacity='0.6'/><path d='M46,26 Q56,26 56,36 Q56,44 46,44' fill='none' stroke='#e8c9a0' stroke-width='5' stroke-linecap='round'/><path d='M46,28 Q53,28 53,36 Q53,42 46,42' fill='none' stroke='#f5f0e8' stroke-width='3' stroke-linecap='round'/><path d='M22,18 Q20,12 22,8' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.7'/><path d='M28,16 Q26,10 28,5' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.5'/><path d='M34,18 Q32,12 34,8' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.6'/></svg>`;
-    const dimSvg = `<svg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'><ellipse cx='28' cy='56' rx='24' ry='6' fill='white' opacity='0.15'/><path d='M10,22 L10,44 Q10,52 20,52 L36,52 Q46,52 46,44 L46,22 Z' fill='white' fill-opacity='0.1' stroke='white' stroke-width='1.5' stroke-opacity='0.3'/><path d='M46,26 Q56,26 56,36 Q56,44 46,44' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' opacity='0.2'/></svg>`;
+    // Generate emoji-style coffee cups on-the-fly (Boomerang style)
+    const filledSvg = `<svg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'>
+      <!-- Saucer/plate -->
+      <ellipse cx='30' cy='58' rx='26' ry='5' fill='#e0d5c8'/>
+      <ellipse cx='30' cy='57' rx='24' ry='4.5' fill='#f0e8dd'/>
+      <!-- Cup body -->
+      <path d='M12,24 L14,50 Q14,54 22,54 L38,54 Q46,54 46,50 L48,24 Z' fill='#f5f0e8'/>
+      <path d='M12,24 L14,50 Q14,54 22,54 L38,54 Q46,54 46,50 L48,24 Z' fill='url(#cupShade)' />
+      <!-- Cup rim -->
+      <ellipse cx='30' cy='24' rx='18' ry='5' fill='#f5f0e8'/>
+      <ellipse cx='30' cy='24' rx='18' ry='5' fill='#faf7f3' opacity='0.6'/>
+      <!-- Coffee liquid -->
+      <ellipse cx='30' cy='25' rx='15.5' ry='3.8' fill='#5C3317'/>
+      <ellipse cx='30' cy='24.5' rx='14' ry='3' fill='#6B3A2A'/>
+      <ellipse cx='27' cy='24' rx='8' ry='1.8' fill='#8B5A3A' opacity='0.5'/>
+      <!-- Handle -->
+      <path d='M48,28 Q58,28 58,38 Q58,46 48,46' fill='none' stroke='#e8ddd0' stroke-width='5' stroke-linecap='round'/>
+      <path d='M48,30 Q55,30 55,38 Q55,44 48,44' fill='none' stroke='#f5f0e8' stroke-width='3' stroke-linecap='round'/>
+      <!-- Steam -->
+      <path d='M22,18 Q20,12 23,7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.6'/>
+      <path d='M30,16 Q28,10 31,4' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.4'/>
+      <path d='M38,18 Q36,12 39,7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' opacity='0.5'/>
+      <defs>
+        <linearGradient id='cupShade' x1='0' y1='0' x2='1' y2='0'>
+          <stop offset='0%' stop-color='#00000020'/>
+          <stop offset='40%' stop-color='#00000000'/>
+          <stop offset='100%' stop-color='#00000015'/>
+        </linearGradient>
+      </defs>
+    </svg>`;
+    const dimSvg = `<svg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'>
+      <!-- Saucer/plate -->
+      <ellipse cx='30' cy='58' rx='26' ry='5' fill='white' opacity='0.12'/>
+      <!-- Cup body -->
+      <path d='M12,24 L14,50 Q14,54 22,54 L38,54 Q46,54 46,50 L48,24 Z' fill='white' fill-opacity='0.12'/>
+      <!-- Cup rim -->
+      <ellipse cx='30' cy='24' rx='18' ry='5' fill='white' fill-opacity='0.18'/>
+      <!-- Handle -->
+      <path d='M48,28 Q58,28 58,38 Q58,46 48,46' fill='none' stroke='white' stroke-width='5' stroke-linecap='round' opacity='0.15'/>
+      <path d='M48,30 Q55,30 55,38 Q55,44 48,44' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' opacity='0.1'/>
+    </svg>`;
     filledCup = await sharp(Buffer.from(filledSvg)).png().toBuffer();
     dimCup = await sharp(Buffer.from(dimSvg)).png().toBuffer();
   }
