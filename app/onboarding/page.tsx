@@ -108,17 +108,20 @@ export default function OnboardingPage() {
     setCreating(true);
     try {
       const theme = data.theme!;
+      // Map card type to valid DB enum — "vip" maps to "points" in DB
+      const dbType = data.cardType === "vip" ? "points" : data.cardType;
       const res = await fetch("/api/merchant/cards", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          type: data.cardType,
+          type: dbType,
           name: `${data.name} Loyalty Card`,
           business_details: {
             name: data.name,
             category: data.businessType,
             description: data.description,
             tagline: "",
+            cardVariant: data.cardType, // preserve original selection (stamp/points/vip)
           },
           branding: {
             backgroundColor: theme.backgroundColor,
@@ -127,11 +130,22 @@ export default function OnboardingPage() {
             accentColor: theme.accentColor,
             logoUrl: data.logoUrl,
             heroImageUrl: data.bannerUrl,
+            stampEmoji: data.stampEmoji || theme.stampEmoji,
           },
-          logic: {
+          logic: data.cardType === "stamp" ? {
             totalStamps: 10,
             reward: "Free item",
             progressLabel: "collected",
+          } : data.cardType === "points" ? {
+            pointsPerDollar: 1,
+            rewardThreshold: 100,
+            reward: "10% off",
+            progressLabel: "earned",
+          } : {
+            // VIP — stored as points type with VIP variant
+            tierName: "Gold",
+            reward: "VIP perks",
+            progressLabel: "member",
           },
         }),
       });

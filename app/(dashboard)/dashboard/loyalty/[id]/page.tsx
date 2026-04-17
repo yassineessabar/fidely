@@ -91,7 +91,7 @@ export default function EditCardPage() {
           const c = d.card;
           setCard(c);
           setName(c.business_details?.name || c.name?.replace(" Loyalty Card", "") || "");
-          setCardType(c.type || "stamp");
+          setCardType(c.business_details?.cardVariant || c.type || "stamp");
           setEmoji(c.branding?.stampEmoji || "☕");
           setLogoUrl(c.branding?.logoUrl || "");
           setBannerUrl(c.branding?.heroImageUrl || "");
@@ -110,18 +110,26 @@ export default function EditCardPage() {
   async function handleSave() {
     setSaving(true);
     try {
+      const dbType = cardType === "vip" ? "points" : cardType;
       await fetch(`/api/merchant/cards/${cardId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: `${name} Loyalty Card`,
-          type: cardType,
-          business_details: { ...card?.business_details, name },
+          type: dbType,
+          business_details: { ...card?.business_details, name, cardVariant: cardType },
           branding: {
+            ...card?.branding,
             backgroundColor: bgColor, primaryColor, secondaryColor, accentColor,
             logoUrl, heroImageUrl: bannerUrl, stampEmoji: emoji,
           },
-          logic: { totalStamps, reward, progressLabel: "collected" },
+          logic: cardType === "stamp" ? {
+            totalStamps, reward, progressLabel: "collected",
+          } : cardType === "points" ? {
+            ...card?.logic, reward, progressLabel: "earned",
+          } : {
+            ...card?.logic, tierName: "Gold", reward, progressLabel: "member",
+          },
         }),
       });
       setSaved(true);

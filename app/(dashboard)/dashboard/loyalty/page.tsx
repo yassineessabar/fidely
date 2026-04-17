@@ -191,6 +191,8 @@ export default function LinksPage() {
     ? { backgroundColor: bgColor, primaryColor, secondaryColor, accentColor, logoUrl: editLogo, heroImageUrl: editBanner, stampEmoji: editEmoji }
     : { ...(sc?.branding || {}), stampEmoji: sc?.branding?.stampEmoji || "☕" };
   const previewName = editingAppearance ? editName : (sc?.business_details?.name || sc?.name || "");
+  // Resolve display type — "vip" is stored as "points" in DB, but cardVariant preserves the original
+  const scDisplayType = sc?.business_details?.cardVariant || sc?.type || "stamp";
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -257,7 +259,7 @@ export default function LinksPage() {
                         <div>
                           <div style={{ fontSize: 15, fontWeight: 600, color: "rgba(10,10,10,0.9)", marginBottom: 2 }}>{card.business_details?.name || card.name}</div>
                           <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "rgba(10,10,10,0.4)" }}>
-                            <span>{typeLabels[card.type] || card.type}</span>
+                            <span>{typeLabels[card.business_details?.cardVariant || card.type] || card.type}</span>
                             <span style={{ width: 3, height: 3, borderRadius: 99, backgroundColor: "rgba(10,10,10,0.2)" }} />
                             <span>{card.enrollmentCount} members</span>
                           </div>
@@ -369,7 +371,7 @@ export default function LinksPage() {
                       </div>
 
                       {/* Stamp Emoji */}
-                      {(sc.type === "stamp") && (
+                      {(scDisplayType === "stamp") && (
                         <div>
                           <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.5px" }}>
                             Stamp Emoji
@@ -530,20 +532,20 @@ export default function LinksPage() {
                       ) : (
                         <div style={{ width: "100%", height: "100%", background: `linear-gradient(135deg, ${previewBr.accentColor || "#6C47FF"}40, ${previewBr.backgroundColor || "#0B051D"})` }} />
                       )}
-                      {sc.type === "stamp" && (
+                      {scDisplayType === "stamp" && (
                         <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", alignItems: "center", justifyItems: "center", alignContent: "center", padding: "6px 12px", gap: "2px 0" }}>
                           {Array.from({ length: 8 }).map((_, i) => (
                             <span key={i} style={{ fontSize: 24, lineHeight: 1, opacity: i < 3 ? 1 : 0.15, filter: i >= 3 ? "grayscale(1)" : "none" }}>{previewBr.stampEmoji || "☕"}</span>
                           ))}
                         </div>
                       )}
-                      {sc.type === "points" && (
+                      {scDisplayType === "points" && (
                         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                           <div style={{ fontSize: 30, fontWeight: 800, color: "white", textShadow: "0 2px 6px rgba(0,0,0,0.4)", lineHeight: 1 }}>1,250</div>
                           <div style={{ fontSize: 9, fontWeight: 700, color: "white", textTransform: "uppercase", letterSpacing: "1.5px", marginTop: 3, textShadow: "0 1px 3px rgba(0,0,0,0.4)" }}>POINTS</div>
                         </div>
                       )}
-                      {sc.type === "vip" && (
+                      {scDisplayType === "vip" && (
                         <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                           <div style={{ fontSize: 9, fontWeight: 700, color: "rgba(255,255,255,0.7)", textTransform: "uppercase", letterSpacing: "2px", textShadow: "0 1px 3px rgba(0,0,0,0.4)" }}>STATUS</div>
                           <div style={{ fontSize: 20, fontWeight: 800, color: "#FFD700", textShadow: "0 2px 8px rgba(0,0,0,0.5)" }}>Gold</div>
@@ -554,10 +556,10 @@ export default function LinksPage() {
                     <div style={{ padding: "8px 14px", display: "flex", justifyContent: "space-between" }}>
                       <div>
                         <div style={{ fontSize: 6, fontWeight: 600, color: previewBr.secondaryColor || "#E6FFA9", textTransform: "uppercase" }}>
-                          {sc.type === "stamp" ? "STAMPS UNTIL REWARD" : sc.type === "points" ? "POINTS BALANCE" : "TIER"}
+                          {scDisplayType === "stamp" ? "STAMPS UNTIL REWARD" : scDisplayType === "points" ? "POINTS BALANCE" : "TIER"}
                         </div>
                         <div style={{ fontSize: 11, fontWeight: 600, color: previewBr.primaryColor || "#fff" }}>
-                          {sc.type === "stamp" ? `${sc.logic?.totalStamps || 10} stamps` : sc.type === "points" ? "1,250 pts" : "Gold"}
+                          {scDisplayType === "stamp" ? `${sc.logic?.totalStamps || 10} stamps` : scDisplayType === "points" ? "1,250 pts" : "Gold"}
                         </div>
                       </div>
                       <div style={{ textAlign: "right" }}>
