@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, Check, Copy, ExternalLink, Globe, ChevronDown, ChevronUp, Save, Palette, Upload, Image } from "lucide-react";
+import { Plus, Pencil, Trash2, Check, Copy, ExternalLink, Globe } from "lucide-react";
 
 const EMOJI_OPTIONS = ["☕", "🍵", "🧁", "🍕", "🍣", "🍽️", "🎂", "🍞", "🍫", "✂️", "💈", "👑", "💅", "💆", "💇", "✨", "💪", "🔥", "🏋️", "🧘", "👜", "🌸", "🎁", "📚", "⭐", "🍦", "🍷", "🐾", "🎵", "🎮", "🏆", "❤️", "🌟", "🎯", "🛍️"];
 
@@ -324,8 +324,8 @@ export default function LinksPage() {
                 );
               })}
 
-              {/* Customize appearance — inline, toggled */}
-              {sc && (
+              {/* Customize appearance removed — use Edit page instead */}
+              {false && sc && (
                 <div style={{
                   backgroundColor: "white", borderRadius: 16, overflow: "hidden",
                   border: editingAppearance ? "2px solid #111" : "1px solid rgba(10,10,10,0.06)",
