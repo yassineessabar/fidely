@@ -392,7 +392,7 @@ export default function Sidebar({
 
       {/* Plan banner */}
       <div className="dash-upgrade-banner" style={{ padding: "8px 14px 0", minWidth: "260px" }}>
-        {plan === "free" || plan === "starter" ? (
+        {plan === "free" ? (
           <Link
             href="/dashboard/upgrade"
             onClick={onNavClick}
