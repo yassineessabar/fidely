@@ -68,74 +68,74 @@ export default function UpgradePage() {
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto" }}>
       {/* Header */}
-      <div style={{ textAlign: "center", marginBottom: 32 }}>
-        <h1 style={{ fontSize: 32, fontWeight: 400, color: "rgba(10,10,10,0.9)", margin: 0, letterSpacing: "-0.01em" }}>
+      <div style={{ textAlign: "center", marginBottom: 40 }}>
+        <h1 style={{ fontSize: 28, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 8px", letterSpacing: "-0.3px" }}>
           Choose the plan that&apos;s right for you
         </h1>
+        <p style={{ fontSize: 15, color: "rgba(10,10,10,0.4)", margin: 0 }}>
+          Start free, upgrade when you&apos;re ready
+        </p>
       </div>
 
       {/* Plan cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16, alignItems: "stretch", marginBottom: 32 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 16, alignItems: "stretch", marginBottom: 40 }}>
         {plans.map((plan) => (
           <div key={plan.id} style={{ display: "flex", flexDirection: "column" }}>
             <div style={{
               flex: 1, display: "flex", flexDirection: "column",
-              borderRadius: 20, backgroundColor: "rgba(10,10,10,0.02)", padding: 24,
-              border: "1px solid rgba(10,10,10,0.04)",
+              borderRadius: 20, backgroundColor: "white", padding: 28,
+              border: plan.recommended ? "2px solid #111" : "1px solid rgba(10,10,10,0.06)",
+              boxShadow: plan.recommended ? "0 8px 30px rgba(0,0,0,0.08)" : "0 1px 3px rgba(0,0,0,0.02)",
+              position: "relative",
             }}>
               {/* Name + badge */}
               <div style={{ marginBottom: 20 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
-                  <span style={{ fontSize: 24, fontWeight: 400, color: "rgba(10,10,10,0.9)" }}>{plan.name}</span>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                  <span style={{ fontSize: 20, fontWeight: 700, color: "rgba(10,10,10,0.9)", letterSpacing: "-0.2px" }}>{plan.name}</span>
                   {plan.recommended && (
                     <span style={{
-                      fontSize: 13, fontWeight: 300, padding: "4px 10px", borderRadius: 99,
-                      background: "linear-gradient(90deg, #FFA67C, #FF8047)", color: "white",
+                      fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 99,
+                      backgroundColor: "#111", color: "white",
                     }}>
                       Recommended
                     </span>
                   )}
                 </div>
                 {/* Price */}
-                <div style={{ display: "flex", alignItems: "flex-end" }}>
-                  <span style={{ fontSize: 30, fontWeight: 500, color: "rgba(10,10,10,0.9)", lineHeight: "36px" }}>$</span>
-                  <span style={{ fontSize: 30, fontWeight: 500, color: "rgba(10,10,10,0.9)", lineHeight: "36px" }}>{plan.price}</span>
-                  <span style={{ fontSize: 20, fontWeight: 200, color: "rgba(10,10,10,0.25)", lineHeight: "28px" }}>/</span>
-                  <span style={{ fontSize: 14, color: "rgba(10,10,10,0.25)" }}>mo</span>
+                <div style={{ display: "flex", alignItems: "baseline", gap: 2 }}>
+                  <span style={{ fontSize: 36, fontWeight: 700, color: "rgba(10,10,10,0.9)", lineHeight: 1, letterSpacing: "-1px" }}>${plan.price}</span>
+                  <span style={{ fontSize: 14, color: "rgba(10,10,10,0.3)", marginLeft: 2 }}>/mo</span>
                 </div>
               </div>
 
-              {/* Divider */}
-              <div style={{ height: 1, backgroundColor: "rgba(10,10,10,0.06)", margin: "0 8px 20px" }} />
-
               {/* Description */}
-              <p style={{ fontSize: 13, color: "rgba(10,10,10,0.4)", margin: "0 0 20px", lineHeight: 1.5 }}>{plan.desc}</p>
+              <p style={{ fontSize: 13, color: "rgba(10,10,10,0.45)", margin: "0 0 20px", lineHeight: 1.5 }}>{plan.desc}</p>
 
               {/* CTA */}
               <button
                 onClick={() => router.push(`/dashboard/billing?plan=${plan.id}`)}
                 style={{
-                  width: "100%", height: 40, borderRadius: 8, border: "none",
-                  fontSize: 15, fontWeight: 500, cursor: "pointer", fontFamily: "inherit",
+                  width: "100%", padding: "12px 0", borderRadius: 12, border: "none",
+                  fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
                   marginBottom: 20,
-                  backgroundColor: plan.recommended ? "rgba(255,99,31,0.85)" : "transparent",
-                  color: plan.recommended ? "black" : "rgba(10,10,10,0.9)",
-                  ...(plan.recommended ? {} : { border: "1px solid rgba(10,10,10,0.1)" }),
+                  backgroundColor: plan.recommended ? "#111" : "rgba(10,10,10,0.04)",
+                  color: plan.recommended ? "white" : "rgba(10,10,10,0.7)",
+                  transition: "all 0.15s",
                 }}
               >
                 {plan.cta}
               </button>
 
               {/* Divider */}
-              <div style={{ height: 1, backgroundColor: "rgba(10,10,10,0.06)", margin: "0 8px 16px" }} />
+              <div style={{ height: 1, backgroundColor: "rgba(10,10,10,0.06)", marginBottom: 16 }} />
 
               {/* Highlights */}
               <div style={{ flex: 1 }}>
-                <p style={{ fontSize: 14, fontWeight: 500, color: "rgba(10,10,10,0.85)", margin: "0 0 8px" }}>Plan highlights:</p>
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <p style={{ fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.4)", margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.5px" }}>Includes:</p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {plan.highlights.map((h) => (
-                    <div key={h} style={{ display: "flex", alignItems: "center", fontSize: 14, color: "rgba(10,10,10,0.75)", fontWeight: 300 }}>
-                      <Check size={16} strokeWidth={2} style={{ flexShrink: 0, color: "rgb(20,184,166)", marginRight: 12 }} />
+                    <div key={h} style={{ display: "flex", alignItems: "center", fontSize: 13, color: "rgba(10,10,10,0.7)" }}>
+                      <Check size={15} strokeWidth={2.5} style={{ flexShrink: 0, color: "#111", marginRight: 10 }} />
                       {h}
                     </div>
                   ))}
@@ -149,29 +149,30 @@ export default function UpgradePage() {
       {/* Enterprise banner */}
       <div style={{
         borderRadius: 20, overflow: "hidden",
-        background: "linear-gradient(to top left, rgba(249,115,22,0.8), rgb(71,85,105) 40%)",
-        color: "white", padding: "32px 48px", marginBottom: 32,
+        backgroundColor: "#111",
+        color: "white", padding: "36px 48px", marginBottom: 40,
       }}>
         <div style={{ display: "flex", gap: 56, alignItems: "flex-start", flexWrap: "wrap" }}>
           <div style={{ flex: "2 1 240px" }}>
-            <h3 style={{ fontSize: 24, fontWeight: 700, margin: "0 0 8px" }}>Kyro for Enterprise</h3>
-            <p style={{ fontSize: 14, fontWeight: 300, margin: "0 0 24px", lineHeight: 1.6, opacity: 0.9 }}>
+            <h3 style={{ fontSize: 22, fontWeight: 700, margin: "0 0 8px", letterSpacing: "-0.2px" }}>Kyro for Enterprise</h3>
+            <p style={{ fontSize: 14, fontWeight: 400, margin: "0 0 24px", lineHeight: 1.6, opacity: 0.7 }}>
               Multi-location businesses need centralized control. Custom pricing, dedicated support, and advanced features for scaling brands.
             </p>
             <a
               href="mailto:hello@wearekyro.com?subject=Enterprise Plan Inquiry"
               style={{
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
-                height: 40, padding: "0 32px", borderRadius: 8,
-                border: "1px solid white", backgroundColor: "transparent",
-                color: "white", fontSize: 15, fontWeight: 500, textDecoration: "none",
+                padding: "10px 28px", borderRadius: 12,
+                border: "1px solid rgba(255,255,255,0.25)", backgroundColor: "transparent",
+                color: "white", fontSize: 14, fontWeight: 600, textDecoration: "none",
+                transition: "all 0.15s",
               }}
             >
               Contact Us
             </a>
           </div>
           <div style={{ flex: "3 1 320px" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "32px 56px" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "28px 48px" }}>
               {[
                 { icon: Puzzle, title: "Onboarding & Training", desc: "Tailored onboarding with live training to help your team adopt quickly." },
                 { icon: Users, title: "Multi-Store Dashboard", desc: "Centralized management across all locations with per-store analytics." },
@@ -180,11 +181,11 @@ export default function UpgradePage() {
               ].map((item) => {
                 const Icon = item.icon;
                 return (
-                  <div key={item.title} style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                    <Icon size={20} style={{ color: "#fb923c" }} />
+                  <div key={item.title} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    <Icon size={20} style={{ color: "rgba(255,255,255,0.5)" }} />
                     <div>
-                      <h4 style={{ fontSize: 14, fontWeight: 700, margin: "0 0 4px" }}>{item.title}</h4>
-                      <p style={{ fontSize: 14, fontWeight: 300, margin: 0, lineHeight: 1.5, opacity: 0.85 }}>{item.desc}</p>
+                      <h4 style={{ fontSize: 13, fontWeight: 700, margin: "0 0 3px" }}>{item.title}</h4>
+                      <p style={{ fontSize: 13, fontWeight: 400, margin: 0, lineHeight: 1.5, opacity: 0.6 }}>{item.desc}</p>
                     </div>
                   </div>
                 );
@@ -195,8 +196,8 @@ export default function UpgradePage() {
       </div>
 
       {/* FAQ */}
-      <div style={{ marginBottom: 32, padding: "0 8px" }}>
-        <h2 style={{ fontSize: 24, fontWeight: 600, color: "rgba(10,10,10,0.9)", margin: "0 0 24px" }}>
+      <div style={{ marginBottom: 40 }}>
+        <h2 style={{ fontSize: 20, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 20px", letterSpacing: "-0.2px" }}>
           Frequently Asked Questions
         </h2>
         <div>
@@ -210,9 +211,9 @@ export default function UpgradePage() {
                   cursor: "pointer", fontFamily: "inherit", padding: 0,
                 }}
               >
-                <span style={{ fontSize: 17, fontWeight: 500, color: "rgba(10,10,10,0.85)" }}>{faq.q}</span>
+                <span style={{ fontSize: 15, fontWeight: 600, color: "rgba(10,10,10,0.85)" }}>{faq.q}</span>
                 <ChevronDown
-                  size={20}
+                  size={18}
                   style={{
                     flexShrink: 0, color: "rgba(10,10,10,0.3)", marginLeft: 16,
                     transform: openFaq === i ? "rotate(180deg)" : "rotate(0deg)",
@@ -221,7 +222,7 @@ export default function UpgradePage() {
                 />
               </button>
               {openFaq === i && (
-                <p style={{ marginTop: 12, fontSize: 14, color: "rgba(10,10,10,0.5)", lineHeight: 1.6 }}>{faq.a}</p>
+                <p style={{ marginTop: 10, fontSize: 14, color: "rgba(10,10,10,0.5)", lineHeight: 1.6 }}>{faq.a}</p>
               )}
             </div>
           ))}
