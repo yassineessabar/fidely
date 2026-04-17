@@ -55,7 +55,7 @@ function QrCode({ size }: { size: number }) {
   const cs = (size - 8) / 25;
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ borderRadius: 8, backgroundColor: "white" }}>
-      {QR_PATTERN.map((v, i) => v ? <rect key={i} x={4 + (i % 25) * cs} y={4 + Math.floor(i / 25) * cs} width={cs} height={cs} fill="#111" rx={cs * 0.15} /> : null)}
+      {QR_PATTERN.map((v, i) => v ? <rect key={i} x={4 + (i % 25) * cs} y={4 + Math.floor(i / 25) * cs} width={cs} height={cs} fill="#0B051D" rx={cs * 0.15} /> : null)}
     </svg>
   );
 }
@@ -226,7 +226,7 @@ export default function LinksPage() {
           return (
             <a href="/dashboard/loyalty/new" style={{
               display: "inline-flex", alignItems: "center", gap: 6,
-              padding: "10px 20px", borderRadius: 12, backgroundColor: "#111", color: "white",
+              padding: "10px 20px", borderRadius: 12, backgroundColor: "#0B051D", color: "white",
               fontSize: 13, fontWeight: 600, textDecoration: "none", fontFamily: "inherit",
               boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
             }}>
@@ -257,14 +257,14 @@ export default function LinksPage() {
                   "Track customer engagement",
                 ].map((text) => (
                   <div key={text} style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <Check size={15} style={{ color: "#111", flexShrink: 0 }} />
+                    <Check size={15} style={{ color: "#0B051D", flexShrink: 0 }} />
                     <span style={{ fontSize: 14, color: "rgba(10,10,10,0.6)" }}>{text}</span>
                   </div>
                 ))}
               </div>
               <a href="/dashboard/loyalty/new" style={{
                 display: "inline-flex", alignItems: "center", gap: 6, padding: "14px 32px",
-                borderRadius: 12, backgroundColor: "#111", color: "white",
+                borderRadius: 12, backgroundColor: "#0B051D", color: "white",
                 fontSize: 15, fontWeight: 600, textDecoration: "none",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.15)", width: "fit-content",
               }}><Plus size={16} /> Get Started</a>
@@ -294,7 +294,7 @@ export default function LinksPage() {
                         ) : (
                           <div style={{
                             width: 46, height: 46, borderRadius: 12, flexShrink: 0,
-                            background: `linear-gradient(135deg, ${br.backgroundColor || "#111"}, ${br.accentColor || "#6C47FF"})`,
+                            background: `linear-gradient(135deg, ${br.backgroundColor || "#0B051D"}, ${br.accentColor || "#6C47FF"})`,
                             display: "flex", alignItems: "center", justifyContent: "center",
                             boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
                           }}>
@@ -550,7 +550,7 @@ export default function LinksPage() {
                       <button onClick={handleSaveAppearance} disabled={saving} style={{
                         display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
                         padding: "12px 24px", borderRadius: 10, border: "none",
-                        backgroundColor: saved ? "rgb(16,185,129)" : "#111", color: "white",
+                        backgroundColor: saved ? "rgb(16,185,129)" : "#0B051D", color: "white",
                         fontSize: 14, fontWeight: 600, cursor: saving ? "not-allowed" : "pointer",
                         fontFamily: "inherit", opacity: saving ? 0.7 : 1, transition: "background-color 0.2s",
                         width: "100%",

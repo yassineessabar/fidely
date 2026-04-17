@@ -248,7 +248,7 @@ export default function ProfilePage() {
             </div>
             <a href="/dashboard/upgrade" style={{
               display: "inline-block", padding: "9px 20px", borderRadius: "8px",
-              backgroundColor: "#111", color: "white", fontSize: "13px", fontWeight: 600, textDecoration: "none",
+              backgroundColor: "#0B051D", color: "white", fontSize: "13px", fontWeight: 600, textDecoration: "none",
             }}>
               Upgrade Plan
             </a>

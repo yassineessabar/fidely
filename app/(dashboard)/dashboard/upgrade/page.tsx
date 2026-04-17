@@ -123,7 +123,7 @@ export default function UpgradePage() {
                   {!isCurrent && plan.recommended && (
                     <span style={{
                       fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 99,
-                      backgroundColor: "#111", color: "white",
+                      backgroundColor: "#0B051D", color: "white",
                     }}>
                       Recommended
                     </span>
@@ -158,7 +158,7 @@ export default function UpgradePage() {
                     width: "100%", padding: "12px 0", borderRadius: 12, border: "none",
                     fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
                     marginBottom: 20,
-                    backgroundColor: plan.recommended ? "#111" : "rgba(10,10,10,0.04)",
+                    backgroundColor: plan.recommended ? "#0B051D" : "rgba(10,10,10,0.04)",
                     color: plan.recommended ? "white" : "rgba(10,10,10,0.7)",
                     transition: "all 0.15s",
                   }}
@@ -176,7 +176,7 @@ export default function UpgradePage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                   {plan.highlights.map((h) => (
                     <div key={h} style={{ display: "flex", alignItems: "center", fontSize: 13, color: "rgba(10,10,10,0.7)" }}>
-                      <Check size={15} strokeWidth={2.5} style={{ flexShrink: 0, color: "#111", marginRight: 10 }} />
+                      <Check size={15} strokeWidth={2.5} style={{ flexShrink: 0, color: "#0B051D", marginRight: 10 }} />
                       {h}
                     </div>
                   ))}
@@ -191,7 +191,7 @@ export default function UpgradePage() {
       {/* Enterprise banner */}
       <div style={{
         borderRadius: 20, overflow: "hidden",
-        backgroundColor: "#111",
+        backgroundColor: "#0B051D",
         color: "white", padding: "36px 48px", marginBottom: 40,
       }}>
         <div style={{ display: "flex", gap: 56, alignItems: "flex-start", flexWrap: "wrap" }}>

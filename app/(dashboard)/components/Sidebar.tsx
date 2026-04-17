@@ -255,7 +255,7 @@ export default function Sidebar({
       style={{
         width: collapsed ? "0px" : "260px",
         minHeight: "100vh",
-        backgroundColor: "#0a0a0a",
+        backgroundColor: "#0B051D",
         display: "flex",
         flexDirection: "column",
         transition: "width 260ms cubic-bezier(0.31, 0.1, 0.08, 0.96)",

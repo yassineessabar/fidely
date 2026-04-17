@@ -54,7 +54,7 @@ function QrCode({ size }: { size: number }) {
   const cs = (size - 8) / 25;
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ borderRadius: 8, backgroundColor: "white" }}>
-      {QR_PATTERN.map((v, i) => v ? <rect key={i} x={4 + (i % 25) * cs} y={4 + Math.floor(i / 25) * cs} width={cs} height={cs} fill="#111" rx={cs * 0.15} /> : null)}
+      {QR_PATTERN.map((v, i) => v ? <rect key={i} x={4 + (i % 25) * cs} y={4 + Math.floor(i / 25) * cs} width={cs} height={cs} fill="#0B051D" rx={cs * 0.15} /> : null)}
     </svg>
   );
 }
@@ -173,7 +173,7 @@ export default function NewCardPage() {
           {[1, 2, 3, 4].map((s) => (
             <div key={s} style={{
               width: s === step ? 24 : 8, height: 8, borderRadius: 99,
-              backgroundColor: s <= step ? "#111" : "rgba(10,10,10,0.1)",
+              backgroundColor: s <= step ? "#0B051D" : "rgba(10,10,10,0.1)",
               transition: "all 0.3s ease",
             }} />
           ))}
@@ -208,7 +208,7 @@ export default function NewCardPage() {
                     <div style={{
                       width: 24, height: 24, borderRadius: "50%", flexShrink: 0,
                       border: selected ? "none" : "2px solid rgba(10,10,10,0.12)",
-                      backgroundColor: selected ? "#111" : "transparent",
+                      backgroundColor: selected ? "#0B051D" : "transparent",
                       display: "flex", alignItems: "center", justifyContent: "center",
                     }}>
                       {selected && <Check size={14} style={{ color: "white" }} />}
@@ -313,7 +313,7 @@ export default function NewCardPage() {
                       </div>
                       {/* Name + check */}
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 5, marginTop: 8 }}>
-                        {selected && <div style={{ width: 16, height: 16, borderRadius: 99, backgroundColor: "#111", display: "flex", alignItems: "center", justifyContent: "center" }}><Check size={10} style={{ color: "white" }} /></div>}
+                        {selected && <div style={{ width: 16, height: 16, borderRadius: 99, backgroundColor: "#0B051D", display: "flex", alignItems: "center", justifyContent: "center" }}><Check size={10} style={{ color: "white" }} /></div>}
                         <span style={{ fontSize: 12, fontWeight: selected ? 700 : 500, color: selected ? "rgba(0,0,0,0.9)" : "rgba(0,0,0,0.4)" }}>{t.name}</span>
                       </div>
                     </div>
@@ -467,7 +467,7 @@ export default function NewCardPage() {
             {step < 4 ? (
               <button onClick={() => setStep(step + 1)} disabled={!canContinue} style={{
                 padding: "12px 28px", borderRadius: 12, border: "none",
-                backgroundColor: canContinue ? "#111" : "rgba(10,10,10,0.08)",
+                backgroundColor: canContinue ? "#0B051D" : "rgba(10,10,10,0.08)",
                 color: canContinue ? "white" : "rgba(10,10,10,0.3)",
                 fontSize: 14, fontWeight: 600, cursor: canContinue ? "pointer" : "not-allowed", fontFamily: "inherit",
                 boxShadow: canContinue ? "0 2px 8px rgba(0,0,0,0.12)" : "none",
@@ -476,7 +476,7 @@ export default function NewCardPage() {
               <button onClick={handleCreate} disabled={saving || !name.trim()} style={{
                 display: "flex", alignItems: "center", gap: 6,
                 padding: "12px 28px", borderRadius: 12, border: "none",
-                backgroundColor: "#111", color: "white",
+                backgroundColor: "#0B051D", color: "white",
                 fontSize: 14, fontWeight: 600, cursor: saving ? "not-allowed" : "pointer", fontFamily: "inherit",
                 opacity: saving ? 0.7 : 1, boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
               }}>

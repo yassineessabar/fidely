@@ -80,7 +80,7 @@ export function UpgradeModal({ open, onClose }: { open: boolean; onClose: () => 
             onClick={() => { onClose(); router.push("/dashboard/upgrade"); }}
             style={{
               width: "100%", padding: "14px", borderRadius: 12, border: "none",
-              backgroundColor: "#111", color: "white",
+              backgroundColor: "#0B051D", color: "white",
               fontSize: 15, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
               boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
               display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
@@ -133,7 +133,7 @@ export function LockedOverlay({ children, plan, onUpgrade }: {
         </p>
         <button onClick={onUpgrade} style={{
           padding: "10px 24px", borderRadius: 10, border: "none",
-          backgroundColor: "#111", color: "white",
+          backgroundColor: "#0B051D", color: "white",
           fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
           display: "flex", alignItems: "center", gap: 6,
         }}>

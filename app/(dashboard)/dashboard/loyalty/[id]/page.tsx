@@ -53,7 +53,7 @@ function QrCode({ size }: { size: number }) {
   const cs = (size - 8) / 25;
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ borderRadius: 8, backgroundColor: "white" }}>
-      {QR_PATTERN.map((v, i) => v ? <rect key={i} x={4 + (i % 25) * cs} y={4 + Math.floor(i / 25) * cs} width={cs} height={cs} fill="#111" rx={cs * 0.15} /> : null)}
+      {QR_PATTERN.map((v, i) => v ? <rect key={i} x={4 + (i % 25) * cs} y={4 + Math.floor(i / 25) * cs} width={cs} height={cs} fill="#0B051D" rx={cs * 0.15} /> : null)}
     </svg>
   );
 }
@@ -171,7 +171,7 @@ export default function EditCardPage() {
         </div>
         <button onClick={handleSave} disabled={saving} style={{
           display: "flex", alignItems: "center", gap: 6, padding: "10px 24px", borderRadius: 12,
-          border: "none", backgroundColor: saved ? "rgb(16,185,129)" : "#111", color: "white",
+          border: "none", backgroundColor: saved ? "rgb(16,185,129)" : "#0B051D", color: "white",
           fontSize: 14, fontWeight: 600, cursor: saving ? "not-allowed" : "pointer", fontFamily: "inherit",
           opacity: saving ? 0.7 : 1, transition: "background-color 0.2s",
           boxShadow: "0 2px 8px rgba(0,0,0,0.12)",
@@ -348,7 +348,7 @@ export default function EditCardPage() {
           <button onClick={handleSave} disabled={saving} style={{
             display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
             padding: "14px 24px", borderRadius: 12, border: "none",
-            backgroundColor: saved ? "rgb(16,185,129)" : "#111", color: "white",
+            backgroundColor: saved ? "rgb(16,185,129)" : "#0B051D", color: "white",
             fontSize: 15, fontWeight: 600, cursor: saving ? "not-allowed" : "pointer", fontFamily: "inherit",
             opacity: saving ? 0.7 : 1, width: "100%", marginBottom: 40,
           }}>

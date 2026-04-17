@@ -107,7 +107,7 @@ function LegendBtn({ color, label, active, dashed, onClick }: {
       <span style={{ fontSize: 13, color: "rgba(10,10,10,0.85)", marginRight: 8 }}>{label}</span>
       <span style={{
         width: 20, height: 20, borderRadius: 6,
-        backgroundColor: active ? "#111" : "rgba(10,10,10,0.12)",
+        backgroundColor: active ? "#0B051D" : "rgba(10,10,10,0.12)",
         display: "flex", alignItems: "center", justifyContent: "center",
       }}>
         <Check size={11} style={{ color: "white" }} />
@@ -506,7 +506,7 @@ export default function InsightsPage() {
         </span>
         <button style={{
           padding: "8px 18px", borderRadius: 8, border: "none",
-          backgroundColor: "#111", color: "white",
+          backgroundColor: "#0B051D", color: "white",
           fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
           display: "flex", alignItems: "center", gap: 6,
         }}>
