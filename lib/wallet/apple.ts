@@ -930,6 +930,7 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
         message: template.barcodeValue,
         format: barcodeFormat,
         messageEncoding: "iso-8859-1",
+        altText: "Powered by Kyro",
       },
     ],
   };
