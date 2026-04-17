@@ -7,6 +7,134 @@ import CardPreview from "../../components/CardPreview";
 
 type Merchant = { id: string; name: string };
 
+function NotificationSection({ cardId }: { cardId: string }) {
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
+  const [scheduledAt, setScheduledAt] = useState("");
+  const [sending, setSending] = useState(false);
+  const [result, setResult] = useState("");
+  const [notifications, setNotifications] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetch(`/api/admin/cards/${cardId}/notifications`)
+      .then((r) => r.json())
+      .then((d) => setNotifications(d.notifications || []))
+      .catch(() => {});
+  }, [cardId]);
+
+  async function handleSend() {
+    if (!title.trim()) return;
+    setSending(true);
+    setResult("");
+    try {
+      const body: any = { title: title.trim() };
+      if (message.trim()) body.message = message.trim();
+      if (scheduledAt) body.scheduled_at = new Date(scheduledAt).toISOString();
+
+      const res = await fetch(`/api/admin/cards/${cardId}/notify`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setResult(data.status === "sent" ? `Sent to ${data.recipients} members` : "Scheduled");
+        setTitle("");
+        setMessage("");
+        setScheduledAt("");
+        const listRes = await fetch(`/api/admin/cards/${cardId}/notifications`);
+        const listData = await listRes.json();
+        setNotifications(listData.notifications || []);
+      } else {
+        setResult(`Error: ${data.error}`);
+      }
+    } catch {
+      setResult("Failed to send");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  return (
+    <div style={{ marginBottom: "24px", padding: "20px 24px", backgroundColor: "white", borderRadius: "12px", border: "1px solid rgb(228,227,223)" }}>
+      <div style={{ fontSize: "16px", fontWeight: 700, color: "rgb(11,5,29)", marginBottom: "16px" }}>
+        Send Notification
+      </div>
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", fontSize: "12px", fontWeight: 600, color: "rgb(97,95,109)", marginBottom: "4px", textTransform: "uppercase", letterSpacing: "0.5px" }}>Title</label>
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Double stamps this weekend!"
+          style={{ width: "100%", padding: "10px 14px", borderRadius: "8px", border: "1px solid rgb(228,227,223)", fontSize: "14px", fontFamily: "inherit", outline: "none", boxSizing: "border-box" }}
+        />
+      </div>
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", fontSize: "12px", fontWeight: 600, color: "rgb(97,95,109)", marginBottom: "4px", textTransform: "uppercase", letterSpacing: "0.5px" }}>Message (optional)</label>
+        <textarea
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Visit us this Saturday and Sunday to earn double stamps on every purchase!"
+          rows={3}
+          style={{ width: "100%", padding: "10px 14px", borderRadius: "8px", border: "1px solid rgb(228,227,223)", fontSize: "14px", fontFamily: "inherit", outline: "none", boxSizing: "border-box", resize: "vertical" }}
+        />
+      </div>
+      <div style={{ marginBottom: "16px" }}>
+        <label style={{ display: "block", fontSize: "12px", fontWeight: 600, color: "rgb(97,95,109)", marginBottom: "4px", textTransform: "uppercase", letterSpacing: "0.5px" }}>Schedule (optional — empty = send now)</label>
+        <input
+          type="datetime-local"
+          value={scheduledAt}
+          onChange={(e) => setScheduledAt(e.target.value)}
+          style={{ padding: "10px 14px", borderRadius: "8px", border: "1px solid rgb(228,227,223)", fontSize: "14px", fontFamily: "inherit", outline: "none" }}
+        />
+      </div>
+      <button
+        onClick={handleSend}
+        disabled={sending || !title.trim()}
+        style={{
+          padding: "12px 24px", borderRadius: "8px",
+          backgroundColor: title.trim() ? "rgb(108,71,255)" : "rgb(228,227,223)",
+          color: "white", fontSize: "14px", fontWeight: 600,
+          border: "none", cursor: sending || !title.trim() ? "not-allowed" : "pointer",
+          fontFamily: "inherit", opacity: sending ? 0.7 : 1,
+        }}
+      >
+        {sending ? "Sending..." : scheduledAt ? "Schedule" : "Send Now"}
+      </button>
+      {result && (
+        <div style={{ marginTop: "10px", fontSize: "13px", color: result.startsWith("Error") ? "#e53e3e" : "rgb(22,101,52)", fontWeight: 600 }}>
+          {result}
+        </div>
+      )}
+
+      {notifications.length > 0 && (
+        <div style={{ marginTop: "20px", borderTop: "1px solid rgb(228,227,223)", paddingTop: "16px" }}>
+          <div style={{ fontSize: "13px", fontWeight: 600, color: "rgb(97,95,109)", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            History
+          </div>
+          {notifications.map((n: any) => (
+            <div key={n.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid rgb(243,242,238)" }}>
+              <div>
+                <div style={{ fontSize: "14px", fontWeight: 600, color: "rgb(11,5,29)" }}>{n.title}</div>
+                <div style={{ fontSize: "12px", color: "rgb(97,95,109)", marginTop: "2px" }}>
+                  {n.type} · {n.recipients} recipients · {new Date(n.sent_at || n.scheduled_at || n.created_at).toLocaleDateString("en-AU", { day: "2-digit", month: "short", year: "numeric" })}
+                </div>
+              </div>
+              <div style={{
+                padding: "4px 10px", borderRadius: "6px", fontSize: "11px", fontWeight: 600,
+                backgroundColor: n.status === "sent" ? "rgb(220,252,231)" : n.status === "pending" ? "rgb(254,249,195)" : "rgb(254,226,226)",
+                color: n.status === "sent" ? "rgb(22,101,52)" : n.status === "pending" ? "rgb(133,77,14)" : "rgb(153,27,27)",
+              }}>
+                {n.status}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function EditCardPage() {
   const router = useRouter();
   const params = useParams();
@@ -94,6 +222,10 @@ export default function EditCardPage() {
             )}
           </div>
         </div>
+      )}
+
+      {publishResult && (
+        <NotificationSection cardId={cardId} />
       )}
 
       <div className="card-builder-layout" style={{ display: "flex", gap: "32px", alignItems: "flex-start", minHeight: "calc(100vh - 140px)" }}>
