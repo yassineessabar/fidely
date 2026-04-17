@@ -50,7 +50,7 @@ function PhoneMockup({ src, alt }: { src: string; alt: string }) {
             right: "2px",
             bottom: "2px",
             borderRadius: "50px",
-            backgroundColor: "#0a0a0a",
+            backgroundColor: "#0b051d",
             boxShadow: "inset 0 1px 3px rgba(0,0,0,0.8)",
           }}>
             {/* Screen glass */}
