@@ -154,7 +154,7 @@ export function enrollmentToPassTemplate(
     const remaining = total - collected;
     const rewards = collected >= total ? Math.floor(collected / total) : 0;
     headerFields = [
-      { key: "validUntil", label: "VALID UNTIL", value: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }) },
+      { key: "validUntil", label: "VALID UNTIL", value: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toLocaleDateString("en-AU", { day: "2-digit", month: "2-digit", year: "numeric" }) },
     ];
     secondaryFields = [
       { key: "remaining", label: "STAMPS UNTIL THE REWARD", value: `${remaining} stamps` },
