@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Plus, Pencil, Trash2, Check, Copy, ExternalLink, Globe } from "lucide-react";
+import { UpgradeModal } from "../../components/UpgradeModal";
 
 const EMOJI_OPTIONS = ["☕", "🍵", "🧁", "🍕", "🍣", "🍽️", "🎂", "🍞", "🍫", "✂️", "💈", "👑", "💅", "💆", "💇", "✨", "💪", "🔥", "🏋️", "🧘", "👜", "🌸", "🎁", "📚", "⭐", "🍦", "🍷", "🐾", "🎵", "🎮", "🏆", "❤️", "🌟", "🎯", "🛍️"];
 
@@ -79,6 +80,8 @@ export default function LinksPage() {
   const [deleteTarget, setDeleteTarget] = useState<Card | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
+  const [plan, setPlan] = useState("free");
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
 
   // Appearance editing (inline)
   const [editingAppearance, setEditingAppearance] = useState(false);
@@ -120,7 +123,10 @@ export default function LinksPage() {
     setAccentColor(br.accentColor || "#6C47FF");
   }
 
-  useEffect(() => { loadCards(); }, []);
+  useEffect(() => {
+    loadCards();
+    fetch("/api/merchant/plan").then((r) => r.json()).then((d) => { if (d?.plan) setPlan(d.plan); }).catch(() => {});
+  }, []);
 
   function selectCard(card: Card) {
     setSelectedCard(card);
@@ -202,15 +208,30 @@ export default function LinksPage() {
           <h1 style={{ fontSize: 22, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 4px", letterSpacing: "-0.3px" }}>My Cards</h1>
           <p style={{ fontSize: 13, color: "rgba(10,10,10,0.4)", margin: 0 }}>Manage your loyalty cards and customize their appearance</p>
         </div>
-        <a href="/dashboard/loyalty/new" style={{
-          display: "inline-flex", alignItems: "center", gap: 6,
-          padding: "10px 20px", borderRadius: 12, backgroundColor: "#111", color: "white",
-          fontSize: 13, fontWeight: 600, textDecoration: "none", fontFamily: "inherit",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-          transition: "transform 0.15s, box-shadow 0.15s",
-        }}>
-          <Plus size={15} /> Add Card
-        </a>
+        {(() => {
+          const atLimit = (plan === "starter" || plan === "free") && cards.length >= 1;
+          if (atLimit) {
+            return (
+              <button onClick={() => setUpgradeOpen(true)} style={{
+                display: "inline-flex", alignItems: "center", gap: 6,
+                padding: "10px 20px", borderRadius: 12, backgroundColor: "rgba(10,10,10,0.06)", color: "rgba(10,10,10,0.4)",
+                fontSize: 13, fontWeight: 600, border: "none", cursor: "pointer", fontFamily: "inherit",
+              }}>
+                <Plus size={15} /> Add Card (Upgrade)
+              </button>
+            );
+          }
+          return (
+            <a href="/dashboard/loyalty/new" style={{
+              display: "inline-flex", alignItems: "center", gap: 6,
+              padding: "10px 20px", borderRadius: 12, backgroundColor: "#111", color: "white",
+              fontSize: 13, fontWeight: 600, textDecoration: "none", fontFamily: "inherit",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+            }}>
+              <Plus size={15} /> Add Card
+            </a>
+          );
+        })()}
       </div>
 
       {/* Grid: cards list + preview */}
@@ -621,6 +642,8 @@ export default function LinksPage() {
           </div>
         </div>
       )}
+
+      <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
 
       <style>{`
         @media (max-width: 768px) {

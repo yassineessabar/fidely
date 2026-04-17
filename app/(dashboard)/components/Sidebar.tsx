@@ -4,8 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import KyroLogo from "../../components/KyroLogo";
+import { UpgradeModal } from "./UpgradeModal";
 import {
   LayoutDashboard,
+  Lock,
   Users,
   Send,
   Gift,
@@ -228,8 +230,20 @@ export default function Sidebar({
   onNavClick?: () => void;
 }) {
   const pathname = usePathname();
+  const [plan, setPlan] = useState("free");
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const isLocked = plan === "starter" || plan === "free";
+
+  useEffect(() => {
+    fetch("/api/merchant/plan")
+      .then((r) => r.json())
+      .then((d) => { if (d?.plan) setPlan(d.plan); })
+      .catch(() => {});
+  }, []);
 
   return (
+    <>
+    <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
     <aside
       className="dash-sidebar"
       style={{
@@ -321,6 +335,27 @@ export default function Sidebar({
           {toolsNavItems.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href);
             const Icon = item.icon;
+            if (isLocked) {
+              return (
+                <button
+                  key={item.href}
+                  onClick={() => setUpgradeOpen(true)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: "10px", width: "100%",
+                    padding: "9px 14px", borderRadius: "10px", border: "none",
+                    fontSize: "13px", fontWeight: 500,
+                    color: "rgba(255,255,255,0.3)", backgroundColor: "transparent",
+                    cursor: "pointer", fontFamily: "inherit", textAlign: "left",
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                >
+                  <Icon size={18} strokeWidth={1.8} />
+                  <span className="dash-nav-label" style={{ flex: 1 }}>{item.label}</span>
+                  <Lock size={14} className="dash-nav-label" style={{ color: "rgba(255,255,255,0.2)" }} />
+                </button>
+              );
+            }
             return (
               <Link
                 key={item.href}
@@ -378,5 +413,6 @@ export default function Sidebar({
         </button>
       )}
     </aside>
+    </>
   );
 }

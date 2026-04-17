@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { LockedOverlay } from "../../../(dashboard)/components/UpgradeModal";
+import { UpgradeModal } from "../../../(dashboard)/components/UpgradeModal";
 
 type CardOption = { id: string; name: string };
 type Notification = {
@@ -21,6 +23,8 @@ export default function CampaignsPage() {
   const [cards, setCards] = useState<CardOption[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
+  const [plan, setPlan] = useState("free");
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [result, setResult] = useState("");
   const [campaignType, setCampaignType] = useState<"promo" | "birthday" | "location">("promo");
@@ -40,7 +44,10 @@ export default function CampaignsPage() {
       .finally(() => setLoading(false));
   }
 
-  useEffect(() => { loadData(); }, []);
+  useEffect(() => {
+    loadData();
+    fetch("/api/merchant/plan").then((r) => r.json()).then((d) => { if (d?.plan) setPlan(d.plan); }).catch(() => {});
+  }, []);
 
   async function handleSend() {
     if (!title.trim()) return;
@@ -84,6 +91,8 @@ export default function CampaignsPage() {
 
   return (
     <div>
+      <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
+      <LockedOverlay plan={plan} onUpgrade={() => setUpgradeOpen(true)}>
       <div style={{ marginBottom: "24px" }}>
         <h1 style={{ fontSize: "24px", fontWeight: 700, color: "rgb(11,5,29)", margin: 0 }}>Campaigns</h1>
         <p style={{ fontSize: "14px", color: "rgb(97,95,109)", marginTop: "4px" }}>
@@ -252,6 +261,7 @@ export default function CampaignsPage() {
           ))}
         </div>
       )}
+      </LockedOverlay>
     </div>
   );
 }
