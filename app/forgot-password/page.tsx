@@ -59,55 +59,8 @@ export default function ForgotPasswordPage() {
           flexDirection: "column",
         }}
       >
-        {/* Header */}
-        <div
-          style={{
-            paddingLeft: "48px",
-            paddingRight: "40px",
-            paddingTop: "16px",
-            minHeight: "60px",
-            maxWidth: "1680px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <button
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "4px",
-              background: "transparent",
-              border: "none",
-              cursor: "pointer",
-              borderRadius: "9999px",
-              padding: "6px 12px",
-              fontFamily: "inherit",
-            }}
-          >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="rgb(11,5,29)"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              role="img"
-              aria-label="Language"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <line x1="2" y1="12" x2="22" y2="12" />
-              <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z" />
-            </svg>
-            <span style={{ fontSize: "14px", fontWeight: 500, lineHeight: "16px", color: "rgb(11,5,29)" }}>
-              English
-            </span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgb(11,5,29)" strokeWidth="2.5">
-              <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </div>
+        {/* Header spacer */}
+        <div style={{ minHeight: "60px" }} />
 
         {/* Main content */}
         <div
