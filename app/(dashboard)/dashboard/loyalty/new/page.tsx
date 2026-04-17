@@ -590,7 +590,7 @@ export default function NewCardPage() {
         </div>
       </div>
 
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @media (max-width: 768px) {
           .new-card-layout { flex-direction: column !important; }
           .new-card-preview { width: 100% !important; display: flex !important; justify-content: center !important; order: -1 !important; margin-bottom: 16px !important; }
@@ -599,7 +599,7 @@ export default function NewCardPage() {
           .new-theme-grid { grid-template-columns: repeat(4, 1fr) !important; }
           .new-theme-select-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
         }
-      `}</style>
+      ` }} />
     </div>
   );
 }

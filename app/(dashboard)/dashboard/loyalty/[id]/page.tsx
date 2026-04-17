@@ -466,7 +466,7 @@ export default function EditCardPage() {
         </div>
       </div>
 
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @media (max-width: 768px) {
           .edit-layout { flex-direction: column !important; }
           .edit-preview { width: 100% !important; display: flex !important; justify-content: center !important; order: -1 !important; margin-bottom: 16px !important; }
@@ -474,7 +474,7 @@ export default function EditCardPage() {
           .edit-preview > div > div { transform: scale(0.85); transform-origin: top center; }
           .edit-theme-grid { grid-template-columns: repeat(4, 1fr) !important; }
         }
-      `}</style>
+      ` }} />
     </div>
   );
 }

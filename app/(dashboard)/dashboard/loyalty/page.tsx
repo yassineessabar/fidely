@@ -765,7 +765,7 @@ export default function LinksPage() {
 
       <UpgradeModal open={upgradeOpen} onClose={() => setUpgradeOpen(false)} />
 
-      <style>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         @media (max-width: 768px) {
           .links-grid { grid-template-columns: 1fr !important; }
           .links-preview { order: -1 !important; display: flex !important; justify-content: center !important; margin-bottom: 16px !important; }
@@ -773,7 +773,7 @@ export default function LinksPage() {
           .links-preview > div > div { transform: scale(0.85); transform-origin: top center; }
           .theme-preset-grid { grid-template-columns: repeat(4, 1fr) !important; }
         }
-      `}</style>
+      ` }} />
     </div>
   );
 }
