@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, Check, Image, Upload, Trash2, Sparkles } from "lucide-react";
+import { ArrowLeft, Save, Check, Image, Upload, Trash2, Sparkles, CreditCard } from "lucide-react";
+import { getThemesForType, OnboardingTheme } from "@/lib/onboarding-themes";
 
 const EMOJI_OPTIONS = ["☕", "🍵", "🧁", "🍕", "🍣", "🍽️", "🎂", "🍞", "🍫", "✂️", "💈", "👑", "💅", "💆", "💇", "✨", "💪", "🔥", "🏋️", "🧘", "👜", "🌸", "🎁", "📚", "⭐", "🍦", "🍷", "🐾", "🎵", "🎮", "🏆", "❤️", "🌟", "🎯", "🛍️"];
 
@@ -69,10 +70,12 @@ const typeLabels: Record<string, string> = { stamp: "Stamp Card", points: "Point
 export default function NewCardPage() {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
-  const [step, setStep] = useState(1); // 1=type, 2=design, 3=customize
+  const [step, setStep] = useState(1); // 1=type, 2=theme, 3=customize, 4=colors
+  const [businessType, setBusinessType] = useState("cafe");
 
   // Card data
   const [cardType, setCardType] = useState("stamp");
+  const [selectedTheme, setSelectedTheme] = useState<OnboardingTheme | null>(null);
   const [name, setName] = useState("");
   const [cardName, setCardName] = useState("");
   const [emoji, setEmoji] = useState("☕");
@@ -132,7 +135,7 @@ export default function NewCardPage() {
     } finally { setSaving(false); }
   }
 
-  const canContinue = step === 1 ? true : step === 2 ? !!name.trim() : true;
+  const canContinue = step === 1 ? true : step === 2 ? !!selectedTheme : step === 3 ? !!name.trim() : true;
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -150,13 +153,13 @@ export default function NewCardPage() {
           <div>
             <h1 style={{ fontSize: 20, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: 0, letterSpacing: "-0.3px" }}>Create New Card</h1>
             <p style={{ fontSize: 12, color: "rgba(10,10,10,0.4)", margin: "2px 0 0" }}>
-              Step {step} of 3 — {step === 1 ? "Choose card type" : step === 2 ? "Customize your card" : "Design & colors"}
+              Step {step} of 4 — {step === 1 ? "Choose card type" : step === 2 ? "Select a theme" : step === 3 ? "Customize your card" : "Fine-tune colors"}
             </p>
           </div>
         </div>
         {/* Progress dots */}
         <div style={{ display: "flex", gap: 6 }}>
-          {[1, 2, 3].map((s) => (
+          {[1, 2, 3, 4].map((s) => (
             <div key={s} style={{
               width: s === step ? 24 : 8, height: 8, borderRadius: 99,
               backgroundColor: s <= step ? "#111" : "rgba(10,10,10,0.1)",
@@ -205,8 +208,112 @@ export default function NewCardPage() {
             </div>
           )}
 
-          {/* Step 2: Name, Emoji, Logo, Banner */}
+          {/* Step 2: Theme Selection */}
           {step === 2 && (
+            <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+              <div style={{ textAlign: "center", marginBottom: 8 }}>
+                <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 48, height: 48, borderRadius: 14, backgroundColor: "rgba(10,10,10,0.03)", marginBottom: 12 }}>
+                  <CreditCard size={22} style={{ color: "rgba(10,10,10,0.4)" }} />
+                </div>
+                <h2 style={{ fontSize: 18, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 4px" }}>Select a theme</h2>
+                <p style={{ fontSize: 14, color: "rgba(10,10,10,0.4)", margin: 0 }}>Pick the style that feels right — you can customize colors later</p>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }} className="new-theme-select-grid">
+                {getThemesForType(businessType).map((t) => {
+                  const selected = selectedTheme?.id === t.id;
+                  return (
+                    <div key={t.id}>
+                      <div style={{
+                        borderRadius: 16, overflow: "hidden",
+                        outline: selected ? "2.5px solid #111" : "none",
+                        outlineOffset: "3px",
+                        transition: "transform 0.2s, box-shadow 0.2s",
+                        transform: selected ? "translateY(-3px)" : "none",
+                        boxShadow: selected ? "0 8px 24px rgba(0,0,0,0.1)" : "0 2px 8px rgba(0,0,0,0.04)",
+                      }}>
+                        <button onClick={() => {
+                          setSelectedTheme(t);
+                          setEmoji(t.stampEmoji);
+                          setBgColor(t.backgroundColor);
+                          setPrimaryColor(t.primaryColor);
+                          setSecondaryColor(t.secondaryColor);
+                          setAccentColor(t.accentColor);
+                        }} style={{
+                          display: "block", borderRadius: 16, overflow: "hidden",
+                          cursor: "pointer", border: "none", padding: 0,
+                          backgroundColor: "transparent", fontFamily: "inherit", width: "100%",
+                        }}>
+                          <div style={{
+                            aspectRatio: "172.5 / 320", backgroundColor: t.backgroundColor,
+                            display: "flex", flexDirection: "column", overflow: "hidden",
+                          }}>
+                            {/* Header */}
+                            <div style={{ padding: "10px 10px 6px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                              <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                                <img src={t.logoImage} alt="" style={{ width: 18, height: 18, borderRadius: 4, objectFit: "cover" }} />
+                                <span style={{ fontSize: 7, fontWeight: 700, color: t.primaryColor, opacity: 0.9 }}>{t.mockBusiness}</span>
+                              </div>
+                              <div style={{ fontSize: 7, fontWeight: 700, color: t.primaryColor }}>2027</div>
+                            </div>
+                            {/* Banner + stamps */}
+                            <div style={{ flex: "0 0 36%", position: "relative", overflow: "hidden" }}>
+                              <img src={t.bannerImage} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                              <div style={{ position: "absolute", inset: 0, background: `linear-gradient(transparent 20%, ${t.backgroundColor}cc 100%)` }} />
+                              {cardType === "stamp" && (
+                                <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", alignItems: "center", justifyItems: "center", alignContent: "center", padding: "4px 8px", gap: "2px 0" }}>
+                                  {Array.from({ length: 8 }).map((_, i) => (
+                                    <span key={i} style={{ fontSize: 20, lineHeight: 1, opacity: i < 3 ? 1 : 0.15, filter: i >= 3 ? "grayscale(1)" : "none" }}>{t.stampEmoji}</span>
+                                  ))}
+                                </div>
+                              )}
+                              {cardType === "points" && (
+                                <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                                  <div style={{ fontSize: 22, fontWeight: 800, color: "white", textShadow: "0 1px 4px rgba(0,0,0,0.4)", lineHeight: 1 }}>1,250</div>
+                                  <div style={{ fontSize: 6, fontWeight: 700, color: "white", textTransform: "uppercase", letterSpacing: "1px", marginTop: 2 }}>POINTS</div>
+                                </div>
+                              )}
+                              {cardType === "vip" && (
+                                <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                                  <div style={{ fontSize: 14, fontWeight: 800, color: "#FFD700", textShadow: "0 1px 6px rgba(0,0,0,0.5)" }}>Gold</div>
+                                </div>
+                              )}
+                            </div>
+                            {/* Fields */}
+                            <div style={{ padding: "6px 10px", display: "flex", justifyContent: "space-between" }}>
+                              <div>
+                                <div style={{ fontSize: 5, fontWeight: 600, color: t.secondaryColor, textTransform: "uppercase" }}>
+                                  {cardType === "stamp" ? "STAMPS" : cardType === "points" ? "BALANCE" : "TIER"}
+                                </div>
+                                <div style={{ fontSize: 8, fontWeight: 600, color: t.primaryColor }}>
+                                  {cardType === "stamp" ? "10 stamps" : cardType === "points" ? "1,250 pts" : "Gold"}
+                                </div>
+                              </div>
+                              <div style={{ textAlign: "right" }}>
+                                <div style={{ fontSize: 5, fontWeight: 600, color: t.secondaryColor, textTransform: "uppercase" }}>MEMBER</div>
+                                <div style={{ fontSize: 8, fontWeight: 600, color: t.primaryColor }}>John</div>
+                              </div>
+                            </div>
+                            {/* QR placeholder */}
+                            <div style={{ flex: 1, display: "flex", alignItems: "flex-end", justifyContent: "center", paddingBottom: 6 }}>
+                              <div style={{ width: 28, height: 28, borderRadius: 4, backgroundColor: "white", opacity: 0.9 }} />
+                            </div>
+                          </div>
+                        </button>
+                      </div>
+                      {/* Name + check */}
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 5, marginTop: 8 }}>
+                        {selected && <div style={{ width: 16, height: 16, borderRadius: 99, backgroundColor: "#111", display: "flex", alignItems: "center", justifyContent: "center" }}><Check size={10} style={{ color: "white" }} /></div>}
+                        <span style={{ fontSize: 12, fontWeight: selected ? 700 : 500, color: selected ? "rgba(0,0,0,0.9)" : "rgba(0,0,0,0.4)" }}>{t.name}</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Step 3: Name, Emoji, Logo, Banner */}
+          {step === 3 && (
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               <div>
                 <h2 style={{ fontSize: 18, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 4px" }}>Customize your card</h2>
@@ -295,8 +402,8 @@ export default function NewCardPage() {
             </div>
           )}
 
-          {/* Step 3: Theme & Colors */}
-          {step === 3 && (
+          {/* Step 4: Fine-tune Colors */}
+          {step === 4 && (
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               <div>
                 <h2 style={{ fontSize: 18, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 4px" }}>Design & Colors</h2>
@@ -354,7 +461,7 @@ export default function NewCardPage() {
               }}>Back</button>
             ) : <div />}
 
-            {step < 3 ? (
+            {step < 4 ? (
               <button onClick={() => setStep(step + 1)} disabled={!canContinue} style={{
                 padding: "12px 28px", borderRadius: 12, border: "none",
                 backgroundColor: canContinue ? "#111" : "rgba(10,10,10,0.08)",
@@ -487,6 +594,7 @@ export default function NewCardPage() {
           .new-card-preview > div { position: static !important; }
           .new-card-preview > div > div { transform: scale(0.85); transform-origin: top center; }
           .new-theme-grid { grid-template-columns: repeat(4, 1fr) !important; }
+          .new-theme-select-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
         }
       `}</style>
     </div>
