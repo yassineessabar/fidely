@@ -1,0 +1,168 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
+import CardBuilderForm from "../../../../admin/components/CardBuilderForm";
+import CardPreview from "../../../../admin/components/CardPreview";
+import QRCode from "qrcode";
+
+export default function EditCardPage() {
+  const router = useRouter();
+  const params = useParams();
+  const cardId = params.id as string;
+  const [initialData, setInitialData] = useState<any>(null);
+  const [previewData, setPreviewData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [publishing, setPublishing] = useState(false);
+  const [publishResult, setPublishResult] = useState<{ shareUrl: string; qrCodeData: string } | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/merchant/cards/${cardId}`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.card) {
+          const card = d.card;
+          const formData = {
+            businessId: card.business_id,
+            type: card.type,
+            name: card.name,
+            merchantPin: card.merchant_pin || "0000",
+            businessDetails: card.business_details || {},
+            branding: card.branding || {},
+            logic: card.logic || {},
+          };
+          setInitialData(formData);
+          setPreviewData(formData);
+          if (card.status === "active" && card.share_url) {
+            setPublishResult({ shareUrl: card.share_url, qrCodeData: "" });
+            // Generate QR
+            QRCode.toDataURL(card.share_url, { width: 300, margin: 2, color: { dark: "#0B051D", light: "#FFFFFF" } })
+              .then((qr: string) => setPublishResult({ shareUrl: card.share_url, qrCodeData: qr }))
+              .catch(() => {});
+          }
+        }
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [cardId]);
+
+  const handleSave = async (data: any) => {
+    setSaving(true);
+    try {
+      const res = await fetch(`/api/merchant/cards/${cardId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: data.type,
+          name: data.name,
+          merchant_pin: data.merchantPin || "0000",
+          business_details: data.businessDetails,
+          branding: data.branding,
+          logic: data.logic,
+        }),
+      });
+      if (!res.ok) {
+        const r = await res.json();
+        alert(r.error || "Failed to save");
+      }
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handlePublish = async (data: any) => {
+    setPublishing(true);
+    try {
+      // Save first
+      await fetch(`/api/merchant/cards/${cardId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          type: data.type,
+          name: data.name,
+          merchant_pin: data.merchantPin || "0000",
+          business_details: data.businessDetails,
+          branding: data.branding,
+          logic: data.logic,
+        }),
+      });
+      // Then publish via admin endpoint (it generates share URL + QR)
+      const publishRes = await fetch(`/api/admin/cards/${cardId}/publish`, { method: "POST" });
+      if (publishRes.ok) {
+        const result = await publishRes.json();
+        setPublishResult(result);
+      } else {
+        const r = await publishRes.json();
+        alert(r.error || "Failed to publish");
+      }
+    } finally {
+      setPublishing(false);
+    }
+  };
+
+  if (loading) return <div style={{ padding: "48px", textAlign: "center", color: "rgb(97,95,109)" }}>Loading card...</div>;
+  if (!initialData) return <div style={{ padding: "48px", textAlign: "center", color: "rgb(97,95,109)" }}>Card not found.</div>;
+
+  return (
+    <div>
+      <div style={{ marginBottom: "24px", display: "flex", alignItems: "center", gap: "16px" }}>
+        <button
+          onClick={() => router.push("/dashboard/loyalty")}
+          style={{ padding: "8px 12px", borderRadius: "8px", border: "1px solid rgb(228,227,223)", backgroundColor: "white", cursor: "pointer", fontFamily: "inherit", fontSize: "13px", color: "rgb(97,95,109)" }}
+        >
+          ← Back
+        </button>
+        <div>
+          <h1 style={{ fontSize: "24px", fontWeight: 700, color: "rgb(11,5,29)", margin: 0 }}>Edit Card</h1>
+        </div>
+      </div>
+
+      {publishResult && (
+        <div style={{ marginBottom: "24px", padding: "20px 24px", backgroundColor: "rgb(220,252,231)", borderRadius: "12px", border: "1px solid rgb(187,247,208)" }}>
+          <div style={{ fontSize: "14px", fontWeight: 600, color: "rgb(22,101,52)", marginBottom: "12px" }}>Card Published!</div>
+          <div style={{ display: "flex", gap: "24px", alignItems: "flex-start", flexWrap: "wrap" }}>
+            <div>
+              <div style={{ fontSize: "12px", fontWeight: 600, color: "rgb(22,101,52)", marginBottom: "4px" }}>Share URL</div>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", backgroundColor: "white", padding: "8px 12px", borderRadius: "6px" }}>
+                <a href={publishResult.shareUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: "13px", color: "rgb(108,71,255)", fontFamily: "monospace", wordBreak: "break-all", textDecoration: "underline" }}>{publishResult.shareUrl}</a>
+                <button onClick={() => navigator.clipboard.writeText(publishResult.shareUrl)} style={{ flexShrink: 0, padding: "4px 10px", fontSize: "11px", fontWeight: 600, backgroundColor: "rgb(243,242,238)", border: "1px solid rgb(228,227,223)", borderRadius: "6px", cursor: "pointer", color: "rgb(97,95,109)", fontFamily: "inherit" }}>Copy</button>
+              </div>
+            </div>
+            {publishResult.qrCodeData && (
+              <div>
+                <div style={{ fontSize: "12px", fontWeight: 600, color: "rgb(22,101,52)", marginBottom: "4px" }}>QR Code</div>
+                <img src={publishResult.qrCodeData} alt="QR Code" style={{ width: "120px", height: "120px", borderRadius: "8px", backgroundColor: "white", padding: "8px" }} />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      <div style={{ display: "flex", gap: "32px", alignItems: "flex-start" }}>
+        <div style={{ flex: "0 0 58%", minWidth: 0 }}>
+          <CardBuilderForm
+            initialData={initialData}
+            merchants={[]}
+            onChange={(data: any) => setPreviewData(data)}
+            onSave={handleSave}
+            onPublish={handlePublish}
+            saving={saving}
+            publishing={publishing}
+          />
+        </div>
+        <div style={{ flex: "0 0 38%", position: "sticky", top: "104px", display: "flex", justifyContent: "center", paddingTop: "16px" }}>
+          {previewData && (
+            <CardPreview
+              type={previewData.type || "stamp"}
+              cardName={previewData.name}
+              businessDetails={previewData.businessDetails || {}}
+              branding={previewData.branding || {}}
+              logic={previewData.logic || {}}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
