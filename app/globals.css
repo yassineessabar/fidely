@@ -306,23 +306,43 @@ html { scroll-behavior: smooth; }
 
 /* ========== DASHBOARD ========== */
 @media (max-width: 768px) {
-  /* Hide desktop sidebar on mobile */
-  .dash-sidebar-wrap { display: none !important; }
-  /* Show mobile drawer */
-  .dash-sidebar-mobile { display: block !important; }
-  /* Show close button inside mobile drawer */
-  .dash-sidebar-mobile .dash-close-btn { display: flex !important; }
-  /* Reset margin since sidebar is hidden */
-  .dash-main { margin-left: 0 !important; }
-  /* Show hamburger menu button */
-  .dash-menu-btn { display: flex !important; }
+  /* Force sidebar to icon-only on mobile */
+  .dash-sidebar-wrap aside {
+    width: 60px !important;
+    min-width: 60px !important;
+  }
+  /* Hide text labels, upgrade banner, bottom bar text */
+  .dash-sidebar-wrap .dash-nav-label,
+  .dash-sidebar-wrap .dash-upgrade-banner,
+  .dash-sidebar-wrap .dash-bottom-name { display: none !important; }
+  /* Center nav icons */
+  .dash-sidebar-wrap nav a {
+    justify-content: center !important;
+    padding: 10px 0 !important;
+  }
+  /* Center logo area */
+  .dash-sidebar-wrap .dash-logo-area {
+    justify-content: center !important;
+    padding: 16px 0 12px !important;
+  }
+  .dash-sidebar-wrap .dash-logo-area > span,
+  .dash-sidebar-wrap .dash-logo-area > button { display: none !important; }
+  /* Center bottom bar */
+  .dash-sidebar-wrap .dash-bottom-bar {
+    justify-content: center !important;
+    padding: 10px 0 16px !important;
+  }
+  .dash-sidebar-wrap .dash-bottom-bell { display: none !important; }
+  /* Adjust main margin */
+  .dash-main { margin-left: 60px !important; }
+  /* Hide mobile drawer (we use collapsed sidebar instead) */
+  .dash-sidebar-mobile { display: none !important; }
+  /* Hide menu button (sidebar always visible as icons) */
+  .dash-menu-btn { display: none !important; }
 }
 
 @media (max-width: 640px) {
   .dash-main > main { padding: 16px !important; }
-  .dash-grid-responsive { grid-template-columns: 1fr !important; }
-  .dash-flex-responsive { flex-direction: column !important; }
-  .dash-hide-mobile { display: none !important; }
 }
 
 /* ========== ADMIN PANEL ========== */

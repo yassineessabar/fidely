@@ -20,7 +20,6 @@ import {
   CreditCard,
   Sun,
   Moon,
-  Monitor,
 } from "lucide-react";
 
 const navItems = [
@@ -72,7 +71,7 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
   };
 
   return (
-    <div style={{ padding: "10px 14px 16px", minWidth: "260px", borderTop: "1px solid rgba(10,10,10,0.06)" }}>
+    <div className="dash-bottom-bar" style={{ padding: "10px 14px 16px", minWidth: "260px", borderTop: "1px solid rgba(10,10,10,0.06)" }}>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         {/* Avatar + name */}
         <div ref={dropdownRef} style={{ position: "relative", flex: 1 }}>
@@ -96,7 +95,7 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
                 {bizName ? bizName.slice(0, 2).toUpperCase() : "KY"}
               </span>
             </div>
-            <span style={{ fontSize: "13px", fontWeight: 500, color: "rgba(10,10,10,0.8)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            <span className="dash-bottom-name" style={{ fontSize: "13px", fontWeight: 500, color: "rgba(10,10,10,0.8)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               {bizName || "My Business"}
             </span>
           </button>
@@ -146,35 +145,21 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
                 <div style={{ height: "1px", backgroundColor: "rgba(10,10,10,0.06)", margin: "2px 0" }} />
 
                 {/* Theme toggle */}
-                <div style={{ padding: "6px 12px" }}>
-                  <p style={{ margin: "0 0 6px", fontSize: "11px", fontWeight: 600, color: "rgba(10,10,10,0.35)", textTransform: "uppercase", letterSpacing: "0.05em" }}>Theme</p>
-                  <div style={{ display: "flex", gap: "4px", backgroundColor: "rgba(10,10,10,0.04)", borderRadius: "8px", padding: "3px" }}>
-                    {([
-                      { id: "system", icon: Monitor, label: "System" },
-                      { id: "light", icon: Sun, label: "Light" },
-                      { id: "dark", icon: Moon, label: "Dark" },
-                    ] as const).map((t) => {
-                      const Icon = t.icon;
-                      return (
-                        <button
-                          key={t.id}
-                          onClick={() => setTheme(t.id)}
-                          style={{
-                            flex: 1, display: "flex", alignItems: "center", justifyContent: "center",
-                            gap: "4px", padding: "5px 8px", borderRadius: "6px", border: "none",
-                            fontSize: "11px", fontWeight: 500, cursor: "pointer", fontFamily: "inherit",
-                            backgroundColor: theme === t.id ? "white" : "transparent",
-                            color: theme === t.id ? "rgba(10,10,10,0.9)" : "rgba(10,10,10,0.4)",
-                            boxShadow: theme === t.id ? "0 1px 3px rgba(0,0,0,0.08)" : "none",
-                            transition: "all 0.15s",
-                          }}
-                        >
-                          <Icon size={12} /> {t.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
+                <button
+                  onClick={() => {
+                    const next = theme === "dark" ? "light" : "dark";
+                    setTheme(next);
+                    document.documentElement.classList.toggle("dark", next === "dark");
+                  }}
+                  style={menuItem}
+                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.04)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
+                >
+                  {theme === "dark"
+                    ? <><Sun size={15} style={{ color: "rgba(10,10,10,0.4)" }} /> Light Mode</>
+                    : <><Moon size={15} style={{ color: "rgba(10,10,10,0.4)" }} /> Dark Mode</>
+                  }
+                </button>
 
                 <div style={{ height: "1px", backgroundColor: "rgba(10,10,10,0.06)", margin: "2px 0" }} />
 
@@ -190,6 +175,7 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
 
         {/* Notification bell */}
         <Link
+          className="dash-bottom-bell"
           href="/dashboard/notifications"
           onClick={onNavClick}
           style={{
@@ -240,6 +226,7 @@ export default function Sidebar({
     >
       {/* Logo + toggle */}
       <div
+        className="dash-logo-area"
         style={{
           padding: "16px 16px 12px",
           display: "flex",
@@ -252,15 +239,16 @@ export default function Sidebar({
           <div style={{
             height: "26px", width: "26px", borderRadius: "7px",
             backgroundColor: "#0a0a0a", display: "flex",
-            alignItems: "center", justifyContent: "center",
+            alignItems: "center", justifyContent: "center", flexShrink: 0,
           }}>
             <span style={{ fontSize: "9px", fontWeight: 900, color: "white", letterSpacing: "-0.06em" }}>K</span>
           </div>
-          <span style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.03em", color: "rgba(10,10,10,0.9)" }}>
+          <span className="dash-nav-label" style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.03em", color: "rgba(10,10,10,0.9)" }}>
             Kyro
           </span>
         </div>
         <button
+          className="dash-nav-label"
           onClick={onToggle}
           style={{
             background: "none", border: "none", cursor: "pointer",
@@ -310,14 +298,14 @@ export default function Sidebar({
               }}
             >
               <Icon size={18} strokeWidth={isActive ? 2 : 1.8} />
-              <span>{item.label}</span>
+              <span className="dash-nav-label">{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
       {/* Upgrade banner */}
-      <div style={{ padding: "8px 14px 0", minWidth: "260px" }}>
+      <div className="dash-upgrade-banner" style={{ padding: "8px 14px 0", minWidth: "260px" }}>
         <Link
           href="/dashboard/upgrade"
           onClick={onNavClick}
