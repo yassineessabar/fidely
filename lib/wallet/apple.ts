@@ -935,6 +935,18 @@ export async function generateApplePass(template: PassTemplate): Promise<Buffer>
     ],
   };
 
+  if (template.locations && template.locations.length > 0) {
+    passJson.locations = template.locations.map(loc => ({
+      latitude: loc.latitude,
+      longitude: loc.longitude,
+      ...(loc.relevantText ? { relevantText: loc.relevantText } : {}),
+    }));
+  }
+
+  if (template.relevantDate) {
+    passJson.relevantDate = template.relevantDate;
+  }
+
   const passJsonBuffer = Buffer.from(JSON.stringify(passJson));
 
   const imageBuffers = await loadImageBuffers(template);

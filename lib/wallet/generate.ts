@@ -119,6 +119,10 @@ export function enrollmentToPassTemplate(
     stamps_collected: number;
     points_balance: number;
     auth_token: string;
+  },
+  options?: {
+    birthdayOffer?: string;
+    relevantDate?: string;
   }
 ): PassTemplate {
   const bd = card.business_details || {};
@@ -180,6 +184,25 @@ export function enrollmentToPassTemplate(
     auxiliaryFields = [{ key: "member", label: "MEMBER", value: enrollment.customer_name }];
   }
 
+  // Location geo-fence
+  const locations: { latitude: number; longitude: number; relevantText?: string }[] = [];
+  if (bd.latitude && bd.longitude) {
+    locations.push({
+      latitude: bd.latitude,
+      longitude: bd.longitude,
+      relevantText: `Welcome back to ${merchantName}!`,
+    });
+  }
+
+  // Birthday offer override
+  if (options?.birthdayOffer) {
+    if (card.type === "stamp" || card.type === "points") {
+      auxiliaryFields = [
+        { key: "birthday", label: "🎂 BIRTHDAY OFFER", value: options.birthdayOffer },
+      ];
+    }
+  }
+
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://fidely-beta.vercel.app";
   backFields.push({ key: "member", label: "MEMBER", value: enrollment.customer_name });
   backFields.push({ key: "progress", label: "CHECK YOUR PROGRESS", value: `Visit ${appUrl}/my/${enrollment.membership_code}` });
@@ -212,5 +235,7 @@ export function enrollmentToPassTemplate(
     authToken: enrollment.auth_token,
     stampsCollected: card.type === "stamp" ? enrollment.stamps_collected : undefined,
     totalStamps: card.type === "stamp" ? (logic.totalStamps || 10) : undefined,
+    locations: locations.length > 0 ? locations : undefined,
+    relevantDate: options?.relevantDate,
   };
 }
