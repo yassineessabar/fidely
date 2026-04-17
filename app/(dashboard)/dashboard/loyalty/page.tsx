@@ -240,18 +240,64 @@ export default function LinksPage() {
         {/* Left */}
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {cards.length === 0 ? (
-            <div style={{ padding: "56px 32px", textAlign: "center", backgroundColor: "white", borderRadius: 20, border: "1px solid rgba(10,10,10,0.06)", boxShadow: "0 1px 3px rgba(0,0,0,0.02)" }}>
-              <div style={{ width: 64, height: 64, borderRadius: 16, backgroundColor: "rgba(10,10,10,0.03)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
-                <Plus size={28} style={{ color: "rgba(10,10,10,0.2)" }} />
+            <div style={{ backgroundColor: "white", borderRadius: 20, border: "1px solid rgba(10,10,10,0.06)", boxShadow: "0 1px 3px rgba(0,0,0,0.02)", overflow: "hidden" }}>
+              {/* Preview card mockup */}
+              <div style={{
+                padding: "28px 24px 20px", display: "flex", justifyContent: "center",
+                background: "linear-gradient(135deg, #f8f8f8, #eee)",
+              }}>
+                <div style={{
+                  width: 220, borderRadius: 14, overflow: "hidden",
+                  backgroundColor: "#0B051D", boxShadow: "0 12px 32px rgba(0,0,0,0.15)",
+                }}>
+                  {/* Mini card header */}
+                  <div style={{ padding: "10px 12px 6px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <div style={{ width: 20, height: 20, borderRadius: 5, backgroundColor: "#6C47FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <span style={{ fontSize: 8, fontWeight: 900, color: "white" }}>K</span>
+                      </div>
+                      <span style={{ fontSize: 9, fontWeight: 700, color: "white" }}>Your Business</span>
+                    </div>
+                    <span style={{ fontSize: 7, fontWeight: 600, color: "#E6FFA9" }}>2027</span>
+                  </div>
+                  {/* Banner */}
+                  <div style={{ height: 55, background: "linear-gradient(135deg, rgba(108,71,255,0.3), #0B051D)", position: "relative" }}>
+                    <div style={{ position: "absolute", inset: 0, display: "grid", gridTemplateColumns: "repeat(4, 1fr)", alignItems: "center", justifyItems: "center", padding: "4px 8px" }}>
+                      {["☕","☕","☕","☕","☕","☕","☕","☕"].map((e, i) => (
+                        <span key={i} style={{ fontSize: 16, opacity: i < 3 ? 1 : 0.15, filter: i >= 3 ? "grayscale(1)" : "none" }}>{e}</span>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Fields */}
+                  <div style={{ padding: "6px 12px", display: "flex", justifyContent: "space-between" }}>
+                    <div>
+                      <div style={{ fontSize: 5, fontWeight: 600, color: "#E6FFA9", textTransform: "uppercase" }}>STAMPS</div>
+                      <div style={{ fontSize: 9, fontWeight: 600, color: "white" }}>10 stamps</div>
+                    </div>
+                    <div style={{ textAlign: "right" }}>
+                      <div style={{ fontSize: 5, fontWeight: 600, color: "#E6FFA9", textTransform: "uppercase" }}>MEMBER</div>
+                      <div style={{ fontSize: 9, fontWeight: 600, color: "white" }}>John</div>
+                    </div>
+                  </div>
+                  {/* QR placeholder */}
+                  <div style={{ padding: "4px 0 8px", display: "flex", justifyContent: "center" }}>
+                    <div style={{ width: 30, height: 30, borderRadius: 4, backgroundColor: "white" }} />
+                  </div>
+                </div>
               </div>
-              <h2 style={{ fontSize: 20, fontWeight: 700, color: "rgba(10,10,10,0.85)", margin: "0 0 8px" }}>No cards yet</h2>
-              <p style={{ fontSize: 14, color: "rgba(10,10,10,0.4)", marginBottom: 24, maxWidth: 300, marginLeft: "auto", marginRight: "auto", lineHeight: 1.5 }}>Create your first loyalty card and start rewarding your customers.</p>
-              <a href="/dashboard/loyalty/new" style={{
-                display: "inline-flex", alignItems: "center", gap: 6, padding: "12px 28px",
-                borderRadius: 12, backgroundColor: "#111", color: "white",
-                fontSize: 14, fontWeight: 600, textDecoration: "none",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-              }}><Plus size={16} /> Create Card</a>
+              {/* Text + CTA */}
+              <div style={{ padding: "24px 32px 32px", textAlign: "center" }}>
+                <h2 style={{ fontSize: 20, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 6px" }}>Create your first loyalty card</h2>
+                <p style={{ fontSize: 14, color: "rgba(10,10,10,0.4)", marginBottom: 20, maxWidth: 320, marginLeft: "auto", marginRight: "auto", lineHeight: 1.5 }}>
+                  Design a digital card your customers can add to Apple & Google Wallet. Start rewarding loyalty in minutes.
+                </p>
+                <a href="/dashboard/loyalty/new" style={{
+                  display: "inline-flex", alignItems: "center", gap: 6, padding: "12px 28px",
+                  borderRadius: 12, backgroundColor: "#111", color: "white",
+                  fontSize: 14, fontWeight: 600, textDecoration: "none",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                }}><Plus size={16} /> Create Card</a>
+              </div>
             </div>
           ) : (
             <>
