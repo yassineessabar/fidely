@@ -104,11 +104,10 @@ export default function OnboardingPage() {
     return true;
   };
 
-  const handleFinish = async () => {
+  const handleFinish = async (): Promise<boolean> => {
     setCreating(true);
     try {
       const theme = data.theme!;
-      // Map card type to valid DB enum — "vip" maps to "points" in DB
       const dbType = data.cardType === "vip" ? "points" : data.cardType;
       const res = await fetch("/api/merchant/cards", {
         method: "POST",
@@ -121,7 +120,7 @@ export default function OnboardingPage() {
             category: data.businessType,
             description: data.description,
             tagline: "",
-            cardVariant: data.cardType, // preserve original selection (stamp/points/vip)
+            cardVariant: data.cardType,
           },
           branding: {
             backgroundColor: theme.backgroundColor,
@@ -142,20 +141,21 @@ export default function OnboardingPage() {
             reward: "10% off",
             progressLabel: "earned",
           } : {
-            // VIP — stored as points type with VIP variant
             tierName: "Gold",
             reward: "VIP perks",
             progressLabel: "member",
           },
         }),
       });
-      if (res.ok) {
-        const result = await res.json();
-        // Publish the card
-        await fetch(`/api/admin/cards/${result.card.id}/publish`, { method: "POST" }).catch(() => {});
-      }
-    } catch {}
-    finally { setCreating(false); }
+      if (!res.ok) return false;
+      const result = await res.json();
+      await fetch(`/api/admin/cards/${result.card.id}/publish`, { method: "POST" }).catch(() => {});
+      return true;
+    } catch {
+      return false;
+    } finally {
+      setCreating(false);
+    }
   };
 
   return (
@@ -896,9 +896,11 @@ export default function OnboardingPage() {
               <button
                 onClick={() => {
                   if (step === 4) {
-                    handleFinish().then(() => {
-                      setStep(5);
-                      setTimeout(() => router.push("/dashboard/loyalty"), 4000);
+                    handleFinish().then((ok) => {
+                      if (ok) {
+                        setStep(5);
+                        setTimeout(() => router.push("/dashboard/loyalty"), 4000);
+                      }
                     });
                   } else {
                     setStep(step + 1);
@@ -931,7 +933,9 @@ export default function OnboardingPage() {
           100% { transform: translateY(800px) rotate(720deg); opacity: 0; }
         }
         @media (max-width: 768px) {
-          .onboard-preview { display: none !important; }
+          .onboard-preview { order: -1 !important; width: 100% !important; display: flex !important; justify-content: center !important; margin-bottom: 16px !important; }
+          .onboard-preview > div { position: static !important; }
+          .onboard-preview > div > div { transform: scale(0.8); transform-origin: top center; }
           .theme-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 14px !important; max-width: 100% !important; }
           .biz-type-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
           .goals-grid { grid-template-columns: 1fr !important; }
