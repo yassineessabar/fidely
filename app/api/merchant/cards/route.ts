@@ -18,7 +18,7 @@ export async function GET() {
 
   const { data: cards } = await admin
     .from("loyalty_cards")
-    .select("id, name, type, status, business_details, branding, logic, share_url, created_at")
+    .select("id, name, type, status, business_details, branding, logic, share_url, qr_code_data, created_at")
     .eq("business_id", profile.business_id)
     .order("created_at", { ascending: false });
 

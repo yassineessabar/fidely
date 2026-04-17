@@ -68,6 +68,7 @@ type Card = {
   branding: any;
   logic: any;
   share_url: string | null;
+  qr_code_data: string | null;
   enrollmentCount: number;
 };
 
@@ -339,6 +340,48 @@ export default function LinksPage() {
                         }}>
                           <ExternalLink size={11} />
                         </button>
+                      </div>
+                    )}
+
+                    {/* QR code for in-store */}
+                    {card.share_url && isSelected && (
+                      <div style={{
+                        padding: "16px 18px", borderTop: "1px solid rgba(10,10,10,0.05)",
+                        display: "flex", alignItems: "center", gap: 16, backgroundColor: "rgba(10,10,10,0.015)",
+                      }}>
+                        {card.qr_code_data ? (
+                          <img src={card.qr_code_data} alt="QR Code" style={{ width: 80, height: 80, borderRadius: 8, flexShrink: 0 }} />
+                        ) : (
+                          <div style={{ width: 80, height: 80, borderRadius: 8, backgroundColor: "rgba(10,10,10,0.04)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                            <Globe size={24} style={{ color: "rgba(10,10,10,0.15)" }} />
+                          </div>
+                        )}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 13, fontWeight: 600, color: "rgba(10,10,10,0.8)", marginBottom: 3 }}>QR Code for in-store</div>
+                          <div style={{ fontSize: 12, color: "rgba(10,10,10,0.4)", marginBottom: 10, lineHeight: 1.4 }}>
+                            Print and display this QR code. Customers scan it to add your loyalty card to their wallet.
+                          </div>
+                          <div style={{ display: "flex", gap: 6 }}>
+                            {card.qr_code_data && (
+                              <a href={card.qr_code_data} download={`${card.business_details?.name || "card"}-qr.png`} onClick={(e) => e.stopPropagation()} style={{
+                                padding: "6px 14px", borderRadius: 8, border: "1px solid rgba(10,10,10,0.08)",
+                                backgroundColor: "white", fontSize: 11, fontWeight: 600,
+                                color: "rgba(10,10,10,0.6)", textDecoration: "none",
+                                display: "inline-flex", alignItems: "center", gap: 4,
+                              }}>
+                                Download
+                              </a>
+                            )}
+                            <button onClick={(e) => { e.stopPropagation(); window.open(card.share_url!, "_blank"); }} style={{
+                              padding: "6px 14px", borderRadius: 8, border: "1px solid rgba(10,10,10,0.08)",
+                              backgroundColor: "white", fontSize: 11, fontWeight: 600, cursor: "pointer",
+                              fontFamily: "inherit", color: "rgba(10,10,10,0.6)",
+                              display: "flex", alignItems: "center", gap: 4,
+                            }}>
+                              <ExternalLink size={11} /> Preview
+                            </button>
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
