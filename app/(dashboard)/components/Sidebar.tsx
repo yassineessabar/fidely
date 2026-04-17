@@ -133,6 +133,11 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
                   onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}>
                   <HelpCircle size={15} style={{ color: "rgba(10,10,10,0.4)" }} /> Help
                 </Link>
+                <button style={menuItem}
+                  onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.04)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}>
+                  <Gift size={15} style={{ color: "rgba(10,10,10,0.4)" }} /> Send a Gift Card
+                </button>
 
                 <div style={{ height: "1px", backgroundColor: "rgba(10,10,10,0.06)", margin: "2px 0" }} />
 
