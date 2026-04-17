@@ -8,9 +8,6 @@ import {
   Users,
   Send,
   Gift,
-  Bell,
-  CreditCard,
-  Settings,
   PanelLeft,
   X,
   Gem,
@@ -21,9 +18,6 @@ const navItems = [
   { label: "Loyalty", href: "/dashboard/loyalty", icon: Gift },
   { label: "Customers", href: "/dashboard/customers", icon: Users },
   { label: "Campaigns", href: "/dashboard/campaigns", icon: Send },
-  { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
-  { label: "Billing", href: "/dashboard/billing", icon: CreditCard },
-  { label: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 export default function Sidebar({
