@@ -13,26 +13,68 @@ export function getStripe(): Stripe {
 
 export const PLANS: Record<string, {
   name: string;
+  tagline: string;
   monthly_price_cents: number;
   yearly_price_cents: number;
   features: string[];
+  highlight?: boolean;
 }> = {
-  free: {
+  starter: {
     name: "Starter",
-    monthly_price_cents: 0,
-    yearly_price_cents: 0,
-    features: ["1 loyalty card", "Up to 100 members", "Basic analytics", "QR code scanning", "Email support"],
+    tagline: "Replace paper loyalty cards",
+    monthly_price_cents: 4900,
+    yearly_price_cents: 47000,
+    features: [
+      "1 location",
+      "Digital loyalty card (Apple & Google Wallet)",
+      "QR code for in-store",
+      "Up to 150 customers",
+      "Basic customer capture",
+    ],
   },
   growth: {
     name: "Growth",
-    monthly_price_cents: 4900,
-    yearly_price_cents: 46800,
-    features: ["Unlimited cards", "Unlimited members", "Advanced analytics", "Push notifications", "Birthday campaigns", "Location alerts", "Priority support"],
+    tagline: "Bring customers back automatically",
+    monthly_price_cents: 7900,
+    yearly_price_cents: 76000,
+    highlight: true,
+    features: [
+      "1 location",
+      "Digital loyalty card",
+      "QR code",
+      "Up to 10 push campaigns/month",
+      "Basic analytics",
+      "Up to 500 customers",
+    ],
+  },
+  pro: {
+    name: "Pro",
+    tagline: "Maximize customer retention",
+    monthly_price_cents: 12900,
+    yearly_price_cents: 124000,
+    features: [
+      "1 location",
+      "Digital loyalty card",
+      "QR code",
+      "Unlimited push campaigns",
+      "Advanced analytics",
+      "Unlimited customers",
+      "Priority support",
+    ],
   },
   enterprise: {
     name: "Enterprise",
-    monthly_price_cents: 0, // custom pricing
+    tagline: "For multi-location & scaling businesses",
+    monthly_price_cents: 0,
     yearly_price_cents: 0,
-    features: ["Everything in Growth", "Custom branding", "API access", "Dedicated account manager", "SLA guarantee", "White-label option"],
+    features: [
+      "Multiple locations",
+      "Centralized dashboard (multi-store)",
+      "Unlimited customers",
+      "Unlimited push campaigns",
+      "Advanced analytics (per location + global)",
+      "Custom branding",
+      "Dedicated support",
+    ],
   },
 };

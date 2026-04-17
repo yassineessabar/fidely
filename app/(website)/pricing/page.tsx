@@ -4,54 +4,71 @@
 const plans = [
   {
     name: "Starter",
-    price: "299",
+    price: "49",
     period: "/month",
-    desc: "Perfect for a single location getting started with digital loyalty.",
+    desc: "Replace paper loyalty cards with a digital experience.",
     features: [
       "1 location",
-      "Up to 500 customers",
-      "Unlimited push notifications",
-      "Apple Wallet & Google Wallet",
-      "Basic analytics dashboard",
-      "Email support",
+      "Digital loyalty card (Apple & Google Wallet)",
+      "QR code for in-store",
+      "Up to 150 customers",
+      "Basic customer capture",
     ],
+    excluded: ["No push notifications"],
     cta: "Start free trial",
     highlight: false,
   },
   {
     name: "Growth",
-    price: "499",
+    price: "79",
     period: "/month",
-    desc: "For growing businesses ready to scale their retention strategy.",
+    desc: "Bring customers back automatically with campaigns and analytics.",
     features: [
-      "Up to 3 locations",
-      "Unlimited customers",
-      "Unlimited push notifications",
-      "Advanced analytics & insights",
-      "Kyro AI recommendations",
-      "Customer segmentation",
-      "Automated campaigns",
-      "Priority support",
+      "1 location",
+      "Digital loyalty card",
+      "QR code",
+      "Up to 10 push campaigns/month",
+      "Basic analytics",
+      "Up to 500 customers",
     ],
+    excluded: [],
     cta: "Start free trial",
     highlight: true,
     badge: "Most popular",
   },
   {
+    name: "Pro",
+    price: "129",
+    period: "/month",
+    desc: "Maximize customer retention with unlimited power.",
+    features: [
+      "1 location",
+      "Digital loyalty card",
+      "QR code",
+      "Unlimited push campaigns",
+      "Advanced analytics",
+      "Unlimited customers",
+      "Priority support",
+    ],
+    excluded: [],
+    cta: "Start free trial",
+    highlight: false,
+  },
+  {
     name: "Enterprise",
     price: "Custom",
     period: "",
-    desc: "For multi-location brands with custom needs and dedicated support.",
+    desc: "For multi-location brands with dedicated support.",
     features: [
-      "Unlimited locations",
+      "Multiple locations",
+      "Centralized dashboard (multi-store)",
       "Unlimited customers",
-      "Unlimited notifications",
-      "Full Kyro AI suite",
-      "API access & integrations",
+      "Unlimited push campaigns",
+      "Advanced analytics (per location + global)",
       "Custom branding",
-      "Dedicated account manager",
-      "SLA & onboarding",
+      "Dedicated support",
     ],
+    excluded: [],
     cta: "Contact sales",
     highlight: false,
   },
@@ -73,7 +90,7 @@ export default function PricingPage() {
           </div>
 
           {/* Cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px" }} className="pricing-grid">
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "20px" }} className="pricing-grid">
             {plans.map((plan) => (
               <div
                 key={plan.name}
@@ -113,6 +130,14 @@ export default function PricingPage() {
                     <li key={f} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px", color: plan.highlight ? "rgba(255,255,255,0.8)" : "rgb(55,53,68)" }}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={plan.highlight ? "rgb(230,255,169)" : "rgb(11,5,29)"} strokeWidth="2.5">
                         <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      {f}
+                    </li>
+                  ))}
+                  {(plan as any).excluded?.map((f: string) => (
+                    <li key={f} style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px", color: plan.highlight ? "rgba(255,255,255,0.3)" : "rgba(97,95,109,0.6)" }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={plan.highlight ? "rgba(255,255,255,0.3)" : "rgba(97,95,109,0.4)"} strokeWidth="2.5">
+                        <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                       {f}
                     </li>

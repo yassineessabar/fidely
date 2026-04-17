@@ -4,59 +4,83 @@ import { useRouter } from "next/navigation";
 
 const plans = [
   {
+    key: "starter",
     name: "Starter",
-    price: "Free",
+    tagline: "Replace paper loyalty cards",
+    price: "$49",
     priceNote: null,
-    badge: "Current Plan",
-    badgeColor: "rgb(16,185,129)",
-    badgeBg: "rgba(16,185,129,0.1)",
+    badge: null,
     elevated: false,
     features: [
-      "1 loyalty card",
-      "Up to 100 members",
-      "Basic analytics",
-      "QR code scanning",
-      "Email support",
+      "1 location",
+      "Digital loyalty card (Apple & Google Wallet)",
+      "QR code for in-store",
+      "Up to 150 customers",
+      "Basic customer capture",
     ],
-    cta: "Current Plan",
-    ctaStyle: "disabled" as const,
-  },
-  {
-    name: "Growth",
-    price: "$49",
-    priceNote: "or $39/mo yearly",
-    badge: "Recommended",
-    badgeColor: "rgba(10,10,10,0.9)",
-    badgeBg: "rgba(10,10,10,0.06)",
-    elevated: true,
-    features: [
-      "Unlimited cards",
-      "Unlimited members",
-      "Advanced analytics",
-      "Push notifications",
-      "Birthday campaigns",
-      "Location alerts",
-      "Priority support",
-    ],
-    cta: "Start Free Trial",
+    excluded: ["No push notifications"],
+    cta: "Get Started",
     ctaStyle: "primary" as const,
   },
   {
-    name: "Enterprise",
-    price: "Custom",
+    key: "growth",
+    name: "Growth",
+    tagline: "Bring customers back automatically",
+    price: "$79",
     priceNote: null,
-    badge: "Contact us",
-    badgeColor: "rgba(10,10,10,0.45)",
-    badgeBg: "rgba(10,10,10,0.06)",
+    badge: "Most Popular",
+    elevated: true,
+    features: [
+      "1 location",
+      "Digital loyalty card",
+      "QR code",
+      "Up to 10 push campaigns/month",
+      "Basic analytics",
+      "Up to 500 customers",
+    ],
+    excluded: [],
+    cta: "Get Started",
+    ctaStyle: "primary" as const,
+  },
+  {
+    key: "pro",
+    name: "Pro",
+    tagline: "Maximize customer retention",
+    price: "$129",
+    priceNote: null,
+    badge: null,
     elevated: false,
     features: [
-      "Everything in Growth",
-      "Custom branding",
-      "API access",
-      "Dedicated account manager",
-      "SLA guarantee",
-      "White-label option",
+      "1 location",
+      "Digital loyalty card",
+      "QR code",
+      "Unlimited push campaigns",
+      "Advanced analytics",
+      "Unlimited customers",
+      "Priority support",
     ],
+    excluded: [],
+    cta: "Get Started",
+    ctaStyle: "primary" as const,
+  },
+  {
+    key: "enterprise",
+    name: "Enterprise",
+    tagline: "For multi-location & scaling businesses",
+    price: "Custom",
+    priceNote: null,
+    badge: null,
+    elevated: false,
+    features: [
+      "Multiple locations",
+      "Centralized dashboard (multi-store)",
+      "Unlimited customers",
+      "Unlimited push campaigns",
+      "Advanced analytics (per location + global)",
+      "Custom branding",
+      "Dedicated support",
+    ],
+    excluded: [],
     cta: "Contact Us",
     ctaStyle: "outline" as const,
   },
@@ -64,18 +88,16 @@ const plans = [
 
 function CheckIcon() {
   return (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="rgb(16,185,129)"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      style={{ flexShrink: 0 }}
-    >
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgb(16,185,129)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
       <path d="M20 6L9 17l-5-5" />
+    </svg>
+  );
+}
+
+function CrossIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(10,10,10,0.25)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+      <path d="M18 6L6 18M6 6l12 12" />
     </svg>
   );
 }
@@ -84,228 +106,90 @@ export default function UpgradePage() {
   const router = useRouter();
   return (
     <div>
-      {/* Header */}
-      <div
-        style={{
-          textAlign: "center",
-          marginBottom: 40,
-          maxWidth: 520,
-          margin: "0 auto 40px",
-        }}
-      >
-        <h1
-          style={{
-            fontSize: 26,
-            fontWeight: 700,
-            color: "rgba(10,10,10,0.9)",
-            margin: "0 0 10px",
-            lineHeight: 1.25,
-          }}
-        >
+      <div style={{ textAlign: "center", maxWidth: 560, margin: "0 auto 40px" }}>
+        <h1 style={{ fontSize: 26, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 10px", lineHeight: 1.25 }}>
           Choose the right plan for your business
         </h1>
-        <p
-          style={{
-            fontSize: 14,
-            color: "rgba(10,10,10,0.5)",
-            margin: 0,
-            lineHeight: 1.6,
-          }}
-        >
+        <p style={{ fontSize: 14, color: "rgba(10,10,10,0.5)", margin: 0, lineHeight: 1.6 }}>
           All plans include Apple &amp; Google Wallet integration
         </p>
       </div>
 
-      {/* Plan Cards Grid */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: 20,
-          alignItems: "start",
-        }}
-      >
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 16, alignItems: "start" }}>
         {plans.map((plan) => (
           <div
-            key={plan.name}
+            key={plan.key}
             style={{
               backgroundColor: "#fff",
               borderRadius: 20,
               border: `1px solid ${plan.elevated ? "rgba(10,10,10,0.12)" : "rgba(10,10,10,0.06)"}`,
-              padding: 28,
-              boxShadow: plan.elevated
-                ? "0 8px 32px rgba(10,10,10,0.08)"
-                : "none",
+              padding: 24,
+              boxShadow: plan.elevated ? "0 8px 32px rgba(10,10,10,0.08)" : "none",
               display: "flex",
               flexDirection: "column",
-              gap: 0,
             }}
           >
-            {/* Plan header */}
-            <div style={{ marginBottom: 20 }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: 16,
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: 15,
-                    fontWeight: 700,
-                    color: "rgba(10,10,10,0.9)",
-                  }}
-                >
-                  {plan.name}
-                </span>
-                <span
-                  style={{
-                    padding: "3px 10px",
-                    borderRadius: 99,
-                    fontSize: 11,
-                    fontWeight: 600,
-                    backgroundColor: plan.badgeBg,
-                    color: plan.badgeColor,
-                    letterSpacing: "0.02em",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {plan.badge}
-                </span>
-              </div>
-
-              {/* Price */}
-              <div>
-                <div
-                  style={{
-                    fontSize: 36,
-                    fontWeight: 800,
-                    color: "rgba(10,10,10,0.9)",
-                    lineHeight: 1,
-                    marginBottom: 4,
-                  }}
-                >
-                  {plan.price}
-                  {plan.price !== "Free" && plan.price !== "Custom" && (
-                    <span
-                      style={{
-                        fontSize: 16,
-                        fontWeight: 500,
-                        color: "rgba(10,10,10,0.4)",
-                      }}
-                    >
-                      /mo
-                    </span>
-                  )}
-                </div>
-                {plan.priceNote && (
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: "rgba(10,10,10,0.4)",
-                      marginTop: 2,
-                    }}
-                  >
-                    {plan.priceNote}
-                  </div>
+            {/* Header */}
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                <span style={{ fontSize: 15, fontWeight: 700, color: "rgba(10,10,10,0.9)" }}>{plan.name}</span>
+                {plan.badge && (
+                  <span style={{ padding: "3px 10px", borderRadius: 99, fontSize: 10, fontWeight: 600, backgroundColor: "rgba(10,10,10,0.06)", color: "rgba(10,10,10,0.7)", letterSpacing: "0.02em" }}>
+                    {plan.badge}
+                  </span>
                 )}
               </div>
+              <p style={{ margin: 0, fontSize: 12, color: "rgba(10,10,10,0.45)" }}>{plan.tagline}</p>
             </div>
 
-            {/* Divider */}
-            <div
-              style={{
-                height: 1,
-                backgroundColor: "rgba(10,10,10,0.06)",
-                marginBottom: 20,
-              }}
-            />
+            {/* Price */}
+            <div style={{ marginBottom: 16 }}>
+              <span style={{ fontSize: 32, fontWeight: 800, color: "rgba(10,10,10,0.9)", lineHeight: 1 }}>
+                {plan.price}
+              </span>
+              {plan.price !== "Custom" && (
+                <span style={{ fontSize: 14, fontWeight: 500, color: "rgba(10,10,10,0.4)" }}>/mo</span>
+              )}
+            </div>
+
+            <div style={{ height: 1, backgroundColor: "rgba(10,10,10,0.06)", marginBottom: 16 }} />
 
             {/* Features */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: 10,
-                marginBottom: 28,
-                flex: 1,
-              }}
-            >
-              {plan.features.map((feature) => (
-                <div
-                  key={feature}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    fontSize: 13,
-                    color: "rgba(10,10,10,0.75)",
-                  }}
-                >
-                  <CheckIcon />
-                  {feature}
+            <div style={{ display: "flex", flexDirection: "column", gap: 9, marginBottom: 24, flex: 1 }}>
+              {plan.features.map((f) => (
+                <div key={f} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "rgba(10,10,10,0.75)" }}>
+                  <CheckIcon /> {f}
+                </div>
+              ))}
+              {plan.excluded.map((f) => (
+                <div key={f} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "rgba(10,10,10,0.35)" }}>
+                  <CrossIcon /> {f}
                 </div>
               ))}
             </div>
 
             {/* CTA */}
-            {plan.ctaStyle === "disabled" && (
-              <button
-                disabled
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  borderRadius: 12,
-                  border: "none",
-                  backgroundColor: "rgba(10,10,10,0.06)",
-                  color: "rgba(10,10,10,0.35)",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  cursor: "not-allowed",
-                }}
-              >
-                {plan.cta}
-              </button>
-            )}
-
             {plan.ctaStyle === "primary" && (
               <button
-                onClick={() => router.push("/dashboard/billing?plan=growth")}
+                onClick={() => router.push(`/dashboard/billing?plan=${plan.key}`)}
                 style={{
-                  width: "100%",
-                  padding: "12px",
-                  borderRadius: 12,
-                  border: "none",
-                  backgroundColor: "#0a0a0a",
-                  color: "#fff",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  cursor: "pointer",
+                  width: "100%", padding: "12px", borderRadius: 12, border: "none",
+                  backgroundColor: "#0a0a0a", color: "#fff", fontSize: 14, fontWeight: 600, cursor: "pointer",
+                  fontFamily: "inherit",
                 }}
               >
                 {plan.cta}
               </button>
             )}
-
             {plan.ctaStyle === "outline" && (
               <a
                 href="mailto:hello@wearekyro.com?subject=Enterprise Plan Inquiry"
                 style={{
-                  display: "block",
-                  width: "100%",
-                  padding: "12px",
-                  borderRadius: 12,
-                  border: "1.5px solid rgba(10,10,10,0.15)",
-                  backgroundColor: "transparent",
-                  color: "rgba(10,10,10,0.8)",
-                  fontSize: 14,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  textAlign: "center",
-                  textDecoration: "none",
-                  boxSizing: "border-box",
+                  display: "block", width: "100%", padding: "12px", borderRadius: 12,
+                  border: "1.5px solid rgba(10,10,10,0.15)", backgroundColor: "transparent",
+                  color: "rgba(10,10,10,0.8)", fontSize: 14, fontWeight: 600, cursor: "pointer",
+                  textAlign: "center", textDecoration: "none", boxSizing: "border-box",
+                  fontFamily: "inherit",
                 }}
               >
                 {plan.cta}
