@@ -93,7 +93,7 @@ export default function DashboardLayout({
         className="dash-main"
       >
         <DashHeader title={title} onMenuClick={() => setMobileOpen(true)} />
-        <main style={{ flex: 1, padding: "24px 28px", backgroundColor: "white" }}>{children}</main>
+        <main style={{ flex: 1, padding: "28px 32px", backgroundColor: "#fafafa", minHeight: 0 }}>{children}</main>
       </div>
     </div>
   );

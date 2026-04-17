@@ -25,7 +25,6 @@ import {
 
 const navItems = [
   { label: "Links", href: "/dashboard/loyalty", icon: Gift },
-  { label: "Appearance", href: "/dashboard/appearance", icon: Palette },
   { label: "Insights", href: "/dashboard", icon: LayoutDashboard },
   { label: "Audience", href: "/dashboard/customers", icon: Users },
   { label: "Campaigns", href: "/dashboard/campaigns", icon: Send },
@@ -123,7 +122,7 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
               }}>
                 {/* User info */}
                 <div style={{ padding: "10px 12px", marginBottom: "4px" }}>
-                  <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.9)" }}>{bizName || "My Business"}</p>
+                  <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "rgba(10,10,10,0.85)" }}>{bizName || "My Business"}</p>
                   <div style={{ display: "inline-block", marginTop: "4px", padding: "2px 8px", borderRadius: "6px", fontSize: "10px", fontWeight: 600, backgroundColor: "rgba(245,158,11,0.12)", color: "rgb(180,83,9)" }}>
                     Free Beta
                   </div>
@@ -222,7 +221,7 @@ export default function Sidebar({
       style={{
         width: collapsed ? "0px" : "260px",
         minHeight: "100vh",
-        backgroundColor: "#0b051d",
+        backgroundColor: "#0a0a0a",
         display: "flex",
         flexDirection: "column",
         transition: "width 260ms cubic-bezier(0.31, 0.1, 0.08, 0.96)",
@@ -248,13 +247,15 @@ export default function Sidebar({
       >
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <div style={{
-            height: "26px", width: "26px", borderRadius: "7px",
-            backgroundColor: "white", display: "flex",
+            height: "28px", width: "28px", borderRadius: "8px",
+            background: "linear-gradient(135deg, #fff, #e5e5e5)",
+            display: "flex",
             alignItems: "center", justifyContent: "center", flexShrink: 0,
+            boxShadow: "0 1px 4px rgba(0,0,0,0.2)",
           }}>
-            <span style={{ fontSize: "9px", fontWeight: 900, color: "#0b051d", letterSpacing: "-0.06em" }}>K</span>
+            <span style={{ fontSize: "10px", fontWeight: 900, color: "#111", letterSpacing: "-0.06em" }}>K</span>
           </div>
-          <span className="dash-nav-label" style={{ fontSize: "15px", fontWeight: 700, letterSpacing: "-0.03em", color: "rgba(255,255,255,0.9)" }}>
+          <span className="dash-nav-label" style={{ fontSize: "16px", fontWeight: 700, letterSpacing: "-0.03em", color: "rgba(255,255,255,0.95)" }}>
             Kyro
           </span>
         </div>
@@ -326,14 +327,14 @@ export default function Sidebar({
             border: "1px solid rgba(255,255,255,0.08)", backgroundColor: "rgba(255,255,255,0.03)",
             textDecoration: "none", transition: "background-color 0.15s",
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.04)"; }}
-          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.02)"; }}
+          onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.06)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.03)"; }}
         >
           <div>
             <p style={{ margin: 0, fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.8)" }}>Upgrade your plan</p>
             <p style={{ margin: "3px 0 0", fontSize: "11px", color: "rgba(255,255,255,0.35)", fontWeight: 500 }}>Get more features</p>
           </div>
-          <Gem size={18} style={{ color: "rgba(10,10,10,0.25)" }} />
+          <Gem size={18} style={{ color: "rgba(255,255,255,0.25)" }} />
         </Link>
       </div>
 

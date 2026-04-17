@@ -12,12 +12,13 @@ export default function DashHeader({
   return (
     <header
       style={{
-        height: "52px",
+        height: "56px",
         display: "flex",
         alignItems: "center",
-        padding: "0 20px",
-        borderBottom: "1px solid rgba(10,10,10,0.06)",
-        backgroundColor: "white",
+        padding: "0 24px",
+        borderBottom: "1px solid rgba(10,10,10,0.05)",
+        backgroundColor: "rgba(255,255,255,0.8)",
+        backdropFilter: "blur(12px)",
         position: "sticky",
         top: 0,
         zIndex: 40,
@@ -29,13 +30,13 @@ export default function DashHeader({
           className="dash-menu-btn"
           style={{
             background: "none", border: "none", cursor: "pointer",
-            padding: "6px", borderRadius: "6px", color: "rgba(10,10,10,0.5)",
+            padding: "6px", borderRadius: "8px", color: "rgba(10,10,10,0.45)",
             display: "none", alignItems: "center",
           }}
         >
           <PanelLeft size={18} />
         </button>
-        <h1 style={{ fontSize: "14px", fontWeight: 600, color: "rgba(10,10,10,0.8)", margin: 0 }}>
+        <h1 style={{ fontSize: "14px", fontWeight: 600, color: "rgba(10,10,10,0.7)", margin: 0, letterSpacing: "-0.2px" }}>
           {title}
         </h1>
       </div>
