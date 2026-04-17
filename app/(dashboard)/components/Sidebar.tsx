@@ -53,6 +53,7 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
   }, []);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [bizName, setBizName] = useState("");
+  const [bizLogo, setBizLogo] = useState("");
   const [plan, setPlan] = useState("free");
   const planLabels: Record<string, string> = { free: "Free Plan", starter: "Starter", growth: "Growth", enterprise: "Enterprise" };
 
@@ -62,7 +63,9 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
       .then((d) => {
         if (d.cards && d.cards.length > 0) {
           const bd = d.cards[0].business_details || {};
+          const br = d.cards[0].branding || {};
           if (bd.name) setBizName(bd.name);
+          if (br.logoUrl) setBizLogo(br.logoUrl);
         }
       })
       .catch(() => {});
@@ -110,6 +113,12 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
             onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "rgba(10,10,10,0.04)"; }}
             onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}
           >
+            {bizLogo ? (
+              <img src={bizLogo} alt="" style={{
+                width: "32px", height: "32px", borderRadius: "50%",
+                objectFit: "cover", flexShrink: 0,
+              }} />
+            ) : (
             <div style={{
               width: "32px", height: "32px", borderRadius: "50%",
               background: "linear-gradient(135deg, #333, #111)",
@@ -119,6 +128,7 @@ function SidebarBottomBar({ onNavClick }: { onNavClick?: () => void }) {
                 {bizName ? bizName.slice(0, 2).toUpperCase() : "KY"}
               </span>
             </div>
+            )}
             <span className="dash-bottom-name" style={{ fontSize: "13px", fontWeight: 500, color: "rgba(255,255,255,0.8)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
               {bizName || "My Business"}
             </span>
