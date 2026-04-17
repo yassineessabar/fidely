@@ -13,11 +13,9 @@ const iconMap: Record<string, any> = {
 };
 
 const objectives = [
-  { id: "retention", label: "Customer retention", desc: "Bring customers back more often" },
-  { id: "sales", label: "Increase sales", desc: "Drive more revenue per visit" },
-  { id: "database", label: "Build a customer database", desc: "Capture customer details" },
-  { id: "reward", label: "Reward loyal customers", desc: "Show appreciation to regulars" },
-  { id: "noshows", label: "Reduce no-shows", desc: "Encourage consistent visits" },
+  { id: "retention", label: "Bring customers back", desc: "Turn one-time visitors into regulars with rewards", icon: "🔄" },
+  { id: "sales", label: "Increase revenue", desc: "Drive more spend per visit with loyalty incentives", icon: "📈" },
+  { id: "database", label: "Grow your audience", desc: "Capture customer details and build your database", icon: "👥" },
 ];
 
 type State = {
@@ -336,13 +334,13 @@ export default function OnboardingPage() {
           {/* Step 3: Objectives */}
           {step === 3 && (
             <div style={{ animation: "fadeInUp 0.5s ease" }}>
-              <h1 style={{ fontSize: 28, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 8px", textAlign: "center" }}>
+              <h1 style={{ fontSize: 30, fontWeight: 800, color: "rgba(0,0,0,0.9)", margin: "0 0 16px", textAlign: "center", letterSpacing: "-0.45px" }}>
                 What are your goals?
               </h1>
-              <p style={{ fontSize: 15, color: "rgba(10,10,10,0.45)", textAlign: "center", margin: "0 0 40px" }}>
-                Select all that apply — we&apos;ll personalize your experience
+              <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)", textAlign: "center", margin: "0 0 40px" }}>
+                Select all that apply
               </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10, maxWidth: 480, margin: "0 auto" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, maxWidth: 560, margin: "0 auto" }} className="goals-grid">
                 {objectives.map((obj) => {
                   const selected = data.selectedObjectives.includes(obj.id);
                   return (
@@ -355,19 +353,19 @@ export default function OnboardingPage() {
                         setData({ ...data, selectedObjectives: next });
                       }}
                       style={{
-                        display: "flex", alignItems: "center", justifyContent: "space-between",
-                        padding: "18px 20px", borderRadius: 14, cursor: "pointer", fontFamily: "inherit",
+                        display: "flex", flexDirection: "column", alignItems: "center",
+                        padding: "28px 16px", borderRadius: 16, cursor: "pointer", fontFamily: "inherit",
                         border: selected ? "2px solid #0b051d" : "1px solid rgba(10,10,10,0.08)",
                         backgroundColor: selected ? "rgba(11,5,29,0.03)" : "white",
-                        textAlign: "left", transition: "all 0.15s",
+                        textAlign: "center", transition: "all 0.2s",
+                        boxShadow: selected ? "0 4px 16px rgba(11,5,29,0.08)" : "none",
                       }}
                     >
-                      <div>
-                        <div style={{ fontSize: 14, fontWeight: 600, color: "rgba(10,10,10,0.85)" }}>{obj.label}</div>
-                        <div style={{ fontSize: 12, color: "rgba(10,10,10,0.4)", marginTop: 2 }}>{obj.desc}</div>
-                      </div>
+                      <div style={{ fontSize: 32, marginBottom: 12 }}>{obj.icon}</div>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: "rgba(10,10,10,0.85)", marginBottom: 4 }}>{obj.label}</div>
+                      <div style={{ fontSize: 12, color: "rgba(10,10,10,0.4)", lineHeight: 1.4 }}>{obj.desc}</div>
                       {selected && (
-                        <div style={{ width: 22, height: 22, borderRadius: "50%", backgroundColor: "#0b051d", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginLeft: 12 }}>
+                        <div style={{ width: 22, height: 22, borderRadius: "50%", backgroundColor: "#0b051d", display: "flex", alignItems: "center", justifyContent: "center", marginTop: 12 }}>
                           <Check size={13} style={{ color: "white" }} />
                         </div>
                       )}
@@ -378,17 +376,17 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          {/* Step 4: Business Details */}
+          {/* Step 4: Business Details — name, logo, banner + iPhone preview */}
           {step === 4 && (
             <div style={{ animation: "fadeInUp 0.5s ease", display: "flex", gap: 48 }}>
               <div style={{ flex: 1 }}>
-                <h1 style={{ fontSize: 28, fontWeight: 700, color: "rgba(10,10,10,0.9)", margin: "0 0 8px" }}>
-                  Tell us about your business
+                <h1 style={{ fontSize: 30, fontWeight: 800, color: "rgba(0,0,0,0.9)", margin: "0 0 16px", letterSpacing: "-0.45px" }}>
+                  Customize your card
                 </h1>
-                <p style={{ fontSize: 15, color: "rgba(10,10,10,0.45)", margin: "0 0 32px" }}>
-                  This info will appear on your loyalty card
+                <p style={{ fontSize: 16, color: "rgba(0,0,0,0.55)", margin: "0 0 32px" }}>
+                  Add your business name, logo, and banner image
                 </p>
-                <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
                   <div>
                     <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>
                       Business Name
@@ -404,59 +402,160 @@ export default function OnboardingPage() {
                       }}
                     />
                   </div>
+
+                  {/* Logo upload */}
                   <div>
-                    <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                      Description
+                    <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                      Logo
                     </label>
-                    <textarea
-                      value={data.description}
-                      onChange={(e) => setData({ ...data, description: e.target.value })}
-                      placeholder="Tell your customers what makes your business special..."
-                      rows={3}
-                      maxLength={200}
-                      style={{
-                        width: "100%", padding: "14px 16px", borderRadius: 12,
-                        border: "1.5px solid rgba(10,10,10,0.1)", fontSize: 15, fontFamily: "inherit",
-                        color: "rgba(10,10,10,0.9)", outline: "none", boxSizing: "border-box", resize: "vertical",
-                      }}
-                    />
-                    <div style={{ fontSize: 11, color: "rgba(10,10,10,0.3)", textAlign: "right", marginTop: 4 }}>
-                      {data.description.length}/200
+                    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                      <div style={{
+                        width: 72, height: 72, borderRadius: 14, overflow: "hidden",
+                        backgroundColor: "rgba(10,10,10,0.04)", border: "1.5px dashed rgba(10,10,10,0.15)",
+                        display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+                      }}>
+                        {data.logoUrl ? (
+                          <img src={data.logoUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                        ) : (
+                          <span style={{ fontSize: 24, color: "rgba(10,10,10,0.2)" }}>+</span>
+                        )}
+                      </div>
+                      <div>
+                        <label style={{
+                          display: "inline-block", padding: "8px 16px", borderRadius: 8,
+                          border: "1px solid rgba(10,10,10,0.1)", backgroundColor: "white",
+                          fontSize: 13, fontWeight: 500, color: "rgba(10,10,10,0.7)",
+                          cursor: "pointer", fontFamily: "inherit",
+                        }}>
+                          Upload logo
+                          <input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onload = (ev) => setData({ ...data, logoUrl: ev.target?.result as string });
+                              reader.readAsDataURL(file);
+                            }
+                          }} />
+                        </label>
+                        <p style={{ fontSize: 11, color: "rgba(10,10,10,0.3)", margin: "4px 0 0" }}>Square image, 200x200px or larger</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Banner upload */}
+                  <div>
+                    <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                      Banner Image
+                    </label>
+                    <div style={{
+                      width: "100%", aspectRatio: "3/1", borderRadius: 14, overflow: "hidden",
+                      backgroundColor: "rgba(10,10,10,0.04)", border: "1.5px dashed rgba(10,10,10,0.15)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      cursor: "pointer", position: "relative",
+                    }}>
+                      {data.bannerUrl ? (
+                        <img src={data.bannerUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                      ) : (
+                        <div style={{ textAlign: "center" }}>
+                          <span style={{ fontSize: 28, color: "rgba(10,10,10,0.15)" }}>+</span>
+                          <p style={{ fontSize: 12, color: "rgba(10,10,10,0.3)", margin: "4px 0 0" }}>Upload banner</p>
+                        </div>
+                      )}
+                      <input type="file" accept="image/*" style={{
+                        position: "absolute", inset: 0, opacity: 0, cursor: "pointer",
+                      }} onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onload = (ev) => setData({ ...data, bannerUrl: ev.target?.result as string });
+                          reader.readAsDataURL(file);
+                        }
+                      }} />
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Card preview */}
-              <div className="onboard-preview" style={{ width: 280, flexShrink: 0 }}>
-                <div style={{ position: "sticky", top: 80 }}>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: "rgba(10,10,10,0.35)", textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 12 }}>
-                    Card Preview
-                  </div>
+              {/* iPhone mockup preview */}
+              <div className="onboard-preview" style={{ width: 300, flexShrink: 0 }}>
+                <div style={{ position: "sticky", top: 60 }}>
                   {data.theme && (
                     <div style={{
-                      borderRadius: 16, overflow: "hidden",
-                      backgroundColor: data.theme.backgroundColor,
-                      boxShadow: "0 16px 40px rgba(0,0,0,0.15)",
+                      border: "8px solid #e5e5e5", borderRadius: 40,
+                      overflow: "hidden", backgroundColor: "#000",
+                      boxShadow: "0 24px 60px rgba(0,0,0,0.2)",
                     }}>
-                      <div style={{ padding: "16px 16px 12px", display: "flex", alignItems: "center", gap: 10 }}>
-                        <div style={{ width: 28, height: 28, borderRadius: 7, backgroundColor: data.theme.accentColor, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                          <span style={{ fontSize: 10, fontWeight: 900, color: data.theme.primaryColor }}>K</span>
-                        </div>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: data.theme.primaryColor }}>
-                          {data.name || "Your Business"}
-                        </span>
+                      {/* iPhone notch */}
+                      <div style={{ height: 28, backgroundColor: "#000", display: "flex", justifyContent: "center", alignItems: "flex-end", paddingBottom: 4 }}>
+                        <div style={{ width: 80, height: 5, borderRadius: 3, backgroundColor: "#333" }} />
                       </div>
-                      <div style={{ height: 80, backgroundColor: data.theme.accentColor, opacity: 0.2 }} />
-                      <div style={{ padding: "12px 16px" }}>
-                        <div style={{ fontSize: 9, fontWeight: 600, color: data.theme.secondaryColor, textTransform: "uppercase", letterSpacing: "0.5px", marginBottom: 2 }}>
-                          Stamps until the reward
+
+                      {/* Wallet card */}
+                      <div style={{ backgroundColor: data.theme.backgroundColor, margin: 8, borderRadius: 14, overflow: "hidden" }}>
+                        {/* Header */}
+                        <div style={{ padding: "12px 14px 8px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            {data.logoUrl ? (
+                              <img src={data.logoUrl} alt="" style={{ width: 28, height: 28, borderRadius: 7, objectFit: "cover" }} />
+                            ) : (
+                              <div style={{ width: 28, height: 28, borderRadius: 7, backgroundColor: data.theme.accentColor, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                                <span style={{ fontSize: 10, fontWeight: 900, color: data.theme.primaryColor }}>{(data.name || "K").charAt(0)}</span>
+                              </div>
+                            )}
+                            <span style={{ fontSize: 12, fontWeight: 700, color: data.theme.primaryColor }}>{data.name || "Your Business"}</span>
+                          </div>
+                          <div style={{ textAlign: "right" }}>
+                            <div style={{ fontSize: 7, fontWeight: 600, color: data.theme.secondaryColor, textTransform: "uppercase" }}>VALID UNTIL</div>
+                            <div style={{ fontSize: 11, fontWeight: 700, color: data.theme.primaryColor }}>18/04/2027</div>
+                          </div>
                         </div>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: data.theme.primaryColor }}>10 stamps</div>
+
+                        {/* Banner strip */}
+                        <div style={{ height: 90, position: "relative", overflow: "hidden" }}>
+                          {data.bannerUrl ? (
+                            <>
+                              <img src={data.bannerUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                              <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.4)" }} />
+                            </>
+                          ) : (
+                            <div style={{ width: "100%", height: "100%", background: `linear-gradient(135deg, ${data.theme.accentColor}40, ${data.theme.backgroundColor})` }} />
+                          )}
+                          {/* Stamp emojis */}
+                          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", gap: 3, flexWrap: "wrap", padding: "8px 12px" }}>
+                            {Array.from({ length: 10 }).map((_, i) => (
+                              <span key={i} style={{ fontSize: 16, opacity: i < 3 ? 1 : 0.25, filter: i >= 3 ? "grayscale(1)" : "none" }}>
+                                {data.theme!.stampEmoji}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Fields */}
+                        <div style={{ padding: "10px 14px", display: "flex", justifyContent: "space-between" }}>
+                          <div>
+                            <div style={{ fontSize: 7, fontWeight: 600, color: data.theme.secondaryColor, textTransform: "uppercase" }}>STAMPS UNTIL REWARD</div>
+                            <div style={{ fontSize: 12, fontWeight: 600, color: data.theme.primaryColor }}>10 stamps</div>
+                          </div>
+                          <div style={{ textAlign: "right" }}>
+                            <div style={{ fontSize: 7, fontWeight: 600, color: data.theme.secondaryColor, textTransform: "uppercase" }}>MEMBER</div>
+                            <div style={{ fontSize: 12, fontWeight: 500, color: data.theme.primaryColor }}>Jane Smith</div>
+                          </div>
+                        </div>
+
+                        {/* QR */}
+                        <div style={{ padding: "8px 14px 12px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                          <div style={{ width: 56, height: 56, borderRadius: 8, backgroundColor: "white", padding: 4, display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gridTemplateRows: "repeat(7, 1fr)", gap: 0.5 }}>
+                            {[1,1,1,0,1,1,1, 1,0,1,0,1,0,1, 1,1,1,0,1,1,1, 0,0,0,0,0,0,0, 1,0,1,1,0,1,0, 0,1,0,0,1,0,1, 1,0,1,0,1,1,1].map((v, i) => (
+                              <div key={i} style={{ backgroundColor: v ? "#0b051d" : "white" }} />
+                            ))}
+                          </div>
+                          <div style={{ fontSize: 7, color: data.theme.secondaryColor, marginTop: 4, opacity: 0.4 }}>Powered by Kyro</div>
+                        </div>
                       </div>
-                      <div style={{ padding: "12px 16px", textAlign: "center" }}>
-                        <div style={{ width: 60, height: 60, margin: "0 auto", backgroundColor: "white", borderRadius: 8 }} />
-                        <div style={{ fontSize: 8, color: data.theme.secondaryColor, marginTop: 6, opacity: 0.5 }}>Powered by Kyro</div>
+
+                      {/* iPhone bottom bar */}
+                      <div style={{ height: 20, backgroundColor: "#000", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                        <div style={{ width: 100, height: 4, borderRadius: 2, backgroundColor: "#333" }} />
                       </div>
                     </div>
                   )}
@@ -564,6 +663,7 @@ export default function OnboardingPage() {
           .onboard-preview { display: none !important; }
           .theme-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
           .biz-type-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .goals-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 400px) {
           .theme-grid { grid-template-columns: 1fr 1fr !important; gap: 12px !important; }
