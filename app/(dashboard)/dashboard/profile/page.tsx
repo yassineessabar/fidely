@@ -103,6 +103,8 @@ export default function ProfilePage() {
       <div style={{
         backgroundColor: "white",
         border: "1px solid rgba(10,10,10,0.05)",
+        position: "relative",
+        zIndex: 2,
         borderTop: "none",
         borderRadius: "0 0 16px 16px",
         padding: "0 32px 24px",
