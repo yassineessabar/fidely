@@ -81,7 +81,8 @@ export const metadata: Metadata = {
     title: "Kyro — Digital Loyalty Cards for Apple & Google Wallet",
     description:
       "Turn every visit into a returning customer. Digital loyalty cards for Apple Wallet & Google Wallet. No app download needed. Launch in 24 hours.",
-    url: "/",
+    url: "https://wearekyro.com",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Kyro — Digital Loyalty Cards" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -89,6 +90,7 @@ export const metadata: Metadata = {
     description:
       "Turn every visit into a returning customer. Digital loyalty cards for Apple Wallet & Google Wallet. No app download needed.",
     creator: "@kyro",
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
