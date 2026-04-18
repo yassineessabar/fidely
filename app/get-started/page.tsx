@@ -11,7 +11,7 @@ export default function GetStartedPage() {
   const [loading, setLoading] = useState(false);
 
   const [companyName, setCompanyName] = useState("");
-  const [companySize, setCompanySize] = useState("");
+  const [companySize, setCompanySize] = useState("1");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
