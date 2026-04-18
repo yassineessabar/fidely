@@ -543,6 +543,28 @@ export default function OnboardingPage() {
                     </div>
                   )}
 
+                  {/* Logo upload */}
+                  <div>
+                    <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                      Logo
+                    </label>
+                    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                      <div style={{ width: 72, height: 72, borderRadius: 14, overflow: "hidden", backgroundColor: "rgba(10,10,10,0.04)", border: "1.5px dashed rgba(10,10,10,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        {data.logoUrl ? <img src={data.logoUrl} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} /> : <span style={{ fontSize: 24, color: "rgba(10,10,10,0.2)" }}>+</span>}
+                      </div>
+                      <div>
+                        <label style={{ display: "inline-block", padding: "8px 16px", borderRadius: 8, border: "1px solid rgba(10,10,10,0.1)", backgroundColor: "white", fontSize: 13, fontWeight: 500, color: "rgba(10,10,10,0.7)", cursor: "pointer", fontFamily: "inherit" }}>
+                          Upload logo
+                          <input type="file" accept="image/*" style={{ display: "none" }} onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) { const reader = new FileReader(); reader.onload = (ev) => setData({ ...data, logoUrl: ev.target?.result as string }); reader.readAsDataURL(file); }
+                          }} />
+                        </label>
+                        <p style={{ fontSize: 11, color: "rgba(10,10,10,0.3)", margin: "4px 0 0" }}>Square, 200x200px+</p>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* Banner upload */}
                   <div>
                     <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: "rgba(10,10,10,0.5)", marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.5px" }}>
