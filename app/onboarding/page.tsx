@@ -118,8 +118,11 @@ export default function OnboardingPage() {
   const handleFinish = async (): Promise<boolean> => {
     setCreating(true);
     try {
-      const theme = data.theme!;
-      const dbType = data.cardType === "vip" ? "points" : data.cardType;
+      const theme = data.theme || {
+        backgroundColor: "#0B051D", primaryColor: "#FFFFFF",
+        secondaryColor: "#E6FFA9", accentColor: "#6C47FF", stampEmoji: "☕",
+      };
+      const dbType = data.cardType === "vip" ? "points" : (data.cardType || "stamp");
       // Fetch business name if not yet loaded
       let bizName = data.name;
       if (!bizName) {
@@ -166,11 +169,16 @@ export default function OnboardingPage() {
           },
         }),
       });
-      if (!res.ok) return false;
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        console.error("Card creation failed:", err);
+        return false;
+      }
       const result = await res.json();
       await fetch(`/api/admin/cards/${result.card.id}/publish`, { method: "POST" }).catch(() => {});
       return true;
-    } catch {
+    } catch (err) {
+      console.error("handleFinish error:", err);
       return false;
     } finally {
       setCreating(false);
