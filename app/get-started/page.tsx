@@ -11,9 +11,11 @@ export default function GetStartedPage() {
   const [loading, setLoading] = useState(false);
 
   const [companyName, setCompanyName] = useState("");
+  const [companySize, setCompanySize] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
   const canContinue = step === 1 ? companyName.trim().length > 0 : (email.trim().length > 0 && password.length >= 6 && firstName.trim().length > 0);
@@ -25,7 +27,7 @@ export default function GetStartedPage() {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, firstName, lastName, companyName }),
+        body: JSON.stringify({ email, password, firstName, lastName, companyName, companySize, phone: phone ? `+61${phone.replace(/\s/g, "")}` : "" }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -63,27 +65,68 @@ export default function GetStartedPage() {
           {step === 1 && (
             <>
               <h1 className="font-display" style={{ fontSize: 32, fontWeight: 400, color: "#0B051D", margin: "0 0 8px" }}>
-                What&apos;s your business called?
+                Tell us about your business
               </h1>
               <p style={{ fontSize: 15, color: "rgb(97,95,109)", margin: "0 0 32px" }}>
-                This is the name your customers will see
+                This helps us set up your loyalty program
               </p>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <input
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
-                  placeholder="e.g. Bean & Grind"
+                  placeholder="Business name"
                   autoFocus
                   onKeyDown={(e) => { if (e.key === "Enter" && canContinue) setStep(2); }}
                   style={{
-                    width: "100%", height: 56, padding: "0 20px",
-                    fontSize: 18, fontWeight: 500, color: "#0B051D",
+                    width: "100%", height: 52, padding: "0 16px",
+                    fontSize: 16, color: "#0B051D",
                     backgroundColor: "rgb(249,248,245)", border: "1px solid rgb(228,227,223)",
-                    borderRadius: 14, outline: "none", fontFamily: "inherit",
+                    borderRadius: 12, outline: "none", fontFamily: "inherit",
                     boxSizing: "border-box",
                   }}
                 />
+
+                <select
+                  value={companySize}
+                  onChange={(e) => setCompanySize(e.target.value)}
+                  style={{
+                    width: "100%", height: 52, padding: "0 16px",
+                    fontSize: 16, color: companySize ? "#0B051D" : "rgb(97,95,109)",
+                    backgroundColor: "rgb(249,248,245)", border: "1px solid rgb(228,227,223)",
+                    borderRadius: 12, outline: "none", fontFamily: "inherit",
+                    boxSizing: "border-box", appearance: "none" as const,
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230b051d' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: "no-repeat", backgroundPosition: "right 16px center",
+                    paddingRight: 40, cursor: "pointer",
+                  }}
+                >
+                  <option value="" disabled>Team size</option>
+                  <option value="1">1 location</option>
+                  <option value="2-5">2–5 locations</option>
+                  <option value="6-20">6–20 locations</option>
+                  <option value="20+">20+ locations</option>
+                </select>
+
+                <div style={{ display: "flex", border: "1px solid rgb(228,227,223)", borderRadius: 12, overflow: "hidden", backgroundColor: "rgb(249,248,245)" }}>
+                  <div style={{ flex: "0 0 72px", display: "flex", alignItems: "center", justifyContent: "center", gap: 4, borderRight: "1px solid rgb(228,227,223)", padding: "0 10px", fontSize: 14 }}>
+                    <span>🇦🇺</span>
+                    <span style={{ fontSize: 13, color: "rgb(97,95,109)" }}>+61</span>
+                  </div>
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="412 345 678"
+                    style={{
+                      flex: 1, height: 52, padding: "0 16px",
+                      fontSize: 16, color: "#0B051D",
+                      backgroundColor: "rgb(249,248,245)", border: "none",
+                      borderRadius: 0, outline: "none", fontFamily: "inherit",
+                      boxSizing: "border-box",
+                    }}
+                  />
+                </div>
 
                 <button
                   onClick={() => setStep(2)}

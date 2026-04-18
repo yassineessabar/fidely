@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { email, password, firstName, lastName, companyName, phone } = body;
+  const { email, password, firstName, lastName, companyName, companySize, phone } = body;
 
   if (!email || !password || !firstName || !companyName) {
     return NextResponse.json(
@@ -27,6 +27,8 @@ export async function POST(request: Request) {
     .from("businesses")
     .insert({
       name: companyName,
+      phone: phone || null,
+      company_size: companySize || null,
     } as any)
     .select("id")
     .single();
