@@ -43,7 +43,7 @@ export default function BillingPage() {
       </div>
 
       {/* Current usage */}
-      <div style={{ backgroundColor: "#fff", borderRadius: 20, border: "1px solid rgba(10,10,10,0.06)", padding: 24, marginBottom: 20 }}>
+      <div style={{ backgroundColor: "white", borderRadius: 20, border: "1px solid rgba(10,10,10,0.06)", padding: 24, marginBottom: 20 }}>
         <h2 style={{ fontSize: 14, fontWeight: 600, color: "rgba(10,10,10,0.9)", margin: "0 0 16px" }}>Current Usage</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 12 }}>
           {[
@@ -59,7 +59,7 @@ export default function BillingPage() {
       </div>
 
       {/* Billing cycle */}
-      <div style={{ backgroundColor: "#fff", borderRadius: 20, border: "1px solid rgba(10,10,10,0.06)", padding: 24, marginBottom: 20 }}>
+      <div style={{ backgroundColor: "white", borderRadius: 20, border: "1px solid rgba(10,10,10,0.06)", padding: 24, marginBottom: 20 }}>
         <h2 style={{ fontSize: 14, fontWeight: 600, color: "rgba(10,10,10,0.9)", margin: "0 0 16px" }}>Select billing cycle</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           {/* Monthly */}
@@ -115,7 +115,7 @@ export default function BillingPage() {
       </div>
 
       {/* Features */}
-      <div style={{ backgroundColor: "#fff", borderRadius: 20, border: "1px solid rgba(10,10,10,0.06)", padding: 24, marginBottom: 20 }}>
+      <div style={{ backgroundColor: "white", borderRadius: 20, border: "1px solid rgba(10,10,10,0.06)", padding: 24, marginBottom: 20 }}>
         <h2 style={{ fontSize: 14, fontWeight: 600, color: "rgba(10,10,10,0.9)", margin: "0 0 16px" }}>Included in {plan.name}</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
           {plan.features.map((f) => (

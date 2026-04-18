@@ -524,6 +524,27 @@ html.dark .dash-main button[style*="backgroundColor: transparent"] {
   color: rgba(255,255,255,0.7) !important;
 }
 
+/* All white-background containers */
+html.dark .dash-main div[style*="background-color: white"],
+html.dark .dash-main div[style*="backgroundColor: white"],
+html.dark .dash-main div[style*="backgroundColor:white"],
+html.dark .dash-main label[style*="backgroundColor: white"],
+html.dark .dash-main button[style*="backgroundColor: white"] {
+  background-color: #141414 !important;
+  border-color: rgba(255,255,255,0.06) !important;
+}
+/* Billing radio labels */
+html.dark .dash-main label {
+  border-color: rgba(255,255,255,0.08) !important;
+}
+/* Billing usage stats bg */
+html.dark .dash-main div[style*="rgba(10,10,10,0.025)"] {
+  background-color: rgba(255,255,255,0.04) !important;
+}
+html.dark .dash-main div[style*="rgba(10,10,10,0.03)"] {
+  background-color: rgba(255,255,255,0.03) !important;
+}
+
 /* Scrollbar */
 html.dark ::-webkit-scrollbar-track {
   background: #0a0a0a;
