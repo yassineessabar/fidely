@@ -910,11 +910,11 @@ export default function OnboardingPage() {
                     handleFinish().then((ok) => {
                       if (ok) {
                         setStep(5);
-                        setTimeout(() => router.push("/dashboard/loyalty"), 4000);
+                        setTimeout(() => router.push("/dashboard/loyalty"), 2000);
                       } else {
                         // Still proceed — card may have been created but publish failed
                         setStep(5);
-                        setTimeout(() => router.push("/dashboard/loyalty"), 4000);
+                        setTimeout(() => router.push("/dashboard/loyalty"), 2000);
                       }
                     });
                   } else {
