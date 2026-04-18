@@ -22,26 +22,8 @@ export async function POST(request: Request) {
 
   const admin = createAdminClient();
 
-  // Create business first
-  const { data: business, error: bizError } = await admin
-    .from("businesses")
-    .insert({
-      name: companyName,
-      phone: phone || null,
-      company_size: companySize || null,
-    } as any)
-    .select("id")
-    .single();
-
-  if (bizError) {
-    console.error("Business creation failed:", bizError);
-    return NextResponse.json(
-      { error: "Failed to create business" },
-      { status: 500 }
-    );
-  }
-
-  // Create user in Supabase Auth
+  // Create user in Supabase Auth — the DB trigger (handle_new_user) will
+  // automatically create the business + profile from user_metadata
   const { data: authData, error: authError } = await admin.auth.admin.createUser({
     email,
     password,
@@ -49,15 +31,15 @@ export async function POST(request: Request) {
     user_metadata: {
       first_name: firstName,
       last_name: lastName || "",
-      business_id: business.id,
+      company_name: companyName,
+      company_size: companySize || null,
+      phone: phone || null,
       signup_role: "owner",
       user_type: "admin",
     },
   });
 
   if (authError) {
-    // Clean up business if user creation failed
-    await admin.from("businesses").delete().eq("id", business.id);
     console.error("Auth creation failed:", authError);
     return NextResponse.json(
       { error: authError.message === "User already registered"

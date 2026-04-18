@@ -47,7 +47,7 @@ const QrCode = ({ size }: { size: number }) => {
           y={4 + Math.floor(i / 25) * cellSize}
           width={cellSize}
           height={cellSize}
-          fill="#111111"
+          fill="#0B051D"
           rx={cellSize * 0.15}
         />
       ) : null)}
@@ -120,14 +120,22 @@ export default function OnboardingPage() {
     try {
       const theme = data.theme!;
       const dbType = data.cardType === "vip" ? "points" : data.cardType;
+      // Fetch business name if not yet loaded
+      let bizName = data.name;
+      if (!bizName) {
+        try {
+          const biz = await fetch("/api/merchant/business").then(r => r.json());
+          bizName = biz.business?.name || "My Business";
+        } catch { bizName = "My Business"; }
+      }
       const res = await fetch("/api/merchant/cards", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           type: dbType,
-          name: data.cardName || `${data.name} Loyalty Card`,
+          name: data.cardName || `${bizName} Loyalty Card`,
           business_details: {
-            name: data.name,
+            name: bizName,
             category: data.businessType,
             description: data.description,
             tagline: "",
@@ -175,7 +183,7 @@ export default function OnboardingPage() {
       <div style={{ position: "sticky", top: 0, zIndex: 10, backgroundColor: "white", padding: "20px 24px 0" }}>
         <div style={{ height: 4, backgroundColor: "rgba(10,10,10,0.06)", borderRadius: 99, overflow: "hidden" }}>
           <div style={{
-            height: "100%", backgroundColor: "#111111", borderRadius: 99,
+            height: "100%", backgroundColor: "#0B051D", borderRadius: 99,
             width: `${progress * 100}%`, transition: "width 0.4s cubic-bezier(0.2, 0, 0, 1)",
           }} />
         </div>
@@ -248,14 +256,14 @@ export default function OnboardingPage() {
                       }}>
                         <span style={{
                           fontSize: 13, fontWeight: 600,
-                          color: selected ? "#111111" : "rgba(10,10,10,0.65)",
+                          color: selected ? "#0B051D" : "rgba(10,10,10,0.65)",
                         }}>
                           {bt.label}
                         </span>
                         {selected && (
                           <div style={{
                             width: 20, height: 20, borderRadius: "50%",
-                            backgroundColor: "#111111", display: "flex",
+                            backgroundColor: "#0B051D", display: "flex",
                             alignItems: "center", justifyContent: "center",
                           }}>
                             <Check size={12} style={{ color: "white" }} />
@@ -478,7 +486,7 @@ export default function OnboardingPage() {
                       <div style={{
                         width: 24, height: 24, borderRadius: "50%", flexShrink: 0, marginLeft: 16,
                         border: selected ? "none" : "2px solid rgba(10,10,10,0.12)",
-                        backgroundColor: selected ? "#111111" : "transparent",
+                        backgroundColor: selected ? "#0B051D" : "transparent",
                         display: "flex", alignItems: "center", justifyContent: "center",
                         transition: "all 0.2s",
                       }}>
@@ -905,7 +913,7 @@ export default function OnboardingPage() {
                 style={{
                   display: "flex", alignItems: "center", gap: 6,
                   padding: "12px 28px", borderRadius: 99, border: "none",
-                  backgroundColor: canContinue() ? "#111111" : "rgba(10,10,10,0.08)",
+                  backgroundColor: canContinue() ? "#0B051D" : "rgba(10,10,10,0.08)",
                   color: canContinue() ? "white" : "rgba(10,10,10,0.3)",
                   fontSize: 14, fontWeight: 600, cursor: canContinue() ? "pointer" : "not-allowed",
                   fontFamily: "inherit", opacity: creating ? 0.7 : 1,
