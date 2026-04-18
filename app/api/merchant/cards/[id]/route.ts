@@ -7,7 +7,8 @@ async function verifyMerchant() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const { data: profile } = await supabase
+  const admin = createAdminClient();
+  const { data: profile } = await admin
     .from("profiles")
     .select("business_id")
     .eq("id", user.id)

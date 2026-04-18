@@ -7,14 +7,13 @@ export async function GET() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { data: profile } = await supabase
+  const admin = createAdminClient();
+  const { data: profile } = await admin
     .from("profiles")
     .select("business_id")
     .eq("id", user.id)
     .single();
   if (!profile?.business_id) return NextResponse.json({ error: "No business" }, { status: 403 });
-
-  const admin = createAdminClient();
   const businessId = profile.business_id;
 
   // Get merchant's cards
@@ -77,7 +76,7 @@ export async function GET() {
 
   // Top customers by stamps or points
   const topCustomers = [...allEnrollments]
-    .sort((a, b) => (b.stamps_collected + b.points_balance) - (a.stamps_collected + a.points_balance))
+    .sort((a, b) => ((b.stamps_collected || 0) + (b.points_balance || 0)) - ((a.stamps_collected || 0) + (a.points_balance || 0)))
     .slice(0, 10)
     .map((e) => ({
       name: e.customer_name,

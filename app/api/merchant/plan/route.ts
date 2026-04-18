@@ -7,14 +7,14 @@ export async function GET() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { data: profile } = await supabase
+  const admin = createAdminClient();
+  const { data: profile } = await admin
     .from("profiles")
     .select("business_id")
     .eq("id", user.id)
     .single();
   if (!profile?.business_id) return NextResponse.json({ error: "No business" }, { status: 403 });
 
-  const admin = createAdminClient();
   const { data: business } = await admin
     .from("businesses")
     .select("plan")
@@ -29,14 +29,14 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { data: profile } = await supabase
+  const admin = createAdminClient();
+  const { data: profile } = await admin
     .from("profiles")
     .select("business_id, user_type")
     .eq("id", user.id)
     .single();
   if (!profile?.business_id) return NextResponse.json({ error: "No business" }, { status: 403 });
 
-  // Only admins can manually set plan
   if ((profile as any).user_type !== "admin") {
     return NextResponse.json({ error: "Admin only" }, { status: 403 });
   }
@@ -48,11 +48,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
   }
 
-  if (!["starter", "growth", "enterprise"].includes(body.plan)) {
+  if (!["starter", "growth", "pro", "enterprise"].includes(body.plan)) {
     return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
   }
 
-  const admin = createAdminClient();
   const { error } = await admin
     .from("businesses")
     .update({ plan: body.plan } as any)
