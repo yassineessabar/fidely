@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       company_name: companyName,
       company_size: companySize || null,
       phone: phone || null,
-      signup_role: "owner",
+      signup_role: "owner_founder",
       user_type: "admin",
     },
   });

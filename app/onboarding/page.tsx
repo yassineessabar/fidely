@@ -171,7 +171,8 @@ export default function OnboardingPage() {
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        console.error("Card creation failed:", err);
+        console.error("Card creation failed:", res.status, err);
+        alert(`Card creation failed: ${err.error || err.details?.message || "Unknown error"}`);
         return false;
       }
       const result = await res.json();
