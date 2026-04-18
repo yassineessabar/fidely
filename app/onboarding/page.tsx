@@ -435,7 +435,7 @@ export default function OnboardingPage() {
                       {/* Theme name + check */}
                       <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 6, marginTop: 12 }}>
                         {selected && (
-                          <div style={{ width: 18, height: 18, borderRadius: 99, backgroundColor: "#111", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <div style={{ width: 18, height: 18, borderRadius: 99, backgroundColor: "#0B051D", display: "flex", alignItems: "center", justifyContent: "center" }}>
                             <Check size={11} style={{ color: "white" }} />
                           </div>
                         )}
