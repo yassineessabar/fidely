@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, Check, Copy, ExternalLink, Globe } from "lucide-react";
+import { Plus, Pencil, Trash2, Check, Copy, ExternalLink, Globe, Palette, ChevronDown, ChevronUp, Save, Upload, Image } from "lucide-react";
 import { UpgradeModal } from "../../components/UpgradeModal";
 import { fetchPlan, getCachedPlan } from "@/lib/plan-cache";
 
@@ -431,7 +431,7 @@ export default function LinksPage() {
                           Customize Appearance
                         </div>
                         <div style={{ fontSize: 11, color: "rgba(10,10,10,0.35)" }}>
-                          {sc.business_details?.name || sc.name} — colors, logo, emoji
+                          {sc?.business_details?.name || sc?.name} — colors, logo, emoji
                         </div>
                       </div>
                     </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, Check, Image, Upload, Trash2, Sparkles, CreditCard } from "lucide-react";
+import { ArrowLeft, Save, Check, Image, Upload, Trash2, Sparkles, CreditCard, Palette } from "lucide-react";
 import { getThemesForType, OnboardingTheme } from "@/lib/onboarding-themes";
 
 const EMOJI_OPTIONS = ["☕", "🍵", "🧁", "🍕", "🍣", "🍽️", "🎂", "🍞", "🍫", "✂️", "💈", "👑", "💅", "💆", "💇", "✨", "💪", "🔥", "🏋️", "🧘", "👜", "🌸", "🎁", "📚", "⭐", "🍦", "🍷", "🐾", "🎵", "🎮", "🏆", "❤️", "🌟", "🎯", "🛍️"];
@@ -473,7 +473,7 @@ export default function NewCardPage() {
                 boxShadow: canContinue ? "0 2px 8px rgba(0,0,0,0.12)" : "none",
               }}>Continue</button>
             ) : (
-              <button onClick={handleCreate} disabled={saving || !name.trim()} style={{
+              <button onClick={handleCreate} disabled={saving || !businessName.trim()} style={{
                 display: "flex", alignItems: "center", gap: 6,
                 padding: "12px 28px", borderRadius: 12, border: "none",
                 backgroundColor: "#0B051D", color: "white",
