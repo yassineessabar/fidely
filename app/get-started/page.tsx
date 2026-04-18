@@ -116,7 +116,8 @@ export default function GetStartedPage() {
                   <input
                     type="tel"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => { const v = e.target.value.replace(/\D/g, "").slice(0, 10); setPhone(v); }}
+                    maxLength={10}
                     placeholder="412 345 678"
                     style={{
                       flex: 1, height: 52, padding: "0 16px",
