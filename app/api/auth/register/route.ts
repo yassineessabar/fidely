@@ -27,7 +27,6 @@ export async function POST(request: Request) {
     .from("businesses")
     .insert({
       name: companyName,
-      slug: companyName.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
     } as any)
     .select("id")
     .single();
