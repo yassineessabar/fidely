@@ -118,6 +118,9 @@ export default function OnboardingPage() {
   const handleFinish = async (): Promise<boolean> => {
     setCreating(true);
     try {
+      // Ensure account is fully set up (fixes broken signups)
+      await fetch("/api/auth/fix-account", { method: "POST" }).catch(() => {});
+
       const theme = data.theme || {
         backgroundColor: "#0B051D", primaryColor: "#FFFFFF",
         secondaryColor: "#E6FFA9", accentColor: "#6C47FF", stampEmoji: "☕",
