@@ -15,8 +15,6 @@ export async function GET() {
     .single();
   if (!profile?.business_id) return NextResponse.json({ error: "No business" }, { status: 403 });
 
-  const admin = createAdminClient();
-
   const { data: cards } = await admin
     .from("loyalty_cards")
     .select("id, name, type, status, business_details, branding, logic, share_url, qr_code_data, created_at")
