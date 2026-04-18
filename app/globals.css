@@ -323,20 +323,46 @@ html.dark .dash-main > main {
   background-color: #0a0a0a !important;
 }
 
-/* Typography */
+/* FORCE all text white — overrides inline rgba(10,10,10,...) colors */
+html.dark .dash-main * {
+  color: inherit;
+}
 html.dark .dash-main h1,
 html.dark .dash-main h2,
 html.dark .dash-main h3 {
   color: rgba(255,255,255,0.9) !important;
 }
-html.dark .dash-main p {
-  color: rgba(255,255,255,0.5) !important;
+html.dark .dash-main p,
+html.dark .dash-main span,
+html.dark .dash-main div,
+html.dark .dash-main a,
+html.dark .dash-main button,
+html.dark .dash-main td,
+html.dark .dash-main th,
+html.dark .dash-main li {
+  color: rgba(255,255,255,0.75) !important;
 }
 html.dark .dash-main label {
   color: rgba(255,255,255,0.4) !important;
 }
 html.dark .dash-main table {
   color: rgba(255,255,255,0.7) !important;
+}
+/* Preserve white text on dark buttons */
+html.dark .dash-main button[style*="color: white"],
+html.dark .dash-main button[style*='color: "white"'],
+html.dark .dash-main a[style*="color: white"],
+html.dark .dash-main a[style*='color: "white"'] {
+  color: white !important;
+}
+/* Preserve green status colors */
+html.dark .dash-main span[style*="rgb(5,150,105)"],
+html.dark .dash-main span[style*="rgb(5, 150, 105)"] {
+  color: rgb(5,150,105) !important;
+}
+/* Preserve red delete button */
+html.dark .dash-main button[style*="rgb(220,38,38)"] {
+  color: white !important;
 }
 
 /* Cards — any white/light background div */
